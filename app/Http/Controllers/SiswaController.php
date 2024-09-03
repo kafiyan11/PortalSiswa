@@ -15,4 +15,21 @@ class SiswaController extends Controller
     {
         return view('siswa.dashboard');
     }
+    public function materi()
+    {
+        return view('siswa.materi');
+    }
+    public function jadwal()
+    {
+        return view('siswa.jadwal');
+    }
+    public function profil()
+    {
+        return view('siswa.profil');
+    }
+    public function add()
+    {
+        return view('siswa.add');
+    }
+
 }

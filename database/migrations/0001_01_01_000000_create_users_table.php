@@ -16,10 +16,7 @@ return new class extends Migration {
             $table->rememberToken();
             $table->timestamps();
         });
-        
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->after('password');
-        });
+    
     }
 
     public function down(): void

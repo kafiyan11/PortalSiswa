@@ -28,9 +28,9 @@ class AdminController extends Controller
     {
         return view('admin.profil');
     }
-    public function add()
+    public function addMateri()
     {
-        return view('admin.add');
+        return view('admin.addMateri');
     }
 
     
