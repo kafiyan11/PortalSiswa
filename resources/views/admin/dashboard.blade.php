@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sidebar Layout</title>
+  <title>Beranda</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
@@ -93,7 +93,7 @@
 
     .sidebar a i {
       font-size: 1.5em; /* Ukuran ikon */
-      margin-right: 15px;
+      margin-right: 20px;
     }
 
     /* .sidebar a span {
@@ -246,7 +246,7 @@
 <div class="sidebar collapsed" id="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
   <a href="#"><i class="fas fa-home"></i> Beranda</a>
   <a href="{{ route('admin.profil') }}"><i class="fas fa-user"></i> Profil</a>
-  <a href="{{ route('tambah') }}"><i class="fa-solid fa-plus"></i> Tambah Akun</a>
+  <a href="{{ route('tambah') }}"><i class="fas fa-plus"></i> Tambah Akun</a>
   <a href="{{ route('admin.materi') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
   <a href="{{ route('admin.jadwal') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
   <a href="#tugas"><i class="fas fa-tasks"></i> Tugas</a>

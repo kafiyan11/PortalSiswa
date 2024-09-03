@@ -208,7 +208,7 @@
 
         <div class="sidebar collapsed" id="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
             <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Beranda</a>
-            <a href="{{ route('admin.profil') }}"><i class="fas fa-user"></i> Profil</a>
+            <a href="{{ route('siswa.profil') }}"><i class="fas fa-user"></i> Profil</a>
             <a href="{{ route('tambah') }}"><i class="fas fa-user"></i> Tambah Akun</a>
             <a href="{{ route('admin.materi') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
             <a href="{{ route('admin.jadwal') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
