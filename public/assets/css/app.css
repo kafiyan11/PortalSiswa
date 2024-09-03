@@ -1,0 +1,195 @@
+
+/* Mengatur gaya dasar untuk seluruh halaman */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('your-background-image.jpg') no-repeat center center fixed; /* Menambahkan background image */
+    background-size: cover; /* Mengatur ukuran background agar menutupi seluruh layar */
+    }
+    
+    /* Gaya untuk navbar (menu navigasi di bagian atas) */
+    .navbar {
+    background: linear-gradient(90deg, #007bff, #ffffff); /* Gradien biru ke putih */
+    color: white;
+    z-index: 1000;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Bayangan halus untuk navbar */
+    }
+    
+    .navbar-brand {
+    display: flex;
+    align-items: center;
+    }
+    
+    .navbar-brand img {
+    width: 90px;
+    height: 70px;
+    margin-right: 20px;
+    margin-top: 5px;
+    }
+    
+    .navbar-brand .portal-info {
+    line-height: 1.2;
+    }
+    
+    .navbar-brand .portal-info h1 {
+    margin: 0;
+    }
+    
+    .navbar-brand .portal-info h2 {
+    margin: 0;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    }
+    
+    /* Gaya untuk sidebar (menu samping) */
+    .sidebar {
+    height: 100vh;
+    padding-left: 2px;
+    position: fixed;
+    top: 56px; /* Disesuaikan dengan tinggi navbar */
+    left: 0;
+    width: 250px;
+    background: linear-gradient(180deg, #ffffff, #e9ecef, #007bff); /* Gradien dari putih ke biru */
+    color: #333;
+    padding-top: 50px;
+    z-index: 999;
+    transition: width 0.3s ease, background 0.3s ease;
+    overflow: hidden;
+    border-right: 1px solid #dee2e6;
+    }
+    
+    .sidebar.collapsed {
+    width: 60px; /* Lebar saat sidebar dikompres */
+    background: linear-gradient(180deg, #ffffff, #e9ecef); /* Gradien disesuaikan untuk keadaan dikompres */
+    }
+    
+    .sidebar a {
+    color: #007bff; /* Warna biru terang untuk tautan */
+    text-decoration: none;
+    padding: 15px 20px; /* Menyesuaikan padding */
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, padding 0.3s ease;
+    }
+    
+    .sidebar a i {
+    font-size: 1.5em; /* Ukuran ikon */
+    margin-right: 15px;
+    }
+    
+    .sidebar a span {
+    display: inline-block;
+    transition: opacity 0.3s ease;
+    }
+    
+    .sidebar.collapsed a span {
+    opacity: 0;
+    visibility: hidden;
+    }
+    
+    .sidebar a:hover {
+    background-color: #e9ecef; /* Warna latar abu-abu muda saat hover */
+    }
+    
+    /* Gaya untuk konten utama */
+    .main-content {
+    margin-left: 250px; /* Disesuaikan dengan lebar sidebar */
+    padding: 20px;
+    padding-top: 120px; /* Disesuaikan dengan tinggi navbar */
+    transition: margin-left 0.3s ease;
+    position: relative;
+    z-index: 1; /* Memastikan konten berada di bawah sidebar */
+    }
+    
+    .main-content.full-width {
+    margin-left: 60px; /* Disesuaikan dengan sidebar yang dikompres */
+    }
+    
+    /* Gaya untuk judul di bagian "Beranda" */
+    .title {
+    margin-bottom: 20px;
+    padding-top: 20px;
+    text-align: left; /* Menggeser teks ke kiri */
+    color: #333; /* Warna teks gelap */
+    animation: slideInFromBottom 0.5s ease-out; /* Animasi dari bawah ke atas */
+    }
+    
+    .title h1 {
+    font-size: 2.5em;
+    color: #007bff; /* Biru terang untuk judul */
+    margin-bottom: 10px;
+    }
+    
+    .title p {
+    font-size: 1.2em;
+    color: #6c757d; /* Abu-abu untuk subtitle */
+    }
+    
+    /* Gaya untuk kotak */
+    .card {
+    border: none;
+    border-radius: 15px; /* Sudut yang membulat */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+    overflow: hidden;
+    position: relative;
+    }
+    
+    .card-header {
+    background: linear-gradient(90deg, #007bff, #ffffff); /* Gradien biru ke putih untuk header kartu */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    }
+    
+    .card-body {
+    padding: 20px;
+    background-color: #ffffff; /* Latar belakang putih untuk body kartu */
+    color: #333;
+    }
+    
+    .card-footer {
+    background-color: #f8f9fa; /* Abu-abu terang untuk footer kartu */
+    padding: 15px;
+    text-align: center;
+    }
+    
+    /* Gaya untuk link forum diskusi */
+    .forum-link {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    }
+    
+    .forum-link:hover {
+    background-color: #0056b3;
+    text-decoration: none;
+    color: white;
+    }
+    
+    .forum-link i {
+    margin-right: 8px;
+    }
+    
+    /* Keyframes untuk animasi slide dari bawah ke atas */
+    @keyframes slideInFromBottom {
+    0% {
+      opacity: 0;
+      transform: translateY(50px); /* Mulai dari posisi bawah */
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0); /* Berhenti pada posisi awal */
+    }
+    }

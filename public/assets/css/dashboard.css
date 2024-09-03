@@ -1,0 +1,237 @@
+
+/* Mengatur gaya dasar untuk seluruh halaman */
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 0;
+background: url('your-background-image.jpg') no-repeat center center fixed; /* Menambahkan background image */
+background-size: cover; /* Mengatur ukuran background agar menutupi seluruh layar */
+}
+
+/* Gaya untuk navbar (menu navigasi di bagian atas) */
+.navbar {
+background: linear-gradient(90deg, #1666df, #1666df); /* Gradien biru ke putih */
+color: white;
+z-index: 1000;
+width: 100%;
+position: fixed;
+top: 0;
+left: 0;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Bayangan halus untuk navbar */
+}
+
+.navbar-brand {
+display: flex;
+align-items: center;
+}
+
+.navbar-brand img {
+width: 90px;
+height: 70px;
+margin-right: 20px;
+margin-top: 5px;
+}
+
+.navbar-brand .portal-info {
+line-height: 1.2;
+}
+
+.navbar-brand .portal-info h1 {
+margin: 0;
+}
+
+.navbar-brand .portal-info h2 {
+margin: 0;
+font-size: 0.8em;
+text-transform: uppercase;
+}
+
+/* Sidebar Styles */
+.saidbar {
+  width: 45px;
+  height: calc(100vh - 80px);
+  background-color: #ffffff;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  padding-top: 20px;
+  overflow-x: hidden;
+  transition: width 0.3s;
+  z-index: 1;
+  box-shadow: 5px 5px 10px rgba(102, 34, 34, 0.3);
+}
+
+/* When hovered over the sidebar, expand it */
+.saidbar:hover {
+  width: 200px;
+}
+
+.saidbar.expanded {
+  width: 200px;
+}
+
+.saidbar.collapsed {
+  width: 45px;
+}
+
+.saidbar.collapsed .dropdown-container {
+  display: none;
+}
+
+/* Style adjustments */
+.saidbar a, .saidbar .dropdown-btn {
+  display: flex;
+  align-items: center;
+  padding: 15px 10px;
+  font-size: 18px;
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.saidbar a i, .saidbar .dropdown-btn i {
+  font-size: 20px;
+  margin-right: 20px;
+  color: rgb(0, 0, 0);
+  transition: margin-right 0.3s;
+}
+
+.saidbar a:hover, .saidbar .dropdown-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.saidbar.expanded a i {
+  margin-right: 15px;
+}
+
+.saidbar a span {
+  display: inline;
+}
+
+.saidbar.collapsed a span {
+  display: none;
+}
+
+.dropdown-container {
+  display: none;
+  background-color: #ffffff;
+  padding-left: 8px;
+  padding-bottom: 10px;
+}
+
+.dropdown-container a {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: black;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-container a:hover {
+  background-color: #575757;
+}
+
+.dropdown-container.show {
+  display: block;
+}
+
+/* Gaya untuk konten utama */
+.main-content {
+margin-left: 15px; /* Disesuaikan dengan lebar sidebar */
+padding: 20px;
+padding-top: 120px; /* Disesuaikan dengan tinggi navbar */
+transition: margin-left 0.3s ease;
+position: relative;
+z-index: 1; /* Memastikan konten berada di bawah sidebar */
+}
+
+
+/* Gaya untuk judul di bagian "Beranda" */
+.title {
+margin-bottom: 20px;
+padding-top: 20px;
+text-align: left; /* Menggeser teks ke kiri */
+color: #333; /* Warna teks gelap */
+animation: slideInFromBottom 0.5s ease-out; /* Animasi dari bawah ke atas */
+}
+
+.title h1 {
+font-size: 2.5em;
+color: #007bff; /* Biru terang untuk judul */
+margin-bottom: 10px;
+}
+
+.title p {
+font-size: 1.2em;
+color: #6c757d; /* Abu-abu untuk subtitle */
+}
+
+/* Gaya untuk kotak */
+.card {
+border: none;
+border-radius: 15px; /* Sudut yang membulat */
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+overflow: hidden;
+position: relative;
+}
+
+.card-header {
+background: linear-gradient(90deg, #0f1011, #0c0a0a); /* kotak jadwl pada beranda*/
+color: white;
+padding: 20px;
+text-align: center;
+}
+
+.card-body {
+padding: 20px;
+background-color: #ffffff; /* Latar belakang putih untuk body kartu */
+color: #333;
+}
+
+.card-footer {
+background-color: #f8f9fa; /* Abu-abu terang untuk footer kartu */
+padding: 15px;
+text-align: center;
+}
+
+/* Gaya untuk link forum diskusi */
+.forum-link {
+position: fixed;
+bottom: 20px;
+right: 20px;
+background-color: #007bff;
+color: white;
+padding: 10px 15px;
+border-radius: 50px;
+text-align: center;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+transition: background-color 0.3s ease;
+}
+
+.forum-link:hover {
+background-color: #0056b3;
+text-decoration: none;
+color: white;
+}
+
+.forum-link i {
+margin-right: 8px;
+}
+
+/* Keyframes untuk animasi slide dari bawah ke atas */
+@keyframes slideInFromBottom {
+0% {
+  opacity: 0;
+  transform: translateY(50px); /* Mulai dari posisi bawah */
+}
+100% {
+  opacity: 1;
+  transform: translateY(0); /* Berhenti pada posisi awal */
+}
+}
