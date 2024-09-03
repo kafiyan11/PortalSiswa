@@ -150,7 +150,7 @@
             <img src="{{asset('assets/img/pkn2.png')}}" alt="">
             <h2>Pendidikan Kewarganegaraan</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href{{ route('admin.addMateri') }}
+        <div class="subject-box" onclick="window.location.href='{{ route('admin.addMateri') }}'">
             <img src="{{asset('assets/img/indo2.png')}}" alt="">
             <h2>Bahasa Indonesia</h2>
         </div>

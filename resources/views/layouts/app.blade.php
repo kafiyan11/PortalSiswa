@@ -205,7 +205,19 @@
                 </div>
             </a>
         </nav>
+        
+@auth
+@if(auth()->user()->role=='Guru')
+    @include('layouts.sidebarGuru')
+@elseif(auth()->user()->role=='Siswa')
+    @include('layouts.sidebarSiswa')
+@elseif(auth()->user()->role=='OrangTua')
+    @include('layouts.sidebarOrangTua')
+@else
+    @include('layouts.sidebarAdmin')
+@endif
 
+<<<<<<< HEAD
         <div class="sidebar collapsed" id="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
             <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Beranda</a>
             <a href="{{ route('siswa.profil') }}"><i class="fas fa-user"></i> Profil</a>
@@ -221,6 +233,10 @@
                 @csrf
             </form>
         </div>
+=======
+
+@endauth
+>>>>>>> a1c72692189fc0dd979147507f78e882666299e2
 
         <main class="main-content" id="main-content">
             @yield('content')

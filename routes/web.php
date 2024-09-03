@@ -1,15 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GuruController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\GuruController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TambahController;
+use App\Http\Controllers\TambahTugasController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,7 @@ Auth::routes(); // Ini akan menambahkan semua rute autentikasi bawaan Laravel te
 // Route untuk pengalihan setelah login
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+Route::middleware(['auth'])->group(function(){
 //Bagian Admin
 Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 Route::get('/admin-materi',[AdminController::class, 'materi'] )->name('admin.materi');
@@ -47,6 +50,25 @@ Route::delete('/admin-delete/{id}',[TambahController::class, 'delet'])->name('de
 
 Route::get('/siswa-dashboard', [SiswaController::class, 'index'])->name('siswa.dashboard');
 Route::get('/guru-dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
+<<<<<<< HEAD
+=======
+Route::get('/guru-materi', [GuruController::class, 'materi'])->name('guru.materi');
+Route::get('/guru-jadwal', [GuruController::class, 'jadwal'])->name('guru.jadwal');
+Route::get('/guru-tugas', [GuruController::class, 'tugas'])->name('guru.tugas');
+Route::get('/guru-profil', [GuruController::class, 'profil'])->name('guru.profil');
+Route::get('/guru-addMateri', [GuruController::class, 'addMateri'])->name('guru.addMateri');
+Route::get('/guru-addTugas', [GuruController::class, 'addTugas'])->name('guru.addTugas');
+
+Route::get('/admin/tambah_siswa', [TambahTugasController::class, 'tambah_siswa'])->name('tambah_siswa');
+Route::post('/tambahsiswa', [TambahTugasController::class, 'create'])->name('create_siswa');
+
+
+//Orang Tua
+>>>>>>> a1c72692189fc0dd979147507f78e882666299e2
 Route::get('/orangtua-dashboard', [OrangTuaController::class, 'index'])->name('orangtua.dashboard');  
 
-Route::get('/logout', [OrangTuaController::class, 'index'])->name('orangtua.dashboard');                                                        
+
+Route::get('/logout', [OrangTuaController::class, 'index'])->name('orangtua.dashboard'); 
+});
+
+                                                       

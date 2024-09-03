@@ -15,4 +15,29 @@ class GuruController extends Controller
     {
         return view('guru.dashboard');
     }
+    public function materi()
+    {
+        return view('guru.materi');
+    }
+    public function jadwal()
+    {
+        return view('guru.jadwal');
+    }
+    public function profil()
+    {
+        return view('guru.profil');
+    }
+    public function tugas()
+    {
+        return view('guru.tugas');
+    }
+    public function addMateri()
+    {
+        return view('guru.addMateri');
+    }
+    public function addTugas()
+    {
+        return view('guru.addTugas');
+    }
+
 }

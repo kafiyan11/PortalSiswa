@@ -139,34 +139,34 @@
     </style>
 </head>
 <body>
-    @include('layout.app')
+    @include('layouts.app')
     <h1>Materi Pelajaran</h1>
     <div class="subject-container">
-        <div class="subject-box" onclick="window.location.href=''">
+        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
             <img src="{{asset('assets/img/mtk.png')}}" alt="">
             <h2>Matematika</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href=''">
+        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
             <img src="{{asset('assets/img/pkn2.png')}}" alt="">
             <h2>Pendidikan Kewarganegaraan</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href=''">
+        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
             <img src="{{asset('assets/img/indo2.png')}}" alt="">
             <h2>Bahasa Indonesia</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href=''">
+        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
             <img src="{{asset('assets/img/sejarah2.png')}}" alt="">
             <h2>Sejarah</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href=''">
+        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
             <img src="{{asset('assets/img/sunda2.png')}}" alt="">
             <h2>Bahasa Sunda</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href=''">
+        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
             <img src="{{asset('assets/img/aceng.png')}}" alt="">
             <h2>Pendidikan Kewirausahaan</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href=''">
+        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
             <img src="{{asset('assets/img/inggris2.png')}}" alt="">
             <h2>Bahasa Inggris</h2>
         </div>
