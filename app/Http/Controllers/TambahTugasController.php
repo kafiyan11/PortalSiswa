@@ -111,5 +111,11 @@ class TambahTugasController extends Controller
 
     return redirect()->route('guru.tugas')->with('success', 'Data berhasil diubah!');
 }
+    public function cari(Request $request){
+        $data = $request->input('cari');
+        $siswa = tugas::where('nama', 'like', "%".$data."%")->paginate(2);
+
+    return view('guru.tugas', compact('siswa'));
+}
 
 }

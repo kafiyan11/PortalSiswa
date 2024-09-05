@@ -72,7 +72,7 @@ Route::post('/guru-tambahtugas', [TambahTugasController::class, 'create'])->name
 Route::get('/edit/{id}', [TambahTugasController::class, 'edit'])->name('edit_tugas');
 Route::put('/update/{id}', [TambahTugasController::class, 'update'])->name('update_tugas');
 Route::delete('/tugas/{id}', [TambahTugasController::class, 'destroy'])->name('tugas.destroy');
-// Route::get('/guru/tugas', [GuruController::class, 'tugas'])->name('guru.tugas');
+Route::get('/guru/cari', [TambahTugasController::class, 'cari'])->name('siswa.cari');
 
 
 

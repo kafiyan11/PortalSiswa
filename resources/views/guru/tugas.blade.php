@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Tugas Siswa</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         * {
@@ -206,9 +207,27 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="card animate__animated animate__fadeInUp">
+                        <!-- <div class="input-group">
+                            <div class="form-outline">
+                                <input type="text" id="form1" name="cari" class="form-control" placeholder="Search">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div> -->
                         <div class="card-header">
                             @if(auth()->user()->role == 'Guru')
-                                <a href="{{ route('guru.addTugas') }}" class="btn btn-primary">Tambah</a>
+                            <form action="{{route('siswa.cari')}}" method="GET">
+                            <div class="input-group">
+                            <a href="{{ route('guru.addTugas') }}" class="btn btn-primary">Tambah</a>&nbsp;&nbsp;&nbsp;
+                            <div class="form-outline">
+                                <input type="text" id="form1" name="cari" class="form-control" placeholder="Search">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            </form>
+               
                             @endif
                         </div>
                         <div class="card-body">
