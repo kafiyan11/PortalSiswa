@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas</title>
+    <title>Materi</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -142,31 +142,31 @@
     @include('layouts.app')
     <h1>Materi Pelajaran</h1>
     <div class="subject-container">
-        <div class="subject-box" onclick="window.location.href='{{ route('admin.addMateri') }}'">
+        <div class="subject-box" onclick="window.location" href="{{ route('guru.addMateri')}}">
             <img src="{{asset('assets/img/mtk.png')}}" alt="">
             <h2>Matematika</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('admin.addMateri') }}'">
+        <div class="subject-box" onclick="window.location" href="{{ route('guru.addMateri')}}">
             <img src="{{asset('assets/img/pkn2.png')}}" alt="">
             <h2>Pendidikan Kewarganegaraan</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('admin.addMateri') }}'">
+        <div class="subject-box" onclick="window.location" href="{{ route('guru.addMateri')}}">
             <img src="{{asset('assets/img/indo2.png')}}" alt="">
             <h2>Bahasa Indonesia</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('admin.addMateri') }}'">
+        <div class="subject-box" onclick="window.location" href="{{ route('guru.addMateri')}}">
             <img src="{{asset('assets/img/sejarah2.png')}}" alt="">
             <h2>Sejarah</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('admin.addMateri') }}'">
+        <div class="subject-box" onclick="window.location" href="{{ route('guru.addMateri')}}">
             <img src="{{asset('assets/img/sunda2.png')}}" alt="">
             <h2>Bahasa Sunda</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('admin.addMateri') }}'">
+        <div class="subject-box" onclick="window.location" href="{{ route('guru.addMateri')}}">
             <img src="{{asset('assets/img/aceng.png')}}" alt="">
             <h2>Pendidikan Kewirausahaan</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('admin.addMateri') }}'">
+        <div class="subject-box" onclick="window.location" href="{{ route('guru.addMateri')}}">
             <img src="{{asset('assets/img/inggris2.png')}}" alt="">
             <h2>Bahasa Inggris</h2>
         </div>

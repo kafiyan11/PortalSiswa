@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Dashboard') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -205,38 +205,23 @@
                 </div>
             </a>
         </nav>
-        
-@auth
-@if(auth()->user()->role=='Guru')
-    @include('layouts.sidebarGuru')
-@elseif(auth()->user()->role=='Siswa')
-    @include('layouts.sidebarSiswa')
-@elseif(auth()->user()->role=='OrangTua')
-    @include('layouts.sidebarOrangTua')
-@else
-    @include('layouts.sidebarAdmin')
-@endif
 
-<<<<<<< HEAD
-        <div class="sidebar collapsed" id="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
-            <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Beranda</a>
-            <a href="{{ route('siswa.profil') }}"><i class="fas fa-user"></i> Profil</a>
-            <a href="{{ route('tambah') }}"><i class="fas fa-user"></i> Tambah Akun</a>
-            <a href="{{ route('admin.materi') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
-            <a href="{{ route('admin.jadwal') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
-            <a href="#tugas"><i class="fas fa-tasks"></i> Tugas</a>
-            <a href="#grades"><i class="fas fa-graduation-cap"></i> Nilai</a>
-            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fas fa-sign-out-alt"></i> Log Out
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-        </div>
-=======
+            @auth
+            @if(auth()->user()->role=='Siswa')
+                    @include('layouts.sidebarSiswa')    
 
-@endauth
->>>>>>> a1c72692189fc0dd979147507f78e882666299e2
+            @elseif(auth()->user()->role=='Guru')
+                    @include('layouts.sidebarGuru')
+
+            @elseif(auth()->user()->role=='OrangTua')
+                    @include('layouts.sidebarOrangTua')
+
+            @else
+                    @include('layouts.sidebarAdmin')
+            @endif
+
+
+            @endauth
 
         <main class="main-content" id="main-content">
             @yield('content')

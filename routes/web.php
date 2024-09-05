@@ -54,18 +54,23 @@ Route::get('/siswa-tugas', [GuruController::class, 'tugas'])->name('siswa.tugas'
 Route::get('/siswa-profil', [GuruController::class, 'profil'])->name('siswa.profil');
 Route::get('/guru-addTugas', [GuruController::class, 'addTugas'])->name('guru.addTugas');
 
-//Guru
+//Menu Di Halaman Guru
 Route::get('/guru-dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
 Route::get('/guru-materi', [GuruController::class, 'materi'])->name('guru.materi');
 Route::get('/guru-jadwal', [GuruController::class, 'jadwal'])->name('guru.jadwal');
-Route::get('/guru-tugas', [GuruController::class, 'tugas'])->name('guru.tugas');
 Route::get('/guru-profil', [GuruController::class, 'profil'])->name('guru.profil');
 Route::get('/guru-addMateri', [GuruController::class, 'addMateri'])->name('guru.addMateri');
 Route::get('/guru-addTugas', [GuruController::class, 'addTugas'])->name('guru.addTugas');
 
+//Crud Tugas di Guru
+Route::get('/guru-tugas', [TambahTugasController::class, 'tugas'])->name('guru.tugas');
+Route::get('/guru-tambahtugas', [TambahTugasController::class, 'tambah_tugas'])->name('guru.addTugas');
+Route::post('/guru-tambahtugas', [TambahTugasController::class, 'create'])->name('create_tugas');
+Route::get('/edit/{id}', [TambahTugasController::class, 'edit'])->name('edit_tugas');
+Route::put('/update/{id}', [TambahTugasController::class, 'update'])->name('update_tugas');
+Route::delete('/tugas/{id}', [TambahTugasController::class, 'destroy'])->name('tugas.destroy');
 
-Route::get('/guru/tambah-tugas', [TambahTugasController::class, 'tambah-tugas'])->name('tambah-tugas');
-Route::post('/tambahtugas', [TambahTugasController::class, 'create'])->name('create-tugas');
+
 
 
 //Orang Tua

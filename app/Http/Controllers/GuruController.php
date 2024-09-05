@@ -27,10 +27,6 @@ class GuruController extends Controller
     {
         return view('guru.profil');
     }
-    public function tugas()
-    {
-        return view('guru.tugas');
-    }
     public function addMateri()
     {
         return view('guru.addMateri');

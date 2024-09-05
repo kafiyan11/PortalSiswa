@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas</title>
+    <title>Data Tugas Siswa</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -22,11 +22,10 @@
             align-items: center;
             padding: 20px;
             margin: 0;
-            box-sizing: border-box;
+
         }
 
         h1 {
-            font-size: 2.5rem;
             margin-bottom: 50px;
             color: #2c3e50;
             margin-top: 130px; /* Menambahkan jarak dari bagian atas halaman */
@@ -44,7 +43,7 @@
             background-color: #fff;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            padding: 30px 20px;
+            padding: 300px 200px;
             text-align: center;
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -66,7 +65,7 @@
         .subject-box:hover {
             transform: translateY(-10px);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-        }
+        } 
 
         .subject-box img {
             width: 50px;
@@ -136,40 +135,123 @@
         .subject-box:nth-child(7) {
             animation-delay: 0.7s;
         }
+        .wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .table img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 767px) {
+        .sidebar-mini .main-sidebar {
+            width: 100%;
+            padding-bottom: 20px;
+            }
+        .table thead {
+            display: none;
+            }
+        .table tbody tr {
+            display: block;
+            margin-bottom: 15px;
+            }
+        .table tbody td {
+            display: block;
+            text-align: right;
+            font-size: 14px;
+            position: relative;
+            padding-left: 50%;
+            }
+        .table tbody td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 45%;
+            padding-left: 15px;
+            font-weight: bold;
+            text-align: left;
+            }
+        }
     </style>
 </head>
 <body>
     @include('layouts.app')
-    <h1>Materi Pelajaran</h1>
-    <div class="subject-container">
-        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
-            <img src="{{asset('assets/img/mtk.png')}}" alt="">
-            <h2>Matematika</h2>
+    <h1>Data Tugas Siswa</h1>
+    <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                         <div class="col-sm-6">
+                            >
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="card animate__animated animate__fadeInUp">
+                        <div class="card-header">
+                            <a href="{{ route('guru.addTugas') }}" class="btn btn-primary">Tambah</a>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>NIS</th>
+                                        <th>Nama</th>
+                                        <th>Kelas</th>
+                                        <th>Jurusan</th>
+                                        <th>Gambar</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($siswa as $no => $siswas)
+                                    <tr>
+                                        <td>{{ $no + 1 }}</td>
+                                        <td>{{ $siswas->nis }}</td>
+                                        <td>{{ $siswas->nama }}</td>
+                                        <td>{{ $siswas->kelas }}</td>
+                                        <td>{{ $siswas->jurusan }}</td>
+                                        <td>
+                                            @if ($siswas->gambar_tugas)
+                                                <img src="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" alt="Gambar Tugas" width="100">
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{route ('edit_tugas', $siswas->id)  }}" class="btn btn-warning btn-sm">Edit</a>
+                                            <form action="{{ route('tugas.destroy', $siswas->id) }}" method="POST" style="display:inline;">
+                                             @csrf
+                                             @method('DELETE')
+                                             <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                            </form>
+
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
-            <img src="{{asset('assets/img/pkn2.png')}}" alt="">
-            <h2>Pendidikan Kewarganegaraan</h2>
-        </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
-            <img src="{{asset('assets/img/indo2.png')}}" alt="">
-            <h2>Bahasa Indonesia</h2>
-        </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
-            <img src="{{asset('assets/img/sejarah2.png')}}" alt="">
-            <h2>Sejarah</h2>
-        </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
-            <img src="{{asset('assets/img/sunda2.png')}}" alt="">
-            <h2>Bahasa Sunda</h2>
-        </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
-            <img src="{{asset('assets/img/aceng.png')}}" alt="">
-            <h2>Pendidikan Kewirausahaan</h2>
-        </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('guru.addTugas') }}'">
-            <img src="{{asset('assets/img/inggris2.png')}}" alt="">
-            <h2>Bahasa Inggris</h2>
-        </div>
-    </div>
 </body>
 </html>
