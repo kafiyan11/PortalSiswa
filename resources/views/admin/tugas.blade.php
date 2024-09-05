@@ -139,7 +139,7 @@
     </style>
 </head>
 <body>
-    @include('layout.app')
+    @include('layouts.app')
     <h1>Materi Pelajaran</h1>
     <div class="subject-container">
         <div class="subject-box" onclick="window.location.href=''">

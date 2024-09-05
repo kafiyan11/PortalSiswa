@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Siswa;
+use App\Models\Tugas; // Pastikan nama model sesuai
 use Illuminate\Http\Request;
 
 class SiswaController extends Controller
@@ -15,21 +17,31 @@ class SiswaController extends Controller
     {
         return view('siswa.dashboard');
     }
+
     public function materi()
     {
         return view('siswa.materi');
     }
+
     public function jadwal()
     {
         return view('siswa.jadwal');
     }
-    public function profil()
-    {
-        return view('siswa.profil');
-    }
+
     public function add()
     {
         return view('siswa.add');
     }
 
+    /**
+     * Tampilkan data tugas siswa.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function tugas()
+    {
+        $tugas = Tugas::all(); // Ambil semua data tugas
+        
+        return view('siswa.tugas', compact('tugas'));
+    }
 }

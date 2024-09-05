@@ -32,6 +32,10 @@ class AdminController extends Controller
     {
         return view('admin.addMateri');
     }
+    public function tugas()
+    {
+        return view('admin.tugas');
+    }
 
     
 }

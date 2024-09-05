@@ -67,12 +67,23 @@
                             <select class="form-select" id="jurusan" name="jurusan" required>
 
                                 <option value="">- Pilih Jurusan -</option>
-                                <option value="TKR">TKR</option>
-                                <option value="TKJ">TKJ</option>
-                                <option value="RPL">RPL</option>
-                                <option value="OTKP">OTKP</option>
-                                <option value="AK">AK</option>
-                                <option value="SK">SK</option>
+                                <option value="TKR">TKR 1</option>
+                                <option value="TKR">TKR 2</option>
+                                <option value="TKR">TKR 3</option>
+                                <option value="TKJ">TKJ 1</option>
+                                <option value="TKJ">TKJ 2</option>
+                                <option value="TKJ">TKJ 3</option>
+                                <option value="RPL">RPL 1</option>
+                                <option value="RPL">RPL 2</option>
+                                <option value="RPL">RPL 3</option>
+                                <option value="RPL">DPIB 1</option>
+                                <option value="RPL">DPIB 2</option>
+                                <option value="OTKP">OTKP 1</option>
+                                <option value="OTKP">OTKP 2</option>
+                                <option value="AK">AK 1</option>
+                                <option value="AK">AK 2</option>
+                                <option value="SK">SK 1</option>
+                                <option value="SK">SK 2</option>
                             </select>
                         </div>
                     </div>

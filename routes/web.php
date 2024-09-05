@@ -35,7 +35,8 @@ Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.d
 Route::get('/admin-materi',[AdminController::class, 'materi'] )->name('admin.materi');
 Route::get('/admin-jadwal',[AdminController::class, 'jadwal'] )->name('admin.jadwal');
 Route::get('/admin-profil',[AdminController::class, 'profil'] )->name('admin.profil');
-Route::get('/admin-add',[AdminController::class, 'add'] )->name('admin.add');
+Route::get('/admin-tugas',[AdminController::class, 'tugas'] )->name('admin.tugas');
+Route::get('/admin-addMateri',[AdminController::class, 'add'] )->name('admin.addMateri');
 
 //tambah akun
 Route::get('/admin-tambahsiswa',[TambahController::class, 'index'])->name('tambah');
@@ -53,6 +54,8 @@ Route::get('/siswa-jadwal', [GuruController::class, 'jadwal'])->name('siswa.jadw
 Route::get('/siswa-tugas', [GuruController::class, 'tugas'])->name('siswa.tugas');
 Route::get('/siswa-profil', [GuruController::class, 'profil'])->name('siswa.profil');
 Route::get('/guru-addTugas', [GuruController::class, 'addTugas'])->name('guru.addTugas');
+Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
+
 
 //Menu Di Halaman Guru
 Route::get('/guru-dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
@@ -69,6 +72,8 @@ Route::post('/guru-tambahtugas', [TambahTugasController::class, 'create'])->name
 Route::get('/edit/{id}', [TambahTugasController::class, 'edit'])->name('edit_tugas');
 Route::put('/update/{id}', [TambahTugasController::class, 'update'])->name('update_tugas');
 Route::delete('/tugas/{id}', [TambahTugasController::class, 'destroy'])->name('tugas.destroy');
+// Route::get('/guru/tugas', [GuruController::class, 'tugas'])->name('guru.tugas');
+
 
 
 
