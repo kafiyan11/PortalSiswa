@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -47,6 +45,8 @@
             border-radius: 50%;
             margin-right: 30px;
             border: 4px solid white;
+            background-size: cover;
+            background-position: center;
         }
         .profile-title {
             font-size: 32px;
@@ -114,15 +114,35 @@
         .hidden {
             display: none;
         }
+        .upload-btn {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .upload-btn input[type="file"] {
+            display: none;
+        }
+        .upload-btn label {
+            padding: 10px 20px;
+            background-color: #4a6572;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .upload-btn label:hover {
+            background-color: #344955;
+        }
     </style>
 </head>
 <body>
-    @include('layouts.app')
     <div class="container">
         <div class="profile-card">
             <div class="profile-header">
-                <div class="profile-pic"></div>
-                <h1 class="profile-title">Profil</h1>
+                <div id="profilePic" class="profile-pic"></div>
+                <h1 class="profile-title">{{ Auth::user()->name }}</h1>
             </div>
             <div class="tabs">
                 <div class="tab-button active" onclick="showTab('view')">Lihat Profil</div>
@@ -136,6 +156,10 @@
                 <input type="text" id="viewGuru" class="full-width" disabled>
                 <input type="text" id="viewEmail" class="full-width" disabled>
                 <input type="text" id="viewTelepon" class="full-width" disabled>
+                <div class="upload-btn">
+                    <input type="file" id="fileInput" accept="image/*" onchange="uploadPhoto()">
+                    <label for="fileInput">Ubah Foto Profil</label>
+                </div>
             </div>
             <div id="edit" class="profile-body hidden">
                 <form id="editForm">
@@ -153,49 +177,61 @@
     </div>
 
     <script>
-          // Function to expand sidebar on hover
-   
-        // Fungsi untuk menampilkan tab yang dipilih
         function showTab(tabId) {
             document.getElementById('view').classList.add('hidden');
             document.getElementById('edit').classList.add('hidden');
             document.querySelectorAll('.tab-button').forEach(button => button.classList.remove('active'));
 
             document.getElementById(tabId).classList.remove('hidden');
-            document.querySelector(.tab-button[onclick="showTab('${tabId}')"]).classList.add('active');
+            document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
         }
 
-        // Fungsi untuk menyimpan data profil
         function saveProfile() {
-            // Ambil data dari form
             const name = document.getElementById('editName').value;
             const nip = document.getElementById('editNip').value;
             const guru = document.getElementById('editGuru').value;
             const email = document.getElementById('editEmail').value;
             const telepon = document.getElementById('editTelepon').value;
 
-            // Simpan data di localStorage
             localStorage.setItem('profileName', name);
             localStorage.setItem('profileNip', nip);
             localStorage.setItem('profileGuru', guru);
             localStorage.setItem('profileEmail', email);
             localStorage.setItem('profileTelepon', telepon);
 
-            // Kembali ke tab lihat profil dan perbarui tampilan
             showTab('view');
             updateProfileView();
         }
 
-        // Fungsi untuk memperbarui tampilan profil
         function updateProfileView() {
             document.getElementById('viewName').value = localStorage.getItem('profileName') || '';
             document.getElementById('viewNip').value = localStorage.getItem('profileNip') || '';
             document.getElementById('viewGuru').value = localStorage.getItem('profileGuru') || '';
             document.getElementById('viewEmail').value = localStorage.getItem('profileEmail') || '';
             document.getElementById('viewTelepon').value = localStorage.getItem('profileTelepon') || '';
+
+            const profilePic = localStorage.getItem('profilePic');
+            if (profilePic) {
+                document.getElementById('profilePic').style.backgroundImage = `url(${profilePic})`;
+            } else {
+                document.getElementById('profilePic').style.backgroundImage = 'none';
+            }
         }
 
-        // Inisialisasi tampilan profil saat halaman dimuat
+        function uploadPhoto() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    const dataUrl = reader.result;
+                    localStorage.setItem('profilePic', dataUrl);
+                    document.getElementById('profilePic').style.backgroundImage = `url(${dataUrl})`;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             updateProfileView();
         });

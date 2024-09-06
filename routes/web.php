@@ -6,11 +6,13 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TambahController;
 use App\Http\Controllers\TambahTugasController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 
 /*
@@ -73,6 +75,18 @@ Route::get('/edit/{id}', [TambahTugasController::class, 'edit'])->name('edit_tug
 Route::put('/update/{id}', [TambahTugasController::class, 'update'])->name('update_tugas');
 Route::delete('/tugas/{id}', [TambahTugasController::class, 'destroy'])->name('tugas.destroy');
 Route::get('/guru/cari', [TambahTugasController::class, 'cari'])->name('siswa.cari');
+
+
+
+//CRUD NILAI
+Route::prefix('admin')->group(function () {
+    Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
+    Route::get('/scores/create', [ScoreController::class, 'create'])->name('scores.create');
+    Route::post('/scores', [ScoreController::class, 'store'])->name('scores.store');
+    Route::get('/scores/{id}/edit', [ScoreController::class, 'edit'])->name('scores.edit');
+    Route::put('/scores/{id}', [ScoreController::class, 'update'])->name('scores.update');
+    Route::delete('/scores/{id}', [ScoreController::class, 'destroy'])->name('scores.destroy');
+});
 
 
 

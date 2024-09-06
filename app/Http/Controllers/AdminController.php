@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +28,8 @@ class AdminController extends Controller
     }
     public function profil()
     {
-        return view('admin.profil');
+        $item=Auth::user();
+        return view('admin.profil', compact('item'));
     }
     public function addMateri()
     {
