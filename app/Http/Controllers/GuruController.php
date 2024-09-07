@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Score;
 use App\Models\Siswa; // Memastikan bahwa model Siswa digunakan
 use Illuminate\Http\Request;
 
@@ -17,6 +19,9 @@ class GuruController extends Controller
          // Mengambil semua data siswa
 
         return view('guru.dashboard'); // Mengirim data siswa ke view dashboard
+
+        $scores = Score::all();  // Atur data yang akan ditampilkan di halaman guru
+        return view('guru.index', compact('scores'));
     }
 
     public function materi()
@@ -56,4 +61,11 @@ class GuruController extends Controller
         // Mengirim data siswa ke view 'guru.tugas'
         return view('guru.tugas', compact('siswa'));
     }
+
+//     public function index2()
+// {
+//     $scores = Score::all();  // Atur data yang akan ditampilkan di halaman guru
+//     return view('guru.index', compact('scores'));
+// }
+
 }

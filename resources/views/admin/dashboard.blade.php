@@ -36,8 +36,8 @@
     }
 
     .navbar-brand img {
-      width: 150px;
-      height: 60px;
+      width: 55px;
+      height: 80px;
       margin-right: 20px;
       margin-top: 5px;
     }

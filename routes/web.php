@@ -51,11 +51,11 @@ Route::delete('/admin-delete/{id}',[TambahController::class, 'delet'])->name('de
 
 //siswa
 Route::get('/siswa-dashboard', [SiswaController::class, 'index'])->name('siswa.dashboard');
-Route::get('/siswa-materi', [GuruController::class, 'materi'])->name('siswa.materi');
-Route::get('/siswa-jadwal', [GuruController::class, 'jadwal'])->name('siswa.jadwal');
-Route::get('/siswa-tugas', [GuruController::class, 'tugas'])->name('siswa.tugas');
-Route::get('/siswa-profil', [GuruController::class, 'profil'])->name('siswa.profil');
-Route::get('/guru-addTugas', [GuruController::class, 'addTugas'])->name('guru.addTugas');
+Route::get('/siswa-materi', [SiswaController::class, 'materi'])->name('siswa.materi');
+Route::get('/siswa-jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
+Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
+Route::get('/siswa-profil', [SiswaController::class, 'profil'])->name('siswa.profil');
+Route::get('/guru-addTugas', [SiswaController::class, 'addTugas'])->name('guru.addTugas');
 Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
 
 
@@ -89,7 +89,9 @@ Route::prefix('admin')->group(function () {
 });
 
 
+Route::get('/guru', [GuruController::class, 'index2'])->name('guru.index');
 
+Route::get('/guru', [GuruController::class, 'index'])->middleware('auth:guru')->name('guru.index');
 
 
 //Orang Tua

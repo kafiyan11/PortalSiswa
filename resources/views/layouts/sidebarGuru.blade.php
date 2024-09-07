@@ -4,7 +4,7 @@
     <a href="{{ route('guru.materi') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
     <a href="{{ route('guru.jadwal') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
     <a href="{{ route('guru.tugas') }}"><i class="fas fa-tasks"></i> Tugas</a>
-    <a href="#grades"><i class="fas fa-graduation-cap"></i> Nilai</a>
+    <a href="{{ route('guru.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
         <i class="fas fa-sign-out-alt"></i> Log Out
     </a>
