@@ -21,6 +21,9 @@ class Siswa extends Model
         'gambar_tugas' // Nama file gambar tugas jika ada
     ];
 
-    // Relasi dengan model lain (jika ada)
-    // Contoh: Jika Siswa punya banyak Tugas
+    public function siswa()
+    {
+        return $this->hasOne(Siswa::class, 'user_id', 'id'); // Relasi ke Siswa
+    }
+    
 }

@@ -16,12 +16,19 @@ class User extends Authenticatable
         'nis',
         'role',
         'password',
-        'plain_password'
+        'plain_password',
+        'alamat',
+        'nohp',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
+    public function siswa()
+    {
+        return $this->hasOne(Siswa::class, 'user_id', 'id');
+    }
+
 
 }

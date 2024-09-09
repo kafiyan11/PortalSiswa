@@ -36,8 +36,8 @@
                 </div>
                 @endif
                 <form action="{{route('guru.addTugas')}}" method="post" enctype="multipart/form-data">
-                @csrf
-                @method('post')
+                    @csrf
+                    @method('post')
                     <div class="mb-3 row">
                         <label for="nis" class="col-sm-2 col-form-label">NIS</label>
                         <div class="col-sm-10">
@@ -65,7 +65,6 @@
                         <label for="jurusan" class="col-sm-2 col-form-label">Jurusan</label>
                         <div class="col-sm-10">
                             <select class="form-select" id="jurusan" name="jurusan" required>
-
                                 <option value="">- Pilih Jurusan -</option>
                                 <option value="TKR">TKR 1</option>
                                 <option value="TKR">TKR 2</option>
@@ -89,18 +88,15 @@
                     </div>
                     <div class="mb-3 row">
                         <label for="gambar_tugas" class="col-sm-2 col-form-label">Gambar</label>
-
-
-
                         <div class="col-sm-10">
                             <input type="file" class="form-control" id="gambar_tugas" name="gambar_tugas" required>
                         </div>
                     </div>
                     <div class="col-12">
-                        <button href="{{route('guru.addTugas')}}" type="submit" class="btn btn-primary">Simpan Data</button>
-
+                        <button type="submit" class="btn btn-primary">Simpan Data</button>
                     </div>
                 </form>
+                
             </div>
         </div>
     </div>

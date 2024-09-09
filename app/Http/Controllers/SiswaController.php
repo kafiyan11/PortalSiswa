@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Siswa;
 use App\Models\Tugas; // Pastikan nama model sesuai
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class SiswaController extends Controller
 {
@@ -32,6 +33,10 @@ class SiswaController extends Controller
     {
         return view('siswa.add');
     }
+    public function profil()
+    {
+        return view('siswa.profiles.profil');
+    }
 
     /**
      * Tampilkan data tugas siswa.
@@ -40,8 +45,9 @@ class SiswaController extends Controller
      */
     public function tugas()
     {
-        $tugas = Tugas::all(); // Ambil semua data tugas
-        
+        // Ambil tugas berdasarkan NIS siswa yang login
+        $tugas = Tugas::where('nis', auth()->user()->nis)->get();
+
         return view('siswa.tugas', compact('tugas'));
     }
 }

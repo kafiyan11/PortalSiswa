@@ -12,6 +12,8 @@ use App\Http\Controllers\TambahController;
 use App\Http\Controllers\TambahTugasController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\ProfileController;
 
 
 
@@ -57,6 +59,23 @@ Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas
 Route::get('/siswa-profil', [SiswaController::class, 'profil'])->name('siswa.profil');
 Route::get('/guru-addTugas', [SiswaController::class, 'addTugas'])->name('guru.addTugas');
 Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
+
+//profil
+
+
+Route::get('profiles/show', [ProfileController::class, 'show'])->name('profiles.show');
+Route::get('profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
+Route::put('profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
+
+// Route untuk guru menambah tugas
+Route::post('/guru/tambah-tugas', [GuruController::class, 'addTugas'])->name('guru.tambah.tugas');
+
+// Route untuk siswa melihat tugas
+Route::get('/siswa/tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
+Route::post('/guru/tambah-tugas', [GuruController::class, 'storeTugas'])->name('guru.addTugas');
+
+
+
 
 
 //Menu Di Halaman Guru

@@ -1,10 +1,50 @@
-<!-- resources/views/siswa/tugas.blade.php -->
-@extends('layouts.app')
-
-@section('content')
-    <h1>Data Tugas Siswa</h1>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Tugas Siswa</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff;
+        }
+        .card {
+            border: 1px solid #dee2e6;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .table img {
+            width: 100px;
+            height: auto;
+            border-radius: 5px;
+        }
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    @include('layouts.app')
     <div class="container">
+        <h1>Data Tugas Siswa</h1>
         <div class="card">
             <div class="card-body">
                 <table class="table table-bordered table-striped">
@@ -44,4 +84,5 @@
             </div>
         </div>
     </div>
-@endsection
+</body>
+</html>
