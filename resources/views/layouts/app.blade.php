@@ -129,7 +129,7 @@
             position: relative;
         }
         .card-header {
-            background: linear-gradient(90deg, #007bff, #ffffff);
+            background: linear-gradient(90deg, #00aeff, #00aeff);
             color: white;
             padding: 20px;
             text-align: center;

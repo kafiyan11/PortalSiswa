@@ -1,67 +1,73 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/app.css" rel="stylesheet"> <!-- Update the path if necessary -->
+</head>
+<body>
+    @extends('layouts.app')
+    <div class="container">
+        <div class="row justify-content-center min-vh-100 align-items-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-lg rounded-lg">
+                    <div class="card-header text-center bg-secondary text-white rounded-top">
+                        <h3 class="my-3">Login</h3>
+                    </div>
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                    <div class="card-body">
+                        <form method="POST" action="/login"> <!-- Update the action URL if necessary -->
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+                            <!-- NIS -->
+                            <div class="mb-3">
+                                <label for="nis" class="form-label">NIS</label>
+                                <input id="nis" type="text" class="form-control" name="nis" required autofocus>
+                                <!-- Error handling -->
+                                {{-- <span class="invalid-feedback d-block" role="alert" style="display: none;">
+                                    <strong>Error message here</strong>
+                                </span> --}}
+                            </div>
 
-                        <!-- NIS -->
-                        <div class="mb-3">
-                            <label for="nis" class="form-label">{{ __('NIS') }}</label>
-                            <input id="nis" type="text" class="form-control @error('nis') is-invalid @enderror" name="nis" value="{{ old('nis') }}" required autofocus>
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input id="password" type="password" class="form-control" name="password" required>
+                                <!-- Error handling -->
+                            </div>
 
-                            @error('nis')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-
-                        <!-- Password -->
-                        <div class="mb-3">
-                            <label for="password" class="form-label">{{ __('Password') }}</label>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
-
-                            @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-
-                        <!-- Remember Me -->
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
+                            <!-- Remember Me -->
+                            <div class="mb-3 form-check">
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember">
                                 <label class="form-check-label" for="remember">
-                                    {{ __('Remember Me') }}
+                                    Remember Me
                                 </label>
                             </div>
-                        </div>
 
-                        <!-- Submit Button -->
-                        <div class="mb-0">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Login') }}
-                            </button>
+                            <!-- Submit Button -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button type="submit" class="btn btn-primary">
+                                    Login
+                                </button>
 
-                            @if (Route::has('password.request'))
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
+                                <a class="btn btn-link text-secondary" href="/password/reset"> <!-- Update the href URL if necessary -->
+                                    Forgot Your Password?
                                 </a>
-                            @endif
-                        </div>
-                    </form>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

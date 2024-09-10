@@ -102,9 +102,9 @@
     </style>
 </head>
 <body>
-<div class="profile-container">
+<div class="profile-container">   
     <div class="profile-header">
-        <img src="#" alt="Profile Picture">
+        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : 'default-avatar.png' }}" alt="Profile Picture">
         <h2>Profil</h2>
     </div>
     <div class="tabs">
@@ -150,8 +150,19 @@
             @endif
         </div>
         <div class="text-right">
+            @if(Auth::user()->role === 'guru')
+                <a href="{{ route('guru.dashboard') }}" class="btn btn-primary">Go Back</a>
+            @elseif(Auth::user()->role === 'siswa')
+                <a href="{{ route('siswa.dashboard') }}" class="btn btn-primary">Go Back</a>
+            @elseif(Auth::user()->role === 'admin')
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Go Back</a>
+            @else
+                <a href="{{ route('home') }}" class="btn btn-primary">Go Back</a> <!-- Default fallback link -->
+            @endif
+        
             <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
         </div>
+            
     </div>
 </div>
 

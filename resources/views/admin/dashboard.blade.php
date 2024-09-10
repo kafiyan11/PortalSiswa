@@ -64,7 +64,7 @@
       height: 100vh;
       padding-left: 2px;
       position: fixed;
-      top: 0px; /* Disesuaikan dengan tinggi navbar */
+      top: 15px; /* Disesuaikan dengan tinggi navbar */
       left: 0;
       width: 250px;
       background: white;  
@@ -276,7 +276,7 @@
             <p>Informasi mengenai jadwal pelajaran Anda.</p>
           </div>
           <div class="card-footer">
-            <a href="#schedule" class="btn btn-primary">Lihat Jadwal</a>
+            <a href="{{ route('admin.jadwal') }}" class="btn btn-primary">Lihat Jadwal</a>
           </div>
         </div>
       </div>
@@ -290,7 +290,7 @@
             <p>Informasi mengenai tugas-tugas Anda.</p>
           </div>
           <div class="card-footer">
-            <a href="#assignments" class="btn btn-primary">Lihat Tugas</a>
+            <a href="{{ route('admin.tugas') }}" class="btn btn-primary">Lihat Tugas</a>
           </div>
         </div>
       </div>
@@ -304,7 +304,7 @@
             <p>Informasi mengenai nilai-nilai Anda.</p>
           </div>
           <div class="card-footer">
-            <a href="#grades" class="btn btn-primary">Lihat Nilai</a>
+            <a href="{{ route('scores.index') }}" class="btn btn-primary">Lihat Nilai</a>
           </div>
         </div>
       </div>

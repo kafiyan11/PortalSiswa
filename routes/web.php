@@ -1,19 +1,20 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\GuruController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\OrangTuaController;
-use App\Http\Controllers\ScoreController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\TambahController;
-use App\Http\Controllers\TambahTugasController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GuruController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\TambahController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\TambahTugasController;
+use App\Http\Controllers\Auth\RegisterController;
 
 
 
@@ -61,11 +62,19 @@ Route::get('/guru-addTugas', [SiswaController::class, 'addTugas'])->name('guru.a
 Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
 
 //profil
-
-
 Route::get('profiles/show', [ProfileController::class, 'show'])->name('profiles.show');
 Route::get('profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
-Route::put('profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
+Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
+
+// jadwal
+// Route::get('/admin.jadwal', [JadwalController::class, 'index'])->name('admin.jadwal.index');
+// Route::get('/admin/jadwal/create', [JadwalController::class, 'create'])->name('admin.jadwal.create');
+// Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
+// Route::get('/admin/jadwal/{id}/edit', [JadwalController::class, 'edit'])->name('admin.jadwal.edit');
+// Route::put('/jadwal/{id}', [JadwalController::class, 'update'])->name('jadwal.update');
+// Route::delete('/jadwal/{id}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
+
+
 
 // Route untuk guru menambah tugas
 Route::post('/guru/tambah-tugas', [GuruController::class, 'addTugas'])->name('guru.tambah.tugas');

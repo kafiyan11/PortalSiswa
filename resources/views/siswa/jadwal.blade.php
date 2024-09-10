@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal Pelajaran</title>
+    
+    <!-- Bootstrap CSS for responsive styling -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome CSS for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -15,7 +20,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .schedule-container {
@@ -26,12 +31,8 @@
             width: 100%;
             max-width: 1200px;
             margin: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             animation: fadeIn 1s ease-in-out;
-            margin-top: 50px;
+            margin-top: 100px;
         }
 
         @keyframes fadeIn {
@@ -49,29 +50,27 @@
             color: #2c3e50;
             margin-bottom: 40px;
             font-size: 38px;
-            letter-spacing: 1px;
             text-align: center;
             text-transform: uppercase;
             font-weight: 700;
+            margin-top: 50px;
         }
 
         .schedule-row {
-            width: 100%;
             display: flex;
             justify-content: space-between;
-            align-items: center;
             gap: 25px;
         }
 
         .schedule-box {
-            width: 48%; /* Ubah menjadi 48% agar dua kotak berdampingan */
+            width: 48%;
             padding: 25px;
             background-color: #f1f3f5;
             border-radius: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
@@ -86,9 +85,8 @@
             width: 100%;
             height: auto;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.3s ease;
         }
 
         .schedule-box:hover img {
@@ -99,11 +97,24 @@
             font-size: 26px;
             color: #444;
             text-align: center;
-            margin-top: 10px;
             font-weight: 600;
         }
 
-        /* Modal styling */
+        .download-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: #2980b9;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -112,7 +123,6 @@
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
             background-color: rgba(0, 0, 0, 0.8);
         }
 
@@ -140,17 +150,15 @@
             color: white;
             font-size: 40px;
             font-weight: bold;
-            transition: 0.3s;
+            transition: color 0.3s;
         }
 
         .close:hover,
         .close:focus {
             color: #bbb;
-            text-decoration: none;
             cursor: pointer;
         }
 
-        /* Responsif untuk tablet dan layar lebih kecil */
         @media (max-width: 1024px) {
             .schedule-container {
                 padding: 40px;
@@ -162,11 +170,10 @@
             }
 
             .schedule-box {
-                width: 100%; /* Buat kotak menyesuaikan ukuran layar */
+                width: 100%;
             }
         }
 
-        /* Responsif untuk layar ponsel */
         @media (max-width: 768px) {
             h2 {
                 font-size: 32px;
@@ -176,26 +183,31 @@
                 font-size: 24px;
             }
         }
-
     </style>
 </head>
 <body>
     @include('layouts.app')
+
     <div class="schedule-container">
         <h2>Jadwal Pelajaran</h2>
         <div class="schedule-row">
             <div class="schedule-box">
                 <h3>Minggu Ganjil</h3>
                 <img src="{{asset('assets/img/Ganjil.png')}}" alt="Jadwal Minggu Ganjil" onclick="openModal(this)">
+                <a href="{{asset('assets/img/Ganjil.png')}}" class="download-btn" download="Jadwal_Minggu_Ganjil">
+                    Download
+                </a>
             </div>
             <div class="schedule-box">
                 <h3>Minggu Genap</h3>
                 <img src="{{asset('assets/img/Genap.png')}}" alt="Jadwal Minggu Genap" onclick="openModal(this)">
+                <a href="{{asset('assets/img/Genap.png')}}" class="download-btn" download="Jadwal_Minggu_Genap">
+                    Download
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- The Modal -->
     <div id="myModal" class="modal">
         <span class="close" onclick="closeModal()">&times;</span>
         <img class="modal-content" id="img01">

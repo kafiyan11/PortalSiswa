@@ -1,240 +1,161 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil</title>
+    <title>Profil Guru</title>
     <style>
-        * {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
-        body, html {
-            font-family: Arial, sans-serif;
-            height: 100%;
-            background-color: #f0f0f0;
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            padding: 20px;
-        }
-        .profile-card {
-            width: 100%;
-            max-width: 800px;
+        .profile-container {
+            max-width: 1100px;
+            margin: auto;
             background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
             overflow: hidden;
+            margin-top: 30px;
         }
         .profile-header {
-            background-color: #4a6572;
-            color: white;
-            padding: 30px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            background-color: #4a6670;
+            padding: 30px;
+            color: white;
+            text-align: left;
+            position: relative;
+            height: 200px;
         }
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            background-color: #344955;
+        .profile-header img {
             border-radius: 50%;
-            margin-right: 30px;
-            border: 4px solid white;
-            background-size: cover;
-            background-position: center;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            background-color: white;
+            margin-right: 20px;
         }
-        .profile-title {
-            font-size: 32px;
+        .profile-header h2 {
             margin: 0;
+            font-size: 32px;
+        }
+        .profile-body {
+            padding: 20px;
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            width: 150px;
+            font-size: 14px;
+            color: #333;
+            margin-right: 10px;
+        }
+        .form-group input {
+            width: calc(100% - 170px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
         }
         .tabs {
             display: flex;
-            border-bottom: 1px solid #ddd;
-            margin: 20px 0;
+            justify-content: space-around;
+            background-color: #f1f1f1;
+            padding: 10px 0;
         }
-        .tab-button {
-            flex: 1;
-            padding: 15px;
-            text-align: center;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-        .tab-button.active {
-            background-color: #fff;
-            border-bottom: 1px solid white;
-        }
-        .profile-body {
-            padding: 30px;
-        }
-        .profile-info {
-            display: flex;
-            margin-bottom: 20px;
-        }
-        .profile-info input {
-            flex: 1;
-            padding: 12px;
-            margin-right: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .profile-info input:last-child {
-            margin-right: 0;
-        }
-        .full-width {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .edit-button, .save-button {
-            float: right;
-            padding: 12px 24px;
-            background-color: #4a6572;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        .edit-button:hover, .save-button:hover {
-            background-color: #344955;
-        }
-        .hidden {
-            display: none;
-        }
-        .upload-btn {
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-        }
-        .upload-btn input[type="file"] {
-            display: none;
-        }
-        .upload-btn label {
+        .tabs a {
+            text-decoration: none;
             padding: 10px 20px;
-            background-color: #4a6572;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            color: #333;
+            border-bottom: 2px solid transparent;
         }
-        .upload-btn label:hover {
-            background-color: #344955;
+        .tabs a.active {
+            border-bottom: 2px solid #4a6670;
+            color: #4a6670;
+        }
+        .alert {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .btn {
+            text-decoration: none;
+            background-color: #4a6670;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .btn-warning {
+            background-color: orange;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="profile-card">
-            <div class="profile-header">
-                <div id="profilePic" class="profile-pic"></div>
-                <h1 class="profile-title">{{ Auth::user()->name }}</h1>
-            </div>
-            <div class="tabs">
-                <div class="tab-button active" onclick="showTab('view')">Lihat Profil</div>
-                <div class="tab-button" onclick="showTab('edit')">Edit Profil</div>
-            </div>
-            <div id="view" class="profile-body">
-                <div class="profile-info">
-                    <input type="text" id="viewName" disabled>
-                    <input type="text" id="viewNip" disabled>
-                </div>
-                <input type="text" id="viewGuru" class="full-width" disabled>
-                <input type="text" id="viewEmail" class="full-width" disabled>
-                <input type="text" id="viewTelepon" class="full-width" disabled>
-                <div class="upload-btn">
-                    <input type="file" id="fileInput" accept="image/*" onchange="uploadPhoto()">
-                    <label for="fileInput">Ubah Foto Profil</label>
-                </div>
-            </div>
-            <div id="edit" class="profile-body hidden">
-                <form id="editForm">
-                    <div class="profile-info">
-                        <input type="text" id="editName" placeholder="Nama">
-                        <input type="text" id="editNip" placeholder="Nip">
-                    </div>
-                    <input type="text" id="editGuru" placeholder="Guru" class="full-width">
-                    <input type="text" id="editEmail" placeholder="Email" class="full-width">
-                    <input type="text" id="editTelepon" placeholder="Telepon" class="full-width">
-                    <button type="button" class="save-button" onclick="saveProfile()">Simpan Perubahan</button>
-                </form>
-            </div>
-        </div>
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : 'default-avatar.png' }}" alt="Profile Picture">
+        <h2>Profil</h2>
     </div>
+    <div class="tabs">
+        <a href="#" class="active">Lihat Profil</a>
+    </div>
+    <div class="profile-body">
+        <div class="form-group">
+            <label for="name">Nama</label>
+            <input type="text" id="name" value="{{ Auth::user()->name }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="nip">NIP</label>
+            <input type="text" id="nip" value="{{ Auth::user()->nis }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="role">Sebagai</label>
+            <input type="text" id="role" value="{{ Auth::user()->role }}" readonly>
+        </div>
+        
+        <!-- Bagian Alamat -->
+        <div class="form-group">
+            <label for="alamat">Alamat</label>
+            @if(Auth::user()->alamat)
+                <input type="text" id="alamat" value="{{ Auth::user()->alamat }}" readonly>
+            @else
+                <div class="alert">
+                    Alamat belum diisi. 
+                    <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit Alamat</a>
+                </div>
+            @endif
+        </div>
 
-    <script>
-        function showTab(tabId) {
-            document.getElementById('view').classList.add('hidden');
-            document.getElementById('edit').classList.add('hidden');
-            document.querySelectorAll('.tab-button').forEach(button => button.classList.remove('active'));
+        <!-- Bagian Nomer HP -->
+        <div class="form-group">
+            <label for="nohp">Nomer Hp</label>
+            @if(Auth::user()->nohp)
+                <input type="text" id="nohp" value="{{ Auth::user()->nohp }}" readonly>
+            @else
+                <div class="alert">
+                    No HP belum diisi.
+                    <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit No HP</a>
+                </div>
+            @endif
+        </div>
+        <div class="text-right">
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Go Back</a>
+            <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
+        </div>  
+    </div>
+</div>
 
-            document.getElementById(tabId).classList.remove('hidden');
-            document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
-        }
-
-        function saveProfile() {
-            const name = document.getElementById('editName').value;
-            const nip = document.getElementById('editNip').value;
-            const guru = document.getElementById('editGuru').value;
-            const email = document.getElementById('editEmail').value;
-            const telepon = document.getElementById('editTelepon').value;
-
-            localStorage.setItem('profileName', name);
-            localStorage.setItem('profileNip', nip);
-            localStorage.setItem('profileGuru', guru);
-            localStorage.setItem('profileEmail', email);
-            localStorage.setItem('profileTelepon', telepon);
-
-            showTab('view');
-            updateProfileView();
-        }
-
-        function updateProfileView() {
-            document.getElementById('viewName').value = localStorage.getItem('profileName') || '';
-            document.getElementById('viewNip').value = localStorage.getItem('profileNip') || '';
-            document.getElementById('viewGuru').value = localStorage.getItem('profileGuru') || '';
-            document.getElementById('viewEmail').value = localStorage.getItem('profileEmail') || '';
-            document.getElementById('viewTelepon').value = localStorage.getItem('profileTelepon') || '';
-
-            const profilePic = localStorage.getItem('profilePic');
-            if (profilePic) {
-                document.getElementById('profilePic').style.backgroundImage = `url(${profilePic})`;
-            } else {
-                document.getElementById('profilePic').style.backgroundImage = 'none';
-            }
-        }
-
-        function uploadPhoto() {
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onloadend = function() {
-                    const dataUrl = reader.result;
-                    localStorage.setItem('profilePic', dataUrl);
-                    document.getElementById('profilePic').style.backgroundImage = `url(${dataUrl})`;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            updateProfileView();
-        });
-    </script>
 </body>
 </html>

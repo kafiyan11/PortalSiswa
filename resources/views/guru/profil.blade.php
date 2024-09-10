@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil</title>
+    <title>Profil Guru</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,40 +12,53 @@
             padding: 0;
         }
         .profile-container {
-            max-width: 600px;
-            margin: 50px auto;
+            max-width: 1100px;
+            margin: auto;
             background-color: white;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
             overflow: hidden;
+            margin-top: 30px;
         }
         .profile-header {
+            display: flex;
+            align-items: center;
             background-color: #4a6670;
-            padding: 20px;
+            padding: 30px;
             color: white;
-            text-align: center;
+            text-align: left;
             position: relative;
+            height: 200px;
         }
         .profile-header img {
             border-radius: 50%;
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
             background-color: white;
-            position: absolute;
-            top: 40px;
-            left: 50%;
-            transform: translateX(-50%);
+            margin-right: 20px;
         }
         .profile-header h2 {
-            margin-top: 80px;
+            margin: 0;
+            font-size: 32px;
         }
         .profile-body {
             padding: 20px;
         }
-        .profile-body input {
-            width: calc(100% - 20px);
-            padding: 10px;
+        .form-group {
+            display: flex;
+            align-items: center;
             margin-bottom: 20px;
+        }
+        .form-group label {
+            width: 150px;
+            font-size: 14px;
+            color: #333;
+            margin-right: 10px;
+        }
+        .form-group input {
+            width: calc(100% - 170px);
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
@@ -66,25 +79,81 @@
             border-bottom: 2px solid #4a6670;
             color: #4a6670;
         }
+        .alert {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .btn {
+            text-decoration: none;
+            background-color: #4a6670;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .btn-warning {
+            background-color: orange;
+        }
     </style>
 </head>
 <body>
-@include('layouts.app')
 <div class="profile-container">
     <div class="profile-header">
-        <img src="#" alt="Profile Picture">
+        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : 'default-avatar.png' }}" alt="Profile Picture">
         <h2>Profil</h2>
     </div>
     <div class="tabs">
         <a href="#" class="active">Lihat Profil</a>
-        <a href="#">Edit Profil</a>
     </div>
     <div class="profile-body">
-        <input type="text" value="Aan Padilah">
-        <input type="text" value="87654321">
-        <input type="text" value="Guru">
-        <input type="text" value="87654321">
-        <input type="text" value="Aan Padilah">
+        <div class="form-group">
+            <label for="name">Nama</label>
+            <input type="text" id="name" value="{{ Auth::user()->name }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="nip">NIP</label>
+            <input type="text" id="nip" value="{{ Auth::user()->nis }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="role">Sebagai</label>
+            <input type="text" id="role" value="{{ Auth::user()->role }}" readonly>
+        </div>
+        
+        <!-- Bagian Alamat -->
+        <div class="form-group">
+            <label for="alamat">Alamat</label>
+            @if(Auth::user()->alamat)
+                <input type="text" id="alamat" value="{{ Auth::user()->alamat }}" readonly>
+            @else
+                <div class="alert">
+                    Alamat belum diisi. 
+                    <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit Alamat</a>
+                </div>
+            @endif
+        </div>
+
+        <!-- Bagian Nomer HP -->
+        <div class="form-group">
+            <label for="nohp">Nomer Hp</label>
+            @if(Auth::user()->nohp)
+                <input type="text" id="nohp" value="{{ Auth::user()->nohp }}" readonly>
+            @else
+                <div class="alert">
+                    No HP belum diisi.
+                    <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit No HP</a>
+                </div>
+            @endif
+        </div>
+        <div class="text-right">
+            <a href="{{ route('guru.dashboard') }}" class="btn btn-primary">Go Back</a>
+            <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
+        </div>  
     </div>
 </div>
 

@@ -75,7 +75,7 @@
           </div>
           <div class="col-lg-6  d-flex flex-column justify-content-center text-center text-md-start" data-aos="fade-in">
             <h2>Selamat Datang Di Portal Siswa</h2>
-            <p>Tempat terbaik untuk mengelola dan memantau perjalanan akademik Siswa/i SMK Negri 1 Kawali</p>
+            <p>Tempat Terbaik Untuk Mengelola Dan Memantau Berjalanan Akademik Siswa/i SMK Negri 1 Kawali</p>
           </div>
         </div>
       </div>
