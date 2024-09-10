@@ -1,20 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\TambahController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\TambahTugasController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TambahTugasController;
+use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -89,7 +91,6 @@ Route::post('/guru/tambah-tugas', [GuruController::class, 'storeTugas'])->name('
 
 //Menu Di Halaman Guru
 Route::get('/guru-dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
-Route::get('/guru-materi', [GuruController::class, 'materi'])->name('guru.materi');
 Route::get('/guru-jadwal', [GuruController::class, 'jadwal'])->name('guru.jadwal');
 Route::get('/guru-profil', [GuruController::class, 'profil'])->name('guru.profil');
 Route::get('/guru-addMateri', [GuruController::class, 'addMateri'])->name('guru.addMateri');
@@ -114,7 +115,18 @@ Route::prefix('admin')->group(function () {
     Route::get('/scores/{id}/edit', [ScoreController::class, 'edit'])->name('scores.edit');
     Route::put('/scores/{id}', [ScoreController::class, 'update'])->name('scores.update');
     Route::delete('/scores/{id}', [ScoreController::class, 'destroy'])->name('scores.destroy');
+    Route::get('/scores/cari', [ScoreController::class, 'cari'])->name('scores.cari');
 });
+
+//CRUD MATERI
+Route::get('/guru-materi', [MateriController::class,  'materi'])->name('guru.materi');
+Route::get('/guru/tambah-materi', [MateriController::class, 'tambah_materi'])->name('guru.materi.addMateri');
+Route::post('/guru/tambah-materi', [MateriController::class, 'create'])->name('guru.materi.create');
+Route::delete('/materi/{id}', [MateriController::class, 'hapus'])->name('materi.hapus');
+Route::get('materi/{id}/edit', [MateriController::class, 'edit'])->name('materi.edit');
+Route::put('materi/{id}', [MateriController::class, 'update'])->name('materi.update');
+
+
 
 
 Route::get('/guru', [GuruController::class, 'index2'])->name('guru.index');

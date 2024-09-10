@@ -1,12 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
+<<<<<<< Updated upstream
 <div class="container mt-4" style="margin-left: -20px;"> <!-- Sedikit geser ke kiri -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="text-left">Nilai Siswa</h2> <!-- Ubah text-center jadi text-left -->
         <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm">
             <i class="fas fa-plus"></i> Tambah Nilai
         </a>
+=======
+<div class="container">
+    <div class="header">
+        <button class="navbar-toggler" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <h2 class="text-center">Nilai Siswa</h2>
+        <form action="{{ route('scores.cari') }}" method="GET">
+            <a href="{{ route('scores.create') }}" class="btn btn-primary">Tambah Nilai</a>
+            <div class="input-group">
+        <div class="form-outline">
+            <input type="text" id="form1" name="cari" class="form-control" placeholder="Cari Nilai">
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+        </button>
+        </form>
+      
+>>>>>>> Stashed changes
     </div>
     <div class="table-responsive shadow-sm rounded"> <!-- Tambahkan shadow -->
         <table class="table table-striped table-bordered table-hover">

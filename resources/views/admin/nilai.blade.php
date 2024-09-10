@@ -136,8 +136,7 @@
 </head>
 <body>
     @include('layouts.app')
-
-    <a href="{{ route('scores.create') }}" class="btn btn-primary">Tambah User</a>
+    
 
 
     <div class="container">

@@ -44,9 +44,9 @@
             background-color: #fff;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            padding: 300px 200px;
+            padding: 100px 50px;
             text-align: center;
-            position: relative;
+            
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             animation: fadeIn 0.8s ease-in-out;
@@ -192,7 +192,7 @@
 <body>
     @include('layouts.app')
     <h1>Data Tugas Siswa</h1>
-    <div class="content-wrapper">
+    {{-- <div class="content-wrapper">
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -201,14 +201,11 @@
                         </div> 
                     </div>
                 </div>
-            </div>
-
+            </div> --}}
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
                     <div class="card animate__animated animate__fadeInUp">
-               
-                        </div>
                         <div class="card-body">
                         @if(auth()->user()->role == 'Guru')
                             <form action="{{route('siswa.cari')}}" method="GET">
