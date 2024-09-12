@@ -12,11 +12,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TambahGuruController;
-use App\Http\Controllers\TambahOrangtuaController;
 use App\Http\Controllers\TambahTugasController;
 use Illuminate\Support\Facades\Route;
-
 
 
 
@@ -41,20 +38,10 @@ Route::middleware(['auth'])->group(function(){
 //Bagian Admin
 Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 Route::get('/admin-materi',[AdminController::class, 'materi'] )->name('admin.materi');
+Route::get('/admin-jadwal',[AdminController::class, 'jadwal'] )->name('admin.jadwal');
 Route::get('/admin-profil',[AdminController::class, 'profil'] )->name('admin.profil');
 Route::get('/admin-tugas',[AdminController::class, 'tugas'] )->name('admin.tugas');
 Route::get('/admin-addMateri',[AdminController::class, 'add'] )->name('admin.addMateri');
-
-//jadwal
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
-    Route::get('jadwal/create', [JadwalController::class, 'create'])->name('jadwal.create');
-    Route::post('jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
-    Route::get('jadwal/{id}/edit', [JadwalController::class, 'edit'])->name('jadwal.edit');
-    Route::put('jadwal/{id}', [JadwalController::class, 'update'])->name('jadwal.update');
-    Route::delete('jadwal/{id}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
-});
-
 
 //tambah akun
 Route::get('/admin-tambahsiswa',[TambahController::class, 'index'])->name('tambah');
@@ -64,41 +51,28 @@ Route::get('/admin-edit/{id}',[TambahController::class, 'edit'])->name('edit');
 Route::put('/admin-update/{id}',[TambahController::class, 'update'])->name('update');
 Route::delete('/admin-delete/{id}',[TambahController::class, 'delet'])->name('delete');
 
-//tambah guru
-Route::get('/admin-tambahguru',[TambahGuruController::class, 'index'])->name('tambahguru');
-Route::get('/admin-createguru',[TambahGuruController::class, 'create'])->name('createguru');
-Route::post('/admin-store-guru',[TambahGuruController::class, 'store'])->name('store.guru');
-Route::get('/admin-editguru/{id}',[TambahGuruController::class, 'edit'])->name('edit.guru');
-Route::put('/admin-update-guru/{id}',[TambahGuruController::class, 'update'])->name('update.guru');
-Route::delete('/admin-deleteguru/{id}',[TambahGuruController::class, 'delet'])->name('delet.guru');
-
-//tambah ortu
-Route::get('/admin-ortu',[TambahOrangtuaController::class, 'index'])->name('ortu');
-Route::get('/admin-createortu',[TambahOrangtuaController::class, 'create'])->name('create.ortu');
-Route::post('/admin-store-ortu',[TambahOrangtuaController::class, 'store'])->name('store.ortu');
-Route::get('/admin-editortu/{id}',[TambahOrangtuaController::class, 'edit'])->name('edit.ortu');
-Route::put('/admin-update-ortu/{id}',[TambahOrangtuaController::class, 'update'])->name('update.ortu');
-Route::delete('/admin-deleteortu/{id}',[TambahOrangtuaController::class, 'delet'])->name('delet.ortu');
-
 
 //siswa
-Route::get('/siswa-dashboard', [JadwalController::class, 'tampil'])->name('siswa.dashboard');
+Route::get('/siswa-dashboard', [SiswaController::class, 'index'])->name('siswa.dashboard');
 Route::get('/siswa-materi', [SiswaController::class, 'materi'])->name('siswa.materi');
-Route::get('/siswa-jadwal', [JadwalController::class, 'tampil'])->name('siswa.jadwal');
+Route::get('/siswa-jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
 Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
 Route::get('/siswa-profil', [SiswaController::class, 'profil'])->name('siswa.profil');
 Route::get('/guru-addTugas', [SiswaController::class, 'addTugas'])->name('guru.addTugas');
 Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
-Route::get('/siswa-nilai', [ScoreController::class, 'wujud'])->name('siswa.wujud');
 
 //profil
 Route::get('profiles/show', [ProfileController::class, 'show'])->name('profiles.show');
 Route::get('profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
 Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
 
-
-
-
+// jadwal
+// Route::get('/admin.jadwal', [JadwalController::class, 'index'])->name('admin.jadwal.index');
+// Route::get('/admin/jadwal/create', [JadwalController::class, 'create'])->name('admin.jadwal.create');
+// Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
+// Route::get('/admin/jadwal/{id}/edit', [JadwalController::class, 'edit'])->name('admin.jadwal.edit');
+// Route::put('/jadwal/{id}', [JadwalController::class, 'update'])->name('jadwal.update');
+// Route::delete('/jadwal/{id}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
 
 
 
