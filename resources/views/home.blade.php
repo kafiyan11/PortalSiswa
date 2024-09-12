@@ -11,7 +11,7 @@
     <style>
         /* Dashboard Container */
         .container {
-            margin-top: 50px;
+            margin-top: 200px;
         }
 
         /* Card Style */
@@ -76,7 +76,7 @@
     </style>
 </head>
 <body>
-
+@extends('layouts.app')
 <!-- Content Section -->
 <div class="container">
     <div class="row justify-content-center">

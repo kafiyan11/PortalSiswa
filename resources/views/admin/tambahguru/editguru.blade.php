@@ -22,7 +22,7 @@
         </div>
     @endif
 
-    <form action="{{ route('update', $data->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('update.guru', $data->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="mb-3">
@@ -30,7 +30,7 @@
             <input type="text" class="form-control" id="name" name="name" required value="{{ $data->name }}">
         </div>
         <div class="mb-3">
-            <label for="nis" class="form-label">NIS</label>
+            <label for="nis" class="form-label">NIP</label>
             <input type="text" class="form-control" id="nis" name="nis" required value="{{ $data->nis }}">
         </div>
         <div class="mb-3">

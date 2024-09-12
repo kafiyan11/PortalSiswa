@@ -11,9 +11,9 @@
     @include('layouts.app')
     <div class="container custom-margin pl-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="text-primary">Daftar Siswa</h1>
-            <a href="/admin-create" class="btn btn-success btn-lg shadow-sm">
-                <i class="fas fa-user-plus"></i> Tambah Siswa
+            <h1 class="text-primary">Daftar Orang Tua</h1>
+            <a href="{{ route('create.ortu') }}" class="btn btn-success btn-lg shadow-sm">
+                <i class="fas fa-user-plus"></i> Tambah Orang Tua
             </a>
         </div>
         
@@ -41,7 +41,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($data as $no => $item): ?>
+                    <?php foreach($orang as $no => $item): ?>
                         <tr>
                             <td><?php echo $no + 1; ?></td>
                             <td><?php echo htmlspecialchars($item->name); ?></td>
@@ -58,10 +58,10 @@
                                     <?php echo ucfirst($item->role); ?>
                                 </span>
                                 <td class="d-flex justify-content-center">
-                                    <a href="{{ route('edit', $item->id) }}" class="btn btn-sm btn-warning me-2">
+                                    <a href="{{ route('edit.ortu', $item->id) }}" class="btn btn-sm btn-warning me-2">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>&nbsp;&nbsp;
-                                    <form action="{{ route('delete', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                    <form action="{{ route('delet.ortu', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">

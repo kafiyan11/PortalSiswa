@@ -4,9 +4,6 @@
 <div class="container mt-4" style="margin-left: -20px;"> <!-- Sedikit geser ke kiri -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="text-left">Nilai Siswa</h2> <!-- Ubah text-center jadi text-left -->
-        <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm">
-            <i class="fas fa-plus"></i> Tambah Nilai
-        </a>
     </div>
     <div class="table-responsive shadow-sm rounded"> <!-- Tambahkan shadow -->
         <table class="table table-striped table-bordered table-hover">
@@ -15,7 +12,6 @@
                     <th>UH</th>
                     <th>UTS</th>
                     <th>UAS</th>
-                    <th style="width: 150px;" class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,22 +20,6 @@
                     <td>{{ $score->daily_test_score }}</td>
                     <td>{{ $score->midterm_test_score }}</td>
                     <td>{{ $score->final_test_score }}</td>
-                    <td class="text-center">
-                        <div class="d-inline-flex align-items-center">
-                            <!-- Tombol Edit -->
-                            <a href="{{ route('scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1 shadow-sm"style="small">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>&nbsp;
-                            <!-- Tombol Hapus -->
-                            <form action="{{ route('scores.destroy', $score->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm shadow-sm"style="small">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </form>
-                        </div>
-                    </td>
                 </tr>
                 @endforeach
             </tbody>

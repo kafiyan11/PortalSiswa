@@ -39,24 +39,11 @@
                                 <input id="password" type="password" class="form-control" name="password" required>
                                 <!-- Error handling -->
                             </div>
-
-                            <!-- Remember Me -->
-                            <div class="mb-3 form-check">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                                <label class="form-check-label" for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
-
                             <!-- Submit Button -->
                             <div class="d-flex justify-content-between align-items-center">
                                 <button type="submit" class="btn btn-primary">
                                     Login
                                 </button>
-
-                                <a class="btn btn-link text-secondary" href="/password/reset"> <!-- Update the href URL if necessary -->
-                                    Forgot Your Password?
-                                </a>
                             </div>
                         </form>
                     </div>
