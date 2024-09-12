@@ -243,6 +243,19 @@
 
         document.getElementById('sidebar').addEventListener('mouseover', expandSidebar);
         document.getElementById('sidebar').addEventListener('mouseout', collapseSidebar);
+
+        // Script untuk menampilkan/menghilangkan form input sesuai pilihan
+        document.querySelectorAll('input[name="uploadOption"]').forEach(option => {
+            option.addEventListener('change', function () {
+                if (this.value === 'gambar') {
+                    document.getElementById('gambarUpload').style.display = 'block';
+                    document.getElementById('linkYoutube').style.display = 'none';
+                } else {
+                    document.getElementById('gambarUpload').style.display = 'none';
+                    document.getElementById('linkYoutube').style.display = 'block';
+                }
+            });
+        });
     </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -25,11 +25,6 @@ class GuruController extends Controller
         return view('guru.index', compact('scores'));
     }
 
-    public function materi()
-    {
-        return view('guru.materi');
-    }
-
     public function jadwal()
     {
         return view('guru.jadwal');

@@ -1,7 +1,7 @@
 <div class="sidebar collapsed" id="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
     <a href="{{ route('guru.dashboard') }}"><i class="fas fa-home"></i> Beranda</a>
     <a href="{{ route('guru.profil') }}"><i class="fas fa-user"></i> Profil</a>
-    <a href="{{ route('guru.materi') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
+    <a href="{{ route('guru.materi.materi') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
     <a href="{{ route('guru.jadwal') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
     <a href="{{ route('guru.tugas') }}"><i class="fas fa-tasks"></i> Tugas</a>
     <a href="{{ route('guru.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
