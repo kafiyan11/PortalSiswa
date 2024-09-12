@@ -6,13 +6,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class TambahController extends Controller
+class TambahGuruController extends Controller
 {
     public function index(){
-        $data = User::where('role', 'Siswa')->get();
+        $guru = User::where('role', 'Guru')->get();
         
-        return view('admin.tambah.tambahsiswa', [
-            'data' => $data
+        return view('admin.tambahguru.dataguru', [
+            'guru' => $guru
         ]);
     }
     public function store(Request $request){
@@ -26,19 +26,19 @@ class TambahController extends Controller
             'name' => $request->name,
             'nis' => $request->nis,
             'password' => Hash::make($request['password']),
-            'role' => 'Siswa',
+            'role' => 'Guru',
             'plain_password' => $request['password'],
         ]);
 
-        return redirect('/admin-tambahsiswa');
+        return redirect(route('tambahguru'));
     }
     public function create() {
-        return view('admin.tambah.create');
+        return view('admin.tambahguru.createguru');
         
     }
     public function edit(User $data,$id) {
         $data = User::findOrFail($id);
-        return view('admin.tambah.edit',compact('data'));
+        return view('admin.tambahguru.editguru',compact('data'));
     }
     public function update( $id, Request $request) {
 
@@ -53,14 +53,14 @@ class TambahController extends Controller
             'name' => $request->name,
             'nis' => $request->nis,
             'password' => Hash::make($request['password']),
-            'role' => 'Siswa',
+            'role' => 'Guru',
             'plain_password' => $request['password'],
         ]);
-        return redirect('/admin-tambahsiswa');
+        return redirect('admin-tambahguru');
         }
         public function delet($id){
             $data = User::findOrFail($id);
             $data -> delete(); 
-            return redirect('admin-tambahsiswa');
+            return redirect('admin-tambahguru');
         }
 }

@@ -6,13 +6,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class TambahController extends Controller
+class TambahOrangtuaController extends Controller
 {
     public function index(){
-        $data = User::where('role', 'Siswa')->get();
+        $orang = User::where('role', 'Orang Tua')->get();
         
-        return view('admin.tambah.tambahsiswa', [
-            'data' => $data
+        return view('admin.tambahortu.ortu', [
+            'orang' => $orang
         ]);
     }
     public function store(Request $request){
@@ -26,19 +26,19 @@ class TambahController extends Controller
             'name' => $request->name,
             'nis' => $request->nis,
             'password' => Hash::make($request['password']),
-            'role' => 'Siswa',
+            'role' => 'Orang Tua',
             'plain_password' => $request['password'],
         ]);
 
-        return redirect('/admin-tambahsiswa');
+        return redirect(route('ortu'));
     }
     public function create() {
-        return view('admin.tambah.create');
+        return view('admin.tambahortu.createortu');
         
     }
     public function edit(User $data,$id) {
         $data = User::findOrFail($id);
-        return view('admin.tambah.edit',compact('data'));
+        return view('admin.tambahortu.editortu',compact('data'));
     }
     public function update( $id, Request $request) {
 
@@ -53,14 +53,14 @@ class TambahController extends Controller
             'name' => $request->name,
             'nis' => $request->nis,
             'password' => Hash::make($request['password']),
-            'role' => 'Siswa',
+            'role' => 'Orang Tua',
             'plain_password' => $request['password'],
         ]);
-        return redirect('/admin-tambahsiswa');
+        return redirect(route('ortu'));
         }
         public function delet($id){
             $data = User::findOrFail($id);
             $data -> delete(); 
-            return redirect('admin-tambahsiswa');
+            return redirect(route('ortu'));
         }
 }
