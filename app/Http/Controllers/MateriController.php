@@ -9,104 +9,90 @@ use Illuminate\Support\Facades\Storage;
 class MateriController extends Controller
 {
     public function materi()
-        {
-            $materi = Materi::all(); // Mengambil semua data materi
-            return view('guru.materi.materi', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
+    {
+        $materi = Materi::all(); // Mengambil semua data materi
+        return view('guru.materi.materi', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
+    }
+
+    public function create()
+    {
+        return view('guru.materi.addMateri');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'link_youtube' => 'nullable|url',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            // Proses upload gambar
+            $gambarPath = $request->file('gambar')->store('materi', 'public');
         }
 
-        public function tambah_materi(){
-            return view('guru.materi.addMateri');
+        // Validasi bahwa salah satu harus diisi
+        if (!$request->hasFile('gambar') && !$request->link_youtube) {
+            return back()->withErrors(['msg' => 'Anda harus mengunggah gambar atau memasukkan link YouTube.']);
         }
 
-    // Method untuk menyimpan data materi
-    public function create(Request $request)
+        // Simpan data ke database
+        Materi::create([
+            'judul' => $request->judul,
+            'gambar' => $gambarPath ?? null,
+            'link_youtube' => $request->link_youtube ?? null,
+            'tipe' => $request->tipe,
+        ]);
+
+        return redirect()->route('guru.materi.materi')->with('success', 'Materi berhasil diunggah.');
+    }
+    // Menampilkan form edit
+    public function edit($id)
+    {
+        $materi = Materi::findOrFail($id); // Mengambil data berdasarkan ID
+        return view('guru.materi.edit', compact('materi')); // Menampilkan view edit dengan data materi
+    }
+
+    // Menyimpan perubahan (update data)
+    public function update(Request $request, $id)
     {
         // Validasi input
         $request->validate([
-            'kelas' => 'required|string',
-            'jurusan' => 'required|string',
-            'mapel' => 'required|string',
-            'gambar_materi' => 'nullable|mimes:jpeg,png,jpg|max:2048',
-            'video_materi' => 'nullable|mimes:mp4,mov,avi|max:20480',
+            'judul' => 'required|string|max:255',
+            'tipe' => 'required|string', // tipe bisa berupa gambar atau youtube
+            'gambar' => 'nullable|image|max:2048', // jika tipe gambar
+            'link_youtube' => 'nullable|url' // jika tipe youtube
         ]);
 
-        // Menyimpan file gambar jika ada
-        $gambarMateri = null;
-        if ($request->hasFile('gambar_materi')) {
-            $gambarMateri = $request->file('gambar_materi')->store('gambar_materi', 'public');
+        $materi = Materi::findOrFail($id); // Mengambil data berdasarkan ID
+
+        // Update data materi
+        $materi->judul = $request->judul;
+        $materi->tipe = $request->tipe;
+
+        // Jika mengupload gambar
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('materi', 'public');
+            $materi->gambar = $path;
         }
 
-        // Menyimpan file video jika ada
-        $videoMateri = null;
-        if ($request->hasFile('video_materi')) {
-            $videoMateri = $request->file('video_materi')->store('video_materi', 'public');
+        // Jika memasukkan link YouTube
+        if ($request->tipe == 'youtube') {
+            $materi->link_youtube = $request->link_youtube;
         }
 
-        // Menyimpan data ke dalam database
-        Materi::create([
-            'kelas' => $request->input('kelas'),
-            'jurusan' => $request->input('jurusan'),
-            'mapel' => $request->input('mapel'),
-            'gambar_materi' => isset($gambarMateri) ? $gambarMateri : null,
-            'video_materi' => $videoMateri ?? '',
-        ]);
+        $materi->save(); // Simpan perubahan ke database
 
-        return redirect()->route('guru.materi')->with('success', 'Materi berhasil ditambahkan!');
+        return redirect()->route('guru.materi.materi')->with('success', 'Materi berhasil diperbarui.');
     }
 
-    public function hapus($id){
-        $materi = Materi::find($id);
-        if(!$materi){
-            return redirect()->route('guru.materi');
-        }
-        $materi->delete();
-        return redirect()->route('guru.materi');
+    // Menghapus materi
+    public function destroy($id)
+    {
+        $materi = Materi::findOrFail($id); // Mengambil data berdasarkan ID
+        $materi->delete(); // Menghapus data
+
+        return redirect()->route('guru.materi.materi')->with('success', 'Materi berhasil dihapus.');
     }
-
-    public function edit($id){
-        $materi = Materi::findOrFail($id);
-        return view('guru.materi.edit', compact('materi'));
-    }
-
-    public function update(Request $request, $id)
-{
-    // Validasi input
-    $request->validate([
-        'kelas' => 'required|string',
-        'jurusan' => 'required|string',
-        'mapel' => 'required|string',
-        'gambar_materi' => 'nullable|mimes:jpeg,png,jpg|max:2048',
-        'video_materi' => 'nullable|mimes:mp4,mov,avi|max:20480',
-    ]);
-
-    $materi = Materi::findOrFail($id);
-
-    // Menyimpan file gambar jika ada
-    if ($request->hasFile('gambar_materi')) {
-        // Hapus file gambar lama jika ada
-        if ($materi->gambar_materi) {
-            Storage::disk('public')->delete($materi->gambar_materi);
-        }
-        $materi->gambar_materi = $request->file('gambar_materi')->store('gambar_materi', 'public');
-    }
-
-    // Menyimpan file video jika ada
-    if ($request->hasFile('video_materi')) {
-        // Hapus file video lama jika ada
-        if ($materi->video_materi) {
-            Storage::disk('public')->delete($materi->video_materi);
-        }
-        $materi->video_materi = $request->file('video_materi')->store('video_materi', 'public');
-    }
-
-    // Update data materi
-    $materi->kelas = $request->input('kelas');
-    $materi->jurusan = $request->input('jurusan');
-    $materi->mapel = $request->input('mapel');
-    $materi->save();
-
-    return redirect()->route('guru.materi')->with('success', 'Materi berhasil diperbarui!');
-}
-
-    
 }

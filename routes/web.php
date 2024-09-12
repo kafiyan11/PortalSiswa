@@ -5,8 +5,6 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\JadwalController;
-use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\TambahController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
@@ -112,9 +110,6 @@ Route::get('/siswa/tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas
 Route::post('/guru/tambah-tugas', [GuruController::class, 'storeTugas'])->name('guru.addTugas');
 
 
-
-
-
 //Menu Di Halaman Guru
 Route::get('/guru-dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
 Route::get('/guru-jadwal', [GuruController::class, 'jadwal'])->name('guru.jadwal');
@@ -156,7 +151,6 @@ Route::put('materi/{id}', [MateriController::class, 'update'])->name('materi.upd
 
 
 Route::get('/guru', [GuruController::class, 'index2'])->name('guru.index');
-
 Route::get('/guru', [GuruController::class, 'index'])->middleware('auth:guru')->name('guru.index');
 
 
