@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Landing Page</title>
+  <title>Portal Siswa SMKN 1 Kawali</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -88,7 +88,7 @@
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
               <h2>Jurusan</h2>
-              <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+              <p>Berikut Jurusan Di SMK Negeri 1 Kawali</p>
             </div><!-- End Section Title -->
       
             <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
@@ -129,20 +129,21 @@
                   }
                 </script>
                 <div class="swiper-wrapper align-items-center">
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-1.jpeg"><img src="assets/img/app-gallery/app-gallery-1.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-2.jpeg"><img src="assets/img/app-gallery/app-gallery-2.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-3.jpeg"><img src="assets/img/app-gallery/app-gallery-3.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-4.jpeg"><img src="assets/img/app-gallery/app-gallery-4.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-5.jpeg"><img src="assets/img/app-gallery/app-gallery-5.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-6.jpeg"><img src="assets/img/app-gallery/app-gallery-6.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-7.jpeg"><img src="assets/img/app-gallery/app-gallery-7.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-1.jpeg"><img src="assets/img/app-gallery/app-gallery-1.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-2.jpeg"><img src="assets/img/app-gallery/app-gallery-2.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-3.jpeg"><img src="assets/img/app-gallery/app-gallery-3.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-4.jpeg"><img src="assets/img/app-gallery/app-gallery-4.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-5.jpeg"><img src="assets/img/app-gallery/app-gallery-5.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-6.jpeg"><img src="assets/img/app-gallery/app-gallery-6.jpeg" class="img-fluid" alt=""></a></div>
-                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-7.jpeg"><img src="assets/img/app-gallery/app-gallery-7.jpeg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/tkr.jpg"><img src="landingJurusan/tkr.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/tkj.jpg"><img src="landingJurusan/tkj.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/rpl.jpg"><img src="landingJurusan/rpl.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/mp.jpg"><img src="landingJurusan/mp.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/ak.jpg"><img src="landingJurusan/ak.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/dpib.jpg"><img src="landingJurusan/dpib.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/sk.jpg"><img src="landingJurusan/sk.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/tkr.jpg"><img src="landingJurusan/tkr.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/tkj.jpg"><img src="landingJurusan/tkj.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/rpl.jpg"><img src="landingJurusan/rpl.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/mp.jpg"><img src="landingJurusan/mp.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/ak.jpg"><img src="landingJurusan/ak.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/dpib.jpg"><img src="landingJurusan/dpib.jpg" class="img-fluid" alt=""></a></div>
+                  <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="landingJurusan/sk.jpg"><img src="landingJurusan/sk.jpg" class="img-fluid" alt=""></a></div>
+
                 </div>
                 <div class="swiper-pagination"></div>
               </div>
