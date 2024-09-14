@@ -39,7 +39,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::middleware(['auth'])->group(function(){
 //Bagian Admin
 Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-Route::get('/admin-materi',[AdminController::class, 'materi'] )->name('admin.materi');
+Route::get('/admin-materi',[MateriController::class, 'tampil'] )->name('admin.materi');
 Route::get('/admin-jadwal',[AdminController::class, 'jadwal'] )->name('admin.jadwal');
 Route::get('/admin-profil',[AdminController::class, 'profil'] )->name('admin.profil');
 Route::get('/admin-tugas',[AdminController::class, 'tugas'] )->name('admin.tugas');
@@ -62,6 +62,7 @@ Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas
 Route::get('/siswa-profil', [SiswaController::class, 'profil'])->name('siswa.profil');
 Route::get('/guru-addTugas', [SiswaController::class, 'addTugas'])->name('guru.addTugas');
 Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
+Route::get('/lihat/tugas', [MateriController::class, 'muncul'])->name('lihat.materi');
 
 //profil
 Route::get('profiles/show', [ProfileController::class, 'show'])->name('profiles.show');
@@ -94,7 +95,7 @@ Route::get('/guru-addMateri', [GuruController::class, 'addMateri'])->name('guru.
 Route::get('/guru-addTugas', [GuruController::class, 'addTugas'])->name('guru.addTugas');
 
 //Crud Tugas di Guru
-Route::get('/guru-tugas', [TambahTugasController::class, 'tugas'])->name('guru.tugas');
+Route::get('/guru-tugas', [TambahTugasController::class, 'tugas'])->name('guru.tugas.tugas');
 Route::get('/guru-tambahtugas', [TambahTugasController::class, 'tambah_tugas'])->name('guru.addTugas');
 Route::post('/guru-tambahtugas', [TambahTugasController::class, 'create'])->name('create_tugas');
 Route::get('/edit/{id}', [TambahTugasController::class, 'edit'])->name('edit_tugas');
@@ -121,6 +122,7 @@ Route::post('/materi/store', [MateriController::class, 'store'])->name('materi.s
 Route::get('/materi/{id}/edit', [MateriController::class, 'edit'])->name('materi.edit');
 Route::put('/materi/{id}', [MateriController::class, 'update'])->name('materi.update');
 Route::delete('/materi/{id}', [MateriController::class, 'destroy'])->name('materi.destroy');
+Route::get('/materi/cari', [MateriController::class, 'cari'])->name('materi.cari');
 
 
 Route::get('/guru', [GuruController::class, 'index2'])->name('guru.index');

@@ -10,8 +10,8 @@ class MateriController extends Controller
 {
     public function materi()
     {
-        $materi = Materi::all(); // Mengambil semua data materi
-        return view('guru.materi.materi', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
+        $materi = Materi::paginate(2); // Mengambil semua data materi
+        return view('guru.materi.materi',  ['materi' => $materi]); // Mengarahkan ke view untuk menampilkan daftar materi
     }
 
     public function create()
@@ -23,6 +23,8 @@ class MateriController extends Controller
     {
         $request->validate([
             'judul' => 'required|string|max:255',
+            'kelas' => 'required|string|max:255',
+            'jurusan' => 'required|string|max:255',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'link_youtube' => 'nullable|url',
         ]);
@@ -40,6 +42,8 @@ class MateriController extends Controller
         // Simpan data ke database
         Materi::create([
             'judul' => $request->judul,
+            'kelas' => $request->input('kelas'),
+            'jurusan' => $request->input('jurusan'),
             'gambar' => $gambarPath ?? null,
             'link_youtube' => $request->link_youtube ?? null,
             'tipe' => $request->tipe,
@@ -60,7 +64,9 @@ class MateriController extends Controller
         // Validasi input
         $request->validate([
             'judul' => 'required|string|max:255',
-            'tipe' => 'required|string', // tipe bisa berupa gambar atau youtube
+            'tipe' => 'required|string',
+            'kelas' => 'required|in:10,11,12',
+            'jurusan' => 'required|in:TKR,TKJ,RPL,OTKP,AK,DPIB,SK', // tipe bisa berupa gambar atau youtube
             'gambar' => 'nullable|image|max:2048', // jika tipe gambar
             'link_youtube' => 'nullable|url' // jika tipe youtube
         ]);
@@ -69,6 +75,8 @@ class MateriController extends Controller
 
         // Update data materi
         $materi->judul = $request->judul;
+        $materi->kelas = $request->kelas;
+        $materi->jurusan = $request->jurusan;
         $materi->tipe = $request->tipe;
 
         // Jika mengupload gambar
@@ -94,5 +102,23 @@ class MateriController extends Controller
         $materi->delete(); // Menghapus data
 
         return redirect()->route('guru.materi.materi')->with('success', 'Materi berhasil dihapus.');
+    }
+    public function cari(Request $request)
+{
+    $cari = $request->input('cari');
+    $materi = Materi::when($cari, function ($query, $cari) {
+        return $query->where('judul', 'like', '%' . $cari . '%');
+    })->paginate(2); // Pastikan paginate() digunakan di sini
+    return view('guru.materi.materi', compact('materi'));
+}
+    public function tampil()
+    {
+        $materi = Materi::all(); // Mengambil semua data materi
+        return view('admin.materi', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
+    }
+    public function muncul()
+    {
+        $materi = Materi::all(); // Mengambil semua data materi
+        return view('siswa.lihatMateri', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
     }
 }

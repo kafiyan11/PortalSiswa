@@ -118,28 +118,12 @@
                         </div>
                     @endif
 
-                <!-- Form Pencarian dan Tombol Tambah dalam satu baris -->
-                <div class="d-flex justify-content-between mb-2">
-                    <form action="{{ route('materi.cari') }}" method="GET" class="input-group" style="max-width: 400px;">
-                        <input type="text" name="cari" class="form-control search-input" placeholder="Cari materi..." value="{{ request()->get('search') }}">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary search-btn" type="submit">
-                                    <i class="fas fa-search"></i> Cari
-                                </button>
-                            </div>
-                        </form>
-                        <a href="{{ route('materi.create') }}" class="btn btn-primary add-btn">
-                    <i class="fas fa-plus-circle"></i> Tambah Materi</a>
-                </div>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>NO</th>
                                 <th>Judul</th>
-                                <th>Kelas</th>
-                                <th>Jurusan</th>
                                 <th>Materi</th>
-                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -147,8 +131,6 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
                                     <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
-                                    <td>{{ $item->kelas }}</td>
-                                    <td>{{ $item->jurusan }}</td>
                                     <td>
                                         @if($item->tipe == 'gambar')
                                             <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
@@ -156,21 +138,13 @@
                                             <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
                                         @endif
                                     </td>
-                                    <td>
-                                        <a href="{{ route('materi.edit', $item->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                        <form action="{{ route('materi.destroy', $item->id) }}" method="POST" style="display:inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                        </form>
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <!-- Link pagination -->
+                    <!-- Pagination Links -->
                     <div class="d-flex justify-content-end">
-                        {{ $materi->links() }}
+                         {{ $materi->links() }}
                     </div>
                 </div>
             </div>

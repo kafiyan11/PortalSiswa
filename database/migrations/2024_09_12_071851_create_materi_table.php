@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('gambar')->nullable(); // Menyimpan path gambar
             $table->string('link_youtube')->nullable(); // Menyimpan link YouTube
             $table->timestamps();
-        });;
+        });
+        
     }
 
     /**
