@@ -59,4 +59,10 @@ class ScoreController extends Controller
         $scores->delete();
         return redirect()->route('scores.index');
     }
+    public function cari(Request $request){
+        $scores = $request->input('cari');
+        $scores = Score::where('daily_test_score', 'like', '%'.$scores.'%');
+
+        return view('admin.scores.index', compact('scores'));
+    }
 }
