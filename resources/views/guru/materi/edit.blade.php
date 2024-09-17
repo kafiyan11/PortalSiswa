@@ -1,48 +1,79 @@
-<!-- resources/views/guru/editMateri.blade.php -->
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Materi</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-group img {
+            max-width: 100%;
+            height: auto;
+        }
+        .form-group.hidden {
+            display: none;
+        }
+        .radio-label {
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Edit Materi</h1>
 
-@section('content')
-<div class="container">
-    <h1>Edit Materi</h1>
-    <form action="{{ route('materi.update', $materi->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-        
-        <div class="form-group">
-            <label for="kelas">Kelas</label>
-            <input type="text" name="kelas" id="kelas" class="form-control" value="{{ old('kelas', $materi->kelas) }}" required>
-        </div>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <div class="form-group">
-            <label for="jurusan">Jurusan</label>
-            <input type="text" name="jurusan" id="jurusan" class="form-control" value="{{ old('jurusan', $materi->jurusan) }}" required>
-        </div>
+        <form action="{{ route('materi.update', $materi->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
-        <div class="form-group">
-            <label for="mapel">Mapel</label>
-            <input type="text" name="mapel" id="mapel" class="form-control" value="{{ old('mapel', $materi->mapel) }}" required>
-        </div>
+            <div class="form-group">
+                <label for="judul">Judul Materi:</label>
+                <input type="text" name="judul" class="form-control" value="{{ $materi->judul }}" required>
+            </div>
 
-        <div class="form-group">
-            <label for="gambar_materi">Gambar Materi (Opsional)</label>
-            <input type="file" name="gambar_materi" id="gambar_materi" class="form-control">
-            @if($materi->gambar_materi)
-                <img src="{{ asset('public/' . $materi->gambar_materi) }}" alt="Gambar Materi" class="img-thumbnail mt-2" style="max-width: 150px;">
-            @endif
-        </div>
+            <div class="form-group">
+                <label for="tipe">Pilih jenis materi:</label><br>
+                <input type="radio" id="uploadGambar" name="tipe" value="gambar" {{ $materi->tipe == 'gambar' ? 'checked' : '' }}>
+                <label for="uploadGambar" class="radio-label">Unggah Gambar</label>
+                <input type="radio" id="uploadYoutube" name="tipe" value="youtube" {{ $materi->tipe == 'youtube' ? 'checked' : '' }}>
+                <label for="uploadYoutube" class="radio-label">Link YouTube</label>
+            </div>
 
-        <div class="form-group">
-            <label for="video_materi">Video Materi (Opsional)</label>
-            <input type="file" name="video_materi" id="video_materi" class="form-control">
-            @if($materi->video_materi)
-                <video controls class="mt-2" style="max-width: 300px;">
-                    <source src="{{ asset('public/' . $materi->video_materi) }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            @endif
-        </div>
+            <div id="gambarUpload" class="form-group {{ $materi->tipe == 'gambar' ? '' : 'hidden' }}">
+                <label for="file">Unggah Gambar:</label>
+                <input type="file" name="gambar" class="form-control">
+                @if ($materi->file)
+                    <p>Gambar saat ini:</p>
+                    <img src="{{ asset('storage/' . $materi->gambar) }}" alt="Materi">
+                @endif
+            </div>
 
-        <button type="submit" class="btn btn-primary">Update Materi</button>
-    </form>
-</div>
-@endsection
+            <div id="linkYoutube" class="form-group {{ $materi->tipe == 'youtube' ? '' : 'hidden' }}">
+                <label for="link_youtube">Link YouTube:</label>
+                <input type="url" name="link_youtube" class="form-control" value="{{ $materi->link_youtube }}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        </form>
+    </div>
+
+    <script>
+        document.querySelectorAll('input[name="tipe"]').forEach(option => {
+            option.addEventListener('change', function () {
+                document.getElementById('gambarUpload').classList.toggle('hidden', this.value !== 'gambar');
+                document.getElementById('linkYoutube').classList.toggle('hidden', this.value !== 'youtube');
+            });
+        });
+    </script>
+</body>
+</html>

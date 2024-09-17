@@ -5,130 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materi</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #010504;
-            color: #333;
-            padding: 20px;
-            margin: 0;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #2c3e50;
-        }
-
-        .card {
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
+        /* Table Centering */
         .table {
-            background-color: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid black; /* Garis luar tabel */
+            margin: 0 auto; /* Center the table horizontally */
+            width: 80%; /* Optional: Adjust the width of the table */
         }
 
-        .table th, .table td {
-            text-align: center;
-            vertical-align: middle;
-            border: 2px solid black; /* Garis antar sel tabel */
+        /* Table header and cell text alignment */
+        table th, table td {
+            text-align: center; /* Align text in the center */
+            vertical-align: middle; /* Align text vertically in the middle */
         }
 
-        .table thead {
-            color: #070000;
-            background-color: #f8f9fa; /* Menambah background untuk header */
+        /* Style for table header */
+        table th {
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
         }
 
-        .table tbody tr:nth-child(even) {
-            background-color: #250202;
+        /* Style for table rows */
+        table td {
+            padding: 10px;
         }
 
-        .table tbody tr:hover {
-            background-color: #0e0000;
+        /* Table stripes */
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
 
-        .table td img {
-            max-width: 100px;
-            height: auto;
-            border-radius: 5px;
+        /* Hover effect */
+        table tr:hover {
+            background-color: #e9ecef;
         }
 
+        /* Button styling */
         .btn-primary {
-            background-color: #2980b9;
-            border-color: #2980b9;
+            margin-bottom: 20px;
         }
-
-        .btn-primary:hover {
-            background-color: #1c4f78;
-            border-color: #1c4f78;
-        }
-
-        .pagination .page-item.active .page-link {
-            background-color: #2980b9;
-            border-color: #00060a;
-        }
-
-        .pagination .page-link {
+        .alert {
+            margin-top: 20px;
+            padding: 15px;
             border-radius: 5px;
         }
-        
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
     </style>
 </head>
 <body>
     @include('layouts.app')
-    <h1>Materi Siswa</h1>
+    <h1 class="text-center">Materi Siswa</h1>
     <section class="content">
-        <div class="container-fluid">
-            <div class="card animate__animated animate__fadeInUp">
+        <div class="container">
+            <div class="card">
                 <div class="card-body">
-                    <a href="{{ route('guru.materi.addMateri') }}" class="btn btn-primary">Tambah Tugas</a>
+                    <!-- Menampilkan pesan flash -->
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <a href="{{route('materi.create')}}" class="btn btn-primary">Tambah</a>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>NO</th>
-                                <th>Kelas</th>
-                                <th>Jurusan</th>
-                                <th>Mapel</th>
+                                <th>Judul</th>
                                 <th>Materi</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($materi as $no => $materis)
-                            @if (is_object($materis))
-                            <tr>
-                                <td>{{ $no + 1 }}</td>
-                                <td>{{ $materis->kelas }}</td>
-                                <td>{{ $materis->jurusan }}</td>
-                                <td>{{ $materis->mapel }}</td>
-                                <td>{{ $materis->materi }}</td>
-                                <td>
-                                    @if ($materis->gambar_materi)
-                                        <img src="{{ asset('gambar_materi/' . $materis->gambar_materi) }}" alt="Gambar Materi" width="100">
-                                    @endif
-                                </td>
-                                <td>
-                                    <a href="{{ route('materi.edit', $materis->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('materi.hapus', $materis->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                    </form>
-                                    @endif
-                                </td>
-                            </tr>
+                            @foreach($materi as $index => $item)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
+                                    <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
+                                    <td>
+                                        @if($item->tipe == 'gambar')
+                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
+                                        @else
+                                            <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('materi.edit', $item->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                        <form action="{{ route('materi.destroy', $item->id) }}" method="POST" style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>

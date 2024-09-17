@@ -106,7 +106,7 @@ Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profil
 
 // Route untuk guru menambah tugas
 Route::post('/guru/tambah-tugas', [GuruController::class, 'addTugas'])->name('guru.tambah.tugas');
-
+Route::get('/gurunilai', [ScoreController::class, 'tampilGuru']);
 // Route untuk siswa melihat tugas
 Route::get('/siswa/tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
 Route::post('/guru/tambah-tugas', [GuruController::class, 'storeTugas'])->name('guru.addTugas');
@@ -166,5 +166,3 @@ Route::get('/orangtua-dashboard', [OrangTuaController::class, 'index'])->name('o
 
 Route::get('/logout', [OrangTuaController::class, 'index'])->name('orangtua.dashboard'); 
 });
-
-                                                       

@@ -13,6 +13,14 @@
             @csrf
             @method('PUT')
             <div class="form-group">
+                <label for="nama">Nama</label>
+                <input type="text" name="nama" id="nama" class="form-control" value="{{ $scores->nama }}" required>
+            </div>
+            <div class="form-group">
+                <label for="nis">NIS</label>
+                <input type="number" name="nis" id="nis" class="form-control" value="{{ $scores->nis }}" required>
+            </div>
+            <div class="form-group">
                 <label for="daily_test_score">Nilai UH</label>
                 <input type="number" name="daily_test_score" id="daily_test_score" class="form-control" value="{{ $scores->daily_test_score }}" required>
             </div>
