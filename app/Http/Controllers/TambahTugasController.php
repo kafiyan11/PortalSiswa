@@ -9,13 +9,14 @@ use Illuminate\Support\Facades\Validator;
 
 class TambahTugasController extends Controller
 {
-    public function tugas(){
-        $siswa = tugas::paginate(2);
-        return view('guru.tugas', ['siswa' => $siswa]);
+    public function tugas()
+    {
+        $siswa = Tugas::paginate(2);
+        return view('guru.tugas.tugas', ['siswa' => $siswa]);
     }
 
     public function tambah_tugas(){
-        return view('guru.addTugas');
+        return view('guru.tugas.addTugas');
     }
    
     public function create(Request $request)
@@ -45,7 +46,7 @@ class TambahTugasController extends Controller
         
             Tugas::create($data);
         
-            return redirect()->route('guru.tugas')->with('success', 'Student created successfully.');
+            return redirect()->route('guru.tugas.tugas')->with('success', 'Student created successfully.');
 
         }
         
@@ -59,7 +60,7 @@ class TambahTugasController extends Controller
             'gambar_tugas' => isset($newName) ? $newName : null,
         ]);
 
-        return redirect()->route('guru.tugas')->with('success', 'Data berhasil ditambahkan!');
+        return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil ditambahkan!');
     }
 
     // hapus tugas
@@ -67,17 +68,17 @@ class TambahTugasController extends Controller
     {
         $tugas = tugas::find($id);
         if (!$tugas) {
-            return redirect()->route('guru.tugas')->with('error', 'Data tidak ditemukan!');
+            return redirect()->route('guru.tugas.tugas')->with('error', 'Data tidak ditemukan!');
         }
         $tugas->delete();
-            return redirect()->route('guru.tugas')->with('success', 'Data berhasil dihapus!');
+            return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil dihapus!');
     }
 
     //edit data siswa
     public function edit($id)
     {
     $siswa = tugas::findOrFail($id);
-    return view('guru.editTugas', compact('siswa'));
+    return view('guru.tugas.editTugas', compact('siswa'));
     }
     
 
@@ -109,13 +110,13 @@ class TambahTugasController extends Controller
 
     $siswa->save();
 
-    return redirect()->route('guru.tugas')->with('success', 'Data berhasil diubah!');
+    return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil diubah!');
 }  
     public function cari(Request $request){
         $data = $request->input('cari');
         $siswa = tugas::where('nama', 'like', '%'.$data.'%')->paginate(2);
 
-    return view('guru.tugas', compact('siswa'));
+    return view('guru.tugas.tugas', compact('siswa'));
 }
 
 }

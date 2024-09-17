@@ -18,10 +18,6 @@ class AdminController extends Controller
     {
         return view('admin.dashboard');
     }
-    public function materi()
-    {
-        return view('admin.materi');
-    }
     public function jadwal()
     {
         return view('admin.jadwal');
