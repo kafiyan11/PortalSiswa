@@ -24,6 +24,8 @@ class ScoreController extends Controller
     {
         $validated = $request->validate([
             // 'student_id' => 'required|exists:students,id',
+            'nama' => 'required',
+
             'nama' => 'required|string',
             'nis' => 'required|numeric',
             'daily_test_score' => 'required|numeric',
@@ -45,7 +47,8 @@ class ScoreController extends Controller
     public function update(Request $request, Score $scores,$id)
     {
         $validated = $request->validate([
-            'nama' => 'required|string',
+
+            'nama' => 'required',
             'nis' => 'required|numeric',
             'daily_test_score' => 'required|numeric',
             'midterm_test_score' => 'required|numeric',

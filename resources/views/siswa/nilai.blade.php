@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-center w-100">Nilai Siswa</h2> <!-- Posisi judul di tengah -->
+        <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm" style="position: absolute; right: 20px;">
+            <i class="fas fa-plus"></i> Tambah Nilai
+        </a>
+    </div>
+    <div class="table-responsive shadow-sm rounded"> <!-- Tambahkan shadow -->
+        <table class="table table-striped table-bordered table-hover text-center"> <!-- Text center untuk tabel -->
+
 <div class="container mt-4" style="text-align: center;"> <!-- Center content within container -->
     <div class="d-flex justify-content-center align-items-center mb-3">
         <h2>Nilai Siswa</h2>
@@ -17,6 +27,7 @@
                     <th>UH</th>
                     <th>UTS</th>
                     <th>UAS</th>
+                    <th style="width: 150px;" class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +49,11 @@
 
 @push('styles')
 <style>
+    /* Menyesuaikan container */
+    .container {
+        margin-top: 20px;
+        max-width: 1200px; /* Lebih sempit untuk tampilan terpusat */
+
     /* Center the container and table */
     .container {
         text-align: center;
@@ -53,6 +69,8 @@
         background-color: #ffffff;
         border-radius: 10px;
         border: 1px solid #dee2e6;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Bayangan lebih halus */
+
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         margin: 0 auto; /* Center table */
     }
@@ -63,7 +81,7 @@
     }
 
     .table-hover tbody tr:hover {
-        background-color: #f8f9fa;
+        background-color: #f1f3f5;
     }
 
     /* Button styling */
@@ -74,31 +92,33 @@
     }
 
     .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
+        background-color: #4CAF50; /* Hijau yang lebih modern */
+        border-color: #4CAF50;
     }
 
     .btn-primary:hover {
-        background-color: #0056b3;
+        background-color: #45a049;
     }
 
     .btn-warning {
-        background-color: #ffc107;
-        border-color: #ffc107;
+        background-color: #FFC107;
+        border-color: #FFC107;
     }
 
     .btn-warning:hover {
-        background-color: #e0a800;
+        background-color: #E0A800;
     }
 
     .btn-danger {
-        background-color: #dc3545;
-        border-color: #dc3545;
+        background-color: #f44336;
+        border-color: #f44336;
     }
 
     .btn-danger:hover {
         background-color: #c82333;
     }
+    /* Penataan tombol kecil */
+
 
     /* Button spacing */
     .btn-sm {
@@ -114,7 +134,12 @@
     /* Cell padding and alignment */
     td, th {
         padding: 12px 15px;
+        vertical-align: middle; /* Pusatkan secara vertikal */
     }
+    /* Tombol edit dan hapus lebih rapat */
+    .d-inline-flex form {
+        margin-left: 5px;
+
 
     td.text-center {
         vertical-align: middle;
