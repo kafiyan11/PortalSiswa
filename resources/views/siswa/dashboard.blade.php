@@ -43,12 +43,22 @@
             color: #212529;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 @include('layouts.app')
     <div class="container mt-4">
         <h1 class="mb-4">Daftar Jadwal</h1>
-        <table class="table table-striped table-hover">
+        @if(session('success'))
+        <script>
+            Swal.fire({
+                title: "Good job!",
+                text: "{!! session('success') !!}", // Gunakan {!! !!} untuk mencegah escape karakter
+                icon: "success"
+            });
+        </script>
+        @endif 
+        <table class="table table-striped table-hover">                      
             <thead>
                 <tr>
                     <th>Kelas</th>

@@ -30,7 +30,7 @@ class TambahGuruController extends Controller
             'plain_password' => $request['password'],
         ]);
 
-        return redirect(route('tambahguru'));
+        return redirect(route('tambahguru'))->with('success','Akun guru berhasil di tambahkan');
     }
     public function create() {
         return view('admin.tambahguru.createguru');
@@ -56,11 +56,11 @@ class TambahGuruController extends Controller
             'role' => 'Guru',
             'plain_password' => $request['password'],
         ]);
-        return redirect('admin-tambahguru');
+        return redirect('admin-tambahguru')->with('success','Akun guru berhasil di edit');
         }
         public function delet($id){
             $data = User::findOrFail($id);
             $data -> delete(); 
-            return redirect('admin-tambahguru');
+            return redirect('admin-tambahguru')->with('success','Akun guru berhasil di hapus');
         }
 }

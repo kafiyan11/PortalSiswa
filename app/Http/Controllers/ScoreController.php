@@ -76,6 +76,7 @@ class ScoreController extends Controller
             'scores' => $scores
         ]);
     }
+     }
 
     public function tampilGuru()
     {
@@ -85,4 +86,4 @@ class ScoreController extends Controller
         ]);
     }
 
-}
+   }

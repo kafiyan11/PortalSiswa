@@ -6,6 +6,7 @@
     <title>Daftar Siswa</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     @include('layouts.app')
@@ -16,18 +17,16 @@
                 <i class="fas fa-user-plus"></i> Tambah Siswa
             </a>
         </div>
-        
-        <!-- Alert Section -->
-        <?php if(isset($_SESSION['success'])): ?>
-            <div class="alert alert-success" role="alert">
-                <strong>Sukses!</strong> <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-            </div>
-        <?php elseif(isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger" role="alert">
-                <strong>Error!</strong> <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-            </div>
-        <?php endif; ?>
-
+        @if(session('success'))
+            <script>
+                Swal.fire({
+                    title: "Good job!",
+                    text: "{{ session('success') }}", // Mengambil pesan dari session
+                    icon: "success"
+                });
+            </script>
+        @endif
+    
         <div class="table-responsive shadow-sm">
             <table class="table table-hover table-bordered align-middle text-center">
                 <thead class="table-dark">
@@ -61,10 +60,10 @@
                                     <a href="{{ route('edit', $item->id) }}" class="btn btn-sm btn-warning me-2">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>&nbsp;&nbsp;
-                                    <form action="{{ route('delete', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                    <form action="{{ route('delete', $item->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus jadwal ini?')">
                                             <i class="fas fa-trash-alt"></i> Delete
                                         </button>
                                     </form>
@@ -77,7 +76,6 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

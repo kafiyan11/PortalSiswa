@@ -7,6 +7,7 @@
   <title>Beranda</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
       /* Mengatur gaya dasar untuk seluruh halaman */
     body {
@@ -275,6 +276,15 @@
 
 <div class="main-content" id="main-content">
   <div class="container">
+    @if(session('success'))
+    <script>
+        Swal.fire({
+            title: "Good job!",
+            text: "{{ session('success') }}", // Mengambil pesan dari session
+            icon: "success"
+        });
+    </script>
+    @endif
     <div class="title">
       <h1>Beranda</h1>
       <p>Selamat datang, {{ Auth::user()->name }}!</p>
