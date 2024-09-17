@@ -1,17 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4" style="margin-left: -20px;"> <!-- Sedikit geser ke kiri -->
+<div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="text-left">Nilai Siswa</h2> <!-- Ubah text-center jadi text-left -->
         <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm">
             <i class="fas fa-plus"></i> Tambah Nilai
         </a>
+        <h2 class="text-right">Nilai Siswa</h2> <!-- Posisi judul di ujung kanan -->
     </div>
-    <div class="table-responsive shadow-sm rounded"> <!-- Tambahkan shadow -->
-        <table class="table table-striped table-bordered table-hover">
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-striped table-bordered table-hover text-center">
             <thead class="thead-dark">
                 <tr>
+                    <th>No</th> <!-- Kolom nomor -->
+                    <th>Nama</th>
+                    <th>NIS</th>
                     <th>UH</th>
                     <th>UTS</th>
                     <th>UAS</th>
@@ -19,22 +22,23 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($scores as $score)
+                @foreach($scores as $key => $score) <!-- Tambahkan key untuk menghitung nomor -->
                 <tr>
+                    <td>{{ $key + 1 }}</td> <!-- Menampilkan nomor urut -->
+                    <td>{{ $score->nama }}</td>
+                    <td>{{ $score->nis }}</td>
                     <td>{{ $score->daily_test_score }}</td>
                     <td>{{ $score->midterm_test_score }}</td>
                     <td>{{ $score->final_test_score }}</td>
                     <td class="text-center">
                         <div class="d-inline-flex align-items-center">
-                            <!-- Tombol Edit -->
-                            <a href="{{ route('scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1 shadow-sm"style="small">
+                            <a href="{{ route('scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1 shadow-sm">
                                 <i class="fas fa-edit"></i> Edit
-                            </a>&nbsp;
-                            <!-- Tombol Hapus -->
+                            </a>
                             <form action="{{ route('scores.destroy', $score->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm shadow-sm"style="small">
+                                <button type="submit" class="btn btn-danger btn-sm shadow-sm">
                                     <i class="fas fa-trash"></i> Hapus
                                 </button>
                             </form>
@@ -50,23 +54,24 @@
 
 @push('styles')
 <style>
-    /* Memberikan jarak pada container dan bayangan */
+    /* Menyesuaikan container */
     .container {
         margin-top: 20px;
+        max-width: 1200px; /* Lebih sempit untuk tampilan terpusat */
     }
     /* Table styling */
     .table {
         background-color: #ffffff;
         border-radius: 10px;
         border: 1px solid #dee2e6;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
     .table thead {
         background-color: #343a40;
         color: #ffffff;
     }
     .table-hover tbody tr:hover {
-        background-color: #f8f9fa;
+        background-color: #f1f3f5;
     }
     /* Tombol styling */
     .btn-primary, .btn-warning, .btn-danger {
@@ -75,27 +80,27 @@
         font-size: 0.9rem;
     }
     .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
+        background-color: #4CAF50;
+        border-color: #4CAF50;
     }
     .btn-primary:hover {
-        background-color: #0056b3;
+        background-color: #45a049;
     }
     .btn-warning {
-        background-color: #ffc107;
-        border-color: #ffc107;
+        background-color: #FFC107;
+        border-color: #FFC107;
     }
     .btn-warning:hover {
-        background-color: #e0a800;
+        background-color: #E0A800;
     }
     .btn-danger {
-        background-color: #dc3545;
-        border-color: #dc3545;
+        background-color: #f44336;
+        border-color: #f44336;
     }
     .btn-danger:hover {
         background-color: #c82333;
     }
-    /* Jarak antar tombol */
+    /* Penataan tombol kecil */
     .btn-sm {
         padding: 0.3rem 0.6rem;
         font-size: 0.85rem;
@@ -107,13 +112,7 @@
     /* Penyesuaian kolom */
     td, th {
         padding: 12px 15px;
-    }
-    td.text-center {
         vertical-align: middle;
-    }
-    /* Membuat tombol Edit dan Hapus berdampingan */
-    .d-inline-flex {
-        display: inline-flex;
     }
     .d-inline-flex form {
         margin-left: 5px;

@@ -13,6 +13,14 @@
             @csrf
             {{-- <input type="hidden" name="student_id" value="{{ $student_id }}">  <!-- Pastikan ada student_id --> --}}
             <div class="form-group">
+                <label for="nama">Nama</label>
+                <input type="text" name="nama" id="nama" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="daily_tesnist_score">NIS</label>
+                <input type="number" name="nis" id="nis" class="form-control" required>
+            </div>
+            <div class="form-group">
                 <label for="daily_test_score">UH</label>
                 <input type="number" name="daily_test_score" id="daily_test_score" class="form-control" required>
             </div>

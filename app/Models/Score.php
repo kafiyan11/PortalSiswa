@@ -15,6 +15,8 @@ class Score extends Model
     // Tentukan kolom-kolom yang bisa diisi massal
     protected $fillable = [
         'student_id',
+        'nama',
+        'nis',
         'daily_test_score', // Kolom nilai UH
         'midterm_test_score', // Kolom nilai UTS
         'final_test_score', // Kolom nilai UAS
