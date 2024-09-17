@@ -1,23 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\MateriController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\TambahController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\MateriController;
-use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\TambahGuruController;
-use App\Http\Controllers\TambahOrangtuaController;
 use App\Http\Controllers\TambahTugasController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\TambahOrangtuaController;
 
 
 

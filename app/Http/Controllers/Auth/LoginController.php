@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function Laravel\Prompts\error;
+
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
@@ -36,13 +38,13 @@ class LoginController extends Controller
             
             switch ($user->role) {
                 case 'Admin':
-                    return redirect()->intended('admin-dashboard');
+                    return redirect()->intended('admin-dashboard')->with('success', 'Login Berhasil');
                 case 'Siswa':
-                    return redirect()->intended('siswa-dashboard');
+                    return redirect()->intended('siswa-dashboard')->with('success', 'Login Berhasil');
                 case 'Guru':
-                    return redirect()->intended('guru-dashboard');
+                    return redirect()->intended('guru-dashboard')->with('success', 'Login Berhasil');
                 case 'Orang Tua':
-                    return redirect()->intended('orangtua-dashboard');
+                    return redirect()->intended('orangtua-dashboard')->with('success', 'Login Berhasil');
                 default:
                     Auth::logout();
                     return redirect()->route('login')->withErrors(['role' => 'Role tidak valid.']);
@@ -50,9 +52,7 @@ class LoginController extends Controller
         }
     
         // Login gagal
-        return redirect()->back()->withErrors([
-            'nis' => 'NIS atau Password salah.',
-        ]);
+        return redirect()->back()->with('error', 'Login gagal');
     }
     
 
