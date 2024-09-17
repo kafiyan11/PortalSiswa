@@ -31,8 +31,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($scores as $score)
+                @foreach($scores as $index => $score)
                 <tr>
+                    <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
                     <td>{{ $score->nama }}</td>
                     <td>{{ $score->nis }}</td>
                     <td>{{ $score->daily_test_score }}</td>

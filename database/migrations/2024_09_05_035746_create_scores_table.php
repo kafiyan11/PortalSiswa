@@ -9,6 +9,8 @@ class CreateScoresTable extends Migration
     {
         Schema::create('scores', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
+            $table->string('nis');
             $table->integer('daily_test_score');
             $table->integer('midterm_test_score');
             $table->integer('final_test_score');

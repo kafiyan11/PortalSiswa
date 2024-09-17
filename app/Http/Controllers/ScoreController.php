@@ -79,14 +79,13 @@ class ScoreController extends Controller
             'scores' => $scores
         ]);
     }
-     }
+    
 
-    public function tampilGuru()
-    {
+    public function tampilGuru() {
         $scores = Score::all();
         return view('guru.nilai', compact('scores'), [
             'scores' => $scores
         ]);
     }
 
-   }
+}   

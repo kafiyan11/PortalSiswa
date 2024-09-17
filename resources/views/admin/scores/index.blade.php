@@ -1,25 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm">
-
 <div class="container mt-4" style="max-width: 1000px;"> <!-- Set max-width to match the table width -->
     <div class="d-flex justify-content-between align-items-center mb-3"> <!-- Use justify-content-between to spread content -->
         <h2>Nilai Siswa</h2>
         <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm"> <!-- Button aligned to the right -->
             <i class="fas fa-plus"></i> Tambah Nilai
         </a>
-        <h2 class="text-right">Nilai Siswa</h2> <!-- Posisi judul di ujung kanan -->
     </div>
     <div class="table-responsive shadow-sm rounded">
-        <table class="table table-striped table-bordered table-hover text-center">
-            <thead class="thead-dark">
-                <tr>
-                    <th>No</th> <!-- Kolom nomor -->
-
-    <div class="table-responsive shadow-sm rounded"> <!-- Removed margin to auto-center -->
         <table class="table table-striped table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
@@ -33,13 +22,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($scores as $key => $score) <!-- Tambahkan key untuk menghitung nomor -->
-                <tr>
-                    <td>{{ $key + 1 }}</td> <!-- Menampilkan nomor urut -->
-
                 @foreach($scores as $index => $score)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
                     <td>{{ $score->nama }}</td>
                     <td>{{ $score->nis }}</td>
                     <td>{{ $score->daily_test_score }}</td>
@@ -50,10 +35,7 @@
                             <a href="{{ route('scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1 shadow-sm">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
-                            <form action="{{ route('scores.destroy', $score->id) }}" method="POST">
-
                             <form action="{{ route('scores.destroy', $score->id) }}" method="POST" style="display: inline;">
- 
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm shadow-sm">
@@ -72,12 +54,9 @@
 
 @push('styles')
 <style>
- 
     /* Menyesuaikan container */
     .container {
         margin-top: 20px;
-        max-width: 1200px; /* Lebih sempit untuk tampilan terpusat */
-    .container {
         max-width: 1000px; /* Ensure the container matches the table's width */
         margin: 0 auto; /* Center the container */
     }
@@ -107,6 +86,7 @@
         padding: 0.375rem 0.75rem;
         font-size: 0.9rem;
     }
+
     .btn-primary {
         background-color: #4CAF50;
         border-color: #4CAF50;
@@ -115,24 +95,20 @@
     .btn-primary:hover {
         background-color: #45a049;
     }
- 
+
     .btn-warning {
         background-color: #FFC107;
         border-color: #FFC107;
     }
 
-
     .btn-warning:hover {
         background-color: #E0A800;
     }
+
     .btn-danger {
         background-color: #f44336;
         border-color: #f44336;
     }
-    .btn-danger:hover {
-        background-color: #c82333;
-    }
-    /* Penataan tombol kecil */
 
     .btn-danger:hover {
         background-color: #c82333;
@@ -150,18 +126,19 @@
 
     td, th {
         padding: 12px 15px;
-
     }
 
     td.text-center {
         vertical-align: middle;
         text-align: center;
     }
-    .d-inline-flex form {
-        margin-left: 5px;
 
     .d-inline-flex {
         display: inline-flex;
+    }
+
+    .d-inline-flex form {
+        margin-left: 5px;
     }
 </style>
 @endpush
