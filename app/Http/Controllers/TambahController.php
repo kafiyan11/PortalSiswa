@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 class TambahController extends Controller
 {
     public function index(){
-        $data = User::all();
+        $data = User::where('role', 'Siswa')->get();
         
         return view('admin.tambah.tambahsiswa', [
             'data' => $data
@@ -19,7 +19,6 @@ class TambahController extends Controller
         $request -> validate([
             'name' => 'required',
             'nis' => 'required',
-            'role' => 'required',
             'password' => 'required',
             'plain_password' 
         ]);
@@ -27,11 +26,11 @@ class TambahController extends Controller
             'name' => $request->name,
             'nis' => $request->nis,
             'password' => Hash::make($request['password']),
-            'role' => $request->role,
+            'role' => 'Siswa',
             'plain_password' => $request['password'],
         ]);
 
-        return redirect('/admin-tambahsiswa');
+        return redirect('/admin-tambahsiswa')->with('success', 'Akun siswa berhasil di tambahkan');
     }
     public function create() {
         return view('admin.tambah.create');
@@ -46,7 +45,6 @@ class TambahController extends Controller
         $request -> validate([
             'name' => 'required',
             'nis' => 'required',
-            'role' => 'required',
             'password' => 'required',
             'plain_password' 
         ]);
@@ -55,14 +53,21 @@ class TambahController extends Controller
             'name' => $request->name,
             'nis' => $request->nis,
             'password' => Hash::make($request['password']),
-            'role' => $request->role,
+            'role' => 'Siswa',
             'plain_password' => $request['password'],
         ]);
-        return redirect('/admin-tambahsiswa');
-    }
-    public function delet($id){
-        $data = User::findOrFail($id);
-        $data -> delete(); 
-        return redirect('admin-tambahsiswa');
-    }
+        return redirect('/admin-tambahsiswa')->with('success', 'Akun siswa berhasil di edit');
+        }
+        public function delet($id)
+        {
+            // Logika penghapusan data
+            $data = User::find($id);
+            if ($data) {
+                $data->delete();
+                return redirect()->back()->with('success', 'Data berhasil dihapus.');
+            } else {
+                return redirect()->back()->with('error', 'Data tidak ditemukan.');
+            }
+        }
+
 }

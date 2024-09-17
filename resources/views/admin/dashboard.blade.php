@@ -7,6 +7,7 @@
   <title>Beranda</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
       /* Mengatur gaya dasar untuk seluruh halaman */
     body {
@@ -94,6 +95,7 @@
     .sidebar a i {
       font-size: 1.5em; /* Ukuran ikon */
       margin-right: 20px;
+      margin-left: -2px;
     }
 
     /* .sidebar a span {
@@ -114,9 +116,9 @@
 
     /* Gaya untuk konten utama */
     .main-content {
-      margin-left: 150px; /* Disesuaikan dengan lebar sidebar */
+      margin-left: 50px; /* Disesuaikan dengan lebar sidebar */
       padding: 20px;
-      padding-top: 120px; /* Disesuaikan dengan tinggi navbar */
+      padding-top: 180px; /* Disesuaikan dengan tinggi navbar */
       transition: margin-left 0.3s ease;
       position: relative;
       z-index: 1; /* Memastikan konten berada di bawah sidebar */
@@ -244,11 +246,23 @@
 </nav>
 
 <div class="sidebar collapsed" id="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
-  <a href="#"><i class="fas fa-home"></i> Beranda</a>
+  <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Beranda</a>
   <a href="{{ route('admin.profil') }}"><i class="fas fa-user"></i> Profil</a>
-  <a href="{{ route('tambah') }}"><i class="fas fa-plus"></i> Tambah Akun</a>
-  <a href="{{ route('admin.materi') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
-  <a href="{{ route('admin.jadwal') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
+
+  <!-- Dropdown for 'Tambah Akun' -->
+  <div class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#tambahAkunDropdown" aria-expanded="false" aria-controls="tambahAkunDropdown">
+      <i class="fas fa-plus"></i> Tambah Akun
+    </a>
+    <div class="collapse" id="tambahAkunDropdown">
+      <a class="dropdown-item" href="{{ route('tambah') }}"><i class="fas fa-user-graduate"></i>Data Siswa</a>
+      <a class="dropdown-item" href="{{ route('tambahguru') }}"><i class="fas fa-chalkboard-teacher"></i>Data Guru</a>
+      <a class="dropdown-item" href="{{ route('ortu') }}"><i class="fas fa-user-friends"></i>Data Orang Tua</a>
+    </div>
+  </div>
+
+  <a href="{{ route('admin.addMateri') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
+  <a href="{{ route('admin.jadwal.index') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
   <a href="{{ route('admin.tugas') }}"><i class="fas fa-tasks"></i> Tugas</a>
   <a href="{{ route('scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
   <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -259,8 +273,18 @@
   </form>
 </div>
 
+
 <div class="main-content" id="main-content">
   <div class="container">
+    @if(session('success'))
+    <script>
+        Swal.fire({
+            title: "Good job!",
+            text: "{{ session('success') }}", // Mengambil pesan dari session
+            icon: "success"
+        });
+    </script>
+    @endif
     <div class="title">
       <h1>Beranda</h1>
       <p>Selamat datang, {{ Auth::user()->name }}!</p>
@@ -276,7 +300,7 @@
             <p>Informasi mengenai jadwal pelajaran Anda.</p>
           </div>
           <div class="card-footer">
-            <a href="{{ route('admin.jadwal') }}" class="btn btn-primary">Lihat Jadwal</a>
+            <a href="{{ route('admin.jadwal.index') }}" class="btn btn-primary">Lihat Jadwal</a>
           </div>
         </div>
       </div>

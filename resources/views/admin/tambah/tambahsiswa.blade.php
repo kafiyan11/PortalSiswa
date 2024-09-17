@@ -1,66 +1,81 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container ml-40 custom-margin"> <!-- Menambahkan kelas shift-left -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-primary">Daftar Siswa</h1>
-        <a href="{{ url('admin-create') }}" class="btn btn-success btn-lg shadow-sm">
-            <i class="fas fa-user-plus"></i> Tambah User
-        </a>
-    </div>
-
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Sukses!</strong> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Siswa</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    @include('layouts.app')
+    <div class="container custom-margin pl-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-primary">Daftar Siswa</h1>
+            <a href="/admin-create" class="btn btn-success btn-lg shadow-sm">
+                <i class="fas fa-user-plus"></i> Tambah Siswa
+            </a>
         </div>
-    @endif
-
-    <div class="table-responsive shadow-sm">
-        <table class="table table-hover table-bordered align-middle text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>NIS</th>
-                    <th>Password</th>
-                    <th>Role</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($data as $no => $item)
+        @if(session('success'))
+            <script>
+                Swal.fire({
+                    title: "Good job!",
+                    text: "{{ session('success') }}", // Mengambil pesan dari session
+                    icon: "success"
+                });
+            </script>
+        @endif
+    
+        <div class="table-responsive shadow-sm">
+            <table class="table table-hover table-bordered align-middle text-center">
+                <thead class="table-dark">
                     <tr>
-                        <td>{{ $no + 1 }}</td>
-                        <td>{{ $item->name }}</td>
-                        <td>{{ $item->nis }}</td>
-                        <td>{{ $item->plain_password }}</td>
-                        <td>
-                            <span class="badge 
-                                @if($item->role == 'Admin') bg-success
-                                @elseif($item->role == 'Siswa') bg-primary
-                                @elseif($item->role == 'Guru') bg-info
-                                @elseif($item->role == 'Orang Tua') bg-warning
-                                @endif">
-                                {{ ucfirst($item->role) }}
-                            </span>
-                        </td>
-                        <td class="d-flex justify-content-center">
-                            <a href="{{ route('edit', $item->id) }}" class="btn btn-sm btn-warning me-2">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>&nbsp;&nbsp;
-                            <form action="{{ route('delete', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    <i class="fas fa-trash-alt"></i> Delete
-                                </button>
-                            </form>
-                        </td>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>NIS</th>
+                        <th>Password</th>
+                        <th>Role</th>
+                        <th>Aksi</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach($data as $no => $item): ?>
+                        <tr>
+                            <td><?php echo $no + 1; ?></td>
+                            <td><?php echo htmlspecialchars($item->name); ?></td>
+                            <td><?php echo htmlspecialchars($item->nis); ?></td>
+                            <td><?php echo htmlspecialchars($item->plain_password); ?></td>
+                            <td>
+                                <span class="badge 
+                                    <?php 
+                                    if($item->role == 'Admin') echo 'bg-success'; 
+                                    elseif($item->role == 'Siswa') echo 'bg-primary'; 
+                                    elseif($item->role == 'Guru') echo 'bg-info'; 
+                                    elseif($item->role == 'Orang Tua') echo 'bg-warning'; 
+                                    ?>">
+                                    <?php echo ucfirst($item->role); ?>
+                                </span>
+                                <td class="d-flex justify-content-center">
+                                    <a href="{{ route('edit', $item->id) }}" class="btn btn-sm btn-warning me-2">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>&nbsp;&nbsp;
+                                    <form action="{{ route('delete', $item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus jadwal ini?')">
+                                            <i class="fas fa-trash-alt"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-@endsection
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

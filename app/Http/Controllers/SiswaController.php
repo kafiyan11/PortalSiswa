@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Siswa;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Tugas; // Pastikan nama model sesuai
+use App\Http\Controllers\Controller;
 use App\Models\Siswa;
 use App\Models\Tugas; // Pastikan nama model sesuai
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
 {
@@ -46,7 +53,8 @@ class SiswaController extends Controller
     public function tugas()
     {
         // Ambil tugas berdasarkan NIS siswa yang login
-        $tugas = Tugas::where('nis', auth()->user()->nis)->get();
+        $tugas = Tugas::where('nis', Auth::user()->nis)->get();
+        $tugas = Tugas::where('nis',Auth::user()->nis)->get(); 
 
         return view('siswa.tugas', compact('tugas'));
     }

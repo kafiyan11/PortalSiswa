@@ -8,11 +8,21 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/app.css" rel="stylesheet"> <!-- Update the path if necessary -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     @extends('layouts.app')
     <div class="container">
         <div class="row justify-content-center min-vh-100 align-items-center">
+            @if(session('error'))
+            <script>
+                Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Login gagal !",
+                });
+            </script>
+            @endif
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-lg rounded-lg">
                     <div class="card-header text-center bg-secondary text-white rounded-top">
@@ -22,7 +32,6 @@
                     <div class="card-body">
                         <form method="POST" action="/login"> <!-- Update the action URL if necessary -->
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
                             <!-- NIS -->
                             <div class="mb-3">
                                 <label for="nis" class="form-label">NIS</label>
@@ -39,24 +48,11 @@
                                 <input id="password" type="password" class="form-control" name="password" required>
                                 <!-- Error handling -->
                             </div>
-
-                            <!-- Remember Me -->
-                            <div class="mb-3 form-check">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                                <label class="form-check-label" for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
-
                             <!-- Submit Button -->
                             <div class="d-flex justify-content-between align-items-center">
                                 <button type="submit" class="btn btn-primary">
                                     Login
                                 </button>
-
-                                <a class="btn btn-link text-secondary" href="/password/reset"> <!-- Update the href URL if necessary -->
-                                    Forgot Your Password?
-                                </a>
                             </div>
                         </form>
                     </div>

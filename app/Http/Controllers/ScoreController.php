@@ -24,6 +24,8 @@ class ScoreController extends Controller
     {
         $validated = $request->validate([
             // 'student_id' => 'required|exists:students,id',
+            'nama' => 'required|string',
+            'nis' => 'required|numeric',
             'daily_test_score' => 'required|numeric',
             'midterm_test_score' => 'required|numeric',
             'final_test_score' => 'required|numeric',
@@ -43,6 +45,8 @@ class ScoreController extends Controller
     public function update(Request $request, Score $scores,$id)
     {
         $validated = $request->validate([
+            'nama' => 'required|string',
+            'nis' => 'required|numeric',
             'daily_test_score' => 'required|numeric',
             'midterm_test_score' => 'required|numeric',
             'final_test_score' => 'required|numeric',
@@ -65,4 +69,21 @@ class ScoreController extends Controller
 
         return view('admin.scores.index', compact('scores'));
     }
-}
+    public function wujud(){
+
+        $scores = Score::all();
+        return view('siswa.nilai', compact('scores'), [
+            'scores' => $scores
+        ]);
+    }
+     }
+
+    public function tampilGuru()
+    {
+        $scores = Score::all();
+        return view('guru.nilai', compact('scores'), [
+            'scores' => $scores
+        ]);
+    }
+
+   }

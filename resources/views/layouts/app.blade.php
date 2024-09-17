@@ -19,179 +19,228 @@
 
     <!-- Custom Styles -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: url('your-background-image.jpg') no-repeat center center fixed;
-            background-size: cover;
-            background-color: rgb(246, 246, 246);
+        /* Mengatur gaya dasar untuk seluruh halaman */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: url('your-background-image.jpg') no-repeat center center fixed; /* Menambahkan background image */
+        background-size: cover; /* Mengatur ukuran background agar menutupi seluruh layar */
+        background-color: rgb(246, 246, 246);
+      }
+  
+      /* Gaya untuk navbar (menu navigasi di bagian atas) */
+      .navbar {
+        background: linear-gradient(90deg, #ffffff, #ffffff); /* Gradien biru ke putih */
+        color: rgb(0, 0, 0);
+        z-index: 1000;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* Bayangan halus untuk navbar */
+      }
+  
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+      }
+  
+      .navbar-brand img {
+        width: 55px;
+        height: 80px;
+        margin-right: 20px;
+        margin-top: 5px;
+      }
+  
+      .navbar-brand .portal-info {
+        line-height: 1.2;
+      }
+  
+      .navbar-brand .portal-info h1 {
+        margin: 0;
+        color: black;
+        font-size: 30px;
+      }
+  
+      .navbar-brand .portal-info h2 {
+        margin: 0;
+        font-size: 15px;
+        text-transform: uppercase;
+        color: black;
+      }
+  
+      /* Gaya untuk sidebar (menu samping) */
+      .sidebar {
+        height: 100vh;
+        padding-left: 2px;
+        position: fixed;
+        top: 15px; /* Disesuaikan dengan tinggi navbar */
+        left: 0;
+        width: 250px;
+        background: white;  
+        padding-top: 100px;
+        z-index: 999;
+        transition: width 0.3s ease, background 0.3s ease;
+        overflow: hidden;
+        border-right: 1px solid #a8acb0;
+        box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.4);
+      }
+  
+      .sidebar.collapsed {
+        margin-left: -10px;
+        width: 60px; /* Lebar saat sidebar dikompres */
+        background: white;
+      }
+  
+      .sidebar a {
+        color: #000000; /* Warna biru terang untuk tautan */
+        text-decoration: none;
+        padding: 11.5px 22px; /* Menyesuaikan padding */
+        display: flex;
+        align-items: center;
+        transition: background-color 0.3s ease, padding 0.3s ease;
+      }
+  
+      .sidebar a i {
+        font-size: 1.5em; /* Ukuran ikon */
+        margin-right: 20px;
+        margin-left: -2px;
+      }
+  
+      /* .sidebar a span {
+        display: flex ;
+        transition: opacity 0.3s ease;
+      }
+  
+      .sidebar.collapsed a span {
+        opacity: 0;
+        visibility: hidden;
+      } */
+  
+      .sidebar a:hover {
+        padding: 15px;
+        background-color: #888888; /* Warna latar abu-abu muda saat hover */
+        box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.4);
+      }
+  
+      /* Gaya untuk konten utama */
+      .main-content {
+        margin-left: 50px; /* Disesuaikan dengan lebar sidebar */
+        padding: 20px;
+        padding-top: 180px; /* Disesuaikan dengan tinggi navbar */
+        transition: margin-left 0.3s ease;
+        position: relative;
+        z-index: 1; /* Memastikan konten berada di bawah sidebar */
+      }
+  
+      /* .main-content.full-width {
+        margin-left: 60px; /* Disesuaikan dengan sidebar yang dikompres */
+       */
+  
+      /* Gaya untuk judul di bagian "Beranda" */
+      .title {
+        margin-bottom: 20px;
+        padding-top: 20px;
+        text-align: left; /* Menggeser teks ke kiri */
+        color: #333; /* Warna teks gelap */
+        animation: slideInFromBottom 0.5s ease-out; /* Animasi dari bawah ke atas */
+      }
+  
+      .title h1 {
+        font-size: 2.5em;
+        color: #000000; /* Biru terang untuk judul */
+        margin-bottom: 10px;
+      }
+  
+      .title p {
+        font-size: 1.2em;
+        color: #000000; /* Abu-abu untuk subtitle */
+      }
+  
+      /* Gaya untuk kotak */
+      .card {
+        border: none;
+        border-radius: 15px; /* Sudut yang membulat */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+        overflow: hidden;
+        position: relative;
+      }
+  
+      .card-header {
+        background: rgb(97, 97, 97); /* Gradien biru ke putih untuk header kartu */
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+  
+      .card-body {
+        padding: 20px;
+        background-color: #ffffff; /* Latar belakang putih untuk body kartu */
+        color: #333;
+      }
+  
+      .card-footer {
+        background-color: #f8f9fa; /* Abu-abu terang untuk footer kartu */
+        padding: 15px;
+        text-align: center;
+      }
+  
+      /* Gaya untuk link forum diskusi */
+      .forum-link {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 50px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+      }
+  
+      .forum-link:hover {
+        background-color: #0056b3;
+        text-decoration: none;
+        color: white;
+      }
+  
+      .forum-link i {
+        margin-right: 8px;
+      }
+  
+      @media (max-width: 1000px) {
+              h1 {
+                  font-size: 1.8rem;
+              }
+              .main-content {
+                  grid-template-columns: repeat(2, 1fr); /* Tampilkan 2 subject-box per baris di layar yang lebih kecil */
+                  max-width: 600px;
+              }
+          }
+  
+          @media (max-width: 600px) {
+              h1 {
+                  font-size: 1.6rem;
+              }
+              .main-content {
+                  grid-template-columns: 1fr; /* Tampilkan 1 subject-box per baris di layar yang lebih kecil */
+                  max-width: 300px;
+              }
+          }
+  
+      /* Keyframes untuk animasi slide dari bawah ke atas */
+      @keyframes slideInFromBottom {
+        0% {
+          opacity: 0;
+          transform: translateY(50px); /* Mulai dari posisi bawah */
         }
-        .navbar {
-            background: linear-gradient(90deg, #ffffff, #ffffff);
-            color: rgb(0, 0, 0);
-            z-index: 1000;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        100% {
+          opacity: 1;
+          transform: translateY(0); /* Berhenti pada posisi awal */
         }
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-        }
-        .navbar-brand img {
-            width: 150px;
-            height: 60px;
-            margin-right: 20px;
-            margin-top: 5px;
-        }
-        .navbar-brand .portal-info {
-            line-height: 1.2;
-        }
-        .navbar-brand .portal-info h1 {
-            margin: 0;
-            color: black;
-        }
-        .navbar-brand .portal-info h2 {
-            margin: 0;
-            font-size: 0.8em;
-            text-transform: uppercase;
-            color: black;
-        }
-        .sidebar {
-            height: 100vh;
-            padding-left: 2px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 250px;
-            background: white;
-            padding-top: 100px;
-            z-index: 999;
-            transition: width 0.3s ease, background 0.3s ease;
-            overflow: hidden;
-            border-right: 1px solid #a8acb0;
-        }
-        .sidebar.collapsed {
-            width: 60px;
-            background: white;
-        }
-        .sidebar a {
-            color: #000000;
-            text-decoration: none;
-            padding: 11.5px 22px;
-            display: flex;
-            align-items: center;
-            transition: background-color 0.3s ease, padding 0.3s ease;
-        }
-        .sidebar a i {
-            font-size: 1.5em;
-            margin-right: 15px;
-        }
-        .sidebar a:hover {
-            padding: 15px;
-            background-color: #888888;
-        }
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-            padding-top: 120px;
-            transition: margin-left 0.3s ease;
-            position: relative;
-            z-index: 1;
-        }
-        /* .main-content.full-width {
-            margin-left: 60px;
-        } */
-        .title {
-            margin-bottom: 20px;
-            padding-top: 20px;
-            text-align: left;
-            color: #333;
-            animation: slideInFromBottom 0.5s ease-out;
-        }
-        .title h1 {
-            font-size: 2.5em;
-            color: #007bff;
-            margin-bottom: 10px;
-        }
-        .title p {
-            font-size: 1.2em;
-            color: #6c757d;
-        }
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            position: relative;
-        }
-        .card-header {
-            background: linear-gradient(90deg, #00aeff, #00aeff);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        .card-body {
-            padding: 20px;
-            background-color: #ffffff;
-            color: #333;
-        }
-        .card-footer {
-            background-color: #f8f9fa;
-            padding: 15px;
-            text-align: center;
-        }
-        .forum-link {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 50px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-        }
-        .forum-link:hover {
-            background-color: #0056b3;
-            text-decoration: none;
-            color: white;
-        }
-        .forum-link i {
-            margin-right: 8px;
-        }
-        @keyframes slideInFromBottom {
-            0% {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @media (max-width: 1000px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            .main-content {
-                grid-template-columns: repeat(2, 1fr);
-                max-width: 600px;
-            }
-        }
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.6rem;
-            }
-            .main-content {
-                grid-template-columns: 1fr;
-                max-width: 300px;
-            }
-        }
+      }
     </style>
 </head>
 <body>
