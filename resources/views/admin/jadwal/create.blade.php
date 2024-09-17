@@ -2,35 +2,63 @@
 
 @section('content')
 <div class="container">
-    <h1>Tambah Jadwal</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">Tambah Jadwal</h1>
+        <a href="{{ route('admin.jadwal.index') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left-circle"></i> Kembali
+        </a>
+    </div>
+
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> Terdapat beberapa kesalahan:
+            <ul class="mt-2 mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <form action="{{ route('admin.jadwal.store') }}" method="POST">
         @csrf
-        <!-- Form Fields -->
         <div class="mb-3">
             <label for="kelas" class="form-label">Kelas</label>
-            <input type="text" class="form-control" id="kelas" name="kelas" value="{{ old('kelas') }}" required>
+            <input type="text" name="kelas" class="form-control" placeholder="Masukkan kelas" required>
         </div>
+
         <div class="mb-3">
             <label for="mata_pelajaran" class="form-label">Mata Pelajaran</label>
-            <input type="text" class="form-control" id="mata_pelajaran" name="mata_pelajaran" value="{{ old('mata_pelajaran') }}" required>
+            <input type="text" name="mata_pelajaran" class="form-control" placeholder="Masukkan mata pelajaran" required>
         </div>
+
         <div class="mb-3">
             <label for="guru" class="form-label">Guru</label>
-            <input type="text" class="form-control" id="guru" name="guru" value="{{ old('guru') }}" required>
+            <input type="text" name="guru" class="form-control" placeholder="Masukkan nama guru" required>
         </div>
-        <div class="mb-3">
-            <label for="jam_mulai" class="form-label">Jam Mulai</label>
-            <input type="time" class="form-control" id="jam_mulai" name="jam_mulai" value="{{ old('jam_mulai') }}" required>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="jam_mulai" class="form-label">Jam Mulai</label>
+                <input type="time" name="jam_mulai" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="jam_selesai" class="form-label">Jam Selesai</label>
+                <input type="time" name="jam_selesai" class="form-control" required>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="jam_selesai" class="form-label">Jam Selesai</label>
-            <input type="time" class="form-control" id="jam_selesai" name="jam_selesai" value="{{ old('jam_selesai') }}" required>
-        </div>
+
         <div class="mb-3">
             <label for="tanggal" class="form-label">Tanggal</label>
-            <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ old('tanggal') }}" required>
+            <input type="date" name="tanggal" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Simpan</button>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-save"></i> Simpan Jadwal
+            </button>
+        </div>
     </form>
 </div>
 @endsection

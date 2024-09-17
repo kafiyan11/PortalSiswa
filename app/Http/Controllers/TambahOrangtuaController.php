@@ -30,7 +30,7 @@ class TambahOrangtuaController extends Controller
             'plain_password' => $request['password'],
         ]);
 
-        return redirect(route('ortu'));
+        return redirect(route('ortu'))->with('success','Akun Orang Tua Berhasil Di tambahkan');
     }
     public function create() {
         return view('admin.tambahortu.createortu');
@@ -56,11 +56,11 @@ class TambahOrangtuaController extends Controller
             'role' => 'Orang Tua',
             'plain_password' => $request['password'],
         ]);
-        return redirect(route('ortu'));
+        return redirect(route('ortu'))->with('update','Akun Orang Tua Berhasil Di Edit');
         }
         public function delet($id){
             $data = User::findOrFail($id);
             $data -> delete(); 
-            return redirect(route('ortu'));
+            return redirect(route('ortu'))->with('error','Akun Orang Tua Berhasil Di Hapus');
         }
 }

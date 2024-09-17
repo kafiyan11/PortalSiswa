@@ -9,7 +9,6 @@ class CreateScoresTable extends Migration
     {
         Schema::create('scores', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('student_id')->unique();  // Asumsikan relasi ke tabel students
             $table->integer('daily_test_score');
             $table->integer('midterm_test_score');
             $table->integer('final_test_score');

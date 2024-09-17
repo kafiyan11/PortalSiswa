@@ -6,6 +6,8 @@
     <title>Daftar Siswa</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
     @include('layouts.app')
@@ -16,17 +18,15 @@
                 <i class="fas fa-user-plus"></i> Tambah Guru
             </a>
         </div>
-        
-        <!-- Alert Section -->
-        <?php if(isset($_SESSION['success'])): ?>
-            <div class="alert alert-success" role="alert">
-                <strong>Sukses!</strong> <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-            </div>
-        <?php elseif(isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger" role="alert">
-                <strong>Error!</strong> <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-            </div>
-        <?php endif; ?>
+        @if(session('success'))
+            <script>
+                Swal.fire({
+                    title: "Good job!",
+                    text: "{{ session('success') }}", // Mengambil pesan dari session
+                    icon: "success"
+                });
+            </script>
+        @endif
 
         <div class="table-responsive shadow-sm">
             <table class="table table-hover table-bordered align-middle text-center">

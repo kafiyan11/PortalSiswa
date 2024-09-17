@@ -42,6 +42,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::middleware(['auth'])->group(function(){
 //Bagian Admin
 Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::get('/admin-materi',[MateriController::class, 'tampil'] )->name('admin.materi');
+Route::get('/admin-jadwal',[AdminController::class, 'jadwal'] )->name('admin.jadwal');
 Route::get('/admin-materi',[AdminController::class, 'materi'] )->name('admin.materi');
 Route::get('/admin-profil',[AdminController::class, 'profil'] )->name('admin.profil');
 Route::get('/admin-tugas',[AdminController::class, 'tugas'] )->name('admin.tugas');
@@ -91,6 +93,7 @@ Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas
 Route::get('/siswa-profil', [SiswaController::class, 'profil'])->name('siswa.profil');
 Route::get('/guru-addTugas', [SiswaController::class, 'addTugas'])->name('guru.addTugas');
 Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
+Route::get('/lihat/tugas', [MateriController::class, 'muncul'])->name('lihat.materi');
 Route::get('/siswa-nilai', [ScoreController::class, 'wujud'])->name('siswa.wujud');
 
 //profil
@@ -106,7 +109,7 @@ Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profil
 
 // Route untuk guru menambah tugas
 Route::post('/guru/tambah-tugas', [GuruController::class, 'addTugas'])->name('guru.tambah.tugas');
-
+Route::get('/gurunilai', [ScoreController::class, 'tampilGuru']);
 // Route untuk siswa melihat tugas
 Route::get('/siswa/tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
 Route::post('/guru/tambah-tugas', [GuruController::class, 'storeTugas'])->name('guru.addTugas');
@@ -123,7 +126,7 @@ Route::get('/guru-addMateri', [GuruController::class, 'addMateri'])->name('guru.
 Route::get('/guru-addTugas', [GuruController::class, 'addTugas'])->name('guru.addTugas');
 
 //Crud Tugas di Guru
-Route::get('/guru-tugas', [TambahTugasController::class, 'tugas'])->name('guru.tugas');
+Route::get('/guru-tugas', [TambahTugasController::class, 'tugas'])->name('guru.tugas.tugas');
 Route::get('/guru-tambahtugas', [TambahTugasController::class, 'tambah_tugas'])->name('guru.addTugas');
 Route::post('/guru-tambahtugas', [TambahTugasController::class, 'create'])->name('create_tugas');
 Route::get('/edit/{id}', [TambahTugasController::class, 'edit'])->name('edit_tugas');
@@ -144,15 +147,14 @@ Route::prefix('admin')->group(function () {
     Route::get('/scores/cari', [ScoreController::class, 'cari'])->name('scores.cari');
 });
 
-//CRUD MATERI
-Route::get('/guru-materi', [MateriController::class,  'materi'])->name('guru.materi');
-Route::get('/guru/tambah-materi', [MateriController::class, 'tambah_materi'])->name('guru.materi.addMateri');
-Route::post('/guru/tambah-materi', [MateriController::class, 'create'])->name('guru.materi.create');
-Route::delete('/materi/{id}', [MateriController::class, 'hapus'])->name('materi.hapus');
-Route::get('materi/{id}/edit', [MateriController::class, 'edit'])->name('materi.edit');
-Route::put('materi/{id}', [MateriController::class, 'update'])->name('materi.update');
-
-
+//Materi di guru
+Route::get('/guru-materi', [MateriController::class, 'materi'])->name('guru.materi.materi');
+Route::get('/materi/create', [MateriController::class, 'create'])->name('materi.create');
+Route::post('/materi/store', [MateriController::class, 'store'])->name('materi.store');
+Route::get('/materi/{id}/edit', [MateriController::class, 'edit'])->name('materi.edit');
+Route::put('/materi/{id}', [MateriController::class, 'update'])->name('materi.update');
+Route::delete('/materi/{id}', [MateriController::class, 'destroy'])->name('materi.destroy');
+Route::get('/materi/cari', [MateriController::class, 'cari'])->name('materi.cari');
 
 
 Route::get('/guru', [GuruController::class, 'index2'])->name('guru.index');

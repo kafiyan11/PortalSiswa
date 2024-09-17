@@ -4,6 +4,11 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm">
+
+<div class="container mt-4" style="max-width: 1000px;"> <!-- Set max-width to match the table width -->
+    <div class="d-flex justify-content-between align-items-center mb-3"> <!-- Use justify-content-between to spread content -->
+        <h2>Nilai Siswa</h2>
+        <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm"> <!-- Button aligned to the right -->
             <i class="fas fa-plus"></i> Tambah Nilai
         </a>
         <h2 class="text-right">Nilai Siswa</h2> <!-- Posisi judul di ujung kanan -->
@@ -13,6 +18,12 @@
             <thead class="thead-dark">
                 <tr>
                     <th>No</th> <!-- Kolom nomor -->
+
+    <div class="table-responsive shadow-sm rounded"> <!-- Removed margin to auto-center -->
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>No</th>
                     <th>Nama</th>
                     <th>NIS</th>
                     <th>UH</th>
@@ -25,6 +36,10 @@
                 @foreach($scores as $key => $score) <!-- Tambahkan key untuk menghitung nomor -->
                 <tr>
                     <td>{{ $key + 1 }}</td> <!-- Menampilkan nomor urut -->
+
+                @foreach($scores as $index => $score)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $score->nama }}</td>
                     <td>{{ $score->nis }}</td>
                     <td>{{ $score->daily_test_score }}</td>
@@ -36,6 +51,9 @@
                                 <i class="fas fa-edit"></i> Edit
                             </a>
                             <form action="{{ route('scores.destroy', $score->id) }}" method="POST">
+
+                            <form action="{{ route('scores.destroy', $score->id) }}" method="POST" style="display: inline;">
+ 
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm shadow-sm">
@@ -54,26 +72,36 @@
 
 @push('styles')
 <style>
+ 
     /* Menyesuaikan container */
     .container {
         margin-top: 20px;
         max-width: 1200px; /* Lebih sempit untuk tampilan terpusat */
+    .container {
+        max-width: 1000px; /* Ensure the container matches the table's width */
+        margin: 0 auto; /* Center the container */
     }
-    /* Table styling */
+
+    .table-responsive {
+        max-width: 100%; /* Ensure table is responsive within the container */
+    }
+
     .table {
         background-color: #ffffff;
         border-radius: 10px;
         border: 1px solid #dee2e6;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
+
     .table thead {
         background-color: #343a40;
         color: #ffffff;
     }
+
     .table-hover tbody tr:hover {
         background-color: #f1f3f5;
     }
-    /* Tombol styling */
+
     .btn-primary, .btn-warning, .btn-danger {
         border-radius: 20px;
         padding: 0.375rem 0.75rem;
@@ -83,13 +111,17 @@
         background-color: #4CAF50;
         border-color: #4CAF50;
     }
+
     .btn-primary:hover {
         background-color: #45a049;
     }
+ 
     .btn-warning {
         background-color: #FFC107;
         border-color: #FFC107;
     }
+
+
     .btn-warning:hover {
         background-color: #E0A800;
     }
@@ -101,21 +133,35 @@
         background-color: #c82333;
     }
     /* Penataan tombol kecil */
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
     .btn-sm {
         padding: 0.3rem 0.6rem;
         font-size: 0.85rem;
         border-radius: 0.2rem;
     }
+
     .btn i {
         margin-right: 5px;
     }
-    /* Penyesuaian kolom */
+
     td, th {
         padding: 12px 15px;
+
+    }
+
+    td.text-center {
         vertical-align: middle;
+        text-align: center;
     }
     .d-inline-flex form {
         margin-left: 5px;
+
+    .d-inline-flex {
+        display: inline-flex;
     }
 </style>
 @endpush
