@@ -1,14 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Jadwal</title>
-    <!-- Link ke Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Link ke CSS custom (jika ada) -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             background-color: #f4f7f6;
@@ -43,21 +41,16 @@
             color: #212529;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-@include('layouts.app')
+    @include('layouts.app')
+
     <div class="container mt-4">
         <h1 class="mb-4">Daftar Jadwal</h1>
-        @if(session('success'))
-        <script>
-            Swal.fire({
-                title: "Good job!",
-                text: "{!! session('success') !!}", // Gunakan {!! !!} untuk mencegah escape karakter
-                icon: "success"
-            });
-        </script>
-        @endif 
+
+        <!-- SweetAlert akan dijalankan jika ada session 'success' -->
+
+
         <table class="table table-striped table-hover">                      
             <thead>
                 <tr>
@@ -88,11 +81,14 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    @section('scripts')
+    @if(session('success'))
     <script>
-        setInterval(function() {
-            location.reload();
-        }, 60000); // Refresh setiap 1 menit (60000 ms)
+        Swal.fire({
+            title: "Good job!",
+            text: "{{ session('success') }}", // Mengambil pesan dari session
+            icon: "success"
+        });
     </script>
-    @endsection
+    @endif
+</body>
+</html>

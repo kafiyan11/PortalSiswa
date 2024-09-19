@@ -3,18 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class TambahController extends Controller
 {
-    public function index(){
-        $data = User::where('role', 'Siswa')->get();
-        
+    public function index(Request $request) {
+        // Ambil input pencarian dari request (GET parameter)
+        $search = $request->get('search');
+    
+        // Query untuk menampilkan data siswa
+        $data = User::where('role', 'Siswa');
+    
+        // Jika ada input pencarian, tambahkan filter berdasarkan nama atau NIS
+        if ($search) {
+            $data = $data->where(function($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('nis', 'like', "%{$search}%");
+            });
+        }
+    
+        // Eksekusi query untuk mendapatkan hasil
+        $data = $data->get();
+    
+        // Return data ke view
         return view('admin.tambah.tambahsiswa', [
             'data' => $data
         ]);
     }
+    
     public function store(Request $request){
         $request -> validate([
             'name' => 'required',
@@ -62,12 +80,11 @@ class TambahController extends Controller
         {
             // Logika penghapusan data
             $data = User::find($id);
-            if ($data) {
-                $data->delete();
-                return redirect()->back()->with('success', 'Data berhasil dihapus.');
-            } else {
-                return redirect()->back()->with('error', 'Data tidak ditemukan.');
-            }
+
+            $data->delete();
+           
+                return redirect()->back()->with('success','Akun berhasil di hapus');
+            
         }
 
 }
