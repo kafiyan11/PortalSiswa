@@ -15,6 +15,102 @@
 <body>
     @extends('layouts.app')
 
+<<<<<<< HEAD
+@section('content')
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron text-center bg-primary text-white rounded">
+                <h1 class="display-4">Dashboard Guru</h1>
+                <p class="lead">Selamat datang, <strong>{{ Auth::user()->name }}</strong>!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Card for total students -->
+        <div class="col-md-4">
+            <div class="card border-primary shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Jumlah Siswa</h5>
+                    <p class="card-text">
+                        <i class="fas fa-users fa-3x"></i>
+                        <br>
+                        {{-- {{ $totalStudents }} --}}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for recent assignments -->
+        <div class="col-md-4">
+            <div class="card border-warning shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Tugas Terbaru</h5>
+                    <p class="card-text">
+                        <i class="fas fa-tasks fa-3x"></i>
+                        <br>
+                        {{-- {{ $recentAssignments }} --}}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for upcoming events -->
+        <div class="col-md-4">
+            <div class="card border-success shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Acara Mendatang</h5>
+                    <p class="card-text">
+                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <br>
+                        {{-- {{ $upcomingEvents }} --}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+@endsection
+
+@push('styles')
+<style>
+    .jumbotron {
+        background-color: #007bff;
+        color: white;
+        padding: 2rem 1rem;
+        border-radius: 0.3rem;
+    }
+
+    .card {
+        border-radius: 0.3rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .display-4 {
+        font-size: 2.5rem;
+        font-weight: 300;
+    }
+
+    .fas {
+        margin-bottom: 10px;
+    }
+</style>
+@endpush
+=======
     @if(session('success'))
     <script>
         Swal.fire({
@@ -31,3 +127,4 @@
     </div>
 </body>
 </html>
+>>>>>>> 20dcf5af8366be9a002f0651be6595d151e93070

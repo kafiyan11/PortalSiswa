@@ -156,8 +156,12 @@
         </div>
         <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
             <img src="{{asset('assets/img/sejarah2.png')}}">
+<<<<<<< HEAD
+            <h2>Bahasa Sunda</h2></a>
+=======
             <img src="{{asset('assets/img/sunda2.png')}}" alt="">
             <h2>Bahasa Sunda</h2>
+>>>>>>> 20dcf5af8366be9a002f0651be6595d151e93070
         </div>
         <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
             <img src="{{asset('assets/img/aceng.png')}}" alt="">

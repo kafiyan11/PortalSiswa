@@ -162,6 +162,7 @@
         
             <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
         </div>
+        
             
     </div>
 </div>
