@@ -7,6 +7,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .table {
             margin: 0 auto;
@@ -53,20 +54,18 @@
         }
 
         .d-flex .input-group {
-            max-width: 920px; /* Adjust as needed */
+            max-width: 920px;
         }
         .search-input {
-        border-radius: 25px 0 0 25px;
-        border: 2px solid #007bff;
-        transition: border-color 0.3s ease-in-out;
+            border-radius: 25px 0 0 25px;
+            border: 2px solid #007bff;
+            transition: border-color 0.3s ease-in-out;
         }
 
-        /* Change border color on focus */
         .search-input:focus {
             outline: none;
             border-color: #0056b3;
         }
-
 
         .search-btn {
             border-radius: 0 25px 25px 0;
@@ -82,7 +81,6 @@
             transform: scale(1.05);
         }
 
-
         .add-btn {
             padding: 8px 20px;
             background-color: #28a745;
@@ -90,19 +88,17 @@
             transition: background-color 0.3s ease-in-out, transform 0.2s;
         }
 
-        /* Hover effect for add button */
         .add-btn:hover {
             background-color: #218838;
             border-color: #218838;
             transform: scale(1.05);
         }
 
-        /* Icon inside buttons */
         .search-btn i,
         .add-btn i {
             margin-right: 5px;
         }
-        </style>
+    </style>
 </head>
 <body>
     @include('layouts.app')
@@ -113,15 +109,19 @@
                 <div class="card-body">
                     <!-- Menampilkan pesan flash -->
                     @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
+                    <script>
+                        Swal.fire({
+                            title: "Kerja Bagus!", // Judul popup
+                            text: "{{ session('success') }}", // Pesan sukses dari session
+                            icon: "success" // Ikon popup (success)
+                        });
+                    </script>
                     @endif
 
-                <!-- Form Pencarian dan Tombol Tambah dalam satu baris -->
-                <div class="d-flex justify-content-between mb-2">
-                    <form action="{{ route('materi.cari') }}" method="GET" class="input-group" style="max-width: 400px;">
-                        <input type="text" name="cari" class="form-control search-input" placeholder="Cari materi..." value="{{ request()->get('search') }}">
+                    <!-- Form Pencarian dan Tombol Tambah dalam satu baris -->
+                    <div class="d-flex justify-content-between mb-2">
+                        <form action="{{ route('materi.cari') }}" method="GET" class="input-group" style="max-width: 400px;">
+                            <input type="text" name="cari" class="form-control search-input" placeholder="Cari materi..." value="{{ request()->get('search') }}">
                             <div class="input-group-append">
                                 <button class="btn btn-primary search-btn" type="submit">
                                     <i class="fas fa-search"></i> Cari
@@ -129,13 +129,16 @@
                             </div>
                         </form>
                         <a href="{{ route('materi.create') }}" class="btn btn-primary add-btn">
-                    <i class="fas fa-plus-circle"></i> Tambah Materi</a>
-                </div>
+                            <i class="fas fa-plus-circle"></i> Tambah Materi
+                        </a>
+                    </div>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>NO</th>
                                 <th>Judul</th>
+                                <th>Kelas</th>
+                                <th>Jurusan</th>
                                 <th>Materi</th>
                                 <th>Aksi</th>
                             </tr>
@@ -145,6 +148,8 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
                                     <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
+                                    <td>{{ $item->kelas }}</td>
+                                    <td>{{ $item->jurusan }}</td>
                                     <td>
                                         @if($item->tipe == 'gambar')
                                             <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
@@ -154,23 +159,46 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('materi.edit', $item->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                        <form action="{{ route('materi.destroy', $item->id) }}" method="POST" style="display:inline-block;">
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $item->id }}')">Hapus</button>
+                                        
+                                        <!-- Form tersembunyi untuk menghapus materi -->
+                                        <form id="delete-form-{{ $item->id }}" action="{{ route('materi.destroy', $item->id) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <!-- Pagination Links -->
+                    <!-- Link pagination -->
                     <div class="d-flex justify-content-end">
-                         {{ $materi->links() }}
+                        {{ $materi->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Script SweetAlert untuk konfirmasi hapus -->
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: "Apakah Anda yakin?", // Judul konfirmasi
+                text: "Data ini akan dihapus secara permanen!", // Pesan konfirmasi
+                icon: "warning", // Ikon peringatan
+                showCancelButton: true, // Tampilkan tombol batal
+                confirmButtonColor: "#3085d6", // Warna tombol konfirmasi
+                cancelButtonColor: "#d33", // Warna tombol batal
+                confirmButtonText: "Ya, hapus!", // Teks pada tombol konfirmasi
+                cancelButtonText: "Batal" // Teks pada tombol batal
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika pengguna menekan "Ya, hapus!", submit form penghapusan
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+    </script>
 </body>
 </html>

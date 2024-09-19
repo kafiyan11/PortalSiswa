@@ -160,7 +160,6 @@
         <div class="subject-box" onclick="window.location">
         <a href="{{route('lihat.materi')}}">
             <img src="{{asset('assets/img/sejarah2.png')}}">
-            <img src="{{asset('assets/img/sunda2.png')}}" alt="">
             <h2>Bahasa Sunda</h2></a>
         </div>
         <div class="subject-box" onclick="window.location">

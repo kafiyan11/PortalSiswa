@@ -27,52 +27,49 @@ class TambahTugasController extends Controller
             'nama' => 'required|string|max:255',
             'kelas' => 'required|string|max:255',
             'jurusan' => 'required|string|max:255',
-            'gambar_tugas' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:10048', // 2MB max
+            'gambar_tugas' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:10048', // 10MB max
         ]);
-
+    
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        // dd($request->all());
-        // Proses upload gambar
-        {
-            $data = $request->all();
     
-            if ($request->file('gambar_tugas')) {
-                $fileName = time().'.'.$request->gambar_tugas->extension();
-                $request->gambar_tugas->move(public_path('gambar_tugas'), $fileName);
-                $data['gambar_tugas'] = $fileName;
-            }
-        
-            Tugas::create($data);
-        
-            return redirect()->route('guru.tugas.tugas')->with('success', 'Student created successfully.');
-
+        // Ambil semua data dari request
+        $data = $request->all();
+    
+        // Proses upload gambar
+        if ($request->hasFile('gambar_tugas')) {
+            $fileName = time() . '.' . $request->file('gambar_tugas')->extension();
+            $request->file('gambar_tugas')->move(public_path('gambar_tugas'), $fileName);
+            $data['gambar_tugas'] = $fileName;
         }
-        
-
+    
         // Simpan data ke database
-        Tugas::create([
-            'nis' => $request->input('nis'),
-            'nama' => $request->input('nama'),
-            'kelas' => $request->input('kelas'),
-            'jurusan' => $request->input('jurusan'),
-            'gambar_tugas' => isset($newName) ? $newName : null,
-        ]);
-
+        Tugas::create($data);
+    
         return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil ditambahkan!');
     }
+    
 
     // hapus tugas
     public function destroy($id)
     {
-        $tugas = tugas::find($id);
+        $tugas = Tugas::find($id);
         if (!$tugas) {
             return redirect()->route('guru.tugas.tugas')->with('error', 'Data tidak ditemukan!');
         }
+    
+        // Hapus gambar jika ada
+        if ($tugas->gambar_tugas && file_exists(public_path('gambar_tugas/' . $tugas->gambar_tugas))) {
+            unlink(public_path('gambar_tugas/' . $tugas->gambar_tugas));
+        }
+    
+        // Hapus data dari database
         $tugas->delete();
-            return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil dihapus!');
+    
+        return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil dihapus!');
     }
+    
 
     //edit data siswa
     public function edit($id)
@@ -94,29 +91,42 @@ class TambahTugasController extends Controller
         'gambar_tugas' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10048',
     ]);
 
-    $siswa = tugas::findOrFail($id);
+    $siswa = Tugas::findOrFail($id);
 
+    // Update field-field yang diinput
     $siswa->nis = $validatedData['nis'];
     $siswa->nama = $validatedData['nama'];
     $siswa->kelas = $validatedData['kelas'];
     $siswa->jurusan = $validatedData['jurusan'];
 
+    // Jika ada gambar baru, hapus gambar lama dan upload yang baru
     if ($request->file('gambar_tugas')) {
-        $gambar = $request->file('gambar_tugas');
-        $gambarName = time() . '.' . $gambar->extension();
-        $gambar->move(public_path('gambar_tugas'), $gambarName);
+        // Hapus gambar lama jika ada
+        if ($siswa->gambar_tugas && file_exists(public_path('gambar_tugas/' . $siswa->gambar_tugas))) {
+            unlink(public_path('gambar_tugas/' . $siswa->gambar_tugas));
+        }
+
+        // Simpan gambar baru
+        $gambarName = time() . '.' . $request->file('gambar_tugas')->extension();
+        $request->file('gambar_tugas')->move(public_path('gambar_tugas'), $gambarName);
         $siswa->gambar_tugas = $gambarName;
     }
 
     $siswa->save();
 
     return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil diubah!');
-}  
+}
+
     public function cari(Request $request){
         $data = $request->input('cari');
         $siswa = tugas::where('nama', 'like', '%'.$data.'%')->paginate(2);
 
     return view('guru.tugas.tugas', compact('siswa'));
+}
+public function wujud()
+{
+    $siswa = tugas::all();
+    return view('admin.tugas', compact('siswa'));
 }
 
 }
