@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<<<<<<< HEAD
+=======
+    <div class="table-responsive shadow-sm rounded"> <!-- Tambahkan shadow -->
+        <table class="table table-striped table-bordered table-hover text-center"> <!-- Text center untuk tabel -->
+>>>>>>> 20dcf5af8366be9a002f0651be6595d151e93070
 
 <div class="container mt-4" style="text-align: center;"> <!-- Center content within container -->
     <div class="d-flex justify-content-center align-items-center mb-3">
@@ -27,7 +32,6 @@
                     <td>{{ $score->daily_test_score }}</td>
                     <td>{{ $score->midterm_test_score }}</td>
                     <td>{{ $score->final_test_score }}</td>
-
                 </tr>
                 @endforeach
             </tbody>
@@ -128,7 +132,10 @@
     /* Tombol edit dan hapus lebih rapat */
     .d-inline-flex form {
         margin-left: 5px;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 20dcf5af8366be9a002f0651be6595d151e93070
     }
     td.text-center {
         vertical-align: middle;

@@ -142,35 +142,34 @@
     @include('layouts.app')
     <h1>Materi Pelajaran</h1>
     <div class="subject-container">
-        <div class="subject-box" onclick="window.location">
-        <a href="{{route('lihat.materi')}}">
+        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
             <img src="{{asset('assets/img/mtk.png')}}" alt="">
-            <h2>Matematika</h2></a>
+            <h2>Matematika</h2>
         </div>
-        <div class="subject-box" onclick="window.location">
-        <a href="{{route('lihat.materi')}}">
+        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
             <img src="{{asset('assets/img/pkn2.png')}}" alt="">
-            <h2>Pendidikan Kewarganegaraan</h2></a>
+            <h2>Pendidikan Kewarganegaraan</h2>
         </div>
-        <div class="subject-box" onclick="window.location">
-        <a href="{{route('lihat.materi')}}">
+        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
             <img src="{{asset('assets/img/indo2.png')}}" alt="">
-            <h2>Bahasa Indonesia</h2></a>
+            <h2>Bahasa Indonesia</h2>
         </div>
-        <div class="subject-box" onclick="window.location">
-        <a href="{{route('lihat.materi')}}">
+        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
             <img src="{{asset('assets/img/sejarah2.png')}}">
+<<<<<<< HEAD
             <h2>Bahasa Sunda</h2></a>
+=======
+            <img src="{{asset('assets/img/sunda2.png')}}" alt="">
+            <h2>Bahasa Sunda</h2>
+>>>>>>> 20dcf5af8366be9a002f0651be6595d151e93070
         </div>
-        <div class="subject-box" onclick="window.location">
-        <a href="{{route('lihat.materi')}}">
+        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
             <img src="{{asset('assets/img/aceng.png')}}" alt="">
-            <h2>Pendidikan Kewirausahaan</h2></a>
+            <h2>Pendidikan Kewirausahaan</h2>
         </div>
-        <div class="subject-box" onclick="window.location">
-            <a href="{{route('lihat.materi')}}">
+        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
             <img src="{{asset('assets/img/inggris2.png')}}" alt="">
-            <h2>Bahasa Inggris</h2></a>
+            <h2>Bahasa Inggris</h2>
         </div>
     </div>
 </body>

@@ -116,9 +116,10 @@ class MateriController extends Controller
         $materi = Materi::paginate(10); // Mengambil semua data materi
         return view('admin.materi', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
     }
-    public function muncul()
+    public function lihat()
     {
         $materi = Materi::all(); // Mengambil semua data materi
-        return view('siswa.lihatMateri', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
+        return view('siswa.lihatmateri', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
     }
+    
 }

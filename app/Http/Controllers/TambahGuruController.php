@@ -8,13 +8,28 @@ use Illuminate\Support\Facades\Hash;
 
 class TambahGuruController extends Controller
 {
-    public function index(){
-        $guru = User::where('role', 'Guru')->get();
-        
+    public function index(Request $request)
+    {
+        // Mengambil kata kunci pencarian dari form
+        $search = $request->input('search');
+    
+        // Query untuk mencari data guru berdasarkan nama atau NIS
+        $guru = User::where('role', 'Guru')
+                    ->when($search, function ($query, $search) {
+                        return $query->where(function ($q) use ($search) {
+                            $q->where('name', 'like', '%' . $search . '%')
+                              ->orWhere('nis', 'like', '%' . $search . '%');
+                        });
+                    })
+                    ->get();
+    
+        // Mengirim data guru dan kata kunci pencarian ke view
         return view('admin.tambahguru.dataguru', [
-            'guru' => $guru
+            'guru' => $guru,
+            'search' => $search // opsional, jika ingin menampilkan kata kunci pencarian di view
         ]);
     }
+    
     public function store(Request $request){
         $request -> validate([
             'name' => 'required',
