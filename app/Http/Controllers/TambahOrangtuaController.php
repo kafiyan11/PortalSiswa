@@ -8,13 +8,29 @@ use Illuminate\Support\Facades\Hash;
 
 class TambahOrangtuaController extends Controller
 {
-    public function index(){
-        $orang = User::where('role', 'Orang Tua')->get();
-        
-        return view('admin.tambahortu.ortu', [
-            'orang' => $orang
-        ]);
-    }
+public function index(Request $request)
+{
+    // Ambil nilai dari input pencarian (search)
+    $search = $request->input('search');
+
+    // Query untuk mendapatkan data orang tua
+    // Jika ada pencarian, tambahkan filter where untuk nama atau NIS
+    $orang = User::where('role', 'Orang Tua')
+                 ->when($search, function ($query, $search) {
+                     return $query->where(function($q) use ($search) {
+                         $q->where('name', 'like', "%{$search}%")
+                           ->orWhere('nis', 'like', "%{$search}%");
+                     });
+                 })
+                 ->get();
+
+    // Kirim data orang tua dan nilai pencarian ke view
+    return view('admin.tambahortu.ortu', [
+        'orang' => $orang,
+        'search' => $search
+    ]);
+}
+
     public function store(Request $request){
         $request -> validate([
             'name' => 'required',
@@ -56,11 +72,11 @@ class TambahOrangtuaController extends Controller
             'role' => 'Orang Tua',
             'plain_password' => $request['password'],
         ]);
-        return redirect(route('ortu'))->with('update','Akun Orang Tua Berhasil Di Edit');
+        return redirect(route('ortu'))->with('success','Akun Orang Tua Berhasil Di Edit');
         }
         public function delet($id){
             $data = User::findOrFail($id);
             $data -> delete(); 
-            return redirect(route('ortu'))->with('error','Akun Orang Tua Berhasil Di Hapus');
+            return redirect(route('ortu'))->with('success','Akun Orang Tua Berhasil Di Hapus');
         }
 }

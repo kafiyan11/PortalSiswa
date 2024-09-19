@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Siswa;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Tugas; // Pastikan nama model sesuai
+use App\Models\Tugas;
 use App\Http\Controllers\Controller;
-use App\Models\Siswa;
-use App\Models\Tugas; // Pastikan nama model sesuai
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

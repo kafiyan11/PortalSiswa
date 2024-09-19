@@ -111,13 +111,6 @@
         <div class="container">
             <div class="card">
                 <div class="card-body">
-                    <!-- Menampilkan pesan flash -->
-                    @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -142,10 +135,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <!-- Pagination Links -->
-                    <div class="d-flex justify-content-end">
-                         {{ $materi->links() }}
-                    </div>
                 </div>
             </div>
         </div>
