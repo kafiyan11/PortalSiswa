@@ -34,6 +34,20 @@ Route::get('/', function () {
 });
 
 
+    Route::get('/admin-tugas', [AdminController::class, 'tugas'])->name('admin.tugas');
+    Route::get('/admin-tambahtugas', [AdminController::class, 'tambah_tugas'])->name('admin.create');
+    Route::post('/admin-tambahtugas', [AdminController::class, 'create'])->name('create_tugas');
+    Route::get('/edit/{id}', [AdminController::class, 'edit'])->name('edit_tugas');
+    Route::put('/update/{id}', [AdminController::class, 'update'])->name('update_tugas');
+    Route::delete('/tugas/{id}', [AdminController::class, 'hapus'])->name('tugas.destroy');
+    Route::get('/admin/cari', [AdminController::class, 'cari'])->name('siswa.cari');
+
+
+
+
+
+
+
 Auth::routes(); // Ini akan menambahkan semua rute autentikasi bawaan Laravel termasuk login dan register
 
 // Route untuk pengalihan setelah login
@@ -198,6 +212,7 @@ Route::get('/guru', [GuruController::class, 'index'])->middleware('auth:guru')->
 
 //Crud Tugas di Guru
 Route::get('/guru-tugas', [TambahTugasController::class, 'tugas'])->name('guru.tugas.tugas');
+// Route::get('/admin-tugas', [TambahTugasController::class, 'lihatAdmin'])->name('admin.tugas');
 Route::get('/guru-tambahtugas', [TambahTugasController::class, 'tambah_tugas'])->name('guru.addTugas');
 Route::post('/guru-tambahtugas', [TambahTugasController::class, 'create'])->name('create_tugas');
 Route::get('/edit/{id}', [TambahTugasController::class, 'edit'])->name('edit_tugas');

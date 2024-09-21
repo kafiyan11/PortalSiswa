@@ -7,8 +7,6 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <style>
         .table {
             margin: 0 auto;
@@ -114,16 +112,6 @@
         <div class="container">
             <div class="card">
                 <div class="card-body">
-                    @if(session('success'))
-                    <script>
-                        Swal.fire({
-                            title: "Kerja Bagus!", // Judul popup
-                            text: "{{ session('success') }}", // Pesan sukses dari session
-                            icon: "success" // Ikon popup (success)
-                        });
-                    </script>
-                    @endif
-                
                     @if(auth()->user()->role == 'Admin')
                     <div class="d-flex justify-content-between mb-2">
                         <form action="{{route('siswa.cari')}}" method="GET" class="input-group" style="max-width: 400px;">
@@ -134,7 +122,7 @@
                                 </button>
                             </div>
                         </form>
-                        <a href="{{ route('guru.addTugas') }}" class="btn btn-primary">
+                        <a href="{{ route('admin.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus-circle"></i> Tambah Tugas</a>
                         </div>
                             @endif
@@ -180,48 +168,16 @@
                                             </form>
 
                                         </td>
-                                    <td>
-                                        <a href="{{ route('edit_tugas', $siswas->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $siswas->id }}')">Hapus</button>
-                                        
-                                        <!-- Form tersembunyi untuk menghapus materi -->
-                                        <form id="delete-form-{{ $siswas->id }}" action="{{ route('tugas.destroy', $siswas->id) }}" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                        
-                                    </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                             <div class="d-flex justify-content-end">
                              {{ $siswa->links() }}
-                             {{-- {{ $siswa->links() }} --}}
                             </div>
                         </div>
                     </div>
                 </div>
-                <script>
-                    function confirmDelete(id) {
-                        Swal.fire({
-                            title: 'Apakah Anda yakin?',
-                            text: "Data ini akan dihapus dan tidak bisa dikembalikan!",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Ya, hapus!',
-                            cancelButtonText: 'Batal'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Jika dikonfirmasi, submit form penghapusan
-                                document.getElementById('delete-form-' + id).submit();
-                            }
-                        });
-                    }
-                </script>
-                
             </section>
         </div>
 </body>
