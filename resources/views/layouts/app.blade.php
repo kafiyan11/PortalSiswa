@@ -262,9 +262,8 @@
             @elseif(auth()->user()->role=='Guru')
                     @include('layouts.sidebarGuru')
 
-            @elseif(auth()->user()->role=='OrangTua')
+            @elseif(auth()->user()->role=='Orang Tua')
                     @include('layouts.sidebarOrangTua')
-
             @else
                     @include('layouts.sidebarAdmin')
             @endif

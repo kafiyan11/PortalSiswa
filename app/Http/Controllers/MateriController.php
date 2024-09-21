@@ -10,7 +10,7 @@ class MateriController extends Controller
 {
     public function materi()
     {
-        $materi = Materi::paginate(2); // Mengambil semua data materi
+        $materi = Materi::paginate(10); // Mengambil semua data materi
         return view('guru.materi.materi',  ['materi' => $materi]); // Mengarahkan ke view untuk menampilkan daftar materi
     }
 
@@ -113,12 +113,13 @@ class MateriController extends Controller
 }
     public function tampil()
     {
-        $materi = Materi::all(); // Mengambil semua data materi
+        $materi = Materi::paginate(10); // Mengambil semua data materi
         return view('admin.materi', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
     }
-    public function muncul()
+    public function lihat()
     {
         $materi = Materi::all(); // Mengambil semua data materi
-        return view('siswa.lihatMateri', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
+        return view('siswa.lihatmateri', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
     }
+    
 }

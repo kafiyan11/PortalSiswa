@@ -1,33 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="text-center w-100">Nilai Siswa</h2> <!-- Posisi judul di tengah -->
-        <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm" style="position: absolute; right: 20px;">
-            <i class="fas fa-plus"></i> Tambah Nilai
-        </a>
-    </div>
+<<<<<<< HEAD
+=======
     <div class="table-responsive shadow-sm rounded"> <!-- Tambahkan shadow -->
         <table class="table table-striped table-bordered table-hover text-center"> <!-- Text center untuk tabel -->
+>>>>>>> 20dcf5af8366be9a002f0651be6595d151e93070
 
 <div class="container mt-4" style="text-align: center;"> <!-- Center content within container -->
     <div class="d-flex justify-content-center align-items-center mb-3">
         <h2>Nilai Siswa</h2>
-        <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm ml-3">
-            <i class="fas fa-plus"></i> Tambah Nilai
-        </a>
     </div>
     <div class="table-responsive shadow-sm rounded mx-auto" style="max-width: 1000px;"> <!-- Center table with max-width -->
         <table class="table table-striped table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
+                    <th>No</th>
                     <th>Nama</th>
                     <th>NIS</th>
                     <th>UH</th>
                     <th>UTS</th>
                     <th>UAS</th>
-                    <th style="width: 150px;" class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,7 +32,6 @@
                     <td>{{ $score->daily_test_score }}</td>
                     <td>{{ $score->midterm_test_score }}</td>
                     <td>{{ $score->final_test_score }}</td>
-
                 </tr>
                 @endforeach
             </tbody>
@@ -54,7 +46,7 @@
     .container {
         margin-top: 20px;
         max-width: 1200px; /* Lebih sempit untuk tampilan terpusat */
-
+    }
     /* Center the container and table */
     .container {
         text-align: center;
@@ -140,8 +132,11 @@
     /* Tombol edit dan hapus lebih rapat */
     .d-inline-flex form {
         margin-left: 5px;
+<<<<<<< HEAD
 
-
+=======
+>>>>>>> 20dcf5af8366be9a002f0651be6595d151e93070
+    }
     td.text-center {
         vertical-align: middle;
         text-align: center;

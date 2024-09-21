@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Score;
@@ -7,13 +6,24 @@ use Illuminate\Http\Request;
 
 class ScoreController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $scores = Score::all();
-        return view('admin.scores.index', [
-            'scores' => $scores
-        ]);
+        $search = $request->get('cari'); // Ambil input pencarian
+    
+        if ($search) {
+            // Jika ada pencarian, cari data yang sesuai dengan 'nama' atau 'nis'
+            $scores = Score::where('nama', 'LIKE', "%{$search}%")
+                            ->orWhere('nis', 'LIKE', "%{$search}%")
+                            ->get();
+        } else {
+            // Jika tidak ada pencarian, ambil semua data
+            $scores = Score::all();
+        }
+    
+        // Mengirim variabel $scores ke view
+        return view('admin.scores.index', compact('scores'));
     }
+    
 
     public function create()
     {
@@ -23,9 +33,6 @@ class ScoreController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            // 'student_id' => 'required|exists:students,id',
-            'nama' => 'required',
-
             'nama' => 'required|string',
             'nis' => 'required|numeric',
             'daily_test_score' => 'required|numeric',
@@ -35,57 +42,49 @@ class ScoreController extends Controller
 
         Score::create($validated);
 
-        return redirect()->route('scores.index');
+        return redirect()->route('scores.index')->with('success', 'Nilai berhasil ditambahkan!');
     }
 
-    public function edit(Score $scores, $id)
+    public function edit(Score $score, $id)
     {
-        $scores=Score::findOrfail($id);
-        return view('admin.scores.edit', compact('scores'));
+        $score = Score::findOrFail($id);
+        return view('admin.scores.edit', compact('score'));
     }
 
-    public function update(Request $request, Score $scores,$id)
+    public function update(Request $request, $id)
     {
         $validated = $request->validate([
-
-            'nama' => 'required',
+            'nama' => 'required|string',
             'nis' => 'required|numeric',
             'daily_test_score' => 'required|numeric',
             'midterm_test_score' => 'required|numeric',
             'final_test_score' => 'required|numeric',
         ]);
-        $scores=Score::find($id);
-        $scores->update($validated);
 
-        return redirect()->route('scores.index');
+        $score = Score::findOrFail($id);
+        $score->update($validated);
+
+        return redirect()->route('scores.index')->with('success', 'Nilai berhasil diperbarui!');
     }
 
-    public function destroy(Score $scores, $id)
+    public function destroy($id)
     {
-        $scores=Score::findOrfail($id);
-        $scores->delete();
-        return redirect()->route('scores.index');
-    }
-    public function cari(Request $request){
-        $scores = $request->input('cari');
-        $scores = Score::where('daily_test_score', 'like', '%'.$scores.'%');
+        $score = Score::findOrFail($id);
+        $score->delete();
 
-        return view('admin.scores.index', compact('scores'));
+        return redirect()->route('scores.index')->with('success', 'Nilai berhasil dihapus!');
     }
-    public function wujud(){
 
+
+    public function wujud()
+    {
         $scores = Score::all();
-        return view('siswa.nilai', compact('scores'), [
-            'scores' => $scores
-        ]);
+        return view('siswa.nilai', compact('scores'));
     }
-    
 
-    public function tampilGuru() {
+    public function lihat()
+    {
         $scores = Score::all();
-        return view('guru.nilai', compact('scores'), [
-            'scores' => $scores
-        ]);
+        return view('guru.nilai', compact('scores'));
     }
-
-}   
+}
