@@ -122,7 +122,7 @@
                                 </button>
                             </div>
                         </form>
-                        <a href="{{ route('guru.addTugas') }}" class="btn btn-primary">
+                        <a href="{{ route('admin.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus-circle"></i> Tambah Tugas</a>
                         </div>
                             @endif
