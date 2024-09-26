@@ -44,11 +44,22 @@
                     <th>UH</th> <!-- Nilai Ulangan Harian -->
                     <th>UTS</th> <!-- Nilai UTS -->
                     <th>UAS</th> <!-- Nilai UAS -->
+                    {{-- <th>Total Nilai</th> <!-- Total Nilai -->
+                    <th>Rangking</th> <!-- Kolom Rangking --> --}}
                     <th style="width: 150px;" class="text-center">Aksi</th> <!-- Kolom aksi (edit, hapus) -->
                 </tr>
             </thead>
             <tbody>
-                @foreach($scores as $index => $score) <!-- Looping untuk menampilkan setiap data nilai siswa -->
+                <!-- Looping untuk menampilkan setiap data nilai siswa -->
+                {{-- @php
+                    // Menghitung total nilai dan mengurutkan berdasarkan total nilai
+                    $scores = $scores->map(function($score) {
+                        $score->total_score = $score->daily_test_score + $score->midterm_test_score + $score->final_test_score;
+                        return $score;
+                    })->sortByDesc('total_score')->values();
+                @endphp --}}
+
+                @foreach($scores as $index => $score)
                 <tr>
                     <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
                     <td>{{ $score->nama }}</td> <!-- Menampilkan nama siswa -->
@@ -56,6 +67,8 @@
                     <td>{{ $score->daily_test_score }}</td> <!-- Menampilkan nilai UH -->
                     <td>{{ $score->midterm_test_score }}</td> <!-- Menampilkan nilai UTS -->
                     <td>{{ $score->final_test_score }}</td> <!-- Menampilkan nilai UAS -->
+                    {{-- <td>{{ $score->total_score }}</td> <!-- Menampilkan total nilai -->
+                    <td>{{ $index + 1 }}</td> <!-- Menampilkan peringkat berdasarkan total nilai --> --}}
                     <td class="text-center">
                         <!-- Tindakan: Edit dan Hapus -->
                         <div class="d-inline-flex align-items-center">
@@ -104,4 +117,3 @@
     }
 </script>
 @endsection
-  
