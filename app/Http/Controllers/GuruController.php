@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Score;
 use App\Models\Tugas;
+use App\Models\Jadwalguru;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Siswa; // Memastikan bahwa model Siswa digunakan
@@ -15,7 +16,11 @@ class GuruController extends Controller
     }
     public function jadwal()
     {
-        return view('guru.jadwal');
+        // Fetch jadwal data, e.g., group by class
+        $jadwalguru = Jadwalguru::all()->groupBy('kelas'); // Modify as per your needs
+
+        // Return the view with the data
+        return view('guru.jadwal', compact('jadwalguru')); // Make sure the view path is correct
     }
 
     public function profil()

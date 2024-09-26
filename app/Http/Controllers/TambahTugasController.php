@@ -121,5 +121,17 @@ class TambahTugasController extends Controller
         $siswa = tugas::where('nis', 'like', '%'.$data.'%')->paginate(10);
 
     return view('guru.tugas.tugas', compact('siswa'));
+}
+// public function lihatAdmin()
+// {
+//     $siswa = Tugas::paginate(10);
+//     return view('admin.tugas', compact('siswa')); 
+// }
+public function wujud()
+{
+    $siswa = tugas::paginate(2);
+    return view('admin.tugas', compact('siswa'));
+}
+
     }
 }

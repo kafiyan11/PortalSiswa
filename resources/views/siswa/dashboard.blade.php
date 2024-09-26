@@ -59,7 +59,6 @@
                     <th>Guru</th>
                     <th>Jam Mulai</th>
                     <th>Jam Selesai</th>
-                    <th>Tanggal</th>
                 </tr>
             </thead>
             <tbody>
@@ -70,7 +69,6 @@
                         <td>{{ $jadwal->guru }}</td>
                         <td>{{ $jadwal->jam_mulai }}</td>
                         <td>{{ $jadwal->jam_selesai }}</td>
-                        <td>{{ $jadwal->tanggal }}</td>
                     </tr>
                 @endforeach
             </tbody>

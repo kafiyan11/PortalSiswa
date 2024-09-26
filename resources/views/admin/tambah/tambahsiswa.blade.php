@@ -6,7 +6,87 @@
     <title>Daftar Siswa</title>
     <link href="assets/img/favicon.png" rel="icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f9fc;
+            font-family: 'Poppins', sans-serif;
+        }
+        h1 {
+            font-weight: 600;
+            color: #004085;
+        }
+        .btn-primary, .btn-success {
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #007bff, #00c6ff);
+            border: none;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #0056b3, #007bff);
+        }
+        .btn-success {
+            background: linear-gradient(90deg, #28a745, #5cb85c);
+            border: none;
+            color: white;
+        }
+        .btn-success:hover {
+            background: linear-gradient(90deg, #218838, #28a745);
+        }
+        .table-responsive {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background: white;
+            padding: 20px;
+        }
+        .table thead {
+            background-color: #004085;
+            color: white;
+            font-weight: 600;
+        }
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .badge {
+            padding: 0.5em 0.75em;
+            font-size: 0.9em;
+            font-weight: 500;
+            border-radius: 12px;
+        }
+        .badge-success {
+            background-color: #28a745;
+        }
+        .badge-primary {
+            background-color: #007bff;
+        }
+        .badge-info {
+            background-color: #17a2b8;
+        }
+        .badge-warning {
+            background-color: #ffc107;
+        }
+        .input-group {
+            border-radius: 30px;
+            overflow: hidden;
+        }
+        .input-group input {
+            border: none;
+            border-radius: 30px 0 0 30px;
+            box-shadow: none;
+        }
+        .input-group-append button {
+            border-radius: 0 30px 30px 0;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
@@ -72,10 +152,10 @@
                             <td>{{ $item->plain_password }}</td>
                             <td>
                                 <span class="badge 
-                                    @if($item->role == 'Admin') bg-success 
-                                    @elseif($item->role == 'Siswa') bg-primary 
-                                    @elseif($item->role == 'Guru') bg-info 
-                                    @elseif($item->role == 'Orang Tua') bg-warning 
+                                    @if($item->role == 'Admin') badge-success 
+                                    @elseif($item->role == 'Siswa') badge-primary 
+                                    @elseif($item->role == 'Guru') badge-info 
+                                    @elseif($item->role == 'Orang Tua') badge-warning 
                                     @endif">
                                     {{ ucfirst($item->role) }}
                                 </span>
@@ -101,6 +181,8 @@
                     @endif
                 </tbody>
             </table>
+            <!-- Tampilkan tautan pagination -->
+            {{ $data->appends(['search' => request()->get('search')])->links() }}   
         </div>
     </div>
 

@@ -19,16 +19,19 @@ class User extends Authenticatable
         'plain_password',
         'alamat',
         'nohp',
+        'kelas',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
     public function siswa()
     {
         return $this->hasOne(Siswa::class, 'user_id', 'id');
     }
+
     // App\Models\User.php
 
     public function posts()

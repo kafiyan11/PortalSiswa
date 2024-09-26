@@ -22,7 +22,7 @@ public function index(Request $request)
                            ->orWhere('nis', 'like', "%{$search}%");
                      });
                  })
-                 ->get();
+                 ->paginate(5);
 
     // Kirim data orang tua dan nilai pencarian ke view
     return view('admin.tambahortu.ortu', [

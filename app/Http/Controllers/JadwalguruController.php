@@ -3,28 +3,25 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Jadwal;
-use App\Models\User;
-use App\Models\Siswa;
+use App\Models\Jadwalguru;
 use Illuminate\Http\Request;
 
-class JadwalController extends Controller
+class JadwalguruController extends Controller
 {
     // Menampilkan daftar jadwal di admin
     public function index()
     {
-        $jadwals = Jadwal::all()->groupBy(function($item) {
-            return $item->kelas . '-' . $item->ganjil_genap; // Mengelompokkan berdasarkan kelas dan minggu
+        $jadwalguru = Jadwalguru::all()->groupBy(function($item) {
+            return $item->guru; // Nama guru
         });
-    
-        return view('admin.jadwal.index', compact('jadwals'));
+
+        return view('admin.jadwalguru.index', compact('jadwalguru'));
     }
-    
 
     // Menampilkan formulir untuk membuat jadwal baru
     public function create()
     {
-        return view('admin.jadwal.create');
+        return view('admin.jadwalguru.create');
     }
 
     // Menyimpan jadwal baru ke database
@@ -36,9 +33,8 @@ class JadwalController extends Controller
         $ganjilGenap = $this->getGanjilGenapFromTanggal($request->tanggal); // Menentukan ganjil/genap
 
         // Menyimpan data ke database
-        Jadwal::create([
+        Jadwalguru::create([
             'kelas' => $request->kelas,
-            'mata_pelajaran' => $request->mata_pelajaran,
             'guru' => $request->guru,
             'jam_mulai' => $request->jam_mulai,
             'jam_selesai' => $request->jam_selesai,
@@ -47,14 +43,14 @@ class JadwalController extends Controller
             'ganjil_genap' => $ganjilGenap, // Simpan ganjil/genap
         ]);
 
-        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil ditambahkan');
+        return redirect()->route('admin.jadwalguru.index')->with('success', 'Jadwal berhasil ditambahkan');
     }
 
     // Menampilkan formulir untuk mengedit jadwal
     public function edit($id)
     {
-        $jadwal = Jadwal::findOrFail($id);
-        return view('admin.jadwal.edit', compact('jadwal'));
+        $jadwal = Jadwalguru::findOrFail($id);
+        return view('admin.jadwalguru.edit', compact('jadwal'));
     }
 
     // Memperbarui jadwal yang ada di database
@@ -62,14 +58,13 @@ class JadwalController extends Controller
     {
         $this->validateJadwal($request);
 
-        $jadwal = Jadwal::findOrFail($id);
+        $jadwal = Jadwalguru::findOrFail($id);
         $hari = $this->getHariFromTanggal($request->tanggal);
         $ganjilGenap = $this->getGanjilGenapFromTanggal($request->tanggal); // Menentukan ganjil/genap
 
         // Mengupdate data di database
         $jadwal->update([
             'kelas' => $request->kelas,
-            'mata_pelajaran' => $request->mata_pelajaran,
             'guru' => $request->guru,
             'jam_mulai' => $request->jam_mulai,
             'jam_selesai' => $request->jam_selesai,
@@ -78,63 +73,37 @@ class JadwalController extends Controller
             'ganjil_genap' => $ganjilGenap, // Update ganjil/genap
         ]);
 
-        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil diperbarui');
+        return redirect()->route('admin.jadwalguru.index')->with('success', 'Jadwal berhasil diperbarui');
     }
 
     // Menghapus jadwal dari database
     public function destroy($id)
     {
-        $jadwal = Jadwal::findOrFail($id);
+        $jadwal = Jadwalguru::findOrFail($id);
         $jadwal->delete();
 
-        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil dihapus');
+        return redirect()->route('admin.jadwalguru.index')->with('success', 'Jadwal berhasil dihapus');
     }
-
-    // Menampilkan jadwal berdasarkan hari saat ini dan minggu ganjil/genap untuk siswa
-// Menampilkan jadwal berdasarkan hari saat ini dan minggu ganjil/genap untuk siswa
-// Menampilkan jadwal berdasarkan hari saat ini dan minggu ganjil/genap untuk siswa
-public function tampil()
-{
-    // Mendapatkan hari saat ini dalam bahasa Indonesia
-    $hariIni = Carbon::now()->locale('id')->translatedFormat('l');
-    
-    // Tentukan jenis minggu (ganjil/genap)
-    $minggu = $this->getGanjilGenapFromTanggal(now()); // Menggunakan tanggal sekarang
-    
-    // Ambil ID kelas dari pengguna yang sedang login
-    $kelasSiswa = auth()->user()->kelas; // Pastikan 'kelas' adalah atribut yang ada di tabel users
-
-    // Mendapatkan semua jadwal yang sesuai dengan hari ini dan minggu (ganjil/genap) serta kelas
-    $jadwals = Jadwal::where('hari', $hariIni)
-                    ->where('ganjil_genap', $minggu) // Gunakan ganjil_genap
-                    ->where('kelas', $kelasSiswa) // Filter berdasarkan kelas
-                    ->get();
-    
-    // Kirimkan jadwal ke view siswa
-    return view('siswa.dashboard', compact('jadwals'));
-}
-
-
-    
 
     // Menampilkan jadwal untuk guru
-    public function tingali()
-    {
-        $jadwals = Jadwal::orderBy('tanggal', 'asc')->get(); // Urutkan berdasarkan tanggal
-        return view('guru.jadwal', compact('jadwals'));
-    }
+    // public function lihat()
+    // {
+    //     $jadwalguru = Jadwalguru::all()->groupBy(function($item) {
+    //         return $item->guru; // Nama guru
+    //     });
+
+    //     return view('guru.jadwal', compact('jadwalguru'));
+    // }
 
     // Method untuk validasi input jadwal
     protected function validateJadwal(Request $request)
     {
         $request->validate([
             'kelas' => 'required|string|max:255',
-            'mata_pelajaran' => 'required|string|max:255',
             'guru' => 'required|string|max:255',
             'jam_mulai' => 'required|date_format:H:i',
-            'jam_selesai' => 'required|date_format:H:i',
+            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai', // Pastikan jam_selesai setelah jam_mulai
             'tanggal' => 'required|date',
-            // Hapus validasi ganjil_genap
         ]);
     }
 

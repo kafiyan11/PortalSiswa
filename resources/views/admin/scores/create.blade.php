@@ -11,7 +11,7 @@
         <h2 class="my-4">Tambah Nilai</h2>
         <form action="{{ route('scores.store') }}" method="POST">
             @csrf
-            <input type="hidden" name="student_id" value="{{ $student_id }}">  <!-- Pastikan ada student_id -->  
+            <input type="hidden" name="student_id" >  <!-- Pastikan ada student_id -->  
             <div class="form-group">
                 <label for="nama">Nama</label>
                 <input type="text" name="nama" id="nama" class="form-control" required>
