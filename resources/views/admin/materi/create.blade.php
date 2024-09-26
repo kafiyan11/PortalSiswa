@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Materi</title>
-    <link href="assets/img/favicon.png" rel="icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .mx-auto { 
@@ -44,7 +43,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('materi.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('adminMateri.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="judul">Judul Materi:</label>
