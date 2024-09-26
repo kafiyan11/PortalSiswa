@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<title>Data Nilai Siswa </title>
 @section('content')
 <head>
     <!-- Memuat library SweetAlert2 -->
@@ -17,7 +17,7 @@
                 </button>
             </div>
         </form>
-        <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm">
+        <a href="{{ route('guru.scores.create') }}" class="btn btn-primary shadow-sm">
             <i class="fas fa-plus"></i> Tambah Nilai
         </a>
     </div>
@@ -44,22 +44,11 @@
                     <th>UH</th> <!-- Nilai Ulangan Harian -->
                     <th>UTS</th> <!-- Nilai UTS -->
                     <th>UAS</th> <!-- Nilai UAS -->
-                    <th>Total Nilai</th> <!-- Total Nilai -->
-                    <th>Rangking</th> <!-- Kolom Rangking -->
                     <th style="width: 150px;" class="text-center">Aksi</th> <!-- Kolom aksi (edit, hapus) -->
                 </tr>
             </thead>
             <tbody>
-                <!-- Looping untuk menampilkan setiap data nilai siswa -->
-                @php
-                    // Menghitung total nilai dan mengurutkan berdasarkan total nilai
-                    $scores = $scores->map(function($score) {
-                        $score->total_score = $score->daily_test_score + $score->midterm_test_score + $score->final_test_score;
-                        return $score;
-                    })->sortByDesc('total_score')->values();
-                @endphp
-
-                @foreach($scores as $index => $score)
+                @foreach($scores as $index => $score) <!-- Looping untuk menampilkan setiap data nilai siswa -->
                 <tr>
                     <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
                     <td>{{ $score->nama }}</td> <!-- Menampilkan nama siswa -->
@@ -67,13 +56,11 @@
                     <td>{{ $score->daily_test_score }}</td> <!-- Menampilkan nilai UH -->
                     <td>{{ $score->midterm_test_score }}</td> <!-- Menampilkan nilai UTS -->
                     <td>{{ $score->final_test_score }}</td> <!-- Menampilkan nilai UAS -->
-                    <td>{{ $score->total_score }}</td> <!-- Menampilkan total nilai -->
-                    <td>{{ $index + 1 }}</td> <!-- Menampilkan peringkat berdasarkan total nilai -->
                     <td class="text-center">
                         <!-- Tindakan: Edit dan Hapus -->
                         <div class="d-inline-flex align-items-center">
                             <!-- Tombol Edit -->
-                            <a href="{{ route('scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1 shadow-sm">
+                            <a href="{{ route('guru.scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1 shadow-sm">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
 
@@ -83,7 +70,7 @@
                             </button>
 
                             <!-- Form tersembunyi untuk menghapus nilai siswa -->
-                            <form id="delete-form-{{ $score->id }}" action="{{ route('scores.destroy', $score->id) }}" method="POST" style="display: none;">
+                            <form id="delete-form-{{ $score->id }}" action="{{ route('guru.scores.destroy', $score->id) }}" method="POST" style="display: none;">
                                 @csrf <!-- Token keamanan Laravel -->
                                 @method('DELETE') <!-- Metode DELETE untuk penghapusan -->
                             </form>
@@ -117,3 +104,4 @@
     }
 </script>
 @endsection
+  

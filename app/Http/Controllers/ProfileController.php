@@ -53,6 +53,8 @@ class ProfileController extends Controller
     {
         // Find the user by ID or fail
         $user = User::findOrFail($id);
+{
+    $user = Auth::user();
 
         // Validate the request data
         $request->validate([
@@ -81,6 +83,28 @@ class ProfileController extends Controller
             $path = $file->store('profile_photos', 'public');
             $user->photo = $path;
         }
+
+    // Update informasi pengguna
+    $user->name = $request->input('name');
+    $user->alamat = $request->input('alamat');
+    $user->nohp = $request->input('nohp');
+
+    // Handle foto profil
+    if ($request->hasFile('photo')) {
+        // Hapus foto lama jika ada
+        if ($user->photo && Storage::exists('public/' . $user->photo)) {
+            Storage::delete('public/' . $user->photo);
+        }
+        
+        // Simpan foto baru dengan nama unik
+        $file = $request->file('photo');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('profile_photos', $filename, 'public');
+        $user->photo = $path;
+    }
+
+    // Simpan perubahan
+    $user->save();
 
         // Save changes to the database
         $user->save();

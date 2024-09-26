@@ -82,7 +82,7 @@ class TambahTugasController extends Controller
 
     //update siswa
     public function update(Request $request, $id)
-{
+    {
     $validatedData = $request->validate([
         'nis' => 'required|string|max:255',
         'nama' => 'required|string|max:255',
@@ -115,8 +115,7 @@ class TambahTugasController extends Controller
     $siswa->save();
 
     return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil diubah!');
-}
-
+    }
     public function cari(Request $request){
         $data = $request->input('cari');
         $siswa = tugas::where('nis', 'like', '%'.$data.'%')->paginate(10);
@@ -134,4 +133,5 @@ public function wujud()
     return view('admin.tugas', compact('siswa'));
 }
 
+    }
 }

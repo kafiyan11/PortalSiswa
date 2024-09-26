@@ -9,15 +9,13 @@
 <body>
     <div class="container">
         <h2 class="my-4">Tambah Nilai</h2>
-        <form action="{{ route('scores.store') }}" method="POST">
-            @csrf
-            <input type="hidden" name="student_id" >  <!-- Pastikan ada student_id -->  
+        <form action="{{ route('guru.scores.store') }}" method="POST">
+            @csrf 
             <div class="form-group">
                 <label for="nama">Nama</label>
                 <input type="text" name="nama" id="nama" class="form-control" required>
             </div>
             <div class="form-group">
-                <label for="nis">NIS</label>
                 <label for="daily_tesnist_score">NIS</label>
                 <input type="number" name="nis" id="nis" class="form-control" required>
             </div>

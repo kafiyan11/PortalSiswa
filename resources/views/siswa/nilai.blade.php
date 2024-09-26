@@ -11,8 +11,6 @@
             <thead class="thead-dark">
                 <tr>
                     <th>No</th>
-                    <th>Nama</th>
-                    <th>NIS</th>
                     <th>UH</th>
                     <th>UTS</th>
                     <th>UAS</th>
@@ -21,9 +19,7 @@
             <tbody>
                 @foreach($scores as $index => $score)
                 <tr>
-                    <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
-                    <td>{{ $score->nama }}</td>
-                    <td>{{ $score->nis }}</td>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $score->daily_test_score }}</td>
                     <td>{{ $score->midterm_test_score }}</td>
                     <td>{{ $score->final_test_score }}</td>
