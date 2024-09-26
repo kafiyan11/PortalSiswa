@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Tugas Siswa</title>
+    <link href="assets/img/favicon.png" rel="icon">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <style>
         .table {
             margin: 0 auto;
@@ -114,16 +113,6 @@
         <div class="container">
             <div class="card">
                 <div class="card-body">
-                    @if(session('success'))
-                    <script>
-                        Swal.fire({
-                            title: "Kerja Bagus!", // Judul popup
-                            text: "{{ session('success') }}", // Pesan sukses dari session
-                            icon: "success" // Ikon popup (success)
-                        });
-                    </script>
-                    @endif
-                
                     @if(auth()->user()->role == 'Admin')
                     <div class="d-flex justify-content-between mb-2">
                         <form action="{{route('siswa.cari')}}" method="GET" class="input-group" style="max-width: 400px;">
@@ -134,7 +123,7 @@
                                 </button>
                             </div>
                         </form>
-                        <a href="{{ route('guru.addTugas') }}" class="btn btn-primary">
+                        <a href="{{ route('admin.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus-circle"></i> Tambah Tugas</a>
                         </div>
                             @endif
@@ -163,47 +152,33 @@
                                                 <img src="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" alt="Gambar Tugas" width="100">
                                             @endif
                                         </td>
-                                    <td>
-                                        <a href="{{ route('edit_tugas', $siswas->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $siswas->id }}')">Hapus</button>
-                                        
-                                        <!-- Form tersembunyi untuk menghapus materi -->
-                                        <form id="delete-form-{{ $siswas->id }}" action="{{ route('tugas.destroy', $siswas->id) }}" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                        
-                                    </td>
+                                        <td>
+                                            <a href="{{route ('editt_tugas', $siswas->id)  }}" class="btn btn-warning btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                                </svg>
+                                            </a>
+                                            <form action="{{ route('tugas.hapus', $siswas->id) }}" method="POST" style="display:inline;">
+                                             @csrf
+                                             @method('DELETE')
+                                             <button type="submit" class="btn btn-danger btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                </svg>
+                                            </button>
+                                            </form>
+
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                             <div class="d-flex justify-content-end">
-                             {{-- {{ $siswa->links() }} --}}
+                             {{ $siswa->links() }}
                             </div>
                         </div>
                     </div>
                 </div>
-                <script>
-                    function confirmDelete(id) {
-                        Swal.fire({
-                            title: 'Apakah Anda yakin?',
-                            text: "Data ini akan dihapus dan tidak bisa dikembalikan!",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Ya, hapus!',
-                            cancelButtonText: 'Batal'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Jika dikonfirmasi, submit form penghapusan
-                                document.getElementById('delete-form-' + id).submit();
-                            }
-                        });
-                    }
-                </script>
-                
             </section>
         </div>
 </body>

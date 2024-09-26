@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Tugas</title>
-    <link href="assets/img/favicon.png" rel="icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .mx-auto { width: 800px; }
@@ -20,7 +19,7 @@
                 Edit Tugas
             </div>
             <div class="card-body">
-                <form action="{{ route('update_tugas', $siswa->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('updatee_tugas', $siswa->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="mb-3 row">

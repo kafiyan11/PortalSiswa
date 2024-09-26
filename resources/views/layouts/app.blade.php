@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Dashboard') }}</title>
+    <link href="assets/img/favicon.png" rel="icon">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -263,9 +264,8 @@
             @elseif(auth()->user()->role=='Guru')
                     @include('layouts.sidebarGuru')
 
-            @elseif(auth()->user()->role=='OrangTua')
+            @elseif(auth()->user()->role=='Orang Tua')
                     @include('layouts.sidebarOrangTua')
-
             @else
                     @include('layouts.sidebarAdmin')
             @endif

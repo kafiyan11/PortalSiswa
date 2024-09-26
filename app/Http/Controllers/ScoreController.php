@@ -17,7 +17,7 @@ class ScoreController extends Controller
                             ->get();
         } else {
             // Jika tidak ada pencarian, ambil semua data
-            $scores = Score::all();
+            $scores = Score::paginate(2);
         }
     
         // Mengirim variabel $scores ke view
@@ -85,6 +85,8 @@ class ScoreController extends Controller
         $scores = Score::where('nis', $nis)->get();
     
         // Kirimkan data nilai ke view 'siswa.nilai'
+
+        $scores = Score::paginate(2);
         return view('siswa.nilai', compact('scores'));
     }
     

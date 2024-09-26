@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Portal Siswa SMKN 1</title>
+  <title>Portal Siswa SMKN 1 Kawali</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -74,7 +74,7 @@
             <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
           </div>
           <div class="col-lg-6  d-flex flex-column justify-content-center text-center text-md-start" data-aos="fade-in">
-            <h2>Selamat Datang Di Portal Siswa</h2>
+            <h2>Selamat Datang Di Portal Siswa </h2>
             <p>Tempat Terbaik Untuk Mengelola Dan Memantau Berjalanan Akademik Siswa/i SMK Negri 1 Kawali</p>
           </div>
         </div>
@@ -205,7 +205,7 @@
       <!-- Section Title -->
       <div class="container section-title text-center" data-aos="fade-up">
         <h2>Kontak</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <p></p>
       </div><!-- End Section Title -->
     
       <div class="container text-center" data-aos="fade-up" data-aos-delay="100">
@@ -259,7 +259,7 @@
       <div class="row gy-4">
         <div class="col-lg-4 col-md-12">
           <h4>Ikuti Kami</h4>
-          <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
+          <p></p>
           <div class="social-links d-flex">
             <a href="https://x.com/smkn1kawali"><i class="bi bi-twitter-x"></i></a>
             <a href="https://www.facebook.com/smkn1kawali"><i class="bi bi-facebook"></i></a>

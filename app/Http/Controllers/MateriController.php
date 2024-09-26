@@ -111,14 +111,12 @@ class MateriController extends Controller
     })->paginate(2); // Pastikan paginate() digunakan di sini
     return view('guru.materi.materi', compact('materi'));
 }
-    public function tampil()
+    public function lihatMateri_siswa()
     {
-        $materi = Materi::paginate(10); // Mengambil semua data materi
-        return view('admin.materi', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
-    }
-    public function muncul()
-    {
+        $kelas = \Illuminate\Support\Facades\Auth::User()->kelas;
+        $materi = Materi::where('kelas', $kelas)->get();
         $materi = Materi::all(); // Mengambil semua data materi
-        return view('siswa.lihatMateri', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
+        return view('siswa.lihatmateri', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
     }
+    
 }

@@ -17,7 +17,7 @@ class RoleMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next,...$roles)
     {
         if (!Auth::check()) {
             return redirect('/login');
@@ -25,19 +25,23 @@ class RoleMiddleware
 
         $role = Auth::user()->role;
 
-        switch ($role) {
-            case 'Admin':
-                return redirect('/admin-dashboard');
-            case 'Siswa':
-                return redirect('/siswa-dashboard');
-            case 'Guru':
-                return redirect('/guru-dashboard');
-            case 'Orang Tua':
-                return redirect('/orangtua-dashboard');
-            default:
-                Auth::logout();
-                return redirect('/login')->withErrors(['role' => 'Role tidak valid.']);
+        if(!in_array($role, $roles)){
+            switch ($role) {
+                case 'Admin':
+                    return redirect('/admin-dashboard');
+                case 'Siswa':
+                    return redirect('/siswa-dashboard');
+                case 'Guru':
+                    return redirect('/guru-dashboard');
+                case 'Orang Tua':
+                    return redirect('/orangtua-dashboard');
+                default:
+                    Auth::logout();
+                    return redirect('/login')->withErrors(['role' => 'Role tidak valid.']);
+            }
         }
+
+        
 
         return $next($request);
     }

@@ -7,6 +7,7 @@
     <a href="{{ route('tampil-Guru') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
     <a href="{{ route('forum.guru') }}"><i class="fas fa-comments"></i>Forum Diskusi </a>
 
+    <a href="{{ route('guru.scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
         <i class="fas fa-sign-out-alt"></i> Log Out
     </a>

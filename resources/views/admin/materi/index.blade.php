@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materi</title>
+    <link href="assets/img/favicon.png" rel="icon">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -120,7 +121,7 @@
 
                     <!-- Form Pencarian dan Tombol Tambah dalam satu baris -->
                     <div class="d-flex justify-content-between mb-2">
-                        <form action="{{ route('materi.cari') }}" method="GET" class="input-group" style="max-width: 400px;">
+                        <form action="{{ route('materiAdmin.cari') }}" method="GET" class="input-group" style="max-width: 400px;">
                             <input type="text" name="cari" class="form-control search-input" placeholder="Cari materi..." value="{{ request()->get('search') }}">
                             <div class="input-group-append">
                                 <button class="btn btn-primary search-btn" type="submit">
@@ -128,7 +129,7 @@
                                 </button>
                             </div>
                         </form>
-                        <a href="{{ route('materi.create') }}" class="btn btn-primary add-btn">
+                        <a href="{{ route('adminMateri.create') }}" class="btn btn-primary add-btn">
                             <i class="fas fa-plus-circle"></i> Tambah Materi
                         </a>
                     </div>
@@ -158,11 +159,11 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('materi.edit', $item->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                        <a href="{{ route('adminMateri.edit', $item->id) }}" class="btn btn-sm btn-info">Edit</a>
                                         <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $item->id }}')">Hapus</button>
                                         
                                         <!-- Form tersembunyi untuk menghapus materi -->
-                                        <form id="delete-form-{{ $item->id }}" action="{{ route('materi.destroy', $item->id) }}" method="POST" style="display: none;">
+                                        <form id="delete-form-{{ $item->id }}" action="{{ route('adminMateri.destroy', $item->id) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>

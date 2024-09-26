@@ -189,20 +189,9 @@
         }
     </style>
 </head>
-<body>
+<!-- <body>
     @include('layouts.app')
-    <h1>Data Tugas Siswa</h1>
-    {{-- <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                         <div class="col-sm-6">
-                            
-                        </div> 
-                    </div>
-                </div>
-            </div> --}}
-            <!-- Main content -->
+    <h1>Data Tugas Siswa</h1> 
             <section class="content">
                 <div class="container-fluid">
                     <div class="card animate__animated animate__fadeInUp">
@@ -272,4 +261,4 @@
             </section>
         </div>
 </body>
-</html>
+</html> -->

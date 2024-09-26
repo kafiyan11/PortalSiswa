@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Tugas</title>
-    <link href="assets/img/favicon.png" rel="icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -105,7 +104,7 @@
                     </ul>
                 </div>
                 @endif
-                <form action="{{route('guru.addTugas')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('admin.create')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('post')
                     <div class="mb-3">

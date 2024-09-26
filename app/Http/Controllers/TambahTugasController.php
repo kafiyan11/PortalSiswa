@@ -11,7 +11,7 @@ class TambahTugasController extends Controller
 {
     public function tugas()
     {
-        $siswa = Tugas::paginate(2);
+        $siswa = Tugas::paginate(10);
         return view('guru.tugas.tugas', ['siswa' => $siswa]);
     }
 
@@ -82,7 +82,7 @@ class TambahTugasController extends Controller
 
     //update siswa
     public function update(Request $request, $id)
-{
+    {
     $validatedData = $request->validate([
         'nis' => 'required|string|max:255',
         'nama' => 'required|string|max:255',
@@ -115,18 +115,11 @@ class TambahTugasController extends Controller
     $siswa->save();
 
     return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil diubah!');
-}
-
+    }
     public function cari(Request $request){
         $data = $request->input('cari');
-        $siswa = tugas::where('nama', 'like', '%'.$data.'%')->paginate(2);
+        $siswa = tugas::where('nis', 'like', '%'.$data.'%')->paginate(10);
 
     return view('guru.tugas.tugas', compact('siswa'));
-}
-public function wujud()
-{
-    $siswa = tugas::all();
-    return view('admin.tugas', compact('siswa'));
-}
-
+    }
 }

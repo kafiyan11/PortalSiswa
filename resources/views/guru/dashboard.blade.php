@@ -1,4 +1,20 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard Guru</title>
+    <link href="assets/img/favicon.png" rel="icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .container{
+            margin-top: 140px;
+        }
+    </style>
+</head>
+<body>
+    @extends('layouts.app')
 
 @section('content')
 <div class="container mt-4">
