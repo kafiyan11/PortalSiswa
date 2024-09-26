@@ -51,7 +51,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
 {
-    $user = User::findOrFail($id);
+    $user = Auth::user();
 
     // Validasi
     $request->validate([
@@ -61,7 +61,7 @@ class ProfileController extends Controller
         'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
     ]);
 
-    // Update nama
+    // Update informasi pengguna
     $user->name = $request->input('name');
     $user->alamat = $request->input('alamat');
     $user->nohp = $request->input('nohp');
@@ -73,12 +73,14 @@ class ProfileController extends Controller
             Storage::delete('public/' . $user->photo);
         }
         
-        // Simpan foto baru
+        // Simpan foto baru dengan nama unik
         $file = $request->file('photo');
-        $path = $file->store('profile_photos', 'public');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('profile_photos', $filename, 'public');
         $user->photo = $path;
     }
 
+    // Simpan perubahan
     $user->save();
 
     return redirect()->route('profiles.show', $user->id)

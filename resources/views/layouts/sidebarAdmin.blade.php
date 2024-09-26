@@ -18,6 +18,7 @@
     <a href="{{ route('admin.jadwal.index') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
     <a href="{{ route('admin.tugas.index') }}"><i class="fas fa-tasks"></i> Tugas</a>
     <a href="{{ route('scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
+    <a href="{{ route('forum.index') }}"><i class="fas fa-comments"></i> Forum Diskusi</a>
     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
       <i class="fas fa-sign-out-alt"></i> Log Out
     </a>

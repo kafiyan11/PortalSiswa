@@ -4,6 +4,9 @@
     <a href="{{ route('guru.materi.materi') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
     <a href="{{ route('guru.jadwal') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
     <a href="{{ route('guru.tugas.tugas') }}"><i class="fas fa-tasks"></i> Tugas</a>
+    <a href="{{ route('tampil-Guru') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
+    <a href="{{ route('forum.guru') }}"><i class="fas fa-comments"></i>Forum Diskusi </a>
+
     <a href="{{ route('guru.scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
         <i class="fas fa-sign-out-alt"></i> Log Out

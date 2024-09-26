@@ -17,6 +17,7 @@
                 <input type="text" name="nama" id="nama" class="form-control" required>
             </div>
             <div class="form-group">
+                <label for="nis">NIS</label>
                 <label for="daily_tesnist_score">NIS</label>
                 <input type="number" name="nis" id="nis" class="form-control" required>
             </div>

@@ -55,7 +55,7 @@
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
-                        <th>NIS</th>
+                        <th>NIP</th>
                         <th>Password</th>
                         <th>Role</th>
                         <th>Aksi</th>

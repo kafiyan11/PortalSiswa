@@ -78,9 +78,18 @@ class ScoreController extends Controller
 
     public function wujud()
     {
+        // Dapatkan NIS siswa yang login
+        $nis = \Illuminate\Support\Facades\Auth::User()->nis; // Pastikan field 'nis' ada di tabel users atau model siswa yang login
+        
+        // Ambil nilai yang sesuai dengan NIS siswa yang login
+        $scores = Score::where('nis', $nis)->get();
+    
+        // Kirimkan data nilai ke view 'siswa.nilai'
+
         $scores = Score::paginate(2);
         return view('siswa.nilai', compact('scores'));
     }
+    
 
     public function lihat()
     {
