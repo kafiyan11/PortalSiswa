@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('materi', function (Blueprint $table) {
+        Schema::create('social_links', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
-            $table->string('tipe'); // Kolom untuk menyimpan tipe materi ('gambar' atau 'link_youtube')
-            $table->string('gambar')->nullable(); // Menyimpan path gambar
-            $table->string('link_youtube')->nullable(); // Menyimpan link YouTube
+            $table->string('platform'); // Nama platform media sosial (Twitter, Facebook, dll.)
+            $table->string('url'); 
             $table->timestamps();
-        });;
+        });
     }
 
     /**
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('materi');
+        Schema::dropIfExists('social_links');
     }
 };

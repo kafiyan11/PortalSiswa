@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<title>Data Nilai Siswa </title>
 @section('content')
 <head>
     <!-- Memuat library SweetAlert2 -->
@@ -17,7 +17,7 @@
                 </button>
             </div>
         </form>
-        <a href="{{ route('scores.create') }}" class="btn btn-primary shadow-sm">
+        <a href="{{ route('guru.scores.create') }}" class="btn btn-primary shadow-sm">
             <i class="fas fa-plus"></i> Tambah Nilai
         </a>
     </div>
@@ -60,7 +60,7 @@
                         <!-- Tindakan: Edit dan Hapus -->
                         <div class="d-inline-flex align-items-center">
                             <!-- Tombol Edit -->
-                            <a href="{{ route('scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1 shadow-sm">
+                            <a href="{{ route('guru.scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1 shadow-sm">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
 
@@ -70,7 +70,7 @@
                             </button>
 
                             <!-- Form tersembunyi untuk menghapus nilai siswa -->
-                            <form id="delete-form-{{ $score->id }}" action="{{ route('scores.destroy', $score->id) }}" method="POST" style="display: none;">
+                            <form id="delete-form-{{ $score->id }}" action="{{ route('guru.scores.destroy', $score->id) }}" method="POST" style="display: none;">
                                 @csrf <!-- Token keamanan Laravel -->
                                 @method('DELETE') <!-- Metode DELETE untuk penghapusan -->
                             </form>
@@ -80,9 +80,6 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="d-flex justify-content-end">
-            {{ $scores->links() }}
-        </div>
     </div>
 </div>
 

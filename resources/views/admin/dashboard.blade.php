@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beranda</title>
+  <title>Dashboard Admin</title>
+  <link href="assets/img/favicon.png" rel="icon">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -261,9 +262,9 @@
     </div>
   </div>
 
-  <a href="{{ route('admin.materi') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
+  <a href="{{ route('admin.materi.index') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
   <a href="{{ route('admin.jadwal.index') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
-  <a href="{{ route('admin.wujud') }}"><i class="fas fa-tasks"></i> Tugas</a>
+  <a href="{{ route('admin.tugas.index') }}"><i class="fas fa-tasks"></i> Tugas</a>
   <a href="{{ route('scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
   <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
     <i class="fas fa-sign-out-alt"></i> Log Out
@@ -314,7 +315,7 @@
             <p>Informasi mengenai tugas-tugas Anda.</p>
           </div>
           <div class="card-footer">
-            <a href="{{ route('admin.wujud') }}" class="btn btn-primary">Lihat Tugas</a>
+            <a href="{{ route('admin.tugas.index') }}" class="btn btn-primary">Lihat Tugas</a>
           </div>
         </div>
       </div>

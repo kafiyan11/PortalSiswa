@@ -10,21 +10,9 @@ use App\Models\Siswa; // Memastikan bahwa model Siswa digunakan
 
 class GuruController extends Controller
 {
-    /**
-     * Show the guru dashboard.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function index()
-    {
-         // Mengambil semua data siswa
-
-        return view('guru.dashboard'); // Mengirim data siswa ke view dashboard
-
-        $scores = Score::all();  // Atur data yang akan ditampilkan di halaman guru
-        return view('guru.index', compact('scores'));
+    public function index(){
+        return view('guru.dashboard');
     }
-
     public function jadwal()
     {
         return view('guru.jadwal');
@@ -35,73 +23,75 @@ class GuruController extends Controller
         return view('guru.profil');
     }
 
-    public function addMateri()
+
+    //NILAI
+    public function nilai(Request $request)
     {
-        return view('guru.addMateri');
+        $search = $request->get('cari'); // Ambil input pencarian
+    
+        if ($search) {
+            // Jika ada pencarian, cari data yang sesuai dengan 'nama' atau 'nis'
+            $scores = Score::where('nama', 'LIKE', "%{$search}%")
+                            ->orWhere('nis', 'LIKE', "%{$search}%")
+                            ->get();
+        } else {
+            // Jika tidak ada pencarian, ambil semua data
+            $scores = Score::all();
+        }
+    
+        // Mengirim variabel $scores ke view
+        return view('guru.scores.index', compact('scores'));
+    }
+    
+
+    public function tambah_nilai()
+    {
+        return view('guru.scores.create');
     }
 
-    public function addTugas(Request $request)
+    public function storeNilai(Request $request)
     {
-        // Validasi data tugas yang akan ditambahkan
-        $validatedData = $request->validate([
-            'nis' => 'required|exists:users,nis', // Pastikan NIS valid dan ada di tabel users
+        $validated = $request->validate([
             'nama' => 'required|string',
-            'kelas' => 'required|string',
-            'jurusan' => 'required|string',
-            'gambar_tugas' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'nis' => 'required|numeric',
+            'daily_test_score' => 'required|numeric',
+            'midterm_test_score' => 'required|numeric',
+            'final_test_score' => 'required|numeric',
         ]);
 
-        // Jika ada file tugas, simpan file ke dalam folder public/uploads/tugas
-        if ($request->hasFile('gambar_tugas')) {
-            $file = $request->file('gambar_tugas');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('uploads/tugas', $fileName, 'public');
-            $validatedData['gambar_tugas'] = '/storage/' . $filePath;
-        }
+        Score::create($validated);
 
-        // Simpan tugas ke database
-        Tugas::create($validatedData);
-
-        return back()->with('success', 'Tugas berhasil ditambahkan!');
+        return redirect()->route('guru.scores.index')->with('success', 'Nilai berhasil ditambahkan!');
     }
 
-    /**
-     * Menampilkan daftar tugas siswa.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function tugas()
+    public function editNilai(Score $score, $id)
     {
-        $siswa = Siswa::all(); // Mengambil semua data siswa dari database
-
-        // Mengirim data siswa ke view 'guru.tugas'
-        return view('guru.tugas', compact('siswa'));
+        $score = Score::findOrFail($id);
+        return view('guru.scores.edit', compact('score'));
     }
 
-    public function storeTugas(Request $request)
+    public function updateNilai(Request $request, $id)
     {
-        $request->validate([
-            'nis' => 'required|exists:siswas,nis',
-            'nama' => 'required',
-            'kelas' => 'required',
-            'jurusan' => 'required',
-            'gambar_tugas' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        $validated = $request->validate([
+            'nama' => 'required|string',
+            'nis' => 'required|numeric',
+            'daily_test_score' => 'required|numeric',
+            'midterm_test_score' => 'required|numeric',
+            'final_test_score' => 'required|numeric',
         ]);
 
-        if ($request->hasFile('gambar_tugas')) {
-            $file = $request->file('gambar_tugas');
-            $namaFile = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $namaFile);
-        }
+        $score = Score::findOrFail($id);
+        $score->update($validated);
 
-        Tugas::create([
-            'nis' => $request->nis,
-            'nama' => $request->nama,
-            'kelas' => $request->kelas,
-            'jurusan' => $request->jurusan,
-            'gambar_tugas' => $namaFile,
-        ]);
-
-        return redirect()->route('guru.tugas')->with('success', 'Tugas berhasil ditambahkan!');
+        return redirect()->route('guru.scores.index')->with('success', 'Nilai berhasil diperbarui!');
     }
+
+    public function destroyNilai($id)
+    {
+        $score = Score::findOrFail($id);
+        $score->delete();
+
+        return redirect()->route('guru.scores.index')->with('success', 'Nilai berhasil dihapus!');
+    }
+
 }
