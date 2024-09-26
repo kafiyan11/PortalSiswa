@@ -30,7 +30,7 @@
                 <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama" required>
             </div>
             <div class="mb-3">
-                <label for="nis" class="form-label">NIS</label>
+                <label for="nis" class="form-label">NIP</label>
                 <input type="text" class="form-control" id="nis" name="nis" placeholder="Masukkan NIS" required>
             </div>
             <div class="mb-3">

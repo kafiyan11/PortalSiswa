@@ -24,14 +24,16 @@ class TambahController extends Controller
             });
         }
     
-        // Eksekusi query untuk mendapatkan hasil
-        $data = $data->get();
+        // Eksekusi query dengan pagination, misal 10 data per halaman
+        $data = $data->paginate(5);
     
-        // Return data ke view
+        // Return data ke view dan tetap sertakan input pencarian ke dalam pagination
         return view('admin.tambah.tambahsiswa', [
-            'data' => $data
+            'data' => $data,
+            'search' => $search, // Kirim juga input pencarian ke view
         ]);
     }
+    
     
     public function store(Request $request){
         $request -> validate([

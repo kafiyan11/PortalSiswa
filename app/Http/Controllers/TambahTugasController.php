@@ -130,7 +130,7 @@ class TambahTugasController extends Controller
 // }
 public function wujud()
 {
-    $siswa = tugas::all();
+    $siswa = tugas::paginate(2);
     return view('admin.tugas', compact('siswa'));
 }
 

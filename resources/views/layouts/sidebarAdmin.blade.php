@@ -15,7 +15,16 @@
     </div>
   
     <a href="{{ route('admin.materi') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
-    <a href="{{ route('admin.jadwal.index') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
+    <div class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#jadwalDropdown" aria-expanded="false" aria-controls="jadwalDropdown">
+        <i class="fas fa-calendar-alt"></i> Jadwal
+      </a>
+      <div class="collapse" id="jadwalDropdown">
+        <a class="dropdown-item" href="{{ route('admin.jadwal.index') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
+        <a class="dropdown-item" href="{{ route('admin.jadwalguru.index') }}"><i class="fas fa-chalkboard-teacher"></i> Jadwal Guru</a>
+      </div>
+    </div>
+    
     <a href="{{ route('admin.wujud') }}"><i class="fas fa-tasks"></i> Tugas</a>
     <a href="{{ route('scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

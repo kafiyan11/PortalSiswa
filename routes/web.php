@@ -14,6 +14,7 @@ use App\Http\Controllers\TambahController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\JadwalguruController;
 use App\Http\Controllers\TambahGuruController;
 use App\Http\Controllers\TambahTugasController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -73,6 +74,16 @@ Route::middleware(['auth','role:Admin'])->group(function(){
         Route::delete('jadwal/{id}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
     });
 
+    //jadwal guru
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('jadwalguru', [JadwalguruController::class, 'index'])->name('jadwalguru.index');
+        Route::get('jadwalguru/create', [JadwalguruController::class, 'create'])->name('jadwalguru.create');
+        Route::post('jadwalguru', [JadwalguruController::class, 'store'])->name('jadwalguru.store');
+        Route::get('jadwalguru/{id}/edit', [JadwalguruController::class, 'edit'])->name('jadwalguru.edit');
+        Route::put('jadwalguru/{id}', [JadwalguruController::class, 'update'])->name('jadwalguru.update');
+        Route::delete('jadwalguru/{id}', [JadwalguruController::class, 'destroy'])->name('jadwalguru.destroy');
+    });
+    
 
     //tambah akun
     Route::get('/admin-tambahsiswa',[TambahController::class, 'index'])->name('tambah');
@@ -131,7 +142,8 @@ Route::middleware(['auth','role:Guru'])->group(function(){
      Route::get('/materi/cari', [MateriController::class, 'cari'])->name('materi.cari');
 
     //Menu Di Halaman Guru
-    Route::get('/guru-jadwal', [JadwalController::class, 'tingali'])->name('guru.jadwal');
+    Route::get('/guru/jadwal', [GuruController::class, 'jadwal'])->name('guru.jadwal');
+
     Route::get('/guru-profil', [GuruController::class, 'profil'])->name('guru.profil');
     Route::get('/guru-addMateri', [GuruController::class, 'addMateri'])->name('guru.addMateri');
     Route::get('/guru-addTugas', [GuruController::class, 'addTugas'])->name('guru.addTugas');
@@ -188,6 +200,11 @@ Route::get('/guru-addTugas', [SiswaController::class, 'addTugas'])->name('guru.a
 Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
 Route::get('/lihat/materi', [MateriController::class, 'muncul'])->name('lihat.materi');
 Route::get('/siswa-nilai', [ScoreController::class, 'wujud'])->name('siswa.wujud');
+
+    //profil
+    Route::get('profiles/show', [ProfileController::class, 'show'])->name('profiles.show');
+    Route::get('profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
+    Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
 
 // Route::get('/siswa/tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
 

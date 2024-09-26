@@ -9,21 +9,20 @@ class Siswa extends Model
 {
     use HasFactory;
 
-    // Tentukan nama tabel jika berbeda dengan default
-    protected $table = 'siswa'; // Pastikan nama tabel sesuai dengan yang ada di database
+    protected $table = 'siswa';
 
-    // Kolom-kolom yang dapat diisi secara massal
     protected $fillable = [
-        'nis',        // Nomor Induk Siswa
-        'nama',       // Nama siswa
-        'kelas',      // Kelas siswa
-        'jurusan',    // Jurusan siswa
-        'gambar_tugas' // Nama file gambar tugas jika ada
+        'nis',
+        'nama',
+        'kelas',
+        'jurusan',
+        'gambar_tugas',
+        'user_id' // Pastikan ini ada untuk relasi ke User
     ];
 
-    public function siswa()
+    public function user()
     {
-        return $this->hasOne(Siswa::class, 'user_id', 'id'); // Relasi ke Siswa
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    
 }
+

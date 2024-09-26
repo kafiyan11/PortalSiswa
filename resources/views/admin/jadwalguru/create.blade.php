@@ -4,7 +4,7 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="fw-bold">Tambah Jadwal</h1>
-        <a href="{{ route('admin.jadwal.index') }}" class="btn btn-secondary">
+        <a href="{{ route('admin.jadwalguru.index') }}" class="btn btn-secondary">
             <i class="bi bi-arrow-left-circle"></i> Kembali
         </a>
     </div>
@@ -21,7 +21,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.jadwal.store') }}" method="POST">
+    <form action="{{ route('admin.jadwalguru.store') }}" method="POST">
         @csrf
 
         <div class="form-group">
@@ -60,11 +60,6 @@
         </div>
 
         <input type="hidden" id="kelas_hidden" name="kelas" value="">
-
-        <div class="mb-3">
-            <label for="mata_pelajaran" class="form-label">Mata Pelajaran</label>
-            <input type="text" id="mata_pelajaran" name="mata_pelajaran" class="form-control" placeholder="Masukkan mata pelajaran" value="{{ old('mata_pelajaran') }}" required>
-        </div>
     
         <div class="mb-3">
             <label for="guru" class="form-label">Guru</label>

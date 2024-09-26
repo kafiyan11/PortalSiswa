@@ -13,7 +13,7 @@ class TambahGuruController extends Controller
         // Mengambil kata kunci pencarian dari form
         $search = $request->input('search');
     
-        // Query untuk mencari data guru berdasarkan nama atau NIS
+        // Query untuk mencari data guru berdasarkan nama atau NIS dengan pagination
         $guru = User::where('role', 'Guru')
                     ->when($search, function ($query, $search) {
                         return $query->where(function ($q) use ($search) {
@@ -21,7 +21,7 @@ class TambahGuruController extends Controller
                               ->orWhere('nis', 'like', '%' . $search . '%');
                         });
                     })
-                    ->get();
+                    ->paginate(5); // Menambahkan pagination dengan 10 data per halaman
     
         // Mengirim data guru dan kata kunci pencarian ke view
         return view('admin.tambahguru.dataguru', [
@@ -29,6 +29,7 @@ class TambahGuruController extends Controller
             'search' => $search // opsional, jika ingin menampilkan kata kunci pencarian di view
         ]);
     }
+    
     
     public function store(Request $request){
         $request -> validate([

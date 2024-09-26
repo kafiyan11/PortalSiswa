@@ -3,14 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Siswa</title>
+    <title>Daftar Orang Tua</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            background-color: #f7f9fc;
+            font-family: 'Poppins', sans-serif;
+        }
+        h1 {
+            font-weight: 600;
+            color: #004085;
+        }
+        .btn-primary, .btn-success {
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #007bff, #00c6ff);
+            border: none;
+            color: white;
+        }
+        .btn-success {
+            background: linear-gradient(90deg, #28a745, #5cb85c);
+            border: none;
+            color: white;
+        }
+        .table-responsive {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background: white;
+            padding: 20px;
+        }
+        .table thead {
+            background-color: #004085;
+            color: white;
+            font-weight: 600;
+        }
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .badge {
+            padding: 0.5em 0.75em;
+            font-size: 0.9em;
+            font-weight: 500;
+            border-radius: 12px;
+        }
+        .badge-success { background-color: #28a745; }
+        .badge-primary { background-color: #007bff; }
+        .badge-info { background-color: #17a2b8; }
+        .badge-warning { background-color: #ffc107; }
+    </style>
 </head>
 <body>
     @include('layouts.app')
-    <div class="container custom-margin pl-4">
+
+    <div class="container mt-5">
+        <!-- Header dan Form Pencarian -->
         <div class="row mb-4">
             <div class="col-md-6">
                 <h1 class="text-primary">Daftar Orang Tua</h1>
@@ -28,26 +80,27 @@
                 </form>
             </div>
             <div class="col-md-3 text-md-right">
-                <a href="{{route('create.ortu')}}" class="btn btn-success btn-lg">
+                <a href="{{ route('create.ortu') }}" class="btn btn-success btn-lg">
                     <i class="fas fa-user-plus"></i> Tambah Orang Tua
                 </a>
             </div>
         </div>
-        
+
         <!-- Pesan Sukses -->
         @if(session('success'))
             <script>
                 Swal.fire({
                     title: "Good job!",
-                    text: "{{ session('success') }}", // Mengambil pesan dari session
+                    text: "{{ session('success') }}",
                     icon: "success"
                 });
             </script>
         @endif
 
-        <div class="table-responsive shadow-sm">
-            <table class="table table-hover table-bordered align-middle text-center">
-                <thead class="table-dark">
+        <!-- Tabel Daftar Siswa -->
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered text-center">
+                <thead class="thead-dark">
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
@@ -58,38 +111,46 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($orang as $no => $item): ?>
+                    @if($orang->count() > 0)
+                        @foreach($orang as $no => $item)
                         <tr>
-                            <td><?php echo $no + 1; ?></td>
-                            <td><?php echo htmlspecialchars($item->name); ?></td>
-                            <td><?php echo htmlspecialchars($item->nis); ?></td>
-                            <td><?php echo htmlspecialchars($item->plain_password); ?></td>
+                            <td>{{ $no + 1 }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->nis }}</td>
+                            <td>{{ $item->plain_password }}</td>
                             <td>
                                 <span class="badge 
-                                    <?php 
-                                    if($item->role == 'Admin') echo 'bg-success'; 
-                                    elseif($item->role == 'Siswa') echo 'bg-primary'; 
-                                    elseif($item->role == 'Guru') echo 'bg-info'; 
-                                    elseif($item->role == 'Orang Tua') echo 'bg-warning'; 
-                                    ?>">
-                                    <?php echo ucfirst($item->role); ?>
+                                    @if($item->role == 'Admin') badge-success 
+                                    @elseif($item->role == 'Siswa') badge-primary 
+                                    @elseif($item->role == 'Guru') badge-info 
+                                    @elseif($item->role == 'Orang Tua') badge-warning 
+                                    @endif">
+                                    {{ ucfirst($item->role) }}
                                 </span>
-                                <td class="d-flex justify-content-center">
-                                    <a href="{{ route('edit.ortu', $item->id) }}" class="btn btn-sm btn-warning me-2">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </a>&nbsp;&nbsp;
-                                    <form id="form-delete-{{ $item->id }}" action="{{ route('delet.ortu', $item->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-sm btn-danger delete-btn"data-id="{{ $item->id }}">
-                                            <i class="fas fa-trash-alt"></i> Delete
-                                        </button>
-                                    </form>
-                                </td>
+                            </td>
+                            <td class="d-flex justify-content-center">
+                                <a href="{{ route('edit.ortu', $item->id) }}" class="btn btn-warning btn-sm mr-2">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <form id="form-delete-{{ $item->id }}" action="{{ route('delet.ortu', $item->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="{{ $item->id }}">
+                                        <i class="fas fa-trash-alt"></i> Hapus
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
-                    <?php endforeach; ?>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6">Tidak ada data ditemukan.</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
+            <!-- Tampilkan tautan pagination -->
+            {{ $orang->links() }}   
         </div>
     </div>
 

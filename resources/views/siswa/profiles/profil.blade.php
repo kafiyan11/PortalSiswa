@@ -124,6 +124,12 @@
             <input type="text" id="role" value="{{ Auth::user()->role }}" readonly>
         </div>
         
+        <!-- Bagian Kelas -->
+        <div class="form-group">
+            <label for="kelas">Kelas</label>
+            <input type="text" id="kelas" value="{{ Auth::user()->kelas }}" readonly>
+        </div>
+
         <!-- Bagian Alamat -->
         <div class="form-group">
             <label for="alamat">Alamat</label>
@@ -162,8 +168,6 @@
         
             <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
         </div>
-        
-            
     </div>
 </div>
 

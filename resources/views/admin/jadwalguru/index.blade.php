@@ -31,8 +31,8 @@
 </head>
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="fw-bold">Jadwal Siswa</h1> <!-- Ubah judul di sini -->
-        <a href="{{ route('admin.jadwal.create') }}" class="btn btn-custom btn-lg">
+        <h1 class="fw-bold">Jadwal Guru</h1> <!-- Ubah judul di sini -->
+        <a href="{{ route('admin.jadwalguru.create') }}" class="btn btn-custom btn-lg">
             <i class="bi bi-plus-circle"></i> Tambah Jadwal
         </a>
     </div>
@@ -48,7 +48,7 @@
     @endif
 
     <!-- Menggunakan card untuk membungkus tabel -->
-    @if($jadwals->isEmpty())
+    @if($jadwalguru->isEmpty())
     <div class="alert alert-danger" role="alert">
         Tidak ada jadwal yang tersedia. Silakan tambahkan jadwal baru.
     </div>
@@ -57,19 +57,18 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                @foreach($jadwals as $group => $items)
+                @foreach($jadwalguru as $group => $items)
                     <h3 class="mt-4">{{ str_replace('-', ' - ', $group) }}</h3> <!-- Menampilkan kelas dan minggu -->
                     <table class="table table-hover table-striped align-middle">
                         <thead class="table-dark">
                             <tr>
                                 <th>No</th> <!-- Tambahkan kolom No di sini -->
                                 <th>Kelas</th>
-                                <th>Mata Pelajaran</th>
-                                <th>Guru</th>
                                 <th>Jam Mulai</th>
                                 <th>Jam Selesai</th>
                                 <th>Tanggal</th>
                                 <th>Hari</th>
+                                <th>Minggu</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -78,17 +77,16 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td> <!-- Tampilkan nomor di sini -->
                                 <td>{{ $jadwal->kelas }}</td>
-                                <td>{{ $jadwal->mata_pelajaran }}</td>
-                                <td>{{ $jadwal->guru }}</td>
                                 <td>{{ $jadwal->jam_mulai }}</td>
                                 <td>{{ $jadwal->jam_selesai }}</td>
                                 <td>{{ $jadwal->tanggal }}</td>
                                 <td>{{ $jadwal->hari }}</td>
+                                <td>{{ $jadwal->ganjil_genap }}</td>
                                 <td>
-                                    <a href="{{ route('admin.jadwal.edit', $jadwal->id) }}" class="btn btn-warning btn-sm">
+                                    <a href="{{ route('admin.jadwalguru.edit', $jadwal->id) }}" class="btn btn-warning btn-sm">
                                         <i class="bi bi-pencil-square"></i> Edit
                                     </a>
-                                    <form id="form-delete-{{ $jadwal->id }}" action="{{ route('admin.jadwal.destroy', $jadwal->id) }}" method="POST" style="display:inline-block;">
+                                    <form id="form-delete-{{ $jadwal->id }}" action="{{ route('admin.jadwalguru.destroy', $jadwal->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="{{ $jadwal->id }}">
