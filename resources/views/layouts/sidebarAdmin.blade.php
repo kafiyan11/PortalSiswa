@@ -14,7 +14,6 @@
       </div>
     </div>
   
-    <a href="{{ route('admin.materi') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
     <div class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#jadwalDropdown" aria-expanded="false" aria-controls="jadwalDropdown">
         <i class="fas fa-calendar-alt"></i> Jadwal
@@ -25,12 +24,11 @@
       </div>
     </div>
     
-    <a href="{{ route('admin.wujud') }}"><i class="fas fa-tasks"></i> Tugas</a>
-    <a href="{{ route('admin.materi.index') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
-    <a href="{{ route('admin.jadwal.index') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
     <a href="{{ route('admin.tugas.index') }}"><i class="fas fa-tasks"></i> Tugas</a>
+    <a href="{{ route('admin.materi.index') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
+
     <a href="{{ route('scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
-    <a href="{{ route('forum.index') }}"><i class="fas fa-comments"></i> Forum Diskusi</a>
+    <a href="{{ route('post.index') }}"><i class="fas fa-comments"></i> Forum Diskusi</a>
     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
       <i class="fas fa-sign-out-alt"></i> Log Out
     </a>

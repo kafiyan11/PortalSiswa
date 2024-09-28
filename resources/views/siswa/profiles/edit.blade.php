@@ -14,6 +14,8 @@
                     <input type="text" name="name" class="form-control" value="{{ Auth::user()->name }}" readonly>
                 </div>
 
+                {{-- Bagian kelas hanya ditampilkan jika user bukan Guru --}}
+                @if(Auth::user()->role !== 'Guru')
                 <div class="form-group">
                     <label for="kelas">Kelas</label>
                     <select id="tahun" name="tahun" class="form-control" onchange="updateKelasOptions()">
@@ -35,7 +37,6 @@
                         <option value="AKL">AKL</option>
                         <option value="DPIB">DPIB</option>
                         <option value="SK">SK</option>
-                        <!-- Tambahkan jenis kelas lain jika ada -->
                     </select>
                 </div>
 
@@ -50,6 +51,7 @@
                 </div>
 
                 <input type="hidden" name="kelas" id="kelas_hidden" value="{{ Auth::user()->kelas }}">
+                @endif
 
                 <div class="form-group">
                     @if(Auth::user()->role === 'Guru')
@@ -86,86 +88,7 @@
 </div>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f7fa;
-        margin: 0;
-        padding: 20px;
-    }
-    
-    .container {
-        max-width: 700px;
-        margin: 0 auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    h2 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 30px;
-        font-size: 24px;
-    }
-    
-    .card {
-        background-color: #fff;
-        border: none;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    .form-group {
-        margin-bottom: 20px;
-    }
-    
-    label {
-        font-size: 14px;
-        color: #333;
-        margin-bottom: 8px;
-        display: block;
-    }
-    
-    input[type="text"], input[type="file"] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-        font-size: 14px;
-        transition: all 0.3s;
-    }
-    
-    input[type="text"]:focus, input[type="file"]:focus {
-        border-color: #3f7dff;
-        background-color: #fff;
-    }
-    
-    .btn {
-        background-color: #3f7dff;
-        color: #fff;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        width: 100%;
-        font-size: 16px;
-        transition: background-color 0.3s;
-    }
-    
-    .btn:hover {
-        background-color: #365dcf;
-    }
-    
-    .profile-picture {
-        display: block;
-        margin-top: 10px;
-        border-radius: 50%;
-        width: 120px;
-        height: 120px;
-    }
+    /* Style yang sudah ada tetap digunakan */
 </style>
 
 <script>

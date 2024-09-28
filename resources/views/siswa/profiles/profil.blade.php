@@ -12,7 +12,7 @@
             padding: 0;
         }
         .profile-container {
-            max-width: 1100px; /* Lebar container diperbesar */
+            max-width: 1100px;
             margin: auto;
             background-color: white;
             border-radius: 10px;
@@ -28,18 +28,18 @@
             color: white;
             text-align: left;
             position: relative;
-            height: 200px; /* Membuat header lebih besar */
+            height: 200px;
         }
         .profile-header img {
             border-radius: 50%;
-            width: 120px; /* Membuat gambar lebih besar */
+            width: 120px;
             height: 120px;
             background-color: white;
-            margin-right: 20px; /* Menambahkan jarak antara gambar dan teks */
+            margin-right: 20px;
         }
         .profile-header h2 {
             margin: 0;
-            font-size: 32px; /* Ukuran teks lebih besar */
+            font-size: 32px;
         }
         .profile-body {
             padding: 20px;
@@ -104,7 +104,7 @@
 <body>
 <div class="profile-container">   
     <div class="profile-header">
-        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : 'default-avatar.png' }}" alt="Profile Picture">
+        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('default-avatar.png') }}" alt="Profile Picture">
         <h2>Profil</h2>
     </div>
     <div class="tabs">
@@ -124,11 +124,13 @@
             <input type="text" id="role" value="{{ Auth::user()->role }}" readonly>
         </div>
         
-        <!-- Bagian Kelas -->
-        <div class="form-group">
-            <label for="kelas">Kelas</label>
-            <input type="text" id="kelas" value="{{ Auth::user()->kelas }}" readonly>
-        </div>
+        <!-- Bagian Kelas - hanya tampil jika bukan guru -->
+        @if(Auth::user()->role !== 'guru')
+            <div class="form-group">
+                <label for="kelas">Kelas</label>
+                <input type="text" id="kelas" value="{{ Auth::user()->kelas }}" readonly>
+            </div>
+        @endif
 
         <!-- Bagian Alamat -->
         <div class="form-group">
@@ -166,7 +168,7 @@
                 <a href="{{ route('home') }}" class="btn btn-primary">Go Back</a> <!-- Default fallback link -->
             @endif
         
-            <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
+            <a href="{{ route('profiles.edit', Auth::user()->id) }}">Edit Profile</a>
         </div>
     </div>
 </div>

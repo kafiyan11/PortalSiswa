@@ -169,7 +169,7 @@
                                         <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $siswas->id }}')">Hapus</button>
                                         
                                         <!-- Form tersembunyi untuk menghapus materi -->
-                                        <form id="delete-form-{{ $siswas->id }}" action="{{ route('tugas.destroy', $siswas->id) }}" method="POST" style="display: none;">
+                                        <form id="delete-form-{{ $siswas->id }}" action="{{ route('guru.tugas.destroy', $siswas->id) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>

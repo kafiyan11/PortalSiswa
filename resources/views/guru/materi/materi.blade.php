@@ -174,7 +174,7 @@
                     </table>
                     <!-- Link pagination -->
                     <div class="d-flex justify-content-end">
-                        {{ $materi->links() }}
+                        {{-- {{ $materi->links() }} --}}
                     </div>
                 </div>
             </div>

@@ -11,18 +11,19 @@ class ScoreController extends Controller
         $search = $request->get('cari'); // Ambil input pencarian
     
         if ($search) {
-            // Jika ada pencarian, cari data yang sesuai dengan 'nama' atau 'nis'
+            // Jika ada pencarian, cari data yang sesuai dengan 'nama' atau 'nis' dan paginate hasilnya
             $scores = Score::where('nama', 'LIKE', "%{$search}%")
                             ->orWhere('nis', 'LIKE', "%{$search}%")
-                            ->get();
+                            ->paginate(2);
         } else {
-            // Jika tidak ada pencarian, ambil semua data
+            // Jika tidak ada pencarian, ambil semua data dengan pagination
             $scores = Score::paginate(2);
         }
     
         // Mengirim variabel $scores ke view
         return view('admin.scores.index', compact('scores'));
     }
+    
     
 
     public function create()

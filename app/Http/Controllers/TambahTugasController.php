@@ -122,11 +122,6 @@ class TambahTugasController extends Controller
 
     return view('guru.tugas.tugas', compact('siswa'));
 }
-// public function lihatAdmin()
-// {
-//     $siswa = Tugas::paginate(10);
-//     return view('admin.tugas', compact('siswa')); 
-// }
 public function wujud()
 {
     $siswa = tugas::paginate(2);
@@ -134,4 +129,3 @@ public function wujud()
 }
 
     }
-}

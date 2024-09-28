@@ -99,4 +99,20 @@ class GuruController extends Controller
         return redirect()->route('guru.scores.index')->with('success', 'Nilai berhasil dihapus!');
     }
 
+    public function materi()
+    {
+        $materi = Tugas::all();
+        return view('guru.materi.materi', compact('materi'));
+    }
+    
+    
+
+public function tugas()
+{
+    $siswa = Tugas::paginate(10); // Mengambil data dari model Tugas
+    return view('guru.tugas.tugas', ['siswa' => $siswa]); // Mengirim variabel $siswa ke view
+}
+
+
+
 }

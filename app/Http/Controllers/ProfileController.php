@@ -31,16 +31,16 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        // Ensure that only the logged-in user can edit their own profile
         $user = Auth::user();
-
+    
+        // Cek apakah ID yang sedang login sama dengan ID yang ingin diedit
         if ($user->id != $id) {
-            return redirect()->route('siswa.profiles.profil')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
+            return redirect()->route('profiles.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
         }
-
-        // Show the edit profile form with user data
+    
         return view('siswa.profiles.edit', compact('user'));
     }
+    
 
     /**
      * Update the profile changes in the database.
@@ -53,21 +53,24 @@ class ProfileController extends Controller
     {
         // Find the user by ID or fail
         $user = User::findOrFail($id);
-{
-    $user = Auth::user();
+
+        // Ensure that only the logged-in user can update their own profile
+        if (Auth::user()->id != $id) {
+            return redirect()->route('profiles.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
+        }
 
         // Validate the request data
         $request->validate([
             'name' => 'required|string|max:255',
-            'kelas' => 'nullable|string|max:50', // Add validation for kelas
+            'kelas' => 'nullable|string|max:50',
             'alamat' => 'nullable|string|max:255',
             'nohp' => 'nullable|string|max:15',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate the image
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Update user fields
         $user->name = $request->input('name');
-        $user->kelas = $request->input('kelas'); // Update kelas
+        $user->kelas = $request->input('kelas');
         $user->alamat = $request->input('alamat');
         $user->nohp = $request->input('nohp');
 
@@ -80,37 +83,16 @@ class ProfileController extends Controller
 
             // Save the new photo
             $file = $request->file('photo');
-            $path = $file->store('profile_photos', 'public');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('profile_photos', $filename, 'public');
             $user->photo = $path;
         }
 
-    // Update informasi pengguna
-    $user->name = $request->input('name');
-    $user->alamat = $request->input('alamat');
-    $user->nohp = $request->input('nohp');
-
-    // Handle foto profil
-    if ($request->hasFile('photo')) {
-        // Hapus foto lama jika ada
-        if ($user->photo && Storage::exists('public/' . $user->photo)) {
-            Storage::delete('public/' . $user->photo);
-        }
-        
-        // Simpan foto baru dengan nama unik
-        $file = $request->file('photo');
-        $filename = time() . '_' . $file->getClientOriginalName();
-        $path = $file->storeAs('profile_photos', $filename, 'public');
-        $user->photo = $path;
-    }
-
-    // Simpan perubahan
-    $user->save();
-
-        // Save changes to the database
+        // Save changes
         $user->save();
 
         // Redirect back to the profile page with success message
         return redirect()->route('profiles.show', $user->id)
-                         ->with('success', 'Profile updated successfully');
+                        ->with('success', 'Profile updated successfully');
     }
 }
