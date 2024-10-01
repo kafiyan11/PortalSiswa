@@ -61,6 +61,11 @@
 
         <input type="hidden" id="kelas_hidden" name="kelas" value="">
     
+        <div class="form-group">
+            <label for="nis">NIP</label>
+            <input type="text" class="form-control" id="nis" name="nis" value="{{ old('nis', $jadwal->nis ?? '') }}" required>
+        </div>
+        
         <div class="mb-3">
             <label for="guru" class="form-label">Guru</label>
             <input type="text" id="guru" name="guru" class="form-control" placeholder="Masukkan nama guru" value="{{ old('guru') }}" required>

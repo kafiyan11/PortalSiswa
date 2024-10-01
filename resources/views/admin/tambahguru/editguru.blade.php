@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Edit Data</h1>
+    <h1>Edit Data Guru</h1>
     
     <!-- Alert Section -->
     @if(session('success'))
@@ -22,22 +22,83 @@
         </div>
     @endif
 
-    <form action="{{ route('update.guru', $data->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('update.guru', $data->id) }}" method="POST">
         @csrf
         @method('PUT')
+        
+        <!-- Nama Guru -->
         <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name" required value="{{ $data->name }}">
+            <label for="name" class="form-label">Nama Guru</label>
+            <input 
+                type="text" 
+                class="form-control @error('name') is-invalid @enderror" 
+                id="name" 
+                name="name" 
+                required 
+                value="{{ old('name', $data->name) }}"
+            >
+            @error('name')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
+        
+        <!-- NIP -->
         <div class="mb-3">
             <label for="nis" class="form-label">NIP</label>
-            <input type="text" class="form-control" id="nis" name="nis" required value="{{ $data->nis }}">
+            <input 
+                type="text" 
+                class="form-control @error('nis') is-invalid @enderror" 
+                id="nis" 
+                name="nis" 
+                required 
+                value="{{ old('nis', $data->nis) }}"
+            >
+            @error('nis')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
+        
+        <!-- Password -->
         <div class="mb-3">
-            <label for="class" class="form-label">Password</label>
-            <input type="text" class="form-control" id="class" name="password" required value="{{ $data->plain_password }}">
+            <label for="password" class="form-label">Password Baru</label>
+            <input 
+                type="password" 
+                class="form-control @error('password') is-invalid @enderror" 
+                id="password" 
+                name="password" 
+                placeholder="Masukkan password baru jika ingin mengganti"
+            >
+            @error('password')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
+        
+        <!-- Konfirmasi Password -->
+        <div class="mb-3">
+            <label for="password_confirmation" class="form-label">Konfirmasi Password Baru</label>
+            <input 
+                type="password" 
+                class="form-control @error('password_confirmation') is-invalid @enderror" 
+                id="password_confirmation" 
+                name="password_confirmation" 
+                placeholder="Konfirmasi password baru"
+            >
+            @error('password_confirmation')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+        
+        <!-- Tombol Submit dan Kembali -->
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ route('tambahguru') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 @endsection

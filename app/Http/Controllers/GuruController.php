@@ -8,19 +8,25 @@ use App\Models\Jadwalguru;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Siswa; // Memastikan bahwa model Siswa digunakan
+use Illuminate\Support\Facades\Auth; // Import Auth
 
 class GuruController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('guru.dashboard');
     }
+
     public function jadwal()
     {
-        // Fetch jadwal data, e.g., group by class
-        $jadwalguru = Jadwalguru::all()->groupBy('kelas'); // Modify as per your needs
+        // Mengambil NIS dari pengguna yang sedang login
+        $nis = Auth::user()->nis; // Pastikan pengguna memiliki atribut NIS
 
-        // Return the view with the data
-        return view('guru.jadwal', compact('jadwalguru')); // Make sure the view path is correct
+        // Mengambil jadwal yang sesuai dengan NIS guru
+        $jadwalguru = Jadwalguru::where('nis', $nis)->get()->groupBy('kelas'); // Group by kelas
+
+        // Mengembalikan view dengan data
+        return view('guru.jadwal', compact('jadwalguru')); // Pastikan jalur tampilan benar
     }
 
     public function profil()
@@ -28,8 +34,7 @@ class GuruController extends Controller
         return view('guru.profil');
     }
 
-
-    //NILAI
+    // NILAI
     public function nilai(Request $request)
     {
         $search = $request->get('cari'); // Ambil input pencarian
@@ -47,7 +52,6 @@ class GuruController extends Controller
         // Mengirim variabel $scores ke view
         return view('guru.scores.index', compact('scores'));
     }
-    
 
     public function tambah_nilai()
     {
@@ -104,15 +108,10 @@ class GuruController extends Controller
         $materi = Tugas::all();
         return view('guru.materi.materi', compact('materi'));
     }
-    
-    
 
-public function tugas()
-{
-    $siswa = Tugas::paginate(10); // Mengambil data dari model Tugas
-    return view('guru.tugas.tugas', ['siswa' => $siswa]); // Mengirim variabel $siswa ke view
-}
-
-
-
+    public function tugas()
+    {
+        $siswa = Tugas::paginate(10); // Mengambil data dari model Tugas
+        return view('guru.tugas.tugas', ['siswa' => $siswa]); // Mengirim variabel $siswa ke view
+    }
 }

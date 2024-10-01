@@ -32,22 +32,23 @@ class SiswaController extends Controller
     {
         // Mendapatkan hari ini dalam bahasa Indonesia
         $hariIni = Carbon::now()->locale('id')->translatedFormat('l');
-
+    
         // Mendapatkan status minggu ganjil/genap
-        $minggu = $this->getGanjilGenapFromTanggal(now()); // Menggunakan tanggal saat ini
-
-        // Mengambil ID kelas dari user yang sedang login (pastikan kelas tersimpan di tabel users)
+        $minggu = $this->getGanjilGenapFromTanggal(now());
+    
+        // Mengambil ID kelas dari user yang sedang login
         $kelasSiswa = auth()->user()->kelas;
-
+    
         // Mendapatkan semua jadwal sesuai hari ini, minggu ganjil/genap, dan kelas siswa
         $jadwals = Jadwal::where('hari', $hariIni)
                         ->where('ganjil_genap', $minggu)
                         ->where('kelas', $kelasSiswa)
                         ->get();
-
+    
         // Menampilkan jadwal di view
-        return view('siswa.jadwal', compact('jadwals'));
+        return view('siswa.jadwal', compact('jadwals', 'hariIni', 'minggu'));
     }
+    
 
     // Method untuk menentukan ganjil atau genap berdasarkan tanggal
     protected function getGanjilGenapFromTanggal($tanggal)

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Guru</title>
-    <link href="assets/img/favicon.png" rel="icon">
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -28,10 +28,16 @@
             border: none;
             color: white;
         }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #0056b3, #007bff);
+        }
         .btn-success {
             background: linear-gradient(90deg, #28a745, #5cb85c);
             border: none;
             color: white;
+        }
+        .btn-success:hover {
+            background: linear-gradient(90deg, #218838, #28a745);
         }
         .table-responsive {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -57,6 +63,18 @@
         .badge-primary { background-color: #007bff; }
         .badge-info { background-color: #17a2b8; }
         .badge-warning { background-color: #ffc107; }
+        .input-group {
+            border-radius: 30px;
+            overflow: hidden;
+        }
+        .input-group input {
+            border: none;
+            border-radius: 30px 0 0 30px;
+            box-shadow: none;
+        }
+        .input-group-append button {
+            border-radius: 0 30px 30px 0;
+        }
     </style>
 </head>
 <body>
@@ -69,7 +87,7 @@
                 <h1 class="text-primary">Daftar Guru</h1>
             </div>
             <div class="col-md-3 mb-3 mb-md-0">
-                <form action="" method="GET">
+                <form action="#" method="GET">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Cari Nama atau NIS" value="{{ request()->get('search') }}">
                         <div class="input-group-append">
@@ -101,7 +119,7 @@
         <!-- Tabel Daftar Guru -->
         <div class="table-responsive">
             <table class="table table-hover table-bordered text-center">
-                <thead class="thead-dark">
+                <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
@@ -113,16 +131,17 @@
                 </thead>
                 <tbody>
                     @if($guru->count() > 0)
-                        @foreach($guru as $no => $item)
+                        @foreach($guru as $index => $item)
                         <tr>
-                            <td>{{ $no + 1 }}</td>
+                            <!-- Penomoran Kontinu -->
+                            <td>{{ ($guru->currentPage()-1) * $guru->perPage() + $loop->iteration }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->nis }}</td>
                             <td>{{ $item->plain_password }}</td>
+
                             <td>
                                 <span class="badge 
                                     @if($item->role == 'Admin') badge-success 
-                                    @elseif($item->role == 'Siswa') badge-primary 
                                     @elseif($item->role == 'Guru') badge-info 
                                     @elseif($item->role == 'Orang Tua') badge-warning 
                                     @endif">
@@ -150,8 +169,13 @@
                     @endif
                 </tbody>
             </table>
+            <div class="mb-4">
+                <p>Total Guru: <span class="badge badge-primary">{{ $totalGuru }}</span></p> <!-- Menampilkan jumlah siswa -->
+            </div>
             <!-- Tampilkan tautan pagination -->
-            {{ $guru->links() }}   
+            <div class="d-flex justify-content-center">
+                {{ $guru->appends(['search' => request()->get('search')])->links() }}
+            </div>   
         </div>
     </div>
 

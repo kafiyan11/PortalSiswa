@@ -25,19 +25,78 @@
     <div class="card p-4">
         <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            <!-- Nama -->
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama" required>
+                <label for="name" class="form-label">Nama</label>
+                <input 
+                    type="text" 
+                    class="form-control @error('name') is-invalid @enderror" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Masukkan nama" 
+                    value="{{ old('name') }}" 
+                    required
+                >
+                @error('name')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
+            <!-- NIS -->
             <div class="mb-3">
                 <label for="nis" class="form-label">NIS</label>
-                <input type="text" class="form-control" id="nis" name="nis" placeholder="Masukkan NIS" required>
+                <input 
+                    type="text" 
+                    class="form-control @error('nis') is-invalid @enderror" 
+                    id="nis" 
+                    name="nis" 
+                    placeholder="Masukkan NIS" 
+                    value="{{ old('nis') }}" 
+                    required
+                >
+                @error('nis')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
+            <!-- Password -->
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password" required>
+                <input 
+                    type="password" 
+                    class="form-control @error('password') is-invalid @enderror" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Masukkan password" 
+                    required
+                >
+                @error('password')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <!-- Konfirmasi Password -->
+            <div class="mb-3">
+                <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                <input 
+                    type="password" 
+                    class="form-control @error('password_confirmation') is-invalid @enderror" 
+                    id="password_confirmation" 
+                    name="password_confirmation" 
+                    placeholder="Konfirmasi password" 
+                    required
+                >
+                @error('password_confirmation')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <!-- Tombol Submit -->
+            <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>
 </div>

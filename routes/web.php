@@ -81,7 +81,7 @@ Route::middleware(['auth','role:Admin'])->group(function(){
     Route::post('/admin-store',[TambahController::class, 'store'])->name('store');
     Route::get('/admin-edit/{id}',[TambahController::class, 'edit'])->name('edit');
     Route::put('/admin-update/{id}',[TambahController::class, 'update'])->name('update');
-    Route::delete('/admin-delete/{id}',[TambahController::class, 'delet'])->name('delete');
+    Route::delete('/admin-delete/{id}',[TambahController::class, 'delete'])->name('delete');
 
     //tambah guru
     Route::get('/admin-tambahguru',[TambahGuruController::class, 'index'])->name('tambahguru');
@@ -146,20 +146,18 @@ Route::middleware(['auth','role:Admin'])->group(function(){
 
 /////////// untuk siswa
 Route::middleware(['auth','role:Siswa'])->group(function(){
-    Route::get('/siswa-dashboard', [SiswaController::class, 'index'])->name('siswa.dashboard');
+    Route::get('/siswa-dashboard', [JadwalController::class, 'tampil'])->name('siswa.dashboard');
     Route::get('/siswa-profile', [SiswaController::class, 'profil'])->name('siswa.profiles.profil');
     Route::get('/siswa-materi', [SiswaController::class, 'materi'])->name('siswa.materi');
-    Route::get('/siswa-jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
-    Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
+    Route::get('/siswa/jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
     Route::get('/siswa-nilai', [ScoreController::class, 'wujud'])->name('siswa.wujud');
     Route::get('/siswa-forum', [PostController::class, 'tampil'])->name('siswa.forumdiskusi');
+    Route::get('/siswa/tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas')->middleware('auth');
+
+   
     //profile
     Route::get('/profiles', [ProfileController::class, 'show'])->name('profiles.show');
-
-    // Menampilkan form edit profil
     Route::get('/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
-
-    // Mengupdate profil pengguna
     Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
     //siswa melihat materi
     Route::get('/siswa-materi-lihat', [PostController::class, 'lihatMateri_siswa'])->name('siswa.lihatmateri');
