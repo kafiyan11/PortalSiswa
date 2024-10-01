@@ -11,7 +11,7 @@ class TambahTugasController extends Controller
 {
     public function tugas()
     {
-        $siswa = Tugas::paginate(10);
+        $siswa = Tugas::paginate(2);
         return view('guru.tugas.tugas', ['siswa' => $siswa]);
     }
 
@@ -116,16 +116,12 @@ class TambahTugasController extends Controller
 
     return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil diubah!');
     }
+
     public function cari(Request $request){
         $data = $request->input('cari');
-        $siswa = tugas::where('nis', 'like', '%'.$data.'%')->paginate(10);
+        $siswa = tugas::where('nis', 'like', '%'.$data.'%')->paginate(2);
 
     return view('guru.tugas.tugas', compact('siswa'));
-}
-public function wujud()
-{
-    $siswa = tugas::paginate(2);
-    return view('admin.tugas', compact('siswa'));
 }
 
     }
