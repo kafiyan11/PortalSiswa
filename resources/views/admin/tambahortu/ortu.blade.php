@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Orang Tua</title>
-
-    <title>Daftar Siswa</title>
-    <link href="assets/img/favicon.png" rel="icon">
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -30,10 +28,16 @@
             border: none;
             color: white;
         }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #0056b3, #007bff);
+        }
         .btn-success {
             background: linear-gradient(90deg, #28a745, #5cb85c);
             border: none;
             color: white;
+        }
+        .btn-success:hover {
+            background: linear-gradient(90deg, #218838, #28a745);
         }
         .table-responsive {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -59,6 +63,18 @@
         .badge-primary { background-color: #007bff; }
         .badge-info { background-color: #17a2b8; }
         .badge-warning { background-color: #ffc107; }
+        .input-group {
+            border-radius: 30px;
+            overflow: hidden;
+        }
+        .input-group input {
+            border: none;
+            border-radius: 30px 0 0 30px;
+            box-shadow: none;
+        }
+        .input-group-append button {
+            border-radius: 0 30px 30px 0;
+        }
     </style>
 </head>
 <body>
@@ -71,7 +87,7 @@
                 <h1 class="text-primary">Daftar Orang Tua</h1>
             </div>
             <div class="col-md-3 mb-3 mb-md-0">
-                <form action="" method="GET">
+                <form action="{{ route('ortu') }}" method="GET">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Cari Nama atau NIS" value="{{ request()->get('search') }}">
                         <div class="input-group-append">
@@ -100,10 +116,10 @@
             </script>
         @endif
 
-        <!-- Tabel Daftar Siswa -->
+        <!-- Tabel Daftar Orang Tua -->
         <div class="table-responsive">
             <table class="table table-hover table-bordered text-center">
-                <thead class="thead-dark">
+                <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
@@ -115,12 +131,14 @@
                 </thead>
                 <tbody>
                     @if($orang->count() > 0)
-                        @foreach($orang as $no => $item)
+                        @foreach($orang as $index => $item)
                         <tr>
-                            <td>{{ $no + 1 }}</td>
+                            <!-- Penomoran Kontinu -->
+                            <td>{{ ($orang->currentPage()-1) * $orang->perPage() + $loop->iteration }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->nis }}</td>
                             <td>{{ $item->plain_password }}</td>
+
                             <td>
                                 <span class="badge 
                                     @if($item->role == 'Admin') badge-success 
@@ -152,14 +170,22 @@
                     @endif
                 </tbody>
             </table>
+            <div class="mb-4">
+                <p>Total Orang Tua: <span class="badge badge-primary">{{ $totalOrangTua }}</span></p> <!-- Menampilkan jumlah orang tua -->
+            </div>
             <!-- Tampilkan tautan pagination -->
-            {{ $orang->links() }}   
+            <div class="d-flex justify-content-center">
+                {{ $orang->appends(['search' => request()->get('search')])->links() }}
+            </div>   
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- SweetAlert2 Delete Confirmation -->
     <script>
         $(document).ready(function() {
             $('.delete-btn').click(function() {
@@ -173,7 +199,7 @@
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Ya, Hapus!",
+                    confirmButtonText: "Ya, hapus!",
                     cancelButtonText: "Batal"
                 }).then((result) => {
                     if (result.isConfirmed) {
