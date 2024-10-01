@@ -47,24 +47,24 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>No</th> <!-- Tambahkan kolom No di sini -->
+                                <th>Nama</th>
+                                <th>NIP</th>
                                 <th>Kelas</th>
+                                <th>Hari</th>
                                 <th>Jam Mulai</th>
                                 <th>Jam Selesai</th>
-                                <th>Tanggal</th>
-                                <th>Hari</th>
-                                <th>Minggu</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($items as $index => $jadwal) <!-- Tambahkan $index untuk nomor -->
                             <tr>
                                 <td>{{ $index + 1 }}</td> <!-- Tampilkan nomor di sini -->
+                                <td>{{ $jadwal->guru }}</td>
+                                <td>{{ $jadwal->nis }}</td>
                                 <td>{{ $jadwal->kelas }}</td>
+                                <td>{{ $jadwal->hari }}</td>
                                 <td>{{ $jadwal->jam_mulai }}</td>
                                 <td>{{ $jadwal->jam_selesai }}</td>
-                                <td>{{ $jadwal->tanggal }}</td>
-                                <td>{{ $jadwal->hari }}</td>
-                                <td>{{ $jadwal->ganjil_genap }}</td>
                             </tr>
                             @endforeach
                         </tbody>

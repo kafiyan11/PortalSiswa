@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Siswa</title>
-    <link href="assets/img/favicon.png" rel="icon">
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -100,7 +100,7 @@
                 <h1 class="text-primary">Daftar Siswa</h1>
             </div>
             <div class="col-md-3 mb-3 mb-md-0">
-                <form action="" method="GET">
+                <form action="#" method="GET">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Cari Nama atau NIS" value="{{ request()->get('search') }}">
                         <div class="input-group-append">
@@ -132,7 +132,7 @@
         <!-- Tabel Daftar Siswa -->
         <div class="table-responsive">
             <table class="table table-hover table-bordered text-center">
-                <thead class="thead-dark">
+                <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
@@ -144,9 +144,10 @@
                 </thead>
                 <tbody>
                     @if($data->count() > 0)
-                        @foreach($data as $no => $item)
+                        @foreach($data as $index => $item)
                         <tr>
-                            <td>{{ $no + 1 }}</td>
+                            <!-- Penomoran Kontinu -->
+                            <td>{{ ($data->currentPage()-1) * $data->perPage() + $loop->iteration }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->nis }}</td>
                             <td>{{ $item->plain_password }}</td>
@@ -181,8 +182,13 @@
                     @endif
                 </tbody>
             </table>
+            <div class="col-md-6">
+                <p>Total Siswa: <span class="badge badge-primary">{{ $totalSiswa }}</span></p> <!-- Menampilkan jumlah siswa -->
+            </div>
             <!-- Tampilkan tautan pagination -->
-            {{ $data->appends(['search' => request()->get('search')])->links() }}   
+            <div class="d-flex justify-content-center">
+                {{ $data->appends(['search' => request()->get('search')])->links() }}
+            </div>   
         </div>
     </div>
 
@@ -207,7 +213,7 @@
                     cancelButtonText: "Batal"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $(this).parent().submit();
+                        $('#form-delete-' + id).submit();
                     }
                 });
             });

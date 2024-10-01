@@ -27,23 +27,32 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /**
+     * Scope untuk memfilter pengguna berdasarkan peran.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $role
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithRole($query, $role)
+    {
+        return $query->where('role', $role);
+    }
+
     public function siswa()
     {
         return $this->hasOne(Siswa::class, 'user_id', 'id');
     }
 
-    // App\Models\User.php
-
+    // Relasi dengan Post
     public function posts()
     {
         return $this->hasMany(Post::class);
     }
     
+    // Relasi dengan Comment
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
-
-
-
 }

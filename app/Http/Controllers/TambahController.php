@@ -3,90 +3,163 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt; // Pastikan Crypt diimpor
 
 class TambahController extends Controller
 {
-    public function index(Request $request) {
+    /**
+     * Menampilkan daftar siswa dengan opsi pencarian.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
         // Ambil input pencarian dari request (GET parameter)
         $search = $request->get('search');
-    
-        // Query untuk menampilkan data siswa
-        $data = User::where('role', 'Siswa');
-    
+
+        // Gunakan scope untuk mendapatkan query pengguna dengan role 'Siswa'
+        $dataQuery = User::withRole('Siswa');
+
         // Jika ada input pencarian, tambahkan filter berdasarkan nama atau NIS
         if ($search) {
-            $data = $data->where(function($query) use ($search) {
+            $dataQuery->where(function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%")
                       ->orWhere('nis', 'like', "%{$search}%");
             });
         }
-    
-        // Eksekusi query dengan pagination, misal 10 data per halaman
-        $data = $data->paginate(5);
-    
-        // Return data ke view dan tetap sertakan input pencarian ke dalam pagination
+
+        // Eksekusi query dengan pagination, misal 5 data per halaman
+        $data = $dataQuery->paginate(5);
+
+        // Hitung jumlah total pengguna dengan role 'Siswa' menggunakan scope
+        // Menggunakan cache untuk meningkatkan performa (opsional)
+        $totalSiswa = Cache::remember('total_siswa_count', 60, function () {
+            return User::withRole('Siswa')->count();
+        });
+
+        // Return data ke view dan sertakan jumlah total serta input pencarian
         return view('admin.tambah.tambahsiswa', [
             'data' => $data,
-            'search' => $search, // Kirim juga input pencarian ke view
+            'search' => $search,
+            'totalSiswa' => $totalSiswa,
         ]);
     }
-    
-    
-    public function store(Request $request){
-        $request -> validate([
-            'name' => 'required',
-            'nis' => 'required',
-            'password' => 'required',
-            'plain_password' 
+
+    /**
+     * Menyimpan data siswa baru ke dalam database.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'nis' => 'required|string|max:255|unique:users,nis',
+            'password' => 'required|string|min:6|confirmed',
+            // Tambahkan validasi untuk 'alamat', 'nohp', 'kelas' jika diperlukan
         ]);
+
+        // Buat pengguna baru menggunakan mass assignment
         User::create([
             'name' => $request->name,
             'nis' => $request->nis,
-            'password' => Hash::make($request['password']),
+            'password' => Hash::make($request->password),
+            'plain_password' => $request->password, // Menyimpan plain password jika diperlukan
             'role' => 'Siswa',
-            'plain_password' => $request['password'],
+            // Tambahkan field lain jika ada di form
         ]);
 
-        return redirect('/admin-tambahsiswa')->with('success', 'Akun siswa berhasil di tambahkan');
+        // Mengosongkan cache jumlah siswa karena data telah berubah
+        Cache::forget('total_siswa_count');
+
+        return redirect()->route('tambah')->with('success', 'Akun siswa berhasil ditambahkan');
     }
-    public function create() {
+
+    /**
+     * Menampilkan form untuk membuat siswa baru.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
         return view('admin.tambah.create');
-        
     }
-    public function edit(User $data,$id) {
-        $data = User::findOrFail($id);
-        return view('admin.tambah.edit',compact('data'));
-    }
-    public function update( $id, Request $request) {
 
-        $request -> validate([
-            'name' => 'required',
-            'nis' => 'required',
-            'password' => 'required',
-            'plain_password' 
+    /**
+     * Menampilkan form untuk mengedit data siswa.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        $data = User::findOrFail($id);
+        return view('admin.tambah.edit', compact('data'));
+    }
+
+    /**
+     * Memperbarui data siswa yang sudah ada.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, $id)
+    {
+        // Cari pengguna berdasarkan ID
+        $user = User::findOrFail($id);
+
+        // Validasi input
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'nis' => 'required|string|max:255|unique:users,nis,' . $id,
+            'password' => 'nullable|string|min:6|confirmed',
+            // Tambahkan validasi untuk 'alamat', 'nohp', 'kelas' jika diperlukan
         ]);
-        $data = User::find($id);
-        $data -> update([
+
+        // Siapkan data yang akan diupdate
+        $updateData = [
             'name' => $request->name,
             'nis' => $request->nis,
-            'password' => Hash::make($request['password']),
             'role' => 'Siswa',
-            'plain_password' => $request['password'],
-        ]);
-        return redirect('/admin-tambahsiswa')->with('success', 'Akun siswa berhasil di edit');
-        }
-        public function delet($id)
-        {
-            // Logika penghapusan data
-            $data = User::find($id);
+            // Tambahkan field lain jika ada di form
+        ];
 
-            $data->delete();
-           
-                return redirect()->back()->with('success','Akun berhasil di hapus');
-            
+        // Jika password diisi, tambahkan ke data yang diupdate
+        if ($request->filled('password')) {
+            $updateData['password'] = $request->password; // Mutator akan meng-hash otomatis
+            $updateData['plain_password'] = $request->password; // Mutator akan mengenkripsi otomatis
         }
 
+        // Update data pengguna
+        $user->update($updateData);
+
+        // Mengosongkan cache jumlah siswa karena data telah berubah
+        Cache::forget('total_siswa_count');
+
+        return redirect()->route('tambah')->with('success', 'Akun siswa berhasil diedit');
+    }
+
+    /**
+     * Menghapus data siswa dari database.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete($id)
+    {
+        // Cari pengguna berdasarkan ID
+        $user = User::findOrFail($id);
+
+        // Hapus pengguna
+        $user->delete();
+
+        return redirect()->route('tambah')->with('success', 'Akun berhasil dihapus');
+    }
 }

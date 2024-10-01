@@ -14,11 +14,12 @@ class JadwalController extends Controller
     public function index()
     {
         $jadwals = Jadwal::all()->groupBy(function($item) {
-            return $item->kelas . '-' . $item->ganjil_genap; // Mengelompokkan berdasarkan kelas dan minggu
+            return $item->kelas . '-' . $item->ganjil_genap; // Mengelompokkan berdasarkan kelas dan ganjil/genap
         });
     
         return view('admin.jadwal.index', compact('jadwals'));
     }
+    
     
 
     // Menampilkan formulir untuk membuat jadwal baru
@@ -91,30 +92,26 @@ class JadwalController extends Controller
     }
 
     // Menampilkan jadwal berdasarkan hari saat ini dan minggu ganjil/genap untuk siswa
-// Menampilkan jadwal berdasarkan hari saat ini dan minggu ganjil/genap untuk siswa
-// Menampilkan jadwal berdasarkan hari saat ini dan minggu ganjil/genap untuk siswa
-public function tampil()
-{
-    // Mendapatkan hari saat ini dalam bahasa Indonesia
-    $hariIni = Carbon::now()->locale('id')->translatedFormat('l');
+    public function tampil()
+    {
+        // Mendapatkan hari saat ini dalam bahasa Indonesia
+        $hariIni = Carbon::now()->locale('id')->translatedFormat('l');
+        
+        // Tentukan jenis minggu (ganjil/genap)
+        $minggu = $this->getGanjilGenapFromTanggal(now()); // Menggunakan tanggal sekarang
+        
+        // Ambil ID kelas dari pengguna yang sedang login
+        $kelasSiswa = auth()->user()->kelas; // Pastikan 'kelas' adalah atribut yang ada di tabel users
     
-    // Tentukan jenis minggu (ganjil/genap)
-    $minggu = $this->getGanjilGenapFromTanggal(now()); // Menggunakan tanggal sekarang
-    
-    // Ambil ID kelas dari pengguna yang sedang login
-    $kelasSiswa = auth()->user()->kelas; // Pastikan 'kelas' adalah atribut yang ada di tabel users
-
-    // Mendapatkan semua jadwal yang sesuai dengan hari ini dan minggu (ganjil/genap) serta kelas
-    $jadwals = Jadwal::where('hari', $hariIni)
-                    ->where('ganjil_genap', $minggu) // Gunakan ganjil_genap
-                    ->where('kelas', $kelasSiswa) // Filter berdasarkan kelas
-                    ->get();
-    
-    // Kirimkan jadwal ke view siswa
-    return view('siswa.dashboard', compact('jadwals'));
-}
-
-
+        // Mendapatkan semua jadwal yang sesuai dengan hari ini dan minggu (ganjil/genap) serta kelas
+        $jadwals = Jadwal::with('guru')->where('hari', $hariIni)
+                        ->where('ganjil_genap', $minggu) // Gunakan ganjil_genap
+                        ->where('kelas', $kelasSiswa) // Filter berdasarkan kelas
+                        ->get();
+        
+        // Kirimkan jadwal ke view siswa
+        return view('siswa.dashboard', compact('jadwals', 'hariIni', 'minggu'));
+    }
     
 
     // Menampilkan jadwal untuk guru

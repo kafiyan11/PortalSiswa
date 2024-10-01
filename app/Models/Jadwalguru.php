@@ -9,16 +9,16 @@ class Jadwalguru extends Model
 {
     use HasFactory;
 
-    protected $table = 'jadwalgurus'; // Pastikan nama tabel sesuai
+    protected $table = 'jadwalgurus';
 
     protected $fillable = [
-        'kelas', 'guru', 'jam_mulai', 'jam_selesai', 'tanggal', 'hari', 'ganjil_genap'
+        'kelas', 'guru', 'jam_mulai', 'jam_selesai', 'tanggal', 'hari', 'ganjil_genap', 'nis',
     ];
 
-    // Di model Jadwalguru
+    // Menentukan hubungan dengan model User
     public function guru()
     {
-        return $this->belongsTo(User::class, 'id_guru'); // Pastikan 'id_guru' adalah kolom yang benar
+        return $this->belongsTo(User::class, 'guru_id'); // Menghubungkan dengan ID guru
     }
-
 }
+

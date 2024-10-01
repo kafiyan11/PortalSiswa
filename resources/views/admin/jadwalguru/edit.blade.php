@@ -32,6 +32,12 @@
         @csrf
         @method('PUT')
 
+        <div class="form-group">
+            <label for="nis">NIS</label>
+            <input type="text" class="form-control" id="nis" name="nis" value="{{ old('nis', $jadwal->nis ?? '') }}" required>
+        </div>
+        
+
         <div class="mb-3">
             <label for="kelas" class="form-label">Kelas</label>
             <input type="text" name="kelas" class="form-control" value="{{ $jadwal->kelas }}" required>

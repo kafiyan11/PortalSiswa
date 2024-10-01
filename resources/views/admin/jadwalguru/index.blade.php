@@ -64,6 +64,8 @@
                             <tr>
                                 <th>No</th> <!-- Tambahkan kolom No di sini -->
                                 <th>Kelas</th>
+                                <th>NIP</th>
+                                <th>Nama Guru</th>
                                 <th>Jam Mulai</th>
                                 <th>Jam Selesai</th>
                                 <th>Tanggal</th>
@@ -77,6 +79,8 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td> <!-- Tampilkan nomor di sini -->
                                 <td>{{ $jadwal->kelas }}</td>
+                                <td>{{ $jadwal->nis }}</td>
+                                <td>{{ $jadwal->guru }}</td>
                                 <td>{{ $jadwal->jam_mulai }}</td>
                                 <td>{{ $jadwal->jam_selesai }}</td>
                                 <td>{{ $jadwal->tanggal }}</td>

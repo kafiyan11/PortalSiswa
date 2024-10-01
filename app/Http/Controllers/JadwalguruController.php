@@ -5,18 +5,17 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Jadwalguru;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JadwalguruController extends Controller
 {
     // Menampilkan daftar jadwal di admin
     public function index()
     {
-        $jadwalguru = Jadwalguru::all()->groupBy(function($item) {
-            return $item->guru; // Nama guru
-        });
-
+        $jadwalguru = JadwalGuru::all()->groupBy('kelas'); // Pastikan ini sesuai dengan kolom di tabel Anda
         return view('admin.jadwalguru.index', compact('jadwalguru'));
     }
+    
 
     // Menampilkan formulir untuk membuat jadwal baru
     public function create()
@@ -41,6 +40,7 @@ class JadwalguruController extends Controller
             'tanggal' => $request->tanggal,
             'hari' => $hari,
             'ganjil_genap' => $ganjilGenap, // Simpan ganjil/genap
+            'nis' => $request->nis, // Simpan NIS
         ]);
 
         return redirect()->route('admin.jadwalguru.index')->with('success', 'Jadwal berhasil ditambahkan');
@@ -71,6 +71,7 @@ class JadwalguruController extends Controller
             'tanggal' => $request->tanggal,
             'hari' => $hari,
             'ganjil_genap' => $ganjilGenap, // Update ganjil/genap
+            'nis' => $request->nis, // Update NIS
         ]);
 
         return redirect()->route('admin.jadwalguru.index')->with('success', 'Jadwal berhasil diperbarui');
@@ -85,16 +86,6 @@ class JadwalguruController extends Controller
         return redirect()->route('admin.jadwalguru.index')->with('success', 'Jadwal berhasil dihapus');
     }
 
-    // Menampilkan jadwal untuk guru
-    // public function lihat()
-    // {
-    //     $jadwalguru = Jadwalguru::all()->groupBy(function($item) {
-    //         return $item->guru; // Nama guru
-    //     });
-
-    //     return view('guru.jadwal', compact('jadwalguru'));
-    // }
-
     // Method untuk validasi input jadwal
     protected function validateJadwal(Request $request)
     {
@@ -104,6 +95,7 @@ class JadwalguruController extends Controller
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i|after:jam_mulai', // Pastikan jam_selesai setelah jam_mulai
             'tanggal' => 'required|date',
+            'nis' => 'required|string|max:255', // Tambahkan validasi untuk NIS
         ]);
     }
 
