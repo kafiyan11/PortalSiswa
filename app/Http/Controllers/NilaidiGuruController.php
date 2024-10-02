@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Score;
 use Illuminate\Http\Request;
 
-class ScoreController extends Controller
+class NIlaidiGuruController extends Controller
 {
     public function index(Request $request)
     {
@@ -21,14 +21,14 @@ class ScoreController extends Controller
         }
     
         // Mengirim variabel $scores ke view
-        return view('admin.scores.index', compact('scores'));
+        return view('guru.scores.index', compact('scores'));
     }
     
     
 
     public function create()
     {
-        return view('admin.scores.create');
+        return view('guru.scores.create');
     }
 
     public function store(Request $request)
@@ -43,13 +43,13 @@ class ScoreController extends Controller
 
         Score::create($validated);
 
-        return redirect()->route('admin.scores.index')->with('success', 'Nilai berhasil ditambahkan!');
+        return redirect()->route('guru.scores.index')->with('success', 'Nilai berhasil ditambahkan!');
     }
 
     public function edit(Score $score, $id)
     {
         $score = Score::findOrFail($id);
-        return view('admin.scores.edit', compact('score'));
+        return view('guru.scores.edit', compact('score'));
     }
 
     public function update(Request $request, $id)
@@ -65,7 +65,7 @@ class ScoreController extends Controller
         $score = Score::findOrFail($id);
         $score->update($validated);
 
-        return redirect()->route('admin.scores.index')->with('success', 'Nilai berhasil diperbarui!');
+        return redirect()->route('guru.scores.index')->with('success', 'Nilai berhasil diperbarui!');
     }
 
     public function destroy($id)
@@ -73,8 +73,25 @@ class ScoreController extends Controller
         $score = Score::findOrFail($id);
         $score->delete();
 
-        return redirect()->route('admin.scores.index')->with('success', 'Nilai berhasil dihapus!');
+        return redirect()->route('guru.scores.index')->with('success', 'Nilai berhasil dihapus!');
     }
+
+
+    public function wujud()
+    {
+        // Dapatkan NIS siswa yang login
+        $nis = \Illuminate\Support\Facades\Auth::User()->nis; // Pastikan field 'nis' ada di tabel users atau model siswa yang login
+        
+        // Ambil nilai yang sesuai dengan NIS siswa yang login
+        $scores = Score::where('nis', $nis)->get();
+    
+        // Kirimkan data nilai ke view 'siswa.nilai'
+
+        $scores = Score::paginate(2);
+        return view('siswa.nilai', compact('scores'));
+    }
+    
+
 
     public function ortu()
     {

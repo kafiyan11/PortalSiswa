@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
@@ -20,7 +21,27 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+        // Menghitung jumlah total siswa dengan cache untuk optimasi
+        $totalSiswa = Cache::remember('total_siswa_count', 60, function () {
+            return User::where('role', 'Siswa')->count();
+        });
+
+        // Menghitung jumlah total guru dengan cache untuk optimasi
+        $totalGuru = Cache::remember('total_guru_count', 60, function () {
+            return User::where('role', 'Guru')->count();
+        });
+
+        // Menghitung jumlah total orang tua dengan cache untuk optimasi
+        $totalOrangTua = Cache::remember('total_orangtua_count', 60, function () {
+            return User::where('role', 'Orang Tua')->count();
+        });
+
+        return view('admin.dashboard', [
+            'totalSiswa' => $totalSiswa,
+            'totalGuru' => $totalGuru,
+            'totalOrangTua' => $totalOrangTua,
+            // Tambahkan data lain yang diperlukan untuk dashboard
+        ]);
     }
 
 

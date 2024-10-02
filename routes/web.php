@@ -12,12 +12,14 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\JadwalguruController;
+use App\Http\Controllers\NIlaidiGuruController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TambahController;
 use App\Http\Controllers\TambahGuruController;
 use App\Http\Controllers\TambahOrangtuaController;
 use App\Http\Controllers\TambahTugasController;
+use App\Models\Siswa;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -101,13 +103,13 @@ Route::middleware(['auth','role:Admin'])->group(function(){
 
     //CRUD NILAI
     Route::prefix('admin')->group(function () {
-        Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
-        Route::get('/scores/create', [ScoreController::class, 'create'])->name('scores.create');
-        Route::post('/scores', [ScoreController::class, 'store'])->name('scores.store');
-        Route::get('/scores/{id}/edit', [ScoreController::class, 'edit'])->name('scores.edit');
-        Route::put('/scores/{id}', [ScoreController::class, 'update'])->name('scores.update');
-        Route::delete('/scores/{id}', [ScoreController::class, 'destroy'])->name('scores.destroy');
-        Route::get('/scores/cari', [ScoreController::class, 'cari'])->name('scores.cari');
+        Route::get('/admin/scores', [ScoreController::class, 'index'])->name('admin.scores.index');
+        Route::get('/admin/scores/create', [ScoreController::class, 'create'])->name('admin.scores.create');
+        Route::post('/admin/scores', [ScoreController::class, 'store'])->name('admin.scores.store');
+        Route::get('/admin/scores/{id}/edit', [ScoreController::class, 'edit'])->name('admin.scores.edit');
+        Route::put('/admin/scores/{id}', [ScoreController::class, 'update'])->name('admin.scores.update');
+        Route::delete('admin//scores/{id}', [ScoreController::class, 'destroy'])->name('admin.scores.destroy');
+        Route::get('admin//scores/cari', [ScoreController::class, 'cari'])->name('admin.scores.cari');
     });
 
     //CRUD TUGAS
@@ -144,7 +146,7 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
     Route::get('/siswa-profile', [SiswaController::class, 'profil'])->name('siswa.profiles.profil');
     Route::get('/siswa-materi', [SiswaController::class, 'materi'])->name('siswa.materi');
     Route::get('/siswa/jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
-    Route::get('/siswa-nilai', [ScoreController::class, 'wujud'])->name('siswa.wujud');
+    Route::get('/siswa-nilai', [SiswaController::class, 'nilai'])->name('siswa.nilai');
     Route::get('/siswa-forum', [PostController::class, 'tampil'])->name('siswa.forumdiskusi');
     Route::get('/siswa/tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas')->middleware('auth');
 
@@ -195,14 +197,17 @@ Route::middleware(['auth','role:Guru'])->group(function(){
 
     //CRUD NILAI
     Route::prefix('guru')->group(function () {
-        Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
-        Route::get('/scores/create', [ScoreController::class, 'create'])->name('scores.create');
-        Route::post('/scores', [ScoreController::class, 'store'])->name('scores.store');
-        Route::get('/scores/{id}/edit', [ScoreController::class, 'edit'])->name('scores.edit');
-        Route::put('/scores/{id}', [ScoreController::class, 'update'])->name('scores.update');
-        Route::delete('/scores/{id}', [ScoreController::class, 'destroy'])->name('scores.destroy');
-        Route::get('/scores/cari', [ScoreController::class, 'cari'])->name('scores.cari');
+        Route::get('/guru/scores', [NIlaidiGuruController::class, 'index'])->name('guru.scores.index');
+        Route::get('/guru/scores/create', [NIlaidiGuruController::class, 'create'])->name('guru.scores.create');
+        Route::post('/guru/scores', [NIlaidiGuruController::class, 'store'])->name('guru.scores.store');
+        Route::get('/guru/scores/{id}/edit', [NIlaidiGuruController::class, 'edit'])->name('guru.scores.edit');
+        Route::put('/guru/scores/{id}', [NIlaidiGuruController::class, 'update'])->name('guru.scores.update');
+        Route::delete('/guru/scores/{id}', [NIlaidiGuruController::class, 'destroy'])->name('guru.scores.destroy');
+        Route::get('/guru/scores/cari', [NIlaidiGuruController::class, 'cari'])->name('scores.cari');
         });
 
 });
-
+Route::middleware(['auth','role:Orang Tua'])->group(function(){
+    Route::get('/orangtua-dashboard', [OrangTuaController::class, 'index'])->name('orangtua.dashboard');
+    Route::get('/ortu-nilai', [ScoreController::class, 'ortu'])->name('ortu.nilai');
+});
