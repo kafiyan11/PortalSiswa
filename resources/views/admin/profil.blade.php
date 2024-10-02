@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Admin</title>
+    <title>Profil Guru</title>
     <link href="assets/img/favicon.png" rel="icon">
     <style>
         body {
@@ -153,7 +153,7 @@
         </div>
         <div class="text-right">
             <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Go Back</a>
-            <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
+            <a href="{{ route('profiles.edit', Auth::user()->) }}" class="btn btn-primary">Edit Profil</a>
         </div>  
     </div>
 </div>

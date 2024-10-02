@@ -2,7 +2,6 @@
 
 @section('content')
 <head>
-    <!-- Link ke Font Awesome untuk icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
@@ -42,8 +41,12 @@
         .img-fluid {
             border-radius: 12px;
         }
+        .reply-form {
+            display: none;
+        }
     </style>
 </head>
+
 <div class="container">
     <div class="row justify-content-center">
         <!-- Form buat postingan -->
@@ -82,7 +85,7 @@
                                  alt="profile" class="rounded-circle me-3" 
                                  style="width: 50px; height: 50px;">
                             <div>
-                                <strong>{{ $post->user->name }}</strong> <!-- Nama pengguna -->
+                                <strong>{{ $post->user->name }}</strong>
                                 <br>
                                 <span class="text-muted">{{ $post->created_at->diffForHumans() }}</span>
                             </div>
@@ -91,11 +94,9 @@
                     <div class="card-body">
                         <p>{{ $post->content }}</p>
 
-                        <!-- Menampilkan gambar dengan batasan ukuran -->
+                        <!-- Menampilkan gambar -->
                         @if($post->image)
-                            <img src="{{ asset('storage/' . $post->image) }}" 
-                                 alt="image" class="img-fluid rounded mb-3" 
-                                 style="max-width: 100%; height: auto; max-height: 300px;">
+                            <img src="{{ asset('storage/' . $post->image) }}" alt="image" class="img-fluid rounded mb-3" style="max-width: 100%; height: auto; max-height: 300px;">
                         @endif
 
                         <!-- Menampilkan video -->
@@ -106,18 +107,57 @@
                             </video>
                         @endif
                     </div>
+
                     <div class="card-footer bg-white border-0">
                         <!-- Menampilkan komentar -->
                         @foreach($post->comments as $comment)
                             <div class="d-flex mb-3 comment-box">
-                                <!-- Foto profil komentar -->
-                                <img src="{{ $comment->user->photo ? asset('storage/' . $comment->user->photo) : 'https://via.placeholder.com/40' }}" 
-                                     alt="profile" class="rounded-circle me-3" 
-                                     style="width: 30px; height: 30px;">
+                                <img src="{{ $comment->user->photo ? asset('storage/' . $comment->user->photo) : 'https://via.placeholder.com/40' }}" alt="profile" class="rounded-circle me-3" style="width: 30px; height: 30px;">
                                 <div>
-                                    <strong>{{ $comment->user->name }}</strong> <!-- Nama pengguna yang memberi komentar -->
+                                    <strong>{{ $comment->user->name }}</strong>
                                     <p class="mb-1">{{ $comment->comment }}</p>
                                     <span class="text-muted" style="font-size: 12px;">{{ $comment->created_at->diffForHumans() }}</span>
+
+                                    <!-- Tombol Balas -->
+                                    <button class="btn btn-sm btn-link text-muted" onclick="document.getElementById('reply-form-{{ $comment->id }}').style.display='block'">Balas</button>
+
+                                    <!-- Form Balasan -->
+                                    <div id="reply-form-{{ $comment->id }}" class="mt-2 reply-form">
+                                        <form action="{{ route('posts.comment.reply', [$post->id, $comment->id]) }}" method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                                <input type="text" name="comment" class="form-control" placeholder="Tulis balasan..." style="border-radius: 12px;">
+                                            </div>
+                                            <button type="submit" class="btn btn-sm btn-primary mt-2" style="border-radius: 12px;">
+                                                <i class="fas fa-reply"></i> Balas
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                    <!-- Tombol Hapus Komentar -->
+                                    @if($comment->user_id == Auth::id())
+                                        <form action="{{ route('comments.delete', $comment->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus komentar?')">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    @endif
+
+                                    <!-- Menampilkan balasan komentar -->
+                                    @foreach($comment->replies as $reply)
+                                        <div class="d-flex mt-3 ml-5 comment-box">
+                                            <img src="{{ $reply->user->photo ? asset('storage/' . $reply->user->photo) : 'https://via.placeholder.com/40' }}" 
+                                                 alt="profile" class="rounded-circle me-3" 
+                                                 style="width: 30px; height: 30px;">
+                                            <div>
+                                                <strong>{{ $reply->user->name }}</strong>
+                                                <p class="mb-1">{{ $reply->comment }}</p>
+                                                <span class="text-muted" style="font-size: 12px;">{{ $reply->created_at->diffForHumans() }}</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         @endforeach
@@ -131,7 +171,7 @@
                             <button type="submit" class="btn btn-sm btn-primary ms-2" style="border-radius: 12px;">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
-                        </form>                                               
+                        </form>
                     </div>
                 </div>
             </div>

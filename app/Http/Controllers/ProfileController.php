@@ -40,7 +40,6 @@ class ProfileController extends Controller
     
         return view('siswa.profiles.edit', compact('user'));
     }
-    
 
     /**
      * Update the profile changes in the database.
