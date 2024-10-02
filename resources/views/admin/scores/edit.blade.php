@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1 class="my-4">Edit Nilai</h1>
-        <form action="{{ route('scores.update', $score->id) }}" method="POST">
+        <form action="{{ route('admin.scores.update', $score->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -33,7 +33,7 @@
                 <input type="number" name="final_test_score" id="final_test_score" class="form-control" value="{{ $score->final_test_score }}" required>
             </div>
             <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ route('scores.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('admin.scores.index') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>
 </body>

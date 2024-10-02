@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Jadwalguru;
 use App\Models\Materi;
 use App\Models\Score;
-use App\Models\Siswa; // Memastikan bahwa model Siswa digunakan
+use Carbon\Carbon;
 use App\Models\Tugas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Import Auth
@@ -22,13 +22,20 @@ class GuruController extends Controller
     {
         // Mengambil NIS dari pengguna yang sedang login
         $nis = Auth::user()->nis; // Pastikan pengguna memiliki atribut NIS
-
-        // Mengambil jadwal yang sesuai dengan NIS guru
-        $jadwalguru = Jadwalguru::where('nis', $nis)->get()->groupBy('kelas'); // Group by kelas
-
+    
+        // Mendapatkan hari saat ini dalam bahasa Indonesia
+        $hariIni = Carbon::now()->locale('id')->translatedFormat('l'); // Contoh: "Senin"
+    
+        // Mengambil jadwal yang sesuai dengan NIS guru dan hari ini
+        $jadwalguru = Jadwalguru::where('nis', $nis)
+                        ->where('hari', $hariIni)
+                        ->get()
+                        ->groupBy('kelas'); // Group by kelas
+    
         // Mengembalikan view dengan data
-        return view('guru.jadwal', compact('jadwalguru')); // Pastikan jalur tampilan benar
+        return view('guru.jadwal', compact('jadwalguru', 'hariIni')); // Pastikan jalur tampilan benar
     }
+    
 
     public function profil()
     {

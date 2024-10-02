@@ -27,7 +27,7 @@
     <a href="{{ route('admin.tugas.index') }}"><i class="fas fa-tasks"></i> Tugas</a>
     <a href="{{ route('admin.materi.index') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
 
-    <a href="{{ route('scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
+    <a href="{{ route('admin.scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
     <a href="{{ route('post.index') }}"><i class="fas fa-comments"></i> Forum Diskusi</a>
     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
       <i class="fas fa-sign-out-alt"></i> Log Out

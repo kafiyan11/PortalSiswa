@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Jadwal;
+use App\Models\User;
+use App\Models\Score;
 use App\Models\Siswa;
 use App\Models\Tugas;
-use App\Models\User;
+use App\Models\Jadwal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
@@ -37,7 +38,7 @@ class SiswaController extends Controller
         $minggu = $this->getGanjilGenapFromTanggal(now());
     
         // Mengambil ID kelas dari user yang sedang login
-        $kelasSiswa = auth()->user()->kelas;
+        $kelasSiswa = Auth::User()->kelas;
     
         // Mendapatkan semua jadwal sesuai hari ini, minggu ganjil/genap, dan kelas siswa
         $jadwals = Jadwal::where('hari', $hariIni)
@@ -80,4 +81,16 @@ class SiswaController extends Controller
 
         return view('siswa.tugas', compact('tugas'));
     }
+    public function nilai()
+    {
+        // Ambil NIS siswa yang sedang login
+        $nis = Auth::User ()->nis;
+    
+        // Ambil data nilai berdasarkan NIS siswa yang login
+        $scores = Score::where('nis', $nis)->get();
+    
+        // Mengirim data nilai ke view 'siswa.nilai'
+        return view('siswa.nilai', compact('scores'));
+    }
+    
 }

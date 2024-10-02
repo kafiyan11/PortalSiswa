@@ -1,3 +1,5 @@
+@extends('layouts.app')
+
 @section('content')
 <!DOCTYPE html>
 <html lang="en">
@@ -5,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Admin</title>
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -22,7 +24,7 @@
 
     /* Gaya untuk navbar (menu navigasi di bagian atas) */
     .navbar {
-      background: linear-gradient(90deg, #ffffff, #ffffff); /* Gradien biru ke putih */
+      background: linear-gradient(90deg, #ffffff, #ffffff); /* Gradien putih ke putih */
       color: rgb(0, 0, 0);
       z-index: 1000;
       width: 100%;
@@ -75,7 +77,7 @@
       transition: width 0.3s ease, background 0.3s ease;
       overflow: hidden;
       border-right: 1px solid #a8acb0;
-      box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.4);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
     }
 
     .sidebar.collapsed {
@@ -85,7 +87,7 @@
     }
 
     .sidebar a {
-      color: #000000; /* Warna biru terang untuk tautan */
+      color: #000000; /* Warna hitam untuk tautan */
       text-decoration: none;
       padding: 11.5px 22px; /* Menyesuaikan padding */
       display: flex;
@@ -99,35 +101,25 @@
       margin-left: -2px;
     }
 
-    /* .sidebar a span {
-      display: flex ;
-      transition: opacity 0.3s ease;
-    }
-
-    .sidebar.collapsed a span {
-      opacity: 0;
-      visibility: hidden;
-    } */
-
     .sidebar a:hover {
       padding: 15px;
       background-color: #888888; /* Warna latar abu-abu muda saat hover */
-      box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.4);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
     }
 
     /* Gaya untuk konten utama */
     .main-content {
-      margin-left: 50px; /* Disesuaikan dengan lebar sidebar */
+      margin-left: 250px; /* Disesuaikan dengan lebar sidebar */
       padding: 20px;
-      padding-top: 180px; /* Disesuaikan dengan tinggi navbar */
+      padding-top: 100px; /* Disesuaikan dengan tinggi navbar */
       transition: margin-left 0.3s ease;
       position: relative;
       z-index: 1; /* Memastikan konten berada di bawah sidebar */
     }
 
-    /* .main-content.full-width {
-      margin-left: 60px; /* Disesuaikan dengan sidebar yang dikompres */
-     */
+    .sidebar.collapsed + .main-content {
+      margin-left: 20px; /* Disesuaikan dengan sidebar yang dikompres */
+    }
 
     /* Gaya untuk judul di bagian "Beranda" */
     .title {
@@ -140,13 +132,13 @@
 
     .title h1 {
       font-size: 2.5em;
-      color: #000000; /* Biru terang untuk judul */
+      color: #000000; /* Warna hitam untuk judul */
       margin-bottom: 10px;
     }
 
     .title p {
       font-size: 1.2em;
-      color: #000000; /* Abu-abu untuk subtitle */
+      color: #000000; /* Warna hitam untuk subtitle */
     }
 
     /* Gaya untuk kotak */
@@ -159,7 +151,7 @@
     }
 
     .card-header {
-      background: rgb(97, 97, 97); /* Gradien biru ke putih untuk header kartu */
+      background: #6c757d; /* Warna abu-abu gelap untuk header kartu */
       color: white;
       padding: 20px;
       text-align: center;
@@ -202,24 +194,24 @@
     }
 
     @media (max-width: 1000px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            .main-content {
-                grid-template-columns: repeat(2, 1fr); /* Tampilkan 2 subject-box per baris di layar yang lebih kecil */
-                max-width: 600px;
-            }
-        }
+      h1 {
+          font-size: 1.8rem;
+      }
+      .main-content {
+          grid-template-columns: repeat(2, 1fr); /* Tampilkan 2 subject-box per baris di layar yang lebih kecil */
+          max-width: 600px;
+      }
+    }
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.6rem;
-            }
-            .main-content {
-                grid-template-columns: 1fr; /* Tampilkan 1 subject-box per baris di layar yang lebih kecil */
-                max-width: 300px;
-            }
-        }
+    @media (max-width: 600px) {
+      h1 {
+          font-size: 1.6rem;
+      }
+      .main-content {
+          grid-template-columns: 1fr; /* Tampilkan 1 subject-box per baris di layar yang lebih kecil */
+          max-width: 300px;
+      }
+    }
 
     /* Keyframes untuk animasi slide dari bawah ke atas */
     @keyframes slideInFromBottom {
@@ -232,6 +224,57 @@
         transform: translateY(0); /* Berhenti pada posisi awal */
       }
     }
+/* Style untuk kotak metriks agar sesuai dengan tampilan gambar */
+.metrics-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Memberikan efek bayangan */
+}
+
+.metrics-card .card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.metrics-card h1 {
+    font-size: 3rem; /* Angka lebih besar */
+    margin: 0;
+}
+
+.metrics-card h5 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+/* Ikon besar */
+.metrics-card i {
+    font-size: 4rem; /* Ukuran ikon lebih besar */
+}
+
+/* Footer untuk teks 'More info' dan panah */
+.metrics-card .card-footer {
+    padding: 10px 20px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.metrics-card .card-footer i {
+    font-size: 1.5rem;
+}
+.metrics-card .card-footer a {
+    text-decoration: none; /* Menghilangkan garis bawah pada link */
+    color: inherit; /* Warna panah mengikuti warna teks */
+}
+
+.metrics-card .card-footer a:hover i {
+    color: #000000; /* Mengubah warna panah saat dihover */
+}
+
+
+
   </style>
 </head>
 <body>
@@ -262,7 +305,6 @@
     </div>
   </div>
 
-  {{-- <a href="{{ route('admin.materi.index') }}"><i class="fas fa-book"></i> Materi Pelajaran</a> --}}
   <div class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#jadwalDropdown" aria-expanded="false" aria-controls="jadwalDropdown">
       <i class="fas fa-calendar-alt"></i> Jadwal 
@@ -275,8 +317,8 @@
   
   <a href="{{ route('admin.tugas.index') }}"><i class="fas fa-tasks"></i> Tugas</a>
   <a href="{{ route('admin.materi.index') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
-  <a href="{{ route('scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
-  <a href="{{ route('post.index') }}"><i class="fas fa-comments"></i>Forum Diskusi </a>
+  <a href="{{ route('admin.scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
+  <a href="{{ route('post.index') }}"><i class="fas fa-comments"></i> Forum Diskusi </a>
   <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
     <i class="fas fa-sign-out-alt"></i> Log Out
   </a>
@@ -284,7 +326,6 @@
     @csrf
   </form>
 </div>
-
 
 <div class="main-content" id="main-content">
   <div class="container">
@@ -297,54 +338,82 @@
         });
     </script>
     @endif
+
     <div class="title">
       <h1>Beranda</h1>
       <p>Selamat datang, {{ Auth::user()->name }}!</p>
     </div>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-header">
-            <i class="fas fa-calendar-alt"></i>
-            <h3>Jadwal Pelajaran</h3>
+
+<div class="row mb-4">
+<!-- Total Siswa -->
+<!-- Total Siswa -->
+<div class="col-md-4">
+  <div class="card metrics-card bg-primary text-white">
+      <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+              <h1 class="display-4">{{ $totalSiswa }}</h1> <!-- Angka besar -->
+              <h5>Total Siswa</h5> <!-- Judul -->
           </div>
-          <div class="card-body">
-            <p>Informasi mengenai jadwal pelajaran Anda.</p>
+          <div>
+              <i class="fas fa-user-graduate fa-3x"></i> <!-- Ikon besar -->
           </div>
-          <div class="card-footer">
-            <a href="{{ route('admin.jadwal.index') }}" class="btn btn-primary">Lihat Jadwal</a>
-          </div>
-        </div>
       </div>
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-header">
-            <i class="fas fa-tasks"></i>
-            <h3>Tugas</h3>
-          </div>
-          <div class="card-body">
-            <p>Informasi mengenai tugas-tugas Anda.</p>
-          </div>
-          <div class="card-footer">
-            <a href="{{ route('admin.tugas.index') }}" class="btn btn-primary">Lihat Tugas</a>
-          </div>
-        </div>
+      <!-- Bagian untuk panah dan teks 'More info' -->
+      <div class="card-footer d-flex justify-content-between align-items-center bg-light text-dark">
+          <!-- Menambahkan link untuk ikon panah -->
+          <a href="{{ route('tambah') }}" class="text-dark">
+              <i class="fas fa-arrow-circle-right"></i> <!-- Ikon panah -->
+          </a>
       </div>
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-header">
-            <i class="fas fa-graduation-cap"></i>
-            <h3>Nilai</h3>
+  </div>
+</div>
+
+
+  <!-- Total Guru -->
+  <div class="col-md-4">
+      <div class="card metrics-card bg-info text-white">
+          <div class="card-body d-flex justify-content-between align-items-center">
+              <div>
+                  <h1 class="display-4">{{ $totalGuru }}</h1> <!-- Angka besar -->
+                  <h5>Total Guru</h5> <!-- Judul -->
+              </div>
+              <div>
+                  <i class="fas fa-chalkboard-teacher fa-3x"></i> <!-- Ikon besar -->
+              </div>
           </div>
-          <div class="card-body">
-            <p>Informasi mengenai nilai-nilai Anda.</p>
+                <!-- Bagian untuk panah dan teks 'More info' -->
+          <div class="card-footer d-flex justify-content-between align-items-center bg-light text-dark">
+            <!-- Menambahkan link untuk ikon panah -->
+            <a href="{{ route('tambahguru') }}" class="text-dark">
+                <i class="fas fa-arrow-circle-right"></i> <!-- Ikon panah -->
+            </a>
           </div>
-          <div class="card-footer">
-            <a href="{{ route('scores.index') }}" class="btn btn-primary">Lihat Nilai</a>
-          </div>
-        </div>
       </div>
-    </div>
+  </div>
+  <!-- Total Orang Tua -->
+  <div class="col-md-4">
+      <div class="card metrics-card bg-danger text-white">
+          <div class="card-body d-flex justify-content-between align-items-center">
+              <div>
+                  <h1 class="display-4">{{ $totalOrangTua }}</h1> <!-- Angka besar -->
+                  <h5>Total Orang Tua</h5> <!-- Judul -->
+              </div>
+              <div>
+                  <i class="fas fa-user-friends fa-3x"></i> <!-- Ikon besar -->
+              </div>
+          </div>
+                <!-- Bagian untuk panah dan teks 'More info' -->
+            <div class="card-footer d-flex justify-content-between align-items-center bg-light text-dark">
+              <!-- Menambahkan link untuk ikon panah -->
+              <a href="{{ route('ortu') }}" class="text-dark">
+                  <i class="fas fa-arrow-circle-right"></i> <!-- Ikon panah -->
+              </a>
+            </div>
+      </div>
+  </div>
+</div>
+
+
   </div>
 </div>
 
@@ -373,3 +442,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+@endsection
