@@ -291,7 +291,7 @@
 
 <div class="sidebar collapsed" id="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
   <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Beranda</a>
-  <a href="{{ route('admin.profil') }}"><i class="fas fa-user"></i> Profil</a>
+  <a href="{{ route('admin.profile.index') }}"><i class="fas fa-user"></i> Profil</a>
 
   <!-- Dropdown for 'Tambah Akun' -->
   <div class="dropdown">

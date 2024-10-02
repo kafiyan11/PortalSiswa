@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Tugas</title>
+    <link href="{{asset('assets/img/favicon.png')}}" rel="icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -67,25 +68,6 @@
             }
         }
     </style>
-    <script>
-        function showJurusanOptions() {
-            const category = document.getElementById("kategori").value;
-            const jurusanDropdown = document.getElementById("jurusan");
-
-            jurusanDropdown.innerHTML = "";
-
-            if (category === "Teknik") {
-                jurusanDropdown.innerHTML += '<option value="TKR">TKR</option>';
-                jurusanDropdown.innerHTML += '<option value="TKJ">TKJ</option>';
-                jurusanDropdown.innerHTML += '<option value="RPL">RPL</option>';
-                jurusanDropdown.innerHTML += '<option value="DPIB">DPIB</option>';
-            } else if (category === "Non-Teknik") {
-                jurusanDropdown.innerHTML += '<option value="OTKP">OTKP</option>';
-                jurusanDropdown.innerHTML += '<option value="AK">Akuntansi</option>';
-                jurusanDropdown.innerHTML += '<option value="SK">SK</option>';
-            }
-        }
-    </script>
 </head>
 <body>
     @include("layouts.app")
@@ -117,26 +99,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="kelas" class="form-label">Kelas</label>
-                        <select class="form-select" id="kelas" name="kelas" required>
-                            <option value="">- Pilih Kelas -</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="kategori" class="form-label">Kategori Jurusan</label>
-                        <select class="form-select" id="kategori" name="kategori" onchange="showJurusanOptions()" required>
-                            <option value="">- Pilih Kategori -</option>
-                            <option value="Teknik">Teknik</option>
-                            <option value="Non-Teknik">Non-Teknik</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="jurusan" class="form-label">Jurusan</label>
-                        <select class="form-select" id="jurusan" name="jurusan" required>
-                            <option value="">- Pilih Jurusan -</option>
-                        </select>
+                        <input type="text" class="form-control" id="kelas" name="kelas" required>
                     </div>
                     <div class="mb-3">
                         <label for="gambar_tugas" class="form-label">Gambar</label>

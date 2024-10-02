@@ -43,11 +43,92 @@ class AdminController extends Controller
             // Tambahkan data lain yang diperlukan untuk dashboard
         ]);
     }
-    public function profil()
+
+
+
+    //Profil Admin
+    public function Profile()
     {
-        $item=Auth::user();
-        return view('admin.profil', compact('item'));
+        // Retrieve the currently authenticated user
+        $user = Auth::user();
+
+        // Redirect to the 'profil.blade.php' view with user data
+        return view('admin.profile.index', compact('user'));
     }
+
+    /**
+     * Show the form for editing the profile.
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
+    public function editProfile($id)
+    {
+        $user = Auth::user();
+    
+        // Cek apakah ID yang sedang login sama dengan ID yang ingin diedit
+        if ($user->id != $id) {
+            return redirect()->route('admin.profile.index')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
+        }
+    
+        return view('admin.profile.edit', compact('user'));
+    }
+    
+
+    /**
+     * Update the profile changes in the database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateProfile(Request $request, $id)
+    {
+        // Find the user by ID or fail
+        $user = User::findOrFail($id);
+
+        // Ensure that only the logged-in user can update their own profile
+        if (Auth::user()->id != $id) {
+            return redirect()->route('admin.profile.index')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
+        }
+
+        // Validate the request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'kelas' => 'nullable|string|max:50',
+            'alamat' => 'nullable|string|max:255',
+            'nohp' => 'nullable|string|max:15',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Update user fields
+        $user->name = $request->input('name');
+        $user->kelas = $request->input('kelas');
+        $user->alamat = $request->input('alamat');
+        $user->nohp = $request->input('nohp');
+
+        // Handle profile photo
+        if ($request->hasFile('photo')) {
+            // Delete the old photo if it exists
+            if ($user->photo && Storage::exists('public/' . $user->photo)) {
+                Storage::delete('public/' . $user->photo);
+            }
+
+            // Save the new photo
+            $file = $request->file('photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('profile_photos', $filename, 'public');
+            $user->photo = $path;
+        }
+
+        // Save changes
+        $user->save();
+
+        // Redirect back to the profile page with success message
+        return redirect()->route('admin.profile.index', $user->id)
+                        ->with('success', 'Profile updated successfully');
+    }
+
 
     //Materi
         public function materiAdmin()
@@ -66,7 +147,6 @@ class AdminController extends Controller
             $request->validate([
                 'judul' => 'required|string|max:255',
                 'kelas' => 'required|string|max:255',
-                'jurusan' => 'required|string|max:255',
                 'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'link_youtube' => 'nullable|url',
             ]);
@@ -84,8 +164,7 @@ class AdminController extends Controller
             // Simpan data ke database
             Materi::create([
                 'judul' => $request->judul,
-                'kelas' => $request->input('kelas'),
-                'jurusan' => $request->input('jurusan'),
+                'kelas' => $request->kelas,
                 'gambar' => $gambarPath ?? null,
                 'link_youtube' => $request->link_youtube ?? null,
                 'tipe' => $request->tipe,
@@ -107,8 +186,7 @@ class AdminController extends Controller
             $request->validate([
                 'judul' => 'required|string|max:255',
                 'tipe' => 'required|string',
-                'kelas' => 'required|in:10,11,12',
-                'jurusan' => 'required|in:TKR,TKJ,RPL,OTKP,AK,DPIB,SK', // tipe bisa berupa gambar atau youtube
+                'kelas' => 'required|string|max:255',
                 'gambar' => 'nullable|image|max:2048', // jika tipe gambar
                 'link_youtube' => 'nullable|url' // jika tipe youtube
             ]);
@@ -118,7 +196,6 @@ class AdminController extends Controller
             // Update data materi
             $materi->judul = $request->judul;
             $materi->kelas = $request->kelas;
-            $materi->jurusan = $request->jurusan;
             $materi->tipe = $request->tipe;
     
             // Jika mengupload gambar
@@ -172,7 +249,6 @@ class AdminController extends Controller
             'nis' => 'required|unique:tugas,nis',
             'nama' => 'required|string|max:255',
             'kelas' => 'required|string|max:255',
-            'jurusan' => 'required|string|max:255',
             'gambar_tugas' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:10048', // 2MB max
         ]);
 
@@ -197,7 +273,6 @@ class AdminController extends Controller
             'nis' => $request->input('nis'),
             'nama' => $request->input('nama'),
             'kelas' => $request->input('kelas'),
-            'jurusan' => $request->input('jurusan'),
             'gambar_tugas' => isset($newName) ? $newName : null,
         ]);
 
@@ -231,8 +306,7 @@ class AdminController extends Controller
     $validatedData = $request->validate([
         'nis' => 'required|string|max:255',
         'nama' => 'required|string|max:255',
-        'kelas' => 'required|in:10,11,12',
-        'jurusan' => 'required|in:TKR,TKJ,RPL,OTKP,AK,SK',
+        'kelas' => 'required|string|max:255',
         'gambar_tugas' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10048',
     ]);
 
@@ -242,7 +316,6 @@ class AdminController extends Controller
     $siswa->nis = $validatedData['nis'];
     $siswa->nama = $validatedData['nama'];
     $siswa->kelas = $validatedData['kelas'];
-    $siswa->jurusan = $validatedData['jurusan'];
 
     // Jika ada gambar baru, hapus gambar lama dan upload yang baru
     if ($request->file('gambar_tugas')) {
@@ -266,5 +339,5 @@ class AdminController extends Controller
         $siswa = tugas::where('nis', 'like', '%'.$data.'%')->paginate(10);
 
     return view('admin.tugas.index', compact('siswa'));
-}
+    }
 }
