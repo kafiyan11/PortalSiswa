@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jadwal;
+use App\Models\Materi;
 use App\Models\Siswa;
 use App\Models\Tugas;
 use App\Models\User;
@@ -25,7 +26,14 @@ class SiswaController extends Controller
 
     public function materi()
     {
-        return view('siswa.materi');
+        // Mendapatkan kelas dari user yang sedang login
+        $kelas = Auth::user()->kelas;
+    
+        // Mengambil data materi berdasarkan kelas user
+        $materi = Materi::where('kelas', $kelas)->get();
+    
+        // Mengirimkan data materi ke view
+        return view('siswa.materi', ['materi' => $materi]);
     }
 
     public function jadwal()

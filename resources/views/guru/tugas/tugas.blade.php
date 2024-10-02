@@ -146,7 +146,6 @@
                                         <th>NIS</th>
                                         <th>Nama</th>
                                         <th>Kelas</th>
-                                        <th>Jurusan</th>
                                         <th>Gambar</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -158,10 +157,11 @@
                                         <td>{{ $siswas->nis }}</td>
                                         <td>{{ $siswas->nama }}</td>
                                         <td>{{ $siswas->kelas }}</td>
-                                        <td>{{ $siswas->jurusan }}</td>
+                                        
                                         <td>
+                                        <a href="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" target="_blank">
                                             @if ($siswas->gambar_tugas)
-                                                <img src="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" alt="Gambar Tugas" width="100">
+                                                <img src="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" alt="Gambar Tugas" width="100"></a>
                                             @endif
                                         </td>
                                     <td>

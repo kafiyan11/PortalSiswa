@@ -51,28 +51,7 @@
                 </div>
                 <div class="mb-3 row">
                     <label for="kelas" class=" col-form-label">Kelas</label>
-                <div class="mb-3 col-sm-15 ">
-                    <select class="form-select" id="kelas" name="kelas" required>
-                        <option value="">- Pilih Kelas -</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                    </select>
-                </div>
-                <div class="mb-3 row">
-                    <label for="jurusan" class="col-sm-2 col-form-label">Jurusan</label>
-                <div class="mb-3 col-sm-15">
-                    <select class="form-select" id="jurusan" name="jurusan" required>
-                        <option value="">- Pilih Jurusan -</option>
-                        <option value="TKR"  >TKR </option>
-                        <option value="TKJ"  >TKJ</option>
-                        <option value="RPL"  >RPL</option>
-                        <option value="OTKP" >OTKP</option>
-                        <option value="AK"   >AK</option>
-                        <option value="DPIB" >DPIB</option>
-                        <option value="SK"   >SK</option>
-                    </select>
-            </div>
+                    <input type="text" name="kelas" class="form-control" required>
             </div>
 
                 <div class="form-group">

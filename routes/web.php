@@ -9,7 +9,6 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\JadwalguruController;
@@ -45,7 +44,6 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::middleware(['auth','role:Admin'])->group(function(){
     //Bagian Admin
     Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/admin-profil',[AdminController::class, 'profil'] )->name('admin.profil');
     Route::get('/admin-tugas',[AdminController::class, 'tugas'] )->name('admin.tugas');
 
     //jadwal
@@ -59,9 +57,9 @@ Route::middleware(['auth','role:Admin'])->group(function(){
     });
 
     //profil
-        Route::get('profiles/show', [ProfileController::class, 'show'])->name('profiles.show');
-        Route::get('/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
-        Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
+        Route::get('/admin/profiles/show', [AdminController::class, 'Profile'])->name('admin.profile.index');
+        Route::get('/admin/profiles/{id}/edit', [AdminController::class, 'editProfile'])->name('admin.profile.edit');
+        Route::put('/admin/profiles/{id}', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
     
     //jadwal guru
     Route::prefix('admin')->name('admin.')->group(function () {
@@ -117,7 +115,7 @@ Route::middleware(['auth','role:Admin'])->group(function(){
         Route::get('/admin-tambahtugas', [AdminController::class, 'tambah_tugas'])->name('admin.create');
         Route::post('/admin-tambahtugas', [AdminController::class, 'create'])->name('create_tugas');
         Route::delete('/tugas/{id}', [AdminController::class, 'hapus'])->name('tugas.hapus');
-        Route::get('/edit/{id}', [AdminController::class, 'editTugas_Admin'])->name('edit.tugas.admin');
+        Route::get('/admin/tugas/edit/{id}', [AdminController::class, 'editTugas_Admin'])->name('tugas.edit');
         Route::put('/update/{id}', [AdminController::class, 'updateTugass'])->name('updatee_tugas');
         Route::get('/admin/cari', [AdminController::class, 'cari'])->name('siswa.cari');
 
@@ -151,12 +149,12 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
     Route::get('/siswa/tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas')->middleware('auth');
 
    
-    //profile
-    Route::get('/profiles', [ProfileController::class, 'show'])->name('profiles.show');
-    Route::get('/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
-    Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
+    //profile siswaaaa
+    Route::get('/siswa/profiles/show', [ProfileController::class, 'show'])->name('siswa.profiles.show');
+    Route::get('/siswa/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('siswa.profiles.edit');
+    Route::put('/siswa/profiles/{id}', [ProfileController::class, 'update'])->name('siswa.profiles.update');
     //siswa melihat materi
-    Route::get('/siswa-materi-lihat', [PostController::class, 'lihatMateri_siswa'])->name('siswa.lihatmateri');
+    Route::get('/siswa-materi-lihat', [MateriController::class, 'lihatMateri_siswa'])->name('siswa.lihatmateri');
 
 });
 
@@ -170,15 +168,15 @@ Route::middleware(['auth','role:Guru'])->group(function(){
     Route::get('/guru-forum', [PostController::class, 'tampilGuru'])->name('guru.forumdiskusi');
     Route::get('/guru-nilai', [ScoreController::class, 'lihat'])->name('guru.scores.index');
 
-    //profile
-    Route::get('/profiles', [ProfileController::class, 'show'])->name('profiles.show');
-    Route::get('/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
-    Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
+    //profile guruuuuu
+    Route::get('/guru/profiles', [GuruController::class, 'profil'])->name('guru.profile.show');
+    Route::get('/guru/profiles/{id}/edit', [GuruController::class, 'editProfil'])->name('guru.profile.edit');
+    Route::put('/guru/profiles/{id}', [GuruController::class, 'updateProfil'])->name('guru.profile.update');
 
     ///////TUGAS GURU
     Route::get('/guru/tambah-tugas', [TambahTugasController::class, 'tambah_tugas'])->name('guru.addTugas');
     Route::post('/guru/tambah-tugas', [TambahTugasController::class, 'create'])->name('guru.storetugas');
-    Route::get('/edit/{id}', [TambahTugasController::class, 'edit'])->name('edit_tugas');
+    Route::get('/guru/tugas/edit/{id}', [TambahTugasController::class, 'edit'])->name('edit_tugas');
     Route::put('/update/{id}', [TambahTugasController::class, 'update'])->name('update_tugas');
     Route::delete('/guru/tugas/{id}', [TambahTugasController::class, 'destroy'])->name('guru.tugas.destroy');
     Route::get('/guru/tugas/cari}', [TambahTugasController::class, 'cari'])->name('siswa.cari');

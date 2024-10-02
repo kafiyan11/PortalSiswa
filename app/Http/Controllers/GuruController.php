@@ -8,6 +8,8 @@ use App\Models\Materi;
 use App\Models\Score;
 use App\Models\Siswa; // Memastikan bahwa model Siswa digunakan
 use App\Models\Tugas;
+use Illuminate\Support\Facades\Storage;
+use App\Models\User; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Import Auth
 
@@ -30,10 +32,88 @@ class GuruController extends Controller
         return view('guru.jadwal', compact('jadwalguru')); // Pastikan jalur tampilan benar
     }
 
+
+    //Profil Guruuu
     public function profil()
     {
-        return view('guru.profil');
+        // Retrieve the currently authenticated user
+        $user = Auth::user();
+
+        // Redirect to the 'profil.blade.php' view with user data
+        return view('guru.profile.profil', compact('user'));
     }
+
+    /**
+     * Show the form for editing the profile.
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
+    public function editProfil($id)
+    {
+        $user = Auth::user();
+    
+        // Cek apakah ID yang sedang login sama dengan ID yang ingin diedit
+        if ($user->id != $id) {
+            return redirect()->route('guru.profile.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
+        }
+    
+        return view('guru.profile.edit', compact('user'));
+    }
+    
+
+    /**
+     * Update the profile changes in the database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateProfil(Request $request, $id)
+    {
+        // Find the user by ID or fail
+        $user = User::findOrFail($id);
+
+        // Ensure that only the logged-in user can update their own profile
+        if (Auth::user()->id != $id) {
+            return redirect()->route('guru.profile.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
+        }
+
+        // Validate the request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'kelas' => 'nullable|string|max:50',
+            'alamat' => 'nullable|string|max:255',
+            'nohp' => 'nullable|string|max:15',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Update user fields
+        $user->name = $request->input('name');
+        $user->kelas = $request->input('kelas');
+        $user->alamat = $request->input('alamat');
+        $user->nohp = $request->input('nohp');
+
+        // Handle profile photo
+        if ($request->hasFile('photo')) {
+            // Delete the old photo if it exists
+            if ($user->photo && Storage::exists('public/' . $user->photo)) {
+                Storage::delete('public/' . $user->photo);
+            }
+
+            // Save the new photo
+            $file = $request->file('photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('profile_photos', $filename, 'public');
+            $user->photo = $path;
+        }
+
+        $user->save();
+
+        return redirect()->route('guru.profile.show', $user->id)
+                        ->with('success', 'Profile updated successfully');
+    }
+
 
     // NILAI
     public function nilai(Request $request)
@@ -120,7 +200,6 @@ class GuruController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'kelas' => 'required|string|max:255',
-            'jurusan' => 'required|string|max:255',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'link_youtube' => 'nullable|url',
         ]);
@@ -138,8 +217,7 @@ class GuruController extends Controller
         // Simpan data ke database
         Materi::create([
             'judul' => $request->judul,
-            'kelas' => $request->input('kelas'),
-            'jurusan' => $request->input('jurusan'),
+            'kelas' => $request->kelas,
             'gambar' => $gambarPath ?? null,
             'link_youtube' => $request->link_youtube ?? null,
             'tipe' => $request->tipe,
@@ -161,8 +239,7 @@ class GuruController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'tipe' => 'required|string',
-            'kelas' => 'required|in:10,11,12',
-            'jurusan' => 'required|in:TKR,TKJ,RPL,OTKP,AK,DPIB,SK', // tipe bisa berupa gambar atau youtube
+            'kelas' => 'required|string|max:255',
             'gambar' => 'nullable|image|max:2048', // jika tipe gambar
             'link_youtube' => 'nullable|url' // jika tipe youtube
         ]);
@@ -172,7 +249,6 @@ class GuruController extends Controller
         // Update data materi
         $materi->judul = $request->judul;
         $materi->kelas = $request->kelas;
-        $materi->jurusan = $request->jurusan;
         $materi->tipe = $request->tipe;
 
         // Jika mengupload gambar
