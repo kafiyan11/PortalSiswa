@@ -26,8 +26,7 @@ class TambahTugasController extends Controller
             'nis' => 'required|unique:tugas,nis',
             'nama' => 'required|string|max:255',
             'kelas' => 'required|string|max:255',
-            'jurusan' => 'required|string|max:255',
-            'gambar_tugas' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:10048', // 10MB max
+            'gambar_tugas' => 'nullable|mimes:jpeg,png,pdf,jpg,gif,svg|max:40048', // 10MB max
         ]);
     
         if ($validator->fails()) {
@@ -86,9 +85,8 @@ class TambahTugasController extends Controller
     $validatedData = $request->validate([
         'nis' => 'required|string|max:255',
         'nama' => 'required|string|max:255',
-        'kelas' => 'required|in:10,11,12',
-        'jurusan' => 'required|in:TKR,TKJ,RPL,OTKP,AK,SK',
-        'gambar_tugas' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10048',
+        'kelas' => 'required|string|max:255',
+        'gambar_tugas' => 'nullable|image|mimes:jpeg,png,pdf,jpg,gif,svg|max:40048',
     ]);
 
     $siswa = Tugas::findOrFail($id);
@@ -97,7 +95,6 @@ class TambahTugasController extends Controller
     $siswa->nis = $validatedData['nis'];
     $siswa->nama = $validatedData['nama'];
     $siswa->kelas = $validatedData['kelas'];
-    $siswa->jurusan = $validatedData['jurusan'];
 
     // Jika ada gambar baru, hapus gambar lama dan upload yang baru
     if ($request->file('gambar_tugas')) {

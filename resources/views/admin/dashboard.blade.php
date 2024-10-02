@@ -248,7 +248,7 @@
 
 <div class="sidebar collapsed" id="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
   <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Beranda</a>
-  <a href="{{ route('admin.profil') }}"><i class="fas fa-user"></i> Profil</a>
+  <a href="{{ route('admin.profile.index') }}"><i class="fas fa-user"></i> Profil</a>
 
   <!-- Dropdown for 'Tambah Akun' -->
   <div class="dropdown">
@@ -262,7 +262,6 @@
     </div>
   </div>
 
-  {{-- <a href="{{ route('admin.materi.index') }}"><i class="fas fa-book"></i> Materi Pelajaran</a> --}}
   <div class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#jadwalDropdown" aria-expanded="false" aria-controls="jadwalDropdown">
       <i class="fas fa-calendar-alt"></i> Jadwal 

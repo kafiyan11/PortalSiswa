@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nis')->unique; 
             $table->string('nama'); 
             $table->string('kelas'); 
-            $table->string('jurusan'); 
             $table->string('gambar_tugas'); 
             $table->timestamps();
         });

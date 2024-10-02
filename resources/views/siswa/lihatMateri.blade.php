@@ -120,12 +120,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            
                             @foreach($materi as $index => $item)
                                 <tr>
                                     <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
                                     <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
                                     <td>
                                         @if($item->tipe == 'gambar')
+                                        <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank">
                                             <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
                                         @else
                                             <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
@@ -135,6 +137,10 @@
                             @endforeach
                         </tbody>
                     </table>
+                        <tr>
+                            <td colspan="6" class="text-align-center">Tidak ada materi</td>
+                        </tr>
+                    
                 </div>
             </div>
         </div>
