@@ -43,29 +43,7 @@
             </div>
             <div class="mb-3 row">
                 <label for="kelas" class="col-sm-2 col-form-label">Kelas</label>
-                <div class="mb-3 col-sm-15">
-                    <select class="form-select" id="kelas" name="kelas" required>
-                        <option value="">- Pilih Kelas -</option>
-                        <option value="10" {{ old('kelas', $materi->kelas) == '10' ? 'selected' : '' }}>10</option>
-                        <option value="11" {{ old('kelas', $materi->kelas) == '11' ? 'selected' : '' }}>11</option>
-                        <option value="12" {{ old('kelas', $materi->kelas) == '12' ? 'selected' : '' }}>12</option>
-                    </select>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="jurusan" class="col-sm-2 col-form-label">Jurusan</label>
-                 <div class="col-sm-10">
-                    <select class="form-select" id="jurusan" name="jurusan" required>
-                        <option value="">- Pilih Jurusan -</option>
-                        <option value="TKR" {{ old('jurusan', $materi->jurusan) == 'TKR' ? 'selected' : '' }}>TKR</option>
-                        <option value="TKJ" {{ old('jurusan', $materi->jurusan) == 'TKJ' ? 'selected' : '' }}>TKJ</option>
-                        <option value="RPL" {{ old('jurusan', $materi->jurusan) == 'RPL' ? 'selected' : '' }}>RPL</option>
-                        <option value="OTKP" {{ old('jurusan', $materi->jurusan) == 'OTKP' ? 'selected' : '' }}>OTKP</option>
-                        <option value="AK" {{ old('jurusan', $materi->jurusan) == 'AK' ? 'selected' : '' }}>AK</option>
-                        <option value="AK" {{ old('jurusan', $materi->jurusan) == 'DPIB' ? 'selected' : '' }}>DIPB</option>
-                        <option value="SK" {{ old('jurusan', $materi->jurusan) == 'SK' ? 'selected' : '' }}>SK</option>
-                    </select>
-                </div>                    
+                <input type="text" name="kelas" class="form-control" value="{{ $materi->kelas }}" required>
             </div>
             <div class="form-group">
                 <label for="tipe">Pilih jenis materi:</label><br>

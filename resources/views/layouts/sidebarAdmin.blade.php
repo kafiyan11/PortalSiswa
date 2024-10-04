@@ -1,6 +1,6 @@
 <div class="sidebar collapsed" id="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
     <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Beranda</a>
-    <a href="{{ route('admin.profil') }}"><i class="fas fa-user"></i> Profil</a>
+    <a href="{{ route('admin.profile.index') }}"><i class="fas fa-user"></i> Profil</a>
   
     <!-- Dropdown for 'Tambah Akun' -->
     <div class="dropdown">
@@ -29,6 +29,8 @@
 
     <a href="{{ route('scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
     <a href="{{ route('posts.index') }}"><i class="fas fa-comments"></i> Forum Diskusi</a>
+    <a href="{{ route('admin.scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
+    <a href="{{ route('post.index') }}"><i class="fas fa-comments"></i> Forum Diskusi</a>
     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
       <i class="fas fa-sign-out-alt"></i> Log Out
     </a>

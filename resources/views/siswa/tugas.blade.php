@@ -54,7 +54,6 @@
                             <th>NIS</th>
                             <th>Nama</th>
                             <th>Kelas</th>
-                            <th>Jurusan</th>
                             <th>Gambar</th>
                         </tr>
                     </thead>
@@ -65,12 +64,10 @@
                             <td>{{ $tugasItem->nis }}</td>
                             <td>{{ $tugasItem->nama }}</td>
                             <td>{{ $tugasItem->kelas }}</td>
-                            <td>{{ $tugasItem->jurusan }}</td>
                             <td>
                                 @if ($tugasItem->gambar_tugas)
+                                    <a href="{{ asset('gambar_tugas/' . $tugasItem->gambar_tugas) }}" target="_blank">
                                     <img src="{{ asset('gambar_tugas/' . $tugasItem->gambar_tugas) }}" alt="Gambar Tugas" width="100">
-                                @else
-                                    Tidak ada gambar
                                 @endif
                             </td>
                         </tr>

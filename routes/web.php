@@ -18,12 +18,17 @@ use App\Http\Controllers\PostGuruController;
 use App\Http\Controllers\PostSiswaController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfileController;
+
+use App\Http\Controllers\JadwalguruController;
+use App\Http\Controllers\NIlaidiGuruController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TambahController;
 use App\Http\Controllers\TambahGuruController;
 use App\Http\Controllers\TambahOrangtuaController;
 use App\Http\Controllers\TambahTugasController;
+use App\Models\Siswa;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -55,7 +60,6 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::middleware(['auth','role:Admin'])->group(function(){
     //Bagian Admin
     Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/admin-profil',[AdminController::class, 'profil'] )->name('admin.profil');
     Route::get('/admin-tugas',[AdminController::class, 'tugas'] )->name('admin.tugas');
 
     //jadwal
@@ -72,6 +76,10 @@ Route::middleware(['auth','role:Admin'])->group(function(){
     Route::get('/profiles', [ProfileController::class, 'show'])->name('profiles.show');
     Route::get('/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
     Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
+    //profil
+        Route::get('/admin/profiles/show', [AdminController::class, 'Profile'])->name('admin.profile.index');
+        Route::get('/admin/profiles/{id}/edit', [AdminController::class, 'editProfile'])->name('admin.profile.edit');
+        Route::put('/admin/profiles/{id}', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
     
     //jadwal guru
     Route::prefix('admin')->name('admin.')->group(function () {
@@ -113,13 +121,13 @@ Route::middleware(['auth','role:Admin'])->group(function(){
 
     //CRUD NILAI
     Route::prefix('admin')->group(function () {
-        Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
-        Route::get('/scores/create', [ScoreController::class, 'create'])->name('scores.create');
-        Route::post('/scores', [ScoreController::class, 'store'])->name('scores.store');
-        Route::get('/scores/{id}/edit', [ScoreController::class, 'edit'])->name('scores.edit');
-        Route::put('/scores/{id}', [ScoreController::class, 'update'])->name('scores.update');
-        Route::delete('/scores/{id}', [ScoreController::class, 'destroy'])->name('scores.destroy');
-        Route::get('/scores/cari', [ScoreController::class, 'cari'])->name('scores.cari');
+        Route::get('/admin/scores', [ScoreController::class, 'index'])->name('admin.scores.index');
+        Route::get('/admin/scores/create', [ScoreController::class, 'create'])->name('admin.scores.create');
+        Route::post('/admin/scores', [ScoreController::class, 'store'])->name('admin.scores.store');
+        Route::get('/admin/scores/{id}/edit', [ScoreController::class, 'edit'])->name('admin.scores.edit');
+        Route::put('/admin/scores/{id}', [ScoreController::class, 'update'])->name('admin.scores.update');
+        Route::delete('admin//scores/{id}', [ScoreController::class, 'destroy'])->name('admin.scores.destroy');
+        Route::get('admin//scores/cari', [ScoreController::class, 'cari'])->name('admin.scores.cari');
     });
 
     //CRUD TUGAS
@@ -127,7 +135,7 @@ Route::middleware(['auth','role:Admin'])->group(function(){
         Route::get('/admin-tambahtugas', [AdminController::class, 'tambah_tugas'])->name('admin.create');
         Route::post('/admin-tambahtugas', [AdminController::class, 'create'])->name('create_tugas');
         Route::delete('/tugas/{id}', [AdminController::class, 'hapus'])->name('tugas.hapus');
-        Route::get('/edit/{id}', [AdminController::class, 'editTugas_Admin'])->name('edit.tugas.admin');
+        Route::get('/admin/tugas/edit/{id}', [AdminController::class, 'editTugas_Admin'])->name('tugas.edit');
         Route::put('/update/{id}', [AdminController::class, 'updateTugass'])->name('updatee_tugas');
 
 
@@ -179,7 +187,7 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
     // Mengupdate profil pengguna
     Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
     //siswa melihat materi
-    Route::get('/siswa-materi-lihat', [PostController::class, 'lihatMateri_siswa'])->name('siswa.lihatmateri');
+    Route::get('/siswa-materi-lihat', [MateriController::class, 'lihatMateri_siswa'])->name('siswa.lihatmateri');
 
         //forum
     Route::get('/siswa/forumdiskusi', [PostSiswaController::class, 'index'])->name('siswa.forumdiskusi');
@@ -202,10 +210,10 @@ Route::middleware(['auth','role:Guru'])->group(function(){
     Route::get('/guru-forum', [PostController::class, 'tampilGuru'])->name('guru.forumdiskusi');
     Route::get('/guru-nilai', [ScoreController::class, 'lihat'])->name('guru.scores.index');
 
-    //profile
-    Route::get('/profiles', [ProfileController::class, 'show'])->name('profiles.show');
-    Route::get('/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
-    Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
+    //profile guruuuuu
+    Route::get('/guru/profiles', [GuruController::class, 'profil'])->name('guru.profile.show');
+    Route::get('/guru/profiles/{id}/edit', [GuruController::class, 'editProfil'])->name('guru.profile.edit');
+    Route::put('/guru/profiles/{id}', [GuruController::class, 'updateProfil'])->name('guru.profile.update');
 
     //materi guru
     Route::get('/guru/tambah-tugas', [TambahTugasController::class, 'tambah_tugas'])->name('guru.addTugas');
@@ -229,6 +237,17 @@ Route::middleware(['auth','role:Guru'])->group(function(){
             Route::put('/scores/{id}', [ScoreController::class, 'update'])->name('scores.update');
             Route::delete('/scores/{id}', [ScoreController::class, 'destroy'])->name('scores.destroy');
             Route::get('/scores/cari', [ScoreController::class, 'cari'])->name('scores.cari');
+
+
+    //CRUD NILAI
+    Route::prefix('guru')->group(function () {
+        Route::get('/guru/scores', [NIlaidiGuruController::class, 'index'])->name('guru.scores.index');
+        Route::get('/guru/scores/create', [NIlaidiGuruController::class, 'create'])->name('guru.scores.create');
+        Route::post('/guru/scores', [NIlaidiGuruController::class, 'store'])->name('guru.scores.store');
+        Route::get('/guru/scores/{id}/edit', [NIlaidiGuruController::class, 'edit'])->name('guru.scores.edit');
+        Route::put('/guru/scores/{id}', [NIlaidiGuruController::class, 'update'])->name('guru.scores.update');
+        Route::delete('/guru/scores/{id}', [NIlaidiGuruController::class, 'destroy'])->name('guru.scores.destroy');
+        Route::get('/guru/scores/cari', [NIlaidiGuruController::class, 'cari'])->name('scores.cari');
         });
     //forum
 
@@ -240,4 +259,7 @@ Route::middleware(['auth','role:Guru'])->group(function(){
     Route::delete('/guru/comment/{comment}', [CommentGuruController::class, 'destroy'])->name('guru.comment.destroy');
 
 });
-
+Route::middleware(['auth','role:Orang Tua'])->group(function(){
+    Route::get('/orangtua-dashboard', [OrangTuaController::class, 'index'])->name('orangtua.dashboard');
+    Route::get('/ortu-nilai', [ScoreController::class, 'ortu'])->name('ortu.nilai');
+});

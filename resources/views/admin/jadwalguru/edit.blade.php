@@ -11,7 +11,7 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="fw-bold">Edit Jadwal</h1>
-        <a href="{{ route('admin.jadwal.index') }}" class="btn btn-secondary">
+        <a href="{{ route('admin.jadwalguru.index') }}" class="btn btn-secondary">
             <i class="bi bi-arrow-left-circle"></i> Kembali
         </a>
     </div>
@@ -28,7 +28,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.jadwal.update', $jadwal->id) }}" method="POST">
+    <form action="{{ route('admin.jadwalguru.update', $jadwal->id) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -43,10 +43,6 @@
             <input type="text" name="kelas" class="form-control" value="{{ $jadwal->kelas }}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="mata_pelajaran" class="form-label">Mata Pelajaran</label>
-            <input type="text" name="mata_pelajaran" class="form-control" value="{{ $jadwal->mata_pelajaran }}" required>
-        </div>
 
         <div class="mb-3">
             <label for="guru" class="form-label">Guru</label>

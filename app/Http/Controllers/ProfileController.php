@@ -35,7 +35,7 @@ class ProfileController extends Controller
     
         // Cek apakah ID yang sedang login sama dengan ID yang ingin diedit
         if ($user->id != $id) {
-            return redirect()->route('profiles.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
+            return redirect()->route('siswa.profiles.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
         }
     
         return view('siswa.profiles.edit', compact('user'));
@@ -55,7 +55,7 @@ class ProfileController extends Controller
 
         // Ensure that only the logged-in user can update their own profile
         if (Auth::user()->id != $id) {
-            return redirect()->route('profiles.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
+            return redirect()->route('siswa.profiles.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
         }
 
         // Validate the request data
@@ -91,7 +91,7 @@ class ProfileController extends Controller
         $user->save();
 
         // Redirect back to the profile page with success message
-        return redirect()->route('profiles.show', $user->id)
+        return redirect()->route('siswa.profiles.show', $user->id)
                         ->with('success', 'Profile updated successfully');
     }
 }

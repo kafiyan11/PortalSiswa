@@ -5,7 +5,7 @@
     <h2>Edit Profile</h2>
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('profiles.update', Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('siswa.profiles.update', Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -14,12 +14,22 @@
                     <input type="text" name="name" class="form-control" value="{{ Auth::user()->name }}" readonly>
                 </div>
 
+                <div class="form-group">
+                    @if(Auth::user()->role === 'Guru')
+                        <label for="nip">NIP</label>
+                        <input type="text" name="nip" class="form-control" value="{{ Auth::user()->nis }}" readonly>
+                    @else
+                        <label for="nis">NIS</label>
+                        <input type="text" name="nis" class="form-control" value="{{ Auth::user()->nis }}" readonly>
+                    @endif
+                </div>
+
                 {{-- Bagian kelas hanya ditampilkan jika user bukan Guru --}}
                 @if(Auth::user()->role !== 'Guru')
                 <div class="form-group">
                     <label for="kelas">Kelas</label>
-                    <select id="tahun" name="tahun" class="form-control" onchange="updateKelasOptions()">
-                        <option value="" disabled selected>Pilih Tahun</option>
+                    <select id="kelas" name="kelas" class="form-control" onchange="updateKelasOptions()">
+                        <option value="" disabled selected>Pilih Kelas</option>
                         <option value="X">X</option>
                         <option value="XI">XI</option>
                         <option value="XII">XII</option>
@@ -27,9 +37,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="jenis_kelas">Jenis Kelas</label>
-                    <select id="jenis_kelas" name="jenis_kelas" class="form-control" onchange="updateNomorOptions()" disabled>
-                        <option value="" disabled selected>Pilih Jenis Kelas</option>
+                    <label for="jurusan">Jurusan</label>
+                    <select id="jurusan" name="jurusan" class="form-control" onchange="updateNomorOptions()" disabled>
+                        <option value="" disabled selected>Pilih Jurusan</option>
                         <option value="TKRO">TKRO</option>
                         <option value="TKJ">TKJ</option>
                         <option value="RPL">RPL</option>
@@ -54,13 +64,8 @@
                 @endif
 
                 <div class="form-group">
-                    @if(Auth::user()->role === 'Guru')
-                        <label for="nip">NIP</label>
-                        <input type="text" name="nip" class="form-control" value="{{ Auth::user()->nis }}" readonly>
-                    @else
-                        <label for="nis">NIS</label>
-                        <input type="text" name="nis" class="form-control" value="{{ Auth::user()->nis }}" readonly>
-                    @endif
+                    <label for="nohp">No HP</label>
+                    <input type="text" name="nohp" class="form-control" value="{{ Auth::user()->nohp }}">
                 </div>
 
                 <div class="form-group">
@@ -69,15 +74,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="nohp">No HP</label>
-                    <input type="text" name="nohp" class="form-control" value="{{ Auth::user()->nohp }}">
+                    <label for="role">Sebagai</label>
+                    <input type="text" name="role" class="form-control" value="{{ Auth::user()->role }}" readonly>
                 </div>
 
                 <div class="form-group">
                     <label for="photo">Foto Profil</label>
                     <input type="file" name="photo" class="form-control">
                     @if(Auth::user()->photo)
-                        <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile Picture" class="profile-picture">
+                        <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile Picture" class="profile-picture"
+                        style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 2px solid #ddd; padding: 5px;">
                     @endif
                 </div>
 
@@ -93,24 +99,40 @@
 
 <script>
     function updateKelasOptions() {
-        document.getElementById('jenis_kelas').disabled = false;
-    }
-
-    function updateNomorOptions() {
-        document.getElementById('nomor').disabled = false;
-    }
-
-    function getSelectedKelas() {
-        const tahun = document.getElementById('tahun').value;
-        const jenisKelas = document.getElementById('jenis_kelas').value;
-        const nomor = document.getElementById('nomor').value;
-
-        if (tahun && jenisKelas && nomor) {
-            document.getElementById('kelas_hidden').value = `${tahun} ${jenisKelas} ${nomor}`;
+        // Aktifkan dropdown jurusan ketika kelas dipilih
+        const kelas = document.getElementById('kelas').value;
+        const jurusan = document.getElementById('jurusan');
+        
+        if (kelas) {
+            jurusan.disabled = false;
+        } else {
+            jurusan.disabled = true;
         }
     }
 
-    document.getElementById('jenis_kelas').addEventListener('change', getSelectedKelas);
+    function updateNomorOptions() {
+        // Aktifkan dropdown nomor kelas ketika jurusan dipilih
+        const jurusan = document.getElementById('jurusan').value;
+        const nomor = document.getElementById('nomor');
+        
+        if (jurusan) {
+            nomor.disabled = false;
+        } else {
+            nomor.disabled = true;
+        }
+    }
+
+    function getSelectedKelas() {
+        const kelas = document.getElementById('kelas').value;
+        const jurusan = document.getElementById('jurusan').value;
+        const nomor = document.getElementById('nomor').value;
+
+        if (kelas && jurusan && nomor) {
+            document.getElementById('kelas_hidden').value = `${kelas} ${jurusan} ${nomor}`;
+        }
+    }
+
+    document.getElementById('jurusan').addEventListener('change', getSelectedKelas);
     document.getElementById('nomor').addEventListener('change', getSelectedKelas);
 </script>
 @endsection

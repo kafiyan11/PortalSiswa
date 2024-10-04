@@ -108,7 +108,7 @@
         <h2>Profil</h2>
     </div>
     <div class="tabs">
-        <a href="#" class="active">Lihat Profil</a>
+        <a class="active">Lihat Profil</a>
     </div>
     <div class="profile-body">
         <div class="form-group">
@@ -119,56 +119,32 @@
             <label for="nis">NIS</label>
             <input type="text" id="nis" value="{{ Auth::user()->nis }}" readonly>
         </div>
-        <div class="form-group">
-            <label for="role">Sebagai</label>
-            <input type="text" id="role" value="{{ Auth::user()->role }}" readonly>
-        </div>
-        
-        <!-- Bagian Kelas - hanya tampil jika bukan guru -->
-        @if(Auth::user()->role !== 'guru')
+         <!-- Bagian Kelas - hanya tampil jika bukan guru -->
+         @if(Auth::user()->role !== 'guru')
             <div class="form-group">
                 <label for="kelas">Kelas</label>
                 <input type="text" id="kelas" value="{{ Auth::user()->kelas }}" readonly>
             </div>
         @endif
-
-        <!-- Bagian Alamat -->
+  
+        <div class="form-group">
+            <label for="nohp">No Hp</label>
+            <input type="text" id="nohp" value="{{ Auth::user()->nohp }}" readonly  placeholder="Nomor HP Belum Di isi">
+        </div>
+        
         <div class="form-group">
             <label for="alamat">Alamat</label>
-            @if(Auth::user()->alamat)
-                <input type="text" id="alamat" value="{{ Auth::user()->alamat }}" readonly>
-            @else
-                <div class="alert">
-                    Alamat belum diisi. 
-                    <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit Alamat</a>
-                </div>
-            @endif
+            <input type="text" id="alamat" value="{{ Auth::user()->alamat }}" readonly  placeholder="Alamat Belum Di isi">
+        </div>
+        
+        <div class="form-group">
+            <label for="role">Sebagai</label>
+            <input type="text" id="role" value="{{ Auth::user()->role }}" readonly>
         </div>
 
-        <!-- Bagian Nomer HP -->
-        <div class="form-group">
-            <label for="nohp">Nomer Hp</label>
-            @if(Auth::user()->nohp)
-                <input type="text" id="nohp" value="{{ Auth::user()->nohp }}" readonly>
-            @else
-                <div class="alert">
-                    No HP belum diisi.
-                    <a href="{{ route('profiles.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit No HP</a>
-                </div>
-            @endif
-        </div>
-        <div class="text-right">
-            @if(Auth::user()->role === 'guru')
-                <a href="{{ route('guru.dashboard') }}" class="btn btn-primary">Go Back</a>
-            @elseif(Auth::user()->role === 'siswa')
+        <div class="text-right">  
                 <a href="{{ route('siswa.dashboard') }}" class="btn btn-primary">Go Back</a>
-            @elseif(Auth::user()->role === 'admin')
-                <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Go Back</a>
-            @else
-                <a href="{{ route('home') }}" class="btn btn-primary">Go Back</a> <!-- Default fallback link -->
-            @endif
-        
-            <a href="{{ route('profiles.edit', Auth::user()->id) }}">Edit Profile</a>
+                <a href="{{ route('siswa.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profile siswa</a>
         </div>
     </div>
 </div>

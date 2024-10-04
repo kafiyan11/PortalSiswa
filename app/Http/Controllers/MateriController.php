@@ -24,7 +24,6 @@ class MateriController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'kelas' => 'required|string|max:255',
-            'jurusan' => 'required|string|max:255',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'link_youtube' => 'nullable|url',
         ]);
@@ -42,8 +41,7 @@ class MateriController extends Controller
         // Simpan data ke database
         Materi::create([
             'judul' => $request->judul,
-            'kelas' => $request->input('kelas'),
-            'jurusan' => $request->input('jurusan'),
+            'kelas' => $request->kelas,
             'gambar' => $gambarPath ?? null,
             'link_youtube' => $request->link_youtube ?? null,
             'tipe' => $request->tipe,
@@ -65,8 +63,7 @@ class MateriController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'tipe' => 'required|string',
-            'kelas' => 'required|in:10,11,12',
-            'jurusan' => 'required|in:TKR,TKJ,RPL,OTKP,AK,DPIB,SK', // tipe bisa berupa gambar atau youtube
+            'kelas' => 'required|string|max:255',
             'gambar' => 'nullable|image|max:2048', // jika tipe gambar
             'link_youtube' => 'nullable|url' // jika tipe youtube
         ]);
@@ -76,7 +73,6 @@ class MateriController extends Controller
         // Update data materi
         $materi->judul = $request->judul;
         $materi->kelas = $request->kelas;
-        $materi->jurusan = $request->jurusan;
         $materi->tipe = $request->tipe;
 
         // Jika mengupload gambar
@@ -114,9 +110,7 @@ class MateriController extends Controller
     public function lihatMateri_siswa()
     {
         $kelas = \Illuminate\Support\Facades\Auth::User()->kelas;
-        $materi = Materi::where('kelas', $kelas)->get();
-        $materi = Materi::all(); // Mengambil semua data materi
+        $materi = Materi::where('kelas', $kelas)->get(); // Mengambil materi sesuai kelas siswa
         return view('siswa.lihatmateri', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
-    }
-    
+    }  
 }

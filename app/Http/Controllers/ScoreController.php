@@ -43,7 +43,7 @@ class ScoreController extends Controller
 
         Score::create($validated);
 
-        return redirect()->route('scores.index')->with('success', 'Nilai berhasil ditambahkan!');
+        return redirect()->route('admin.scores.index')->with('success', 'Nilai berhasil ditambahkan!');
     }
 
     public function edit(Score $score, $id)
@@ -65,7 +65,7 @@ class ScoreController extends Controller
         $score = Score::findOrFail($id);
         $score->update($validated);
 
-        return redirect()->route('scores.index')->with('success', 'Nilai berhasil diperbarui!');
+        return redirect()->route('admin.scores.index')->with('success', 'Nilai berhasil diperbarui!');
     }
 
     public function destroy($id)
@@ -73,28 +73,12 @@ class ScoreController extends Controller
         $score = Score::findOrFail($id);
         $score->delete();
 
-        return redirect()->route('scores.index')->with('success', 'Nilai berhasil dihapus!');
+        return redirect()->route('admin.scores.index')->with('success', 'Nilai berhasil dihapus!');
     }
 
-
-    public function wujud()
-    {
-        // Dapatkan NIS siswa yang login
-        $nis = \Illuminate\Support\Facades\Auth::User()->nis; // Pastikan field 'nis' ada di tabel users atau model siswa yang login
-        
-        // Ambil nilai yang sesuai dengan NIS siswa yang login
-        $scores = Score::where('nis', $nis)->get();
-    
-        // Kirimkan data nilai ke view 'siswa.nilai'
-
-        $scores = Score::paginate(2);
-        return view('siswa.nilai', compact('scores'));
-    }
-    
-
-    public function lihat()
+    public function ortu()
     {
         $scores = Score::all();
-        return view('guru.nilai', compact('scores'));
+        return view('orangtua.nilai', compact('scores'));
     }
 }

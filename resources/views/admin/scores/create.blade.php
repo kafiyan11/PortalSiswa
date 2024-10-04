@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h2 class="my-4">Tambah Nilai</h2>
-        <form action="{{ route('scores.store') }}" method="POST">
+        <form action="{{ route('admin.scores.store') }}" method="POST">
             @csrf
             <input type="hidden" name="student_id" >  <!-- Pastikan ada student_id -->  
             <div class="form-group">
