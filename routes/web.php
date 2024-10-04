@@ -4,14 +4,18 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentGuruController;
+use App\Http\Controllers\CommentSiswaController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\JadwalguruController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\OrangTuaController;
-use App\Http\Controllers\PostController;
 
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostGuruController;
+use App\Http\Controllers\PostSiswaController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScoreController;
@@ -22,6 +26,10 @@ use App\Http\Controllers\TambahOrangtuaController;
 use App\Http\Controllers\TambahTugasController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+
+
+
 
 
 
@@ -138,10 +146,11 @@ Route::middleware(['auth','role:Admin'])->group(function(){
         Route::get('/admin/materi/cari', [AdminController::class, 'cariMateri'])->name('materiAdmin.cari');
 
 
-        
+        //forum
         Route::get('/', [PostController::class, 'index'])->name('posts.index');
         Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
         Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
         
         Route::post('/posts/{post}/comment', [CommentController::class, 'store'])->name('posts.comment');
         Route::post('/posts/{post}/comment/{comment}/reply', [CommentController::class, 'replyComment'])->name('posts.comment.reply');
@@ -172,6 +181,15 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
     //siswa melihat materi
     Route::get('/siswa-materi-lihat', [PostController::class, 'lihatMateri_siswa'])->name('siswa.lihatmateri');
 
+        //forum
+    Route::get('/siswa/forumdiskusi', [PostSiswaController::class, 'index'])->name('siswa.forumdiskusi');
+    Route::post('/siswa/forumdiskusi', [PostSiswaController::class, 'store'])->name('siswa.post.store');
+    Route::delete('/siswa/forumdiskusi/{post}', [PostSiswaController::class, 'destroy'])->name('siswa.post.destroy');
+
+        
+    Route::post('/siswa/forumdiskusi/{post}/comment', [CommentSiswaController::class, 'store'])->name('siswa.comment.store');
+    Route::post('/siswa/forumdiskusi/{post}/comment/{comment}/reply', [CommentSiswaController::class, 'replyComment'])->name('siswa.comment.reply');
+    Route::delete('/siswa/forumdiskusi/comment/{comment}', [CommentSiswaController::class, 'destroy'])->name('siswa.comment.destroy');
 });
 
 ///////////// untuk guru
@@ -212,6 +230,14 @@ Route::middleware(['auth','role:Guru'])->group(function(){
             Route::delete('/scores/{id}', [ScoreController::class, 'destroy'])->name('scores.destroy');
             Route::get('/scores/cari', [ScoreController::class, 'cari'])->name('scores.cari');
         });
+    //forum
+
+    Route::get('guru/forumdiskusi', [PostGuruController::class, 'index'])->name('guru.forumdiskusi');
+    Route::post('guru/forumdiskusi/store', [PostGuruController::class, 'store'])->name('guru.forumdiskusi.store');
+    Route::delete('guru/forumdiskusi/{post}', [PostGuruController::class, 'destroy'])->name('guru.forumdiskusi.destroy');
+    Route::post('/guru/forumdiskusi/{post}/comment', [CommentGuruController::class, 'store'])->name('guru.comment.store');
+    Route::post('/guru/forumdiskusi/{postId}/comment/{commentId}/reply', [CommentGuruController::class, 'replyComment'])->name('guru.comment.reply');
+    Route::delete('/guru/comment/{comment}', [CommentGuruController::class, 'destroy'])->name('guru.comment.destroy');
 
 });
 

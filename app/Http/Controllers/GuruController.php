@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Jadwalguru;
 use App\Models\Materi;
+use App\Models\Post;
 use App\Models\Score;
 use App\Models\Siswa; // Memastikan bahwa model Siswa digunakan
 use App\Models\Tugas;
@@ -220,4 +221,11 @@ public function tugas()
     $siswa = Tugas::paginate(10); // Mengambil data dari model Tugas
     return view('guru.tugas.tugas', ['siswa' => $siswa]); // Mengirim variabel $siswa ke view
 }
+public function forum()
+{
+    $posts = Post::with(['user', 'comments.replies.user'])->latest()->get();
+    return view('guru.forumdiskusi', compact('posts'));
+}
+
+
 }

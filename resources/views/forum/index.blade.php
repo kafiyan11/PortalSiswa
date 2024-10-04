@@ -191,12 +191,18 @@
 <script>
     function toggleReplyForm(button) {
         const replyForm = button.nextElementSibling;
-        replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+        replyForm.style.display = replyForm.style.display === 'block' ? 'none' : 'block';
     }
 
     function toggleReplies(button) {
         const repliesContainer = button.nextElementSibling;
-        repliesContainer.style.display = repliesContainer.style.display === 'none' ? 'block' : 'none';
+        const isVisible = repliesContainer.style.display === 'block';
+
+        // Tampilkan atau sembunyikan balasan
+        repliesContainer.style.display = isVisible ? 'none' : 'block';
+
+        // Ubah teks tombol
+        button.innerHTML = isVisible ? `Lihat Balasan <span class="badge">${button.querySelector('.badge').textContent}</span>` : `Sembunyikan Balasan <span class="badge">${button.querySelector('.badge').textContent}</span>`;
     }
 </script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jadwal;
+use App\Models\Post;
 use App\Models\Siswa;
 use App\Models\Tugas;
 use App\Models\User;
@@ -80,4 +81,10 @@ class SiswaController extends Controller
 
         return view('siswa.tugas', compact('tugas'));
     }
+
+    public function forum()
+{
+    $posts = Post::with(['user', 'comments.replies.user'])->latest()->get();
+    return view('siswa.forumdiskusi', compact('posts'));
+}
 }
