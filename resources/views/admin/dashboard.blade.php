@@ -316,6 +316,7 @@
   </div>
   
   <a href="{{ route('admin.tugas.index') }}"><i class="fas fa-tasks"></i> Tugas</a>
+  <a href="{{ route('namamapel.index') }}"><i class="fas fa-tasks"></i> Daftar Mapel</a>
   <a href="{{ route('admin.materi.index') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
   <a href="{{ route('scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
   <a href="{{ route('admin.scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
@@ -346,7 +347,6 @@
     </div>
 
 <div class="row mb-4">
-<!-- Total Siswa -->
 <!-- Total Siswa -->
 <div class="col-md-4">
   <div class="card metrics-card bg-primary text-white">

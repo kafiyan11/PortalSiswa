@@ -1,11 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas</title>
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+    <title>Materi Pelajaran</title>
+
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
     <style>
         * {
             margin: 0;
@@ -140,30 +149,32 @@
 </head>
 <body>
     @include('layouts.app')
+
     <h1>Materi Pelajaran</h1>
+
     <div class="subject-container">
-        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
-            <img src="{{asset('assets/img/mtk.png')}}" alt="">
+        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'matematika']) }}'">
+            <img src="{{ asset('assets/img/mtk.png') }}" alt="Materi Matematika">
             <h2>Matematika</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
-            <img src="{{asset('assets/img/pkn2.png')}}" alt="">
+        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'pkn']) }}'">
+            <img src="{{ asset('assets/img/pkn2.png') }}" alt="Materi Pendidikan Kewarganegaraan">
             <h2>Pendidikan Kewarganegaraan</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
-            <img src="{{asset('assets/img/indo2.png')}}" alt="">
+        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'indonesia']) }}'">
+            <img src="{{ asset('assets/img/indo2.png') }}" alt="Materi Bahasa Indonesia">
             <h2>Bahasa Indonesia</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
-            <img src="{{asset('assets/img/sejarah2.png')}}">
-            <h2>Bahasa Sunda</h2></a>
+        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'sunda']) }}'">
+            <img src="{{ asset('assets/img/sejarah2.png') }}" alt="Materi Bahasa Sunda">
+            <h2>Bahasa Sunda</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
-            <img src="{{asset('assets/img/aceng.png')}}" alt="">
+        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'kewirausahaan']) }}'">
+            <img src="{{ asset('assets/img/aceng.png') }}" alt="Materi Pendidikan Kewirausahaan">
             <h2>Pendidikan Kewirausahaan</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{route('siswa.lihatmateri')}}'">
-            <img src="{{asset('assets/img/inggris2.png')}}" alt="">
+        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'inggris']) }}'">
+            <img src="{{ asset('assets/img/inggris2.png') }}" alt="Materi Bahasa Inggris">
             <h2>Bahasa Inggris</h2>
         </div>
     </div>

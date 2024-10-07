@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Controllers\Controller;
 use App\Models\Materi;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class MateriController extends Controller
@@ -11,7 +12,7 @@ class MateriController extends Controller
     public function materi()
     {
         $materi = Materi::paginate(2); // Mengambil semua data materi
-        return view('guru.materi.materi',  ['materi' => $materi]); // Mengarahkan ke view untuk menampilkan daftar materi
+        return view ('guru.materi.materi',  ['materi' => $materi]); // Mengarahkan ke view untuk menampilkan daftar materi
     }
 
     public function create()
@@ -24,7 +25,7 @@ class MateriController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'kelas' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3048',
             'link_youtube' => 'nullable|url',
         ]);
 
@@ -64,7 +65,7 @@ class MateriController extends Controller
             'judul' => 'required|string|max:255',
             'tipe' => 'required|string',
             'kelas' => 'required|string|max:255',
-            'gambar' => 'nullable|image|max:2048', // jika tipe gambar
+            'gambar' => 'nullable|image', // jika tipe gambar
             'link_youtube' => 'nullable|url' // jika tipe youtube
         ]);
 
@@ -107,10 +108,64 @@ class MateriController extends Controller
     })->paginate(2); // Pastikan paginate() digunakan di sini
     return view('guru.materi.materi', compact('materi'));
 }
-    public function lihatMateri_siswa()
+    public function lihatMateri_siswa(Request $request)
     {
-        $kelas = \Illuminate\Support\Facades\Auth::User()->kelas;
-        $materi = Materi::where('kelas', $kelas)->get(); // Mengambil materi sesuai kelas siswa
-        return view('siswa.lihatmateri', compact('materi')); // Mengarahkan ke view untuk menampilkan daftar materi
+        $user = Auth::user();
+
+        // Mengambil kelas dari user
+        $kelas = $user->kelas;
+
+        // Mengambil materi yang berhubungan dengan 'Matematika' dan sesuai kelas
+        $materi = Materi::where('judul', 'Matematika')
+                        ->where('kelas', $kelas)
+                        ->get();
+
+        // Mengirimkan variabel 'materi' dan 'kelas' ke view
+        return view('siswa.materisiswa.lihatmateri', compact('materi', 'kelas'));
+    }  
+    public function pkn(Request $request)
+    {
+        $user = Auth::user();
+
+        // Mengambil kelas dari user
+        $kelas = $user->kelas;
+
+        // Mengambil materi yang berhubungan dengan 'Matematika' dan sesuai kelas
+        $materi = Materi::where('judul', 'Materi Pendidikan Kewarganegaraan')
+                        ->where('kelas', $kelas)
+                        ->get();
+
+        // Mengirimkan variabel 'materi' dan 'kelas' ke view
+        return view('siswa.materisiswa.pkn', compact('materi', 'kelas'));
+    }  
+    public function bindo(Request $request)
+    {
+        $user = Auth::user();
+
+        // Mengambil kelas dari user
+        $kelas = $user->kelas;
+
+        // Mengambil materi yang berhubungan dengan 'Matematika' dan sesuai kelas
+        $materi = Materi::where('judul', 'Bahasa Indonesia')
+                        ->where('kelas', $kelas)
+                        ->get();
+
+        // Mengirimkan variabel 'materi' dan 'kelas' ke view
+        return view('siswa.materisiswa.bindo', compact('materi', 'kelas'));
+    }  
+    public function sunda(Request $request)
+    {
+        $user = Auth::user();
+
+        // Mengambil kelas dari user
+        $kelas = $user->kelas;
+
+        // Mengambil materi yang berhubungan dengan 'Matematika' dan sesuai kelas
+        $materi = Materi::where('judul', 'Bahasa Sunda')
+                        ->where('kelas', $kelas)
+                        ->get();
+
+        // Mengirimkan variabel 'materi' dan 'kelas' ke view
+        return view('siswa.materisiswa.sunda', compact('materi', 'kelas'));
     }  
 }

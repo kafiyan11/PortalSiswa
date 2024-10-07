@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="assets/img/favicon.png" rel="icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materi</title>
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        /* Styling tetap sama seperti sebelumnya */
         .table {
             margin: 0 auto;
             width: 80%;
@@ -56,9 +58,9 @@
             max-width: 920px; /* Adjust as needed */
         }
         .search-input {
-        border-radius: 25px 0 0 25px;
-        border: 2px solid #007bff;
-        transition: border-color 0.3s ease-in-out;
+            border-radius: 25px 0 0 25px;
+            border: 2px solid #007bff;
+            transition: border-color 0.3s ease-in-out;
         }
 
         /* Change border color on focus */
@@ -102,13 +104,15 @@
         .add-btn i {
             margin-right: 5px;
         }
-        </style>
+    </style>
 </head>
 <body>
     @include('layouts.app')
     <h1 class="text-center">Materi Siswa</h1>
     <section class="content">
         <div class="container">
+            <!-- Menampilkan kelas yang dipilih -->
+
             <div class="card">
                 <div class="card-body">
                     <table class="table table-bordered table-striped">
@@ -120,27 +124,40 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $counter = 1; // Inisialisasi penghitung nomor urut
+                            @endphp
                             
-                            @foreach($materi as $index => $item)
+                            @foreach($materi as $item)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
+                                    <td>{{ $counter }}</td> <!-- Menampilkan nomor urut -->
                                     <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
                                     <td>
                                         @if($item->tipe == 'gambar')
-                                        <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank">
-                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
+                                            <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank">
+                                                <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
+                                            </a>
                                         @else
-                                            <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
+                                            <a href="{{ $item->link_youtube }}" target="_blank">
+                                                <i class="fab fa-youtube"></i> Link YouTube
+                                            </a>
                                         @endif
                                     </td>
                                 </tr>
+                                @php
+                                    $counter++;
+                                @endphp
                             @endforeach
+
+                            <!-- Jika tidak ada materi yang sesuai -->
+                            @if($materi->isEmpty())
+                                <tr>
+                                    <td colspan="3">Tidak ada materi Matematika untuk kelas ini.</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
-                        <tr>
-                            <td colspan="6" class="text-align-center">Tidak ada materi</td>
-                        </tr>
-                    
+                    <a href="{{ route('siswa.materi') }}" class="btn btn-secondary">Kembali</a>
                 </div>
             </div>
         </div>
