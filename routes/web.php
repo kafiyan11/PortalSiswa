@@ -1,27 +1,29 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\GuruController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\JadwalController;
-use App\Http\Controllers\MateriController;
-use App\Http\Controllers\OrangTuaController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
-
-use App\Http\Controllers\JadwalguruController;
-use App\Http\Controllers\NIlaidiGuruController;
-use App\Http\Controllers\ScoreController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\TambahController;
-use App\Http\Controllers\TambahGuruController;
-use App\Http\Controllers\TambahOrangtuaController;
-use App\Http\Controllers\TambahTugasController;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GuruController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\JadwalController;
+
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\TambahController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\JadwalguruController;
+use App\Http\Controllers\NamaMateriController;
+use App\Http\Controllers\TambahGuruController;
+use App\Http\Controllers\MateriAdminController;
+use App\Http\Controllers\NIlaidiGuruController;
+use App\Http\Controllers\TambahTugasController; 
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\TambahOrangtuaController;
 
 
 
@@ -123,13 +125,13 @@ Route::middleware(['auth','role:Admin'])->group(function(){
 
         
     //CRUD MATERI
-    Route::get('/admin/materi', [AdminController::class, 'materiAdmin'])->name('admin.materi.index');
-        Route::get('/admin/materi/create', [AdminController::class, 'createMateri'])->name('adminMateri.create');
-        Route::post('/admin/materi/store', [AdminController::class, 'storeAdmin'])->name('adminMateri.store');
-        Route::get('/admin/materi/{id}/edit', [AdminController::class, 'edittMateri'])->name('adminMateri.edit');
-        Route::put('/admin/materi/{id}', [AdminController::class, 'updateMateri'])->name('adminMateri.update');
-        Route::delete('/admin/materi/{id}', [AdminController::class, 'destroyMateri'])->name('adminMateri.destroy');
-        Route::get('/admin/materi/cari', [AdminController::class, 'cariMateri'])->name('materiAdmin.cari');
+        Route::get('/admin/materi', [MateriAdminController::class, 'materiAdmin'])->name('admin.materi.index');
+        Route::get('/admin/materi/create', [MateriAdminController::class, 'createMateri'])->name('adminMateri.create');
+        Route::post('/admin/materi/store', [MateriAdminController::class, 'storeAdmin'])->name('adminMateri.store');
+        Route::get('/admin/materi/{id}/edit', [MateriAdminController::class, 'edittMateri'])->name('adminMateri.edit');
+        Route::put('/admin/materi/{id}', [MateriAdminController::class, 'updateMateri'])->name('adminMateri.update');
+        Route::delete('/admin/materi/{id}', [MateriAdminController::class, 'destroyMateri'])->name('adminMateri.destroy');
+        Route::get('/admin/materi/cari', [MateriAdminController::class, 'cariMateri'])->name('materiAdmin.cari');
 
     //Bagian Forum Diskusi
         Route::post('/forum', [PostController::class, 'store'])->name('post.store');
@@ -137,6 +139,15 @@ Route::middleware(['auth','role:Admin'])->group(function(){
         Route::get('/forum/index', [PostController::class, 'index'])->name('post.index');
         Route::post('/forum', [PostController::class, 'store'])->name('posts.store');
         Route::post('/forum/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
+
+    //bagian menambah nama materi
+        Route::get('namamapel', [NamaMateriController::class, 'index'])->name('namamapel.index');
+        Route::get('namamapel/create', [NamaMateriController::class, 'create'])->name('namamapel.create');
+        Route::post('namamapel', [NamaMateriController::class, 'store'])->name('namamapel.store');
+        Route::get('namamapel/{materi}', [NamaMateriController::class, 'show'])->name('namamapel.show');
+        Route::get('namamapel/{materi}/edit', [NamaMateriController::class, 'edit'])->name('namamapel.edit');        
+        Route::put('namamapel/{materi}', [NamaMateriController::class, 'update'])->name('namamapel.update');
+        Route::delete('namamapel/{materi}', [NamaMateriController::class, 'destroy'])->name('namamapel.destroy');
 
 });
 
@@ -157,6 +168,9 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
     Route::put('/siswa/profiles/{id}', [ProfileController::class, 'update'])->name('siswa.profiles.update');
     //siswa melihat materi
     Route::get('/siswa-materi-lihat', [MateriController::class, 'lihatMateri_siswa'])->name('siswa.lihatmateri');
+    Route::get('/siswa-pkn', [MateriController::class, 'pkn'])->name('siswa.pkn');
+    Route::get('/siswa-bindo', [MateriController::class, 'bindo'])->name('siswa.bindo');
+    Route::get('/siswa-sunda', [MateriController::class, 'sunda'])->name('siswa.sunda');
 
 });
 

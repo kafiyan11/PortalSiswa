@@ -25,6 +25,7 @@
     </div>
     
     <a href="{{ route('admin.tugas.index') }}"><i class="fas fa-tasks"></i> Tugas</a>
+    <a href="{{ route('namamapel.index') }}"><i class="fas fa-tasks"></i> Daftar Mapel</a>
     <a href="{{ route('admin.materi.index') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
 
     <a href="{{ route('admin.scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
