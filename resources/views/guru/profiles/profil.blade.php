@@ -134,7 +134,7 @@
             @else
                 <div class="alert">
                     Alamat belum diisi. 
-                    <a href="{{ route('admin.profile.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit Alamat</a>
+                    <a href="{{ route('guru.profiles.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit Alamat</a>
                 </div>
             @endif
         </div>
@@ -147,17 +147,13 @@
             @else
                 <div class="alert">
                     No HP belum diisi.
-                    <a href="{{ route('admin.profile.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit No HP</a>
+                    <a href="{{ route('guru.profiles.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit No HP</a>
                 </div>
             @endif
         </div>
         <div class="text-right">
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Go Back</a>
-<<<<<<< HEAD:resources/views/admin/profil.blade.php
-            <a href="{{ route('profiles.edit', Auth::user()->) }}" class="btn btn-primary">Edit Profil</a>
-=======
-            <a href="{{ route('admin.profile.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
->>>>>>> 852fca78b56065dc091aebc8949009a8ab5519d3:resources/views/admin/profile/profil.blade.php
+            <a href="{{ route('guru.dashboard') }}" class="btn btn-primary">Go Back</a>
+            <a href="{{ route('guru.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
         </div>  
     </div>
 </div>

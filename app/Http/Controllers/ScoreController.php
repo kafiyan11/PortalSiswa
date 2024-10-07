@@ -81,4 +81,10 @@ class ScoreController extends Controller
         $scores = Score::all();
         return view('orangtua.nilai', compact('scores'));
     }
+
+    public function wujud()
+    {
+        $scores = Score::all();
+        return view('siswa.nilai', compact('scores'));
+    }
 }

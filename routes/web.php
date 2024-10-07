@@ -1,5 +1,26 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentGuruController;
+use App\Http\Controllers\CommentSiswaController;
+use App\Http\Controllers\GuruController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\JadwalguruController;
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\NIlaidiGuruController;
+
+use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostGuruController;
+use App\Http\Controllers\PostSiswaController;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\ProfileAdminController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfileGuruController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 
@@ -22,6 +43,7 @@ use App\Http\Controllers\NIlaidiGuruController;
 use App\Http\Controllers\TambahTugasController; 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TambahOrangtuaController;
+
 
 
 
@@ -63,15 +85,12 @@ Route::middleware(['auth','role:Admin'])->group(function(){
         Route::delete('jadwal/{id}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
     });
 
-    //profile
-    Route::get('/profiles', [ProfileController::class, 'show'])->name('profiles.show');
-    Route::get('/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
-    Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
     //profil
-        Route::get('/admin/profiles/show', [AdminController::class, 'Profile'])->name('admin.profile.index');
-        Route::get('/admin/profiles/{id}/edit', [AdminController::class, 'editProfile'])->name('admin.profile.edit');
-        Route::put('/admin/profiles/{id}', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
-    
+Route::get('/admin/profiles', [ProfileAdminController::class, 'show'])->name('admin.profiles.show');
+Route::get('/admin/profiles/edit/{id}', [ProfileAdminController::class, 'edit'])->name('admin.profiles.edit');
+Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'update'])->name('admin.profiles.update');
+
+
     //jadwal guru
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('jadwalguru', [JadwalguruController::class, 'index'])->name('jadwalguru.index');
@@ -178,14 +197,14 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
     Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
     Route::get('/siswa-nilai', [ScoreController::class, 'wujud'])->name('siswa.wujud');
     Route::get('/siswa-forum', [PostController::class, 'tampil'])->name('siswa.forumdiskusi');
+
+
     //profile
-    Route::get('/profiles', [ProfileController::class, 'show'])->name('profiles.show');
+    Route::get('/profiles', [ProfileController::class, 'show'])->name('siswa.profiles.show');
+    Route::get('/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('siswa.profiles.edit');
+    Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('siswa.profiles.update');
+    
 
-    // Menampilkan form edit profil
-    Route::get('/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
-
-    // Mengupdate profil pengguna
-    Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
     //siswa melihat materi
     Route::get('/siswa-materi-lihat', [MateriController::class, 'lihatMateri_siswa'])->name('siswa.lihatmateri');
     Route::get('/siswa-pkn', [MateriController::class, 'pkn'])->name('siswa.pkn');
@@ -214,9 +233,9 @@ Route::middleware(['auth','role:Guru'])->group(function(){
     Route::get('/guru-nilai', [ScoreController::class, 'lihat'])->name('guru.scores.index');
 
     //profile guruuuuu
-    Route::get('/guru/profiles', [GuruController::class, 'profil'])->name('guru.profile.show');
-    Route::get('/guru/profiles/{id}/edit', [GuruController::class, 'editProfil'])->name('guru.profile.edit');
-    Route::put('/guru/profiles/{id}', [GuruController::class, 'updateProfil'])->name('guru.profile.update');
+    Route::get('/guru/profiles', [ProfileGuruController::class, 'show'])->name('guru.profiles.show');
+    Route::get('/guru/profiles/edit/{id}', [ProfileGuruController::class, 'edit'])->name('guru.profiles.edit');
+    Route::put('/guru/profiles/update/{id}', [ProfileGuruController::class, 'update'])->name('guru.profiles.update');
 
     //materi guru
     Route::get('/guru/tambah-tugas', [TambahTugasController::class, 'tambah_tugas'])->name('guru.addTugas');
@@ -240,6 +259,7 @@ Route::middleware(['auth','role:Guru'])->group(function(){
             Route::put('/scores/{id}', [ScoreController::class, 'update'])->name('scores.update');
             Route::delete('/scores/{id}', [ScoreController::class, 'destroy'])->name('scores.destroy');
             Route::get('/scores/cari', [ScoreController::class, 'cari'])->name('scores.cari');
+        });
 
 
     //CRUD NILAI

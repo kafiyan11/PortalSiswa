@@ -2,13 +2,13 @@
 
 @section('content')
 
-<div class="container mt-4" style="text-align: center;"> <!-- Center content within container -->
-    <div class="d-flex justify-content-center align-items-center mb-3">
-        <h2>Nilai Siswa</h2>
+<div class="container mt-5">
+    <div class="d-flex justify-content-center align-items-center mb-4">
+        <h2 class="text-primary font-weight-bold">Nilai Siswa</h2>
     </div>
-    <div class="table-responsive shadow-sm rounded mx-auto" style="max-width: 1000px;"> <!-- Center table with max-width -->
+    <div class="table-responsive shadow-lg mx-auto" style="max-width: 1000px;">
         <table class="table table-striped table-bordered table-hover">
-            <thead class="thead-dark">
+            <thead class="thead-gradient"> <!-- Changed class to apply gradient -->
                 <tr>
                     <th>No</th>
                     <th>UH</th>
@@ -29,23 +29,17 @@
         </table>
     </div>
 </div>
+
 @endsection
 
 @push('styles')
 <style>
-    /* Menyesuaikan container */
+    /* Container adjustments */
     .container {
         margin-top: 20px;
-        max-width: 1200px; /* Lebih sempit untuk tampilan terpusat */
-    }
-    /* Center the container and table */
-    .container {
+        max-width: 1200px; 
         text-align: center;
-    }
-
-    .table-responsive {
-        margin: 0 auto;
-        max-width: 1000px; /* Adjust based on your design */
+        font-family: 'Arial', sans-serif;
     }
 
     /* Table styling */
@@ -53,89 +47,82 @@
         background-color: #ffffff;
         border-radius: 10px;
         border: 1px solid #dee2e6;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Bayangan lebih halus */
-
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin: 0 auto; /* Center table */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+        transition: transform 0.2s;
     }
 
-    .table thead {
-        background-color: #343a40;
+    .table:hover {
+        transform: scale(1.01);
+    }
+
+    .thead-gradient {
+        background: linear-gradient(135deg, #007bff, #6610f2); /* Gradient from blue to purple */
         color: #ffffff;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Soft shadow for text */
     }
 
+    /* Table-hover effect */
     .table-hover tbody tr:hover {
-        background-color: #f1f3f5;
-    }
-
-    /* Button styling */
-    .btn-primary, .btn-warning, .btn-danger {
-        border-radius: 20px;
-        padding: 0.375rem 0.75rem;
-        font-size: 0.9rem;
-    }
-
-    .btn-primary {
-        background-color: #4CAF50; /* Hijau yang lebih modern */
-        border-color: #4CAF50;
-    }
-
-    .btn-primary:hover {
-        background-color: #45a049;
-    }
-
-    .btn-warning {
-        background-color: #FFC107;
-        border-color: #FFC107;
-    }
-
-    .btn-warning:hover {
-        background-color: #E0A800;
-    }
-
-    .btn-danger {
-        background-color: #f44336;
-        border-color: #f44336;
-    }
-
-    .btn-danger:hover {
-        background-color: #c82333;
-    }
-    /* Penataan tombol kecil */
-
-
-    /* Button spacing */
-    .btn-sm {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.85rem;
-        border-radius: 0.2rem;
-    }
-
-    .btn i {
-        margin-right: 5px;
+        background-color: #f1f1f1;
     }
 
     /* Cell padding and alignment */
     td, th {
-        padding: 12px 15px;
-        vertical-align: middle; /* Pusatkan secara vertikal */
-    }
-    /* Tombol edit dan hapus lebih rapat */
-    .d-inline-flex form {
-        margin-left: 5px;
-<<<<<<< HEAD
-
-=======
->>>>>>> 20dcf5af8366be9a002f0651be6595d151e93070
-    }
-    td.text-center {
+        padding: 15px;
         vertical-align: middle;
-        text-align: center;
+        font-size: 1rem;
     }
 
-    /* Ensure inline-flex items align properly */
-    .d-inline-flex {
-        display: inline-flex;
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .table {
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Additional styles */
+    h2 {
+        font-size: 2rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    /* Button styling */
+    .btn-primary, .btn-warning, .btn-danger {
+        border-radius: 25px;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    .btn-primary {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-primary:hover {
+        background-color: #218838;
+        transform: scale(1.05);
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        transform: scale(1.05);
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        transform: scale(1.05);
     }
 </style>
 @endpush
