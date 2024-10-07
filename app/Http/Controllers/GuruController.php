@@ -48,81 +48,10 @@ class GuruController extends Controller
         $user = Auth::user();
 
         // Redirect to the 'profil.blade.php' view with user data
-        return view('guru.profile.profil', compact('user'));
+        return view('guru.profiles.profil', compact('user'));
     }
 
-    /**
-     * Show the form for editing the profile.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function editProfil($id)
-    {
-        $user = Auth::user();
     
-        // Cek apakah ID yang sedang login sama dengan ID yang ingin diedit
-        if ($user->id != $id) {
-            return redirect()->route('guru.profile.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
-        }
-    
-        return view('guru.profile.edit', compact('user'));
-    }
-    
-
-    /**
-     * Update the profile changes in the database.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function updateProfil(Request $request, $id)
-    {
-        // Find the user by ID or fail
-        $user = User::findOrFail($id);
-
-        // Ensure that only the logged-in user can update their own profile
-        if (Auth::user()->id != $id) {
-            return redirect()->route('guru.profile.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
-        }
-
-        // Validate the request data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'kelas' => 'nullable|string|max:50',
-            'alamat' => 'nullable|string|max:255',
-            'nohp' => 'nullable|string|max:15',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        // Update user fields
-        $user->name = $request->input('name');
-        $user->kelas = $request->input('kelas');
-        $user->alamat = $request->input('alamat');
-        $user->nohp = $request->input('nohp');
-
-        // Handle profile photo
-        if ($request->hasFile('photo')) {
-            // Delete the old photo if it exists
-            if ($user->photo && Storage::exists('public/' . $user->photo)) {
-                Storage::delete('public/' . $user->photo);
-            }
-
-            // Save the new photo
-            $file = $request->file('photo');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('profile_photos', $filename, 'public');
-            $user->photo = $path;
-        }
-
-        $user->save();
-
-        return redirect()->route('guru.profile.show', $user->id)
-                        ->with('success', 'Profile updated successfully');
-    }
-
-
     // NILAI
     public function nilai(Request $request)
     {
