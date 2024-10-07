@@ -5,12 +5,12 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PostController extends Controller
+class PostGuruController extends Controller
 {
     public function index()
     {
         $posts = Post::with(['user', 'comments.replies.user'])->latest()->get();
-        return view('forum.index', compact('posts'));
+        return view('guru.forumdiskusi', compact('posts'));
     }
 
 
@@ -39,7 +39,7 @@ public function store(Request $request)
 
     $post->save();
 
-    return redirect()->route('posts.index')->with('success', 'Post created successfully.');
+    return redirect()->route('guru.forumdiskusi')->with('success', 'Post created successfully.');
 }
 
 
@@ -47,9 +47,9 @@ public function store(Request $request)
     {
         if ($post->user_id == Auth::id()) {
             $post->delete();
-            return redirect()->route('posts.index')->with('success', 'Postingan berhasil dihapus.');
+            return redirect()->route('guru.forumdiskusi')->with('success', 'Postingan berhasil dihapus.');
         }
-        return redirect()->route('posts.index')->with('error', 'Tidak dapat menghapus postingan orang lain.');
+        return redirect()->route('guru.forumdiskusi')->with('error', 'Tidak dapat menghapus postingan orang lain.');
     }
 
 }

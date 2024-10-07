@@ -311,13 +311,15 @@
     </a>
     <div class="collapse" id="jadwalDropdown">
       <a class="dropdown-item" href="{{ route('admin.jadwal.index') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
-      <a class="dropdown-item" href="#"><i class="fas fa-chalkboard-teacher"></i> Jadwal Guru</a>
+      <a class="dropdown-item" href="{{ route('admin.jadwalguru.index') }}"><i class="fas fa-chalkboard-teacher"></i> Jadwal Guru</a>
     </div>
   </div>
   
   <a href="{{ route('admin.tugas.index') }}"><i class="fas fa-tasks"></i> Tugas</a>
   <a href="{{ route('namamapel.index') }}"><i class="fas fa-tasks"></i> Daftar Mapel</a>
   <a href="{{ route('admin.materi.index') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
+  <a href="{{ route('scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
+  <a href="{{ route('posts.index') }}"><i class="fas fa-comments"></i>Forum Diskusi </a>
   <a href="{{ route('admin.scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
   <a href="{{ route('post.index') }}"><i class="fas fa-comments"></i> Forum Diskusi </a>
   <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

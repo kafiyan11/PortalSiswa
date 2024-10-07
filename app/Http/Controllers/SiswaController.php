@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Models\User;
-use App\Models\Score;
+use App\Http\Controllers\Controller;
+use App\Models\Jadwal;
 use App\Models\Materi;
+use App\Models\Post;
 use App\Models\Siswa;
 use App\Models\Tugas;
-use App\Models\Jadwal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
@@ -90,16 +88,10 @@ class SiswaController extends Controller
 
         return view('siswa.tugas', compact('tugas'));
     }
-    public function nilai()
-    {
-        // Ambil NIS siswa yang sedang login
-        $nis = Auth::User ()->nis;
-    
-        // Ambil data nilai berdasarkan NIS siswa yang login
-        $scores = Score::where('nis', $nis)->get();
-    
-        // Mengirim data nilai ke view 'siswa.nilai'
-        return view('siswa.nilai', compact('scores'));
-    }
-    
+
+    public function forum()
+{
+    $posts = Post::with(['user', 'comments.replies.user'])->latest()->get();
+    return view('siswa.forumdiskusi', compact('posts'));
+}
 }
