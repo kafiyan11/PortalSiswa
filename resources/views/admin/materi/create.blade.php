@@ -47,12 +47,12 @@
                 @csrf
                 <div class="form-group">
                     <label for="judul">Judul Materi:</label>
-                    <input type="text" name="judul" class="form-control" required>
+                    <input type="text" name="judul" class="form-control" required value="{{ old('judul') }}">
                 </div>
                 <div class="mb-3 row">
-                    <label for="kelas" class=" col-form-label">Kelas</label>
-                    <input type="text" name="kelas" class="form-control" required>
-            </div>
+                    <label for="kelas" class="col-form-label">Kelas</label>
+                    <input type="text" name="kelas" class="form-control" required value="{{ old('kelas') }}">
+                </div>
 
                 <div class="form-group">
                     <label for="uploadOption">Pilih jenis materi:</label><br>
@@ -69,7 +69,7 @@
 
                 <div class="form-group" id="linkYoutube" style="display: none;">
                     <label for="link_youtube">Link YouTube:</label>
-                    <input type="url" name="link_youtube" class="form-control">
+                    <input type="url" name="link_youtube" class="form-control" value="{{ old('link_youtube') }}">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Unggah Materi</button>

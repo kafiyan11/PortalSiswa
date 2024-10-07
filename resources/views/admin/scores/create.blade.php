@@ -7,6 +7,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    @include('layouts.app')
     <div class="container">
         <h2 class="my-4">Tambah Nilai</h2>
         <form action="{{ route('admin.scores.store') }}" method="POST">

@@ -97,6 +97,7 @@
             </div>
             <!-- Tombol Submit -->
             <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="{{ route('ortu') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>
 </div>

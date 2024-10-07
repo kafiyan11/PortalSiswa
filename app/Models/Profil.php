@@ -15,6 +15,7 @@ class Profil extends Model
         'nama',
         'kelas',
         'jurusan',
-        'alamat'];
+        'alamat'
+    ];
 }
 
