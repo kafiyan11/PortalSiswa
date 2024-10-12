@@ -1,166 +1,181 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link href="assets/img/favicon.png" rel="icon">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Materi</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        /* Styling tetap sama seperti sebelumnya */
-        .table {
-            margin: 0 auto;
-            width: 80%;
-        }
+@extends('layouts.app')
 
-        table th, table td {
-            text-align: center;
-            vertical-align: middle;
-        }
+@section('content')
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm border-0 rounded-lg">
+                <div class="card-body p-4">
+                    <!-- Formulir Pencarian -->
+                    <form action="{{ route('siswa.lihatmateri', $id_mapel ?? '') }}" method="GET" class="mb-4" style="max-width: 400px">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Cari materi berdasarkan judul..." value="{{ request('search') }}">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i> Cari
+                            </button>
+                        </div>
+                    </form>
 
-        table th {
-            background-color: #343a40;
-            color: white;
-            padding: 15px;
-        }
+                    @if($materi->isEmpty())
+                        @if(request('search'))
+                            <!-- Pesan jika pencarian tidak menemukan hasil -->
+                            <div class="alert alert-warning text-center mb-0 border">
+                                <i class="fas fa-exclamation-triangle fa-2x mb-3 text-warning"></i>
+                                <p class="mb-0 text-warning">Materi Tidak Ditemukan.</p>
+                            </div>
+                        @else
+                            <!-- Pesan jika tidak ada materi sama sekali -->
+                            <div class="alert alert-light text-center mb-0 border">
+                                <i class="fas fa-book-open fa-2x mb-3 text-muted"></i>
+                                <p class="mb-0 text-muted">Belum ada materi untuk kelas ini.</p>
+                            </div>
+                        @endif
+                    @else                        
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <h1 class="text-center mb-4">Materi Pelajaran</h1>
 
-        table td {
-            padding: 10px;
-        }
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-center">No</th>
+                                        <th scope="col">Judul</th>
+                                        <th scope="col" class="text-center">Materi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($materi as $index => $item)
+                                        <tr>
+                                            <!-- Menyesuaikan nomor urut dengan paginasi -->
+                                            <th scope="row" class="text-center">{{ $materi->firstItem() + $index }}</th>
+                                            <td>{{ $item->judul }}</td>
+                                            <td class="text-center">
+                                                @if($item->tipe == 'gambar')
+                                                    <div class="btn-group" role="group">
+                                                        <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank" class="btn btn-outline-dark btn-sm">
+                                                            <i class="fas fa-eye me-1"></i> Lihat
+                                                        </a>
+                                                        <a href="{{ asset('storage/' . $item->gambar) }}" download class="btn btn-outline-dark btn-sm">
+                                                            <i class="fas fa-download me-1"></i> Unduh
+                                                        </a>
+                                                    </div>
+                                                @else
+                                                    <a href="{{ $item->link_youtube }}" target="_blank" class="btn btn-outline-dark btn-sm">
+                                                        <i class="fab fa-youtube me-1"></i> Tonton Video
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
 
-        table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        table tr:hover {
-            background-color: #e9ecef;
-        }
-
-        .btn-primary {
-            margin-bottom: 20px;
-        }
-
-        .alert {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .d-flex .input-group {
-            max-width: 920px; /* Adjust as needed */
-        }
-        .search-input {
-            border-radius: 25px 0 0 25px;
-            border: 2px solid #007bff;
-            transition: border-color 0.3s ease-in-out;
-        }
-
-        /* Change border color on focus */
-        .search-input:focus {
-            outline: none;
-            border-color: #0056b3;
-        }
-
-
-        .search-btn {
-            border-radius: 0 25px 25px 0;
-            padding: 8px 20px;
-            background-color: #007bff;
-            border-color: #007bff;
-            transition: background-color 0.3s ease-in-out, transform 0.2s;
-        }
-
-        .search-btn:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-            transform: scale(1.05);
-        }
-
-
-        .add-btn {
-            padding: 8px 20px;
-            background-color: #28a745;
-            border-color: #28a745;
-            transition: background-color 0.3s ease-in-out, transform 0.2s;
-        }
-
-        /* Hover effect for add button */
-        .add-btn:hover {
-            background-color: #218838;
-            border-color: #218838;
-            transform: scale(1.05);
-        }
-
-        /* Icon inside buttons */
-        .search-btn i,
-        .add-btn i {
-            margin-right: 5px;
-        }
-    </style>
-</head>
-<body>
-    @include('layouts.app')
-    <h1 class="text-center">Materi Siswa</h1>
-    <section class="content">
-        <div class="container">
-            <!-- Menampilkan kelas yang dipilih -->
-
-            <div class="card">
-                <div class="card-body">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>NO</th>
-                                <th>Judul</th>
-                                <th>Materi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $counter = 1; // Inisialisasi penghitung nomor urut
-                            @endphp
-                            
-                            @foreach($materi as $item)
-                                <tr>
-                                    <td>{{ $counter }}</td> <!-- Menampilkan nomor urut -->
-                                    <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
-                                    <td>
-                                        @if($item->tipe == 'gambar')
-                                            <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank">
-                                                <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
-                                            </a>
-                                        @else
-                                            <a href="{{ $item->link_youtube }}" target="_blank">
-                                                <i class="fab fa-youtube"></i> Link YouTube
-                                            </a>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @php
-                                    $counter++;
-                                @endphp
-                            @endforeach
-
-                            <!-- Jika tidak ada materi yang sesuai -->
-                            @if($materi->isEmpty())
-                                <tr>
-                                    <td colspan="3">Tidak ada materi Matematika untuk kelas ini.</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                    <a href="{{ route('siswa.materi') }}" class="btn btn-secondary">Kembali</a>
+                        <!-- Tautan Paginasi -->
+                        <div class=" justify-content-start mt-4">
+                            <p class="text-muted mb-3">Menampilkan {{ $materi->count() }} dari {{ $materi->total() }} materi.</p>
+                            {{ $materi->appends(['search' => request('search')])->links() }}
+                        </div>
+                        @endif
+                    </div>
+                    <div class="card-footer bg-light py-3 d-flex justify-content-end">
+                        <a href="{{ route('siswa.coba') }}" class="btn btn-dark">
+                            <i class="fas fa-arrow-left me-2"></i> Kembali
+                    </a>
                 </div>
             </div>
         </div>
-    </section>
-</body>
-</html>
+    </div>
+</div>
+@endsection
+
+@push('styles')
+<style>
+    /* CSS Anda tetap sama */
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        color: #333;
+    }
+    .card {
+        transition: box-shadow 0.3s ease;
+        border: none;
+    }
+    .card:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+    }
+    .card-header {
+        border-bottom: none;
+    }
+    .card-header h1 {
+        font-size: 1.5rem;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+    }
+    .table {
+        margin-bottom: 0;
+    }
+    .table th, .table td {
+        padding: 1rem;
+        border-color: #f0f0f0;
+    }
+    .table thead th {
+        border-top: none;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        color: #666;
+    }
+    .btn-sm {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.875rem;
+        border-radius: 2px;
+        transition: all 0.2s ease;
+    }
+    .btn-sm:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .btn-group .btn {
+        border-radius: 0;
+    }
+    .btn-group .btn:first-child {
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+    }
+    .btn-group .btn:last-child {
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+    }
+    .alert-light {
+        background-color: #fafafa;
+        border-color: #e9ecef;
+    }
+    .alert-warning {
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+    }
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.01);
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const table = document.querySelector('.table');
+        if (table) {
+            table.querySelectorAll('tbody tr').forEach((row, index) => {
+                row.style.transition = `opacity 0.3s ease ${index * 0.05}s, transform 0.3s ease ${index * 0.05}s`;
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(10px)';
+                setTimeout(() => {
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateY(0)';
+                }, 100);
+            });
+        }
+    });
+</script>
+@endpush

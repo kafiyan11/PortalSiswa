@@ -9,309 +9,216 @@
 
     <title>{{ config('app.name', 'Dashboard') }}</title>
     <link href="assets/img/favicon.png" rel="icon">
-
+    
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <link href="assets/img/favicon.png" rel="icon">
-
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Bootstrap and FontAwesome -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
-
     <!-- Custom Styles -->
     <style>
-        /* Mengatur gaya dasar untuk seluruh halaman */
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: url('your-background-image.jpg') no-repeat center center fixed; /* Menambahkan background image */
-        background-size: cover; /* Mengatur ukuran background agar menutupi seluruh layar */
-        background-color: rgb(246, 246, 246);
-      }
-  
-      /* Gaya untuk navbar (menu navigasi di bagian atas) */
-      .navbar {
-        background: linear-gradient(90deg, #ffffff, #ffffff); /* Gradien biru ke putih */
-        color: rgb(0, 0, 0);
-        z-index: 1000;
-        width: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* Bayangan halus untuk navbar */
-      }
-  
-      .navbar-brand {
-        display: flex;
-        align-items: center;
-      }
-  
-      .navbar-brand img {
-        width: 55px;
-        height: 80px;
-        margin-right: 20px;
-        margin-top: 5px;
-      }
-  
-      .navbar-brand .portal-info {
-        line-height: 1.2;
-      }
-  
-      .navbar-brand .portal-info h1 {
-        margin: 0;
-        color: black;
-        font-size: 30px;
-      }
-  
-      .navbar-brand .portal-info h2 {
-        margin: 0;
-        font-size: 15px;
-        text-transform: uppercase;
-        color: black;
-      }
-  
-      /* Gaya untuk sidebar (menu samping) */
-      .sidebar {
-        height: 100vh;
-        padding-left: 2px;
-        position: fixed;
-        top: 15px; /* Disesuaikan dengan tinggi navbar */
-        left: 0;
-        width: 250px;
-        background: white;  
-        padding-top: 100px;
-        z-index: 999;
-        transition: width 0.3s ease, background 0.3s ease;
-        overflow: hidden;
-        border-right: 1px solid #a8acb0;
-        box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.4);
-      }
-  
-      .sidebar.collapsed {
-        margin-left: -10px;
-        width: 60px; /* Lebar saat sidebar dikompres */
-        background: white;
-      }
-  
-      .sidebar a {
-        color: #000000; /* Warna biru terang untuk tautan */
-        text-decoration: none;
-        padding: 11.5px 22px; /* Menyesuaikan padding */
-        display: flex;
-        align-items: center;
-        transition: background-color 0.3s ease, padding 0.3s ease;
-      }
-  
-      .sidebar a i {
-        font-size: 1.5em; /* Ukuran ikon */
-        margin-right: 20px;
-        margin-left: -2px;
-      }
-  
-      /* .sidebar a span {
-        display: flex ;
-        transition: opacity 0.3s ease;
-      }
-  
-      .sidebar.collapsed a span {
-        opacity: 0;
-        visibility: hidden;
-      } */
-  
-      .sidebar a:hover {
-        padding: 15px;
-        background-color: #888888; /* Warna latar abu-abu muda saat hover */
-        box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.4);
-      }
-  
-      /* Gaya untuk konten utama */
-      .main-content {
-        margin-left: 50px; /* Disesuaikan dengan lebar sidebar */
-        padding: 20px;
-        padding-top: 180px; /* Disesuaikan dengan tinggi navbar */
-        transition: margin-left 0.3s ease;
-        position: relative;
-        z-index: 1; /* Memastikan konten berada di bawah sidebar */
-      }
-  
-      /* .main-content.full-width {
-        margin-left: 60px; /* Disesuaikan dengan sidebar yang dikompres */
-       */
-  
-      /* Gaya untuk judul di bagian "Beranda" */
-      .title {
-        margin-bottom: 20px;
-        padding-top: 20px;
-        text-align: left; /* Menggeser teks ke kiri */
-        color: #333; /* Warna teks gelap */
-        animation: slideInFromBottom 0.5s ease-out; /* Animasi dari bawah ke atas */
-      }
-  
-      .title h1 {
-        font-size: 2.5em;
-        color: #000000; /* Biru terang untuk judul */
-        margin-bottom: 10px;
-      }
-  
-      .title p {
-        font-size: 1.2em;
-        color: #000000; /* Abu-abu untuk subtitle */
-      }
-  
-      /* Gaya untuk kotak */
-      .card {
-        border: none;
-        border-radius: 15px; /* Sudut yang membulat */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan halus */
-        overflow: hidden;
-        position: relative;
-      }
-  
-      .card-header {
-        background: rgb(97, 97, 97); /* Gradien biru ke putih untuk header kartu */
-        color: white;
-        padding: 20px;
-        text-align: center;
-      }
-  
-      .card-body {
-        padding: 20px;
-        background-color: #ffffff; /* Latar belakang putih untuk body kartu */
-        color: #333;
-      }
-  
-      .card-footer {
-        background-color: #f8f9fa; /* Abu-abu terang untuk footer kartu */
-        padding: 15px;
-        text-align: center;
-      }
-  
-      /* Gaya untuk link forum diskusi */
-      .forum-link {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: #007bff;
-        color: white;
-        padding: 10px 15px;
-        border-radius: 50px;
-        text-align: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s ease;
-      }
-  
-      .forum-link:hover {
-        background-color: #0056b3;
-        text-decoration: none;
-        color: white;
-      }
-  
-      .forum-link i {
-        margin-right: 8px;
-      }
-  
-      @media (max-width: 1000px) {
-              h1 {
-                  font-size: 1.8rem;
-              }
-              .main-content {
-                  grid-template-columns: repeat(2, 1fr); /* Tampilkan 2 subject-box per baris di layar yang lebih kecil */
-                  max-width: 600px;
-              }
-          }
-  
-          @media (max-width: 600px) {
-              h1 {
-                  font-size: 1.6rem;
-              }
-              .main-content {
-                  grid-template-columns: 1fr; /* Tampilkan 1 subject-box per baris di layar yang lebih kecil */
-                  max-width: 300px;
-              }
-          }
-  
-      /* Keyframes untuk animasi slide dari bawah ke atas */
-      @keyframes slideInFromBottom {
-        0% {
-          opacity: 0;
-          transform: translateY(50px); /* Mulai dari posisi bawah */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
         }
-        100% {
-          opacity: 1;
-          transform: translateY(0); /* Berhenti pada posisi awal */
+        
+        .navbar {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-      }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .navbar-brand .portal-info h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            color: white;
+        }
+        
+        .navbar-brand .portal-info h2 {
+            font-size: 0.8rem;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .sidebar {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: calc(100vh - 56px);
+            padding-top: 20px;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            width: 250px;
+            z-index: 999;
+            transition: all 0.3s;
+        }
+        
+        .sidebar.collapsed {
+            width: 60px;
+        }
+        
+        .sidebar .nav-link {
+            color: #495057;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+        }
+        
+        .sidebar .nav-link:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .sidebar .nav-link.active {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            padding-top: 86px;
+            transition: margin-left 0.3s;
+        }
+        
+        .main-content.full-width {
+            margin-left: 60px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            margin-bottom: 20px;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background-color: #007bff;
+            color: #ffffff;
+            border-radius: 15px 15px 0 0;
+            font-weight: 600;
+            padding: 15px 20px;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .title {
+            margin-bottom: 30px;
+        }
+        
+        .title h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .title p {
+            font-size: 1.2em;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                margin-left: -250px;
+            }
+            
+            .sidebar.active {
+                margin-left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .main-content.active {
+                margin-left: 250px;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="#">
-                <img src="{{ asset('assets/img/logo2.png') }}" alt="Logo">
-                <div class="portal-info">
-                    <h1>Portal Siswa</h1>
-                    <h2>SMKN 1 KAWALI</h2>
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="{{ asset('assets/img/LOGO11.png') }}" alt="Logo">
+                    <div class="portal-info">
+                        <h1>Portal Siswa</h1>
+                        <h2>SMKN 1 KAWALI</h2>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt"></i> Log Out
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </li>
+                    </ul>
                 </div>
-            </a>
+            </div>
         </nav>
 
-            @auth
+        @auth
             @if(auth()->user()->role=='Siswa')
-                    @include('layouts.sidebarSiswa')    
-
+                @include('layouts.sidebarSiswa')    
             @elseif(auth()->user()->role=='Guru')
-                    @include('layouts.sidebarGuru')
-
+                @include('layouts.sidebarGuru')
             @elseif(auth()->user()->role=='Orang Tua')
-                    @include('layouts.sidebarOrangTua')
+                @include('layouts.sidebarOrangTua')
             @else
-                    @include('layouts.sidebarAdmin')
+                @include('layouts.sidebarAdmin')
             @endif
-
-
-            @endauth
+        @endauth
 
         <main class="main-content" id="main-content">
             @yield('content')
         </main>
     </div>
 
-    <script>
-        function expandSidebar() {
-            var sidebar = document.getElementById('sidebar');
-            sidebar.classList.remove('collapsed');
-            document.getElementById('main-content').classList.add('full-width');
-        }
-
-        function collapseSidebar() {
-            var sidebar = document.getElementById('sidebar');
-            sidebar.classList.add('collapsed');
-            document.getElementById('main-content').classList.remove('full-width');
-        }
-
-        document.getElementById('sidebar').addEventListener('mouseover', expandSidebar);
-        document.getElementById('sidebar').addEventListener('mouseout', collapseSidebar);
-
-        // Script untuk menampilkan/menghilangkan form input sesuai pilihan
-        document.querySelectorAll('input[name="uploadOption"]').forEach(option => {
-            option.addEventListener('change', function () {
-                if (this.value === 'gambar') {
-                    document.getElementById('gambarUpload').style.display = 'block';
-                    document.getElementById('linkYoutube').style.display = 'none';
-                } else {
-                    document.getElementById('gambarUpload').style.display = 'none';
-                    document.getElementById('linkYoutube').style.display = 'block';
-                }
-            });
-        });
-    </script>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

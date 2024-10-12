@@ -16,11 +16,5 @@ class HomeController extends Controller
         return view('home'); // Pastikan file Blade `home.blade.php` ada di `resources/views`
     }
 
-    public function storeSocialLinks(Request $request)
-    {
-        $socialLinks = SocialLink::all();
 
-        // Kirim data ke view
-        return view('welcome', compact('socialLinks'));
-    }
 }

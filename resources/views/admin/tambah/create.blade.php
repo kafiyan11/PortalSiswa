@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Tambah Data</h1>
+    <h1 class="mb-4">Tambah Data Siswa</h1>
     
     <!-- Alert Section -->
     @if(session('success'))
@@ -97,7 +97,7 @@
             </div>
             <!-- Tombol Submit -->
             <button type="submit" class="btn btn-primary">Simpan</button>
-            <a href="{{ route('ortu') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('tambah') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>
 </div>

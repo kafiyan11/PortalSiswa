@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Jadwal;
-use App\Models\Materi;
 use App\Models\Post;
 use App\Models\Siswa;
 use App\Models\Tugas;
+use App\Models\Jadwal;
+use App\Models\Materi;
+use App\Models\NamaMateri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
@@ -90,8 +91,15 @@ class SiswaController extends Controller
     }
 
     public function forum()
-{
-    $posts = Post::with(['user', 'comments.replies.user'])->latest()->get();
-    return view('siswa.forumdiskusi', compact('posts'));
-}
+    {
+        $posts = Post::with(['user', 'comments.replies.user'])->latest()->get();
+        return view('siswa.forumdiskusi', compact('posts'));
+    }
+
+    public function materii(){
+
+            $materi = NamaMateri::all(); // Mengambil semua data materi
+            return view('siswa.coba', compact('materi')); // Mengembalikan view dengan data materi
+            
+    }
 }

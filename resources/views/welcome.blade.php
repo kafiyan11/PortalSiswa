@@ -264,7 +264,7 @@
             <a href="https://x.com/smkn1kawali"><i class="bi bi-twitter-x"></i></a>
             <a href="https://www.facebook.com/smkn1kawali"><i class="bi bi-facebook"></i></a>
             <a href="https://www.instagram.com/smkn1kawali/"><i class="bi bi-instagram"></i></a>
-            <a href="https://www.youtube.com/channel/UC9-U_yQ5zqWvLxFHv7ZK0XQ"><i class="bi bi-youtube"></i></a>
+            <a href="{{ $socialLinks->youtube }}"><i class="bi bi-youtube"></i></a>
           </div>
         </div>
 
