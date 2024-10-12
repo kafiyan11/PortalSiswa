@@ -21,12 +21,14 @@ class CommentGuruController extends Controller
 
         return redirect()->route('guru.forumdiskusi')->with('success', 'Komentar berhasil ditambahkan.');
     }
+    
+    
 
     public function replyComment(Request $request, $postId, $commentId)
     {
         $request->validate([
             'reply' => 'required|string|max:255',
-        ]);
+        ]); 
     
         // Buat balasan komentar
         $reply = new Comment();
@@ -43,13 +45,18 @@ class CommentGuruController extends Controller
 
 
 
-    public function destroy(Comment $comment)
+    public function destroy($id)
     {
-        if ($comment->user_id == Auth::id()) {
+        $comment = Comment::findOrFail($id);
+        
+        // Pastikan user hanya bisa menghapus komentarnya sendiri
+        if (Auth::User()->id == $comment->user_id) {
             $comment->delete();
-            return redirect()->route('guru.forumdiskusi')->with('success', 'Komentar berhasil dihapus.');
+            return back()->with('success', 'Komentar berhasil dihapus');
+        } else {
+            return back()->with('error', 'Anda tidak memiliki izin untuk menghapus komentar ini');
         }
-        return redirect()->route('guru.forumdiskusi')->with('error', 'Tidak dapat menghapus komentar orang lain.');
     }
+    
     
 }
