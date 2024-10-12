@@ -1,292 +1,134 @@
-@extends('layouts.app')
-
-@section('content')
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Admin</title>
-  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <style>
-      /* Mengatur gaya dasar untuk seluruh halaman */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: url('your-background-image.jpg') no-repeat center center fixed; /* Menambahkan background image */
-      background-size: cover; /* Mengatur ukuran background agar menutupi seluruh layar */
-      background-color: rgb(246, 246, 246);
-    }
-
-    /* Gaya untuk navbar (menu navigasi di bagian atas) */
-    .navbar {
-      background: linear-gradient(90deg, #ffffff, #ffffff); /* Gradien putih ke putih */
-      color: rgb(0, 0, 0);
-      z-index: 1000;
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* Bayangan halus untuk navbar */
-    }
-
-    .navbar-brand {
-      display: flex;
-      align-items: center;
-    }
-
-    .navbar-brand img {
-      width: 55px;
-      height: 80px;
-      margin-right: 20px;
-      margin-top: 5px;
-    }
-
-    .navbar-brand .portal-info {
-      line-height: 1.2;
-    }
-
-    .navbar-brand .portal-info h1 {
-      margin: 0;
-      color: black;
-      font-size: 30px;
-    }
-
-    .navbar-brand .portal-info h2 {
-      margin: 0;
-      font-size: 15px;
-      text-transform: uppercase;
-      color: black;
-    }
-
-    /* Gaya untuk sidebar (menu samping) */
-    .sidebar {
-      height: 100vh;
-      padding-left: 2px;
-      position: fixed;
-      top: 15px; /* Disesuaikan dengan tinggi navbar */
-      left: 0;
-      width: 250px;
-      background: white;  
-      padding-top: 100px;
-      z-index: 999;
-      transition: width 0.3s ease, background 0.3s ease;
-      overflow: hidden;
-      border-right: 1px solid #a8acb0;
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
-    }
-
-    .sidebar.collapsed {
-      margin-left: -10px;
-      width: 60px; /* Lebar saat sidebar dikompres */
-      background: white;
-    }
-
-    .sidebar a {
-      color: #000000; /* Warna hitam untuk tautan */
-      text-decoration: none;
-      padding: 11.5px 22px; /* Menyesuaikan padding */
-      display: flex;
-      align-items: center;
-      transition: background-color 0.3s ease, padding 0.3s ease;
-    }
-
-    .sidebar a i {
-      font-size: 1.5em; /* Ukuran ikon */
-      margin-right: 20px;
-      margin-left: -2px;
-    }
-
-    .sidebar a:hover {
-      padding: 15px;
-      background-color: #888888; /* Warna latar abu-abu muda saat hover */
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
-    }
-
-    /* Gaya untuk konten utama */
-    .main-content {
-      margin-left: 250px; /* Disesuaikan dengan lebar sidebar */
-      padding: 20px;
-      padding-top: 100px; /* Disesuaikan dengan tinggi navbar */
-      transition: margin-left 0.3s ease;
-      position: relative;
-      z-index: 1; /* Memastikan konten berada di bawah sidebar */
-    }
-
-    .sidebar.collapsed + .main-content {
-      margin-left: 20px; /* Disesuaikan dengan sidebar yang dikompres */
-    }
-
-    /* Gaya untuk judul di bagian "Beranda" */
-    .title {
-      margin-bottom: 20px;
-      padding-top: 20px;
-      text-align: left; /* Menggeser teks ke kiri */
-      color: #333; /* Warna teks gelap */
-      animation: slideInFromBottom 0.5s ease-out; /* Animasi dari bawah ke atas */
-    }
-
-    .title h1 {
-      font-size: 2.5em;
-      color: #000000; /* Warna hitam untuk judul */
-      margin-bottom: 10px;
-    }
-
-    .title p {
-      font-size: 1.2em;
-      color: #000000; /* Warna hitam untuk subtitle */
-    }
-
-    /* Gaya untuk kotak */
-    .card {
-      border: none;
-      border-radius: 15px; /* Sudut yang membulat */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan halus */
-      overflow: hidden;
-      position: relative;
-    }
-
-    .card-header {
-      background: #6c757d; /* Warna abu-abu gelap untuk header kartu */
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .card-body {
-      padding: 20px;
-      background-color: #ffffff; /* Latar belakang putih untuk body kartu */
-      color: #333;
-    }
-
-    .card-footer {
-      background-color: #f8f9fa; /* Abu-abu terang untuk footer kartu */
-      padding: 15px;
-      text-align: center;
-    }
-
-    /* Gaya untuk link forum diskusi */
-    .forum-link {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #007bff;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 50px;
-      text-align: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease;
-    }
-
-    .forum-link:hover {
-      background-color: #0056b3;
-      text-decoration: none;
-      color: white;
-    }
-
-    .forum-link i {
-      margin-right: 8px;
-    }
-
-    @media (max-width: 1000px) {
-      h1 {
-          font-size: 1.8rem;
-      }
-      .main-content {
-          grid-template-columns: repeat(2, 1fr); /* Tampilkan 2 subject-box per baris di layar yang lebih kecil */
-          max-width: 600px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-          font-size: 1.6rem;
-      }
-      .main-content {
-          grid-template-columns: 1fr; /* Tampilkan 1 subject-box per baris di layar yang lebih kecil */
-          max-width: 300px;
-      }
-    }
-
-    /* Keyframes untuk animasi slide dari bawah ke atas */
-    @keyframes slideInFromBottom {
-      0% {
-        opacity: 0;
-        transform: translateY(50px); /* Mulai dari posisi bawah */
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0); /* Berhenti pada posisi awal */
-      }
-    }
-/* Style untuk kotak metriks agar sesuai dengan tampilan gambar */
-.metrics-card {
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Memberikan efek bayangan */
-}
-
-.metrics-card .card-body {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-}
-
-.metrics-card h1 {
-    font-size: 3rem; /* Angka lebih besar */
-    margin: 0;
-}
-
-.metrics-card h5 {
-    font-size: 1.2rem;
-    margin: 0;
-}
-
-/* Ikon besar */
-.metrics-card i {
-    font-size: 4rem; /* Ukuran ikon lebih besar */
-}
-
-/* Footer untuk teks 'More info' dan panah */
-.metrics-card .card-footer {
-    padding: 10px 20px;
-    font-size: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.metrics-card .card-footer i {
-    font-size: 1.5rem;
-}
-.metrics-card .card-footer a {
-    text-decoration: none; /* Menghilangkan garis bawah pada link */
-    color: inherit; /* Warna panah mengikuti warna teks */
-}
-
-.metrics-card .card-footer a:hover i {
-    color: #000000; /* Mengubah warna panah saat dihover */
-}
-
-
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        }
+        .navbar-brand {
+            font-weight: 600;
+        }
+        .navbar-brand h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            color: white;
+        }
+        .navbar-brand p {
+            font-size: 0.8rem;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .sidebar {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: calc(100vh - 56px);
+            padding-top: 20px;
+        }
+        .sidebar .nav-link {
+            color: #495057;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+        .sidebar .nav-link.active {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: #ffffff;
+            border-radius: 15px 15px 0 0;
+            font-weight: 600;
+        }
+        .metrics-card {
+            height: 100%;
+        }
+        .metrics-card .card-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .metrics-card h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+        .metrics-card p {
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+        .metrics-card i {
+            font-size: 3rem;
+            opacity: 0.7;
+        }
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown-item {
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+        .dropdown-item:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+    </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
-  <a class="navbar-brand" href="#">
-    <img src="{{ asset('assets/img/logo2.png') }}" alt="Logo"> <!-- Replace with your logo image -->
-    <div class="portal-info">
-      <h1>Portal Siswa</h1>
-      <h2>SMKN 1 KAWALI</h2>
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <img src="{{ asset('assets/img/LOGO11.png') }}" alt="Logo" height="40" class="d-inline-block align-text-top me-2">
+          <div>
+              <h1 class="mb-0">Portal Siswa</h1>
+              <p class="mb-0">SMKN 1 KAWALI</p>
+          </div>
+        </a>    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
-  </a>
 </nav>
 
 <div class="sidebar collapsed" id="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
@@ -368,78 +210,134 @@
   </div>
 </div>
 
-
-  <!-- Total Guru -->
-  <div class="col-md-4">
-      <div class="card metrics-card bg-info text-white">
-          <div class="card-body d-flex justify-content-between align-items-center">
-              <div>
-                  <h1 class="display-4">{{ $totalGuru }}</h1> <!-- Angka besar -->
-                  <h5>Total Guru</h5> <!-- Judul -->
-              </div>
-              <div>
-                  <i class="fas fa-chalkboard-teacher fa-3x"></i> <!-- Ikon besar -->
-              </div>
-          </div>
-                <!-- Bagian untuk panah dan teks 'More info' -->
-          <div class="card-footer d-flex justify-content-between align-items-center bg-light text-dark">
-            <!-- Menambahkan link untuk ikon panah -->
-            <a href="{{ route('tambahguru') }}" class="text-dark">
-                <i class="fas fa-arrow-circle-right"></i> <!-- Ikon panah -->
-            </a>
-          </div>
-      </div>
-  </div>
-  <!-- Total Orang Tua -->
-  <div class="col-md-4">
-      <div class="card metrics-card bg-danger text-white">
-          <div class="card-body d-flex justify-content-between align-items-center">
-              <div>
-                  <h1 class="display-4">{{ $totalOrangTua }}</h1> <!-- Angka besar -->
-                  <h5>Total Orang Tua</h5> <!-- Judul -->
-              </div>
-              <div>
-                  <i class="fas fa-user-friends fa-3x"></i> <!-- Ikon besar -->
-              </div>
-          </div>
-                <!-- Bagian untuk panah dan teks 'More info' -->
-            <div class="card-footer d-flex justify-content-between align-items-center bg-light text-dark">
-              <!-- Menambahkan link untuk ikon panah -->
-              <a href="{{ route('ortu') }}" class="text-dark">
-                  <i class="fas fa-arrow-circle-right"></i> <!-- Ikon panah -->
-              </a>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('admin.dashboard') }}">
+                            <i class="fas fa-home me-2"></i>
+                            Beranda
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.profiles.show') }}">
+                            <i class="fas fa-user me-2"></i>
+                            Profil
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="tambahAkunDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-plus me-2"></i>
+                            Tambah Akun
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="tambahAkunDropdown">
+                            <li><a class="dropdown-item" href="{{ route('tambah') }}"><i class="fas fa-user-graduate me-2"></i>Data Siswa</a></li>
+                            <li><a class="dropdown-item" href="{{ route('tambahguru') }}"><i class="fas fa-chalkboard-teacher me-2"></i>Data Guru</a></li>
+                            <li><a class="dropdown-item" href="{{ route('ortu') }}"><i class="fas fa-user-friends me-2"></i>Data Orang Tua</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="jadwalDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            Jadwal
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="jadwalDropdown">
+                            <li><a class="dropdown-item" href="{{ route('admin.jadwal.index') }}"><i class="fas fa-calendar-alt me-2"></i>Jadwal Pelajaran</a></li>
+                            <li><a class="dropdown-item" href="{{ route('admin.jadwalguru.index') }}"><i class="fas fa-chalkboard-teacher me-2"></i>Jadwal Guru</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.tugas.index') }}">
+                            <i class="fas fa-tasks me-2"></i>
+                            Tugas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('namamapel.index') }}">
+                            <i class="fas fa-globe me-2"></i>
+                            Daftar Pelajaran
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.materi.index') }}">
+                            <i class="fas fa-book me-2"></i>
+                            Materi Pelajaran
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.scores.index') }}">
+                            <i class="fas fa-graduation-cap me-2"></i>
+                            Nilai
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('posts.index') }}">
+                            <i class="fas fa-comments me-2"></i>
+                            Forum Diskusi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('social-links.index') }}">
+                            <i class="fas fa-link me-2"></i>
+                            Tautan Sosial
+                        </a>
+                    </li>
+                </ul>
             </div>
-      </div>
-  </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Beranda</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card metrics-card bg-primary text-white">
+                        <div class="card-body">
+                            <div>
+                                <h2>{{ $totalSiswa }}</h2>
+                                <p>Total Siswa</p>
+                            </div>
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card metrics-card bg-success text-white">
+                        <div class="card-body">
+                            <div>
+                                <h2>{{ $totalGuru }}</h2>
+                                <p>Total Guru</p>
+                            </div>
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card metrics-card bg-info text-white">
+                        <div class="card-body">
+                            <div>
+                                <h2>{{ $totalOrangTua }}</h2>
+                                <p>Total Orang Tua</p>
+                            </div>
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add more content here -->
+
+        </main>
+    </div>
 </div>
 
-
-  </div>
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  // Function to expand sidebar on hover
-  function expandSidebar() {
-    var sidebar = document.getElementById('sidebar');
-    sidebar.classList.remove('collapsed');
-    document.getElementById('main-content').classList.add('full-width');
-  }
-
-  // Function to collapse sidebar when not hovering
-  function collapseSidebar() {
-    var sidebar = document.getElementById('sidebar');
-    sidebar.classList.add('collapsed');
-    document.getElementById('main-content').classList.remove('full-width');
-  }
-
-  // Attach event listeners for hover
-  document.getElementById('sidebar').addEventListener('mouseover', expandSidebar);
-  document.getElementById('sidebar').addEventListener('mouseout', collapseSidebar);
+    // Add any additional JavaScript here
 </script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-@endsection

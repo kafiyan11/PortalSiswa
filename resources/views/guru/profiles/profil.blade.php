@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil Guru</title>
-    <link href="assets/img/favicon.png" rel="icon">
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -87,6 +87,7 @@
             border-radius: 5px;
             font-size: 14px;
             color: #555;
+            width: calc(100% - 170px);
         }
         .text-right {
             text-align: right;
@@ -97,66 +98,86 @@
             color: white;
             padding: 10px 20px;
             border-radius: 5px;
+            margin-left: 10px;
         }
         .btn-warning {
             background-color: orange;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
 <div class="profile-container">
     <div class="profile-header">
-        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : 'default-avatar.png' }}" alt="Profile Picture">
+        <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/default-avatar.png') }}" alt="Profile Picture">
         <h2>Profil</h2>
     </div>
     <div class="tabs">
         <a class="active">Lihat Profil</a>
     </div>
     <div class="profile-body">
+        <!-- Nama -->
         <div class="form-group">
             <label for="name">Nama</label>
-            <input type="text" id="name" value="{{ Auth::user()->name }}" readonly>
+            <input type="text" id="name" value="{{ $user->name }}" readonly>
         </div>
+
+        <!-- NIP -->
         <div class="form-group">
             <label for="nip">NIP</label>
-            <input type="text" id="nip" value="{{ Auth::user()->nis }}" readonly>
+            <input type="text" id="nip" value="{{ $user->nis }}" readonly>
         </div>
+                <!-- Judul -->
         <div class="form-group">
-            <label for="role">Sebagai</label>
-            <input type="text" id="role" value="{{ Auth::user()->role }}" readonly>
-        </div>
-        
-        <!-- Bagian Alamat -->
-        <div class="form-group">
-            <label for="alamat">Alamat</label>
-            @if(Auth::user()->alamat)
-                <input type="text" id="alamat" value="{{ Auth::user()->alamat }}" readonly>
+            <label for="judul">Mengajar</label>
+            @if($user->judul)
+                <input type="text" id="judul" value="{{ $user->judul }}" readonly>
             @else
                 <div class="alert">
-                    Alamat belum diisi. 
-                    <a href="{{ route('guru.profiles.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit Alamat</a>
+                    Mengajar belum diisi.
+                </div>
+            @endif
+        </div>
+        <!-- Sebagai -->
+        <div class="form-group">
+            <label for="role">Sebagai</label>
+            <input type="text" id="role" value="{{ $user->role }}" readonly>
+        </div>
+
+        <!-- Alamat -->
+        <div class="form-group">
+            <label for="alamat">Alamat</label>
+            @if($user->alamat)
+                <input type="text" id="alamat" value="{{ $user->alamat }}" readonly>
+            @else
+                <div class="alert">
+                    Alamat belum diisi.
                 </div>
             @endif
         </div>
 
-        <!-- Bagian Nomer HP -->
+        <!-- Nomor HP -->
         <div class="form-group">
-            <label for="nohp">Nomer Hp</label>
-            @if(Auth::user()->nohp)
-                <input type="text" id="nohp" value="{{ Auth::user()->nohp }}" readonly>
+            <label for="nohp">Nomor HP</label>
+            @if($user->nohp)
+                <input type="text" id="nohp" value="{{ $user->nohp }}" readonly>
             @else
                 <div class="alert">
-                    No HP belum diisi.
-                    <a href="{{ route('guru.profiles.edit', Auth::user()->id) }}" class="btn btn-sm btn-warning">Edit No HP</a>
+                    Nomor HP belum diisi.
                 </div>
             @endif
         </div>
+        <!-- Tombol Aksi -->
         <div class="text-right">
-            <a href="{{ route('guru.dashboard') }}" class="btn btn-primary">Go Back</a>
-            <a href="{{ route('guru.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
+            <a href="{{ route('guru.dashboard') }}" class="btn">Kembali</a>
+            <a href="{{ route('guru.profiles.edit', $user->id) }}" class="btn">Edit Profil</a>
         </div>  
     </div>
 </div>
-
 </body>
 </html>

@@ -2,109 +2,152 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mapel;
 use App\Models\Materi;
+use App\Models\NamaMateri;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MateriAdminController extends Controller
 {
+    /**
+     * Display a paginated list of Materi.
+     */
     public function materiAdmin()
     {
-        $materi = Materi::paginate(2); // Mengambil semua data materi
-        return view('admin.materi.index',  ['materi' => $materi]); // Mengarahkan ke view untuk menampilkan daftar materi
+        // Eager load 'mapel' relationships to optimize queries
+        $materi = Materi::with('mapel')->paginate(4);
+        return view('admin.materi.index', ['materi' => $materi]);
     }
 
+    /**
+     * Show the form to create new Materi.
+     */
     public function createMateri()
     {
-        return view('admin.materi.create');
+        $mapel = NamaMateri::all(); // Correctly fetch all Mapel for the dropdown
+        return view('admin.materi.create', compact('mapel'));
     }
 
+    /**
+     * Store a new Materi in storage.
+     */
     public function storeAdmin(Request $request)
     {
+        // Validate the request including id_mapel
         $request->validate([
             'judul' => 'required|string|max:255',
+            'id_mapel' => 'required|integer|exists:mapel,id_mapel', // Corrected 'id' to 'id_mapel'
             'kelas' => 'required|string|max:255',
+            'tipe' => 'required|string|in:gambar,youtube',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'link_youtube' => 'nullable|url',
         ]);
 
-        if ($request->hasFile('gambar')) {
-            // Proses upload gambar
-            $gambarPath = $request->file('gambar')->store('materi', 'public');
-        }
-
-        // Validasi bahwa salah satu harus diisi
+        // Ensure at least one of gambar or link_youtube is provided
         if (!$request->hasFile('gambar') && !$request->link_youtube) {
             return back()->withErrors(['msg' => 'Anda harus mengunggah gambar atau memasukkan link YouTube.']);
         }
 
-        // Simpan data ke database
+        // Handle file upload if present
+        $gambarPath = null;
+        if ($request->hasFile('gambar')) {
+            // Store the image in 'public/materi' directory
+            $gambarPath = $request->file('gambar')->store('materi', 'public');
+        }
+
+        // Create the Materi record
         Materi::create([
             'judul' => $request->judul,
+            'id_mapel' => $request->id_mapel,
             'kelas' => $request->kelas,
-            'gambar' => $gambarPath ?? null,
-            'link_youtube' => $request->link_youtube ?? null,
+            'gambar' => $gambarPath,
+            'link_youtube' => $request->link_youtube,
             'tipe' => $request->tipe,
         ]);
 
         return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil diunggah.');
     }
-    // Menampilkan form edit
-    public function edittMateri($id)
+
+    /**
+     * Show the form to edit existing Materi.
+     */
+    public function editMateri($id) // Corrected method name
     {
-        $materi = Materi::findOrFail($id); // Mengambil data berdasarkan ID
-        return view('admin.materi.edit', compact('materi')); // Menampilkan view edit dengan data materi
+        $materi = Materi::findOrFail($id);
+        $mapel = NamaMateri::all(); // Correctly fetch all Mapel for the dropdown
+        return view('admin.materi.edit', compact('materi', 'mapel'));
     }
 
-    // Menyimpan perubahan (update data)
+    /**
+     * Update an existing Materi in storage.
+     */
     public function updateMateri(Request $request, $id)
     {
-        // Validasi input
+        // Validate the request including id_mapel
         $request->validate([
             'judul' => 'required|string|max:255',
-            'tipe' => 'required|string',
+            'id_mapel' => 'required|integer|exists:mapel,id_mapel', // Corrected 'id' to 'id_mapel'
             'kelas' => 'required|string|max:255',
-            'gambar' => 'nullable|image|max:2048', // jika tipe gambar
-            'link_youtube' => 'nullable|url' // jika tipe youtube
+            'tipe' => 'required|string|in:gambar,youtube',
+            'gambar' => 'nullable|image|max:2048',
+            'link_youtube' => 'nullable|url',
         ]);
 
-        $materi = Materi::findOrFail($id); // Mengambil data berdasarkan ID
+        $materi = Materi::findOrFail($id);
 
-        // Update data materi
+        // Update fields
         $materi->judul = $request->judul;
+        $materi->id_mapel = $request->id_mapel;
         $materi->kelas = $request->kelas;
         $materi->tipe = $request->tipe;
 
-        // Jika mengupload gambar
+        // Handle gambar upload
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('materi', 'public');
-            $materi->gambar = $path;
+            // Optionally, delete the old image if it exists
+            if ($materi->gambar) {
+                Storage::disk('public')->delete($materi->gambar);
+            }
+            $materi->gambar = $request->file('gambar')->store('materi', 'public');
         }
 
-        // Jika memasukkan link YouTube
-        if ($request->tipe == 'youtube') {
+        // Handle link_youtube based on tipe
+        if ($request->tipe === 'youtube') {
             $materi->link_youtube = $request->link_youtube;
+            $materi->gambar = null; // Clear gambar if tipe is youtube
+        } elseif ($request->tipe === 'gambar') {
+            $materi->link_youtube = null; // Clear link_youtube if tipe is gambar
         }
 
-        $materi->save(); // Simpan perubahan ke database
+        $materi->save();
 
         return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil diperbarui.');
     }
 
-    // Menghapus materi
+    /**
+     * Delete a Materi from storage.
+     */
     public function destroyMateri($id)
     {
-        $materi = Materi::findOrFail($id); // Mengambil data berdasarkan ID
-        $materi->delete(); // Menghapus data
+        $materi = Materi::findOrFail($id);
+
+        // Optionally, delete the associated gambar if it exists
+        if ($materi->gambar) {
+            Storage::disk('public')->delete($materi->gambar);
+        }
+
+        $materi->delete();
 
         return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil dihapus.');
     }
-    public function cariMateri(Request $request)
-{
-    $cari = $request->input('cari');
-    $materi = Materi::when($cari, function ($query, $cari) {
-        return $query->where('judul', 'like', '%' . $cari . '%');
-    })->paginate(2); // Pastikan paginate() digunakan di sini
-    return view('admin.materi.index', compact('materi'));
-}
 
+    /**
+     * Search for Materi based on the 'cari' input.
+     */
+    public function cariMateri(Request $request)
+    {
+        $cari = $request->input('cari');
+        $materi = Materi::where('judul', 'like', '%' . $cari . '%')->paginate(2);
+        return view('admin.materi.index', compact('materi'));
+    }
 }

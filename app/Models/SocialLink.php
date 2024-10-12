@@ -9,10 +9,22 @@ class SocialLink extends Model
 {
     use HasFactory;
 
+    /**
+     * Nama tabel yang digunakan oleh model ini.
+     *
+     * @var string
+     */
     protected $table = 'social_links';
 
+    /**
+     * Atribut yang dapat diisi (mass assignable).
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
-        'platform',
-        'url',
+        'twitter',
+        'facebook',
+        'instagram',
+        'youtube',
     ];
 }
