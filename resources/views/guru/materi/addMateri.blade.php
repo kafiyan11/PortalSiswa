@@ -1,113 +1,161 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Materi</title>
-    <link href="{{asset('assets/img/favicon.png')}}" rel="icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .mx-auto { 
-            max-width: 800px; /* Mengurangi lebar agar lebih rapi */
-            margin-top: 50px; /* Mengurangi margin top */
-        }
-        .card {
-            margin-top: 20px;
-            padding: 20px; /* Memberikan padding di dalam card */
-            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1); /* Menghaluskan shadow */
-        }
-        .form-group {
-            margin-bottom: 15px; /* Memberikan jarak antar form */
-        }
-        .btn {
-            margin-top: 10px;
-        }
-        h2 {
-            margin-bottom: 20px; /* Memberikan jarak bawah pada judul */
-        }
-    </style>
-</head>
-<body>
-    @include("layouts.app")
+<!-- resources/views/admin/materi/create.blade.php -->
 
-    <div class="container mx-auto">
-        <div class="card">
-            <h2>Unggah Materi</h2>
+@extends('layouts.app')
 
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+@section('content')
+<div class="container mt-5">
+    <h1 class="mb-4">Create Materi</h1>
 
-            <form action="{{ route('materi.store') }}" method="post" enctype="multipart/form-data">
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ route('materi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
-                    <label for="judul">Judul Materi:</label>
-                    <input type="text" name="judul" class="form-control" required>
-                </div>
-                <div class="mb-3 row">
-                    <label for="kelas">Kelas</label>
-                    <input type="text" id="kelas" name="kelas" class="form-control" required>
+
+                <!-- Judul -->
+                <div class="mb-3">
+                    <label for="judul" class="form-label">Judul <span class="text-danger">*</span></label>
+                    <input type="text" 
+                           class="form-control @error('judul') is-invalid @enderror" 
+                           name="judul" 
+                           id="judul" 
+                           value="{{ old('judul') }}" 
+                           required>
+                    @error('judul')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
-                <div class="form-group">
-                    <label for="uploadOption">Pilih jenis materi:</label><br>
-                    <input type="radio" id="uploadGambar" name="tipe" value="gambar" checked>
-                    <label for="uploadGambar">Unggah Gambar</label><br>
-                    <input type="radio" id="uploadYoutube" name="tipe" value="youtube">
-                    <label for="uploadYoutube">Link YouTube</label>
+                <!-- Mapel Dropdown -->
+                <div class="mb-3">
+                    <label for="id_mapel" class="form-label">Mapel <span class="text-danger">*</span></label>
+                     <select class="form-control @error('id_mapel') is-invalid @enderror" 
+                            name="id_mapel" 
+                            id="id_mapel" 
+                            required>
+                        <option value="">-- Pilih Mapel --</option>
+                        @foreach($mapel as $m)
+                            <option value="{{ $m->id_mapel }}" {{ old('id_mapel') == $m->id_mapel ? 'selected' : '' }}>
+                                {{ $m->nama_mapel }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('id_mapel')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
-                <div class="form-group" id="gambarUpload">
-                    <label for="gambar">Unggah Gambar:</label>
-                    <input type="file" name="gambar" class="form-control">
+                <!-- Kelas -->
+                <div class="mb-3">
+                    <label for="kelas" class="form-label">Kelas <span class="text-danger">*</span></label>
+                    <input type="text" 
+                           class="form-control @error('kelas') is-invalid @enderror" 
+                           name="kelas" 
+                           id="kelas" 
+                           value="{{ old('kelas') }}" 
+                           required>
+                    @error('kelas')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
-                <div class="form-group" id="linkYoutube" style="display: none;">
-                    <label for="link_youtube">Link YouTube:</label>
-                    <input type="url" name="link_youtube" class="form-control">
+                <!-- Tipe -->
+                <div class="mb-3">
+                    <label class="form-label d-block">Tipe <span class="text-danger">*</span></label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input @error('tipe') is-invalid @enderror" 
+                               type="radio" 
+                               name="tipe" 
+                               id="tipe_gambar" 
+                               value="gambar" 
+                               {{ old('tipe') == 'gambar' ? 'checked' : '' }} 
+                               onclick="toggleInput()">
+                        <label class="form-check-label" for="tipe_gambar">Gambar</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input @error('tipe') is-invalid @enderror" 
+                               type="radio" 
+                               name="tipe" 
+                               id="tipe_youtube" 
+                               value="youtube" 
+                               {{ old('tipe') == 'youtube' ? 'checked' : '' }} 
+                               onclick="toggleInput()">
+                        <label class="form-check-label" for="tipe_youtube">YouTube</label>
+                    </div>
+                    @error('tipe')
+                        <div class="invalid-feedback d-block">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
-                <button type="submit" class="btn btn-primary">Unggah Materi</button>
+                <!-- Gambar -->
+                <div class="mb-3" id="gambar_input" style="display: none;">
+                    <label for="gambar" class="form-label">Gambar <span class="text-danger">*</span></label>
+                    <input type="file" 
+                           class="form-control @error('gambar') is-invalid @enderror" 
+                           name="gambar" 
+                           id="gambar" 
+                           accept="image/*">
+                    @error('gambar')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <!-- Link YouTube -->
+                <div class="mb-3" id="youtube_input" style="display: none;">
+                    <label for="link_youtube" class="form-label">Link YouTube <span class="text-danger">*</span></label>
+                    <input type="url" 
+                           class="form-control @error('link_youtube') is-invalid @enderror" 
+                           name="link_youtube" 
+                           id="link_youtube" 
+                           value="{{ old('link_youtube') }}">
+                    @error('link_youtube')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Simpan</button>
             </form>
         </div>
     </div>
+</div>
 
-    <script>
-        // Script untuk menampilkan/menghilangkan form input sesuai pilihan
-        document.addEventListener("DOMContentLoaded", function () {
-            const uploadOptions = document.querySelectorAll('input[name="tipe"]');
-            const gambarUpload = document.getElementById('gambarUpload');
-            const linkYoutube = document.getElementById('linkYoutube');
+<!-- JavaScript untuk toggle input berdasarkan tipe yang dipilih -->
+<script>
+    function toggleInput() {
+        var tipeGambar = document.getElementById('tipe_gambar').checked;
+        var tipeYoutube = document.getElementById('tipe_youtube').checked;
 
-            uploadOptions.forEach(option => {
-                option.addEventListener('change', function () {
-                    if (this.value === 'gambar') {
-                        gambarUpload.style.display = 'block';
-                        linkYoutube.style.display = 'none';
-                    } else if (this.value === 'youtube') {
-                        gambarUpload.style.display = 'none';
-                        linkYoutube.style.display = 'block';
-                    }
-                });
-            });
+        document.getElementById('gambar_input').style.display = tipeGambar ? 'block' : 'none';
+        document.getElementById('youtube_input').style.display = tipeYoutube ? 'block' : 'none';
 
-            // Jalankan saat halaman pertama kali dimuat
-            const selectedOption = document.querySelector('input[name="tipe"]:checked').value;
-            if (selectedOption === 'gambar') {
-                gambarUpload.style.display = 'block';
-                linkYoutube.style.display = 'none';
-            } else if (selectedOption === 'youtube') {
-                gambarUpload.style.display = 'none';
-                linkYoutube.style.display = 'block';
-            }
-        });
-    </script>
-    
-</body>
-</html>
+        // Menandai field sebagai required jika ditampilkan
+        if(tipeGambar){
+            document.getElementById('gambar').setAttribute('required', 'required');
+            document.getElementById('link_youtube').removeAttribute('required');
+        } else if(tipeYoutube){
+            document.getElementById('link_youtube').setAttribute('required', 'required');
+            document.getElementById('gambar').removeAttribute('required');
+        } else {
+            document.getElementById('gambar').removeAttribute('required');
+            document.getElementById('link_youtube').removeAttribute('required');
+        }
+    }
+
+    // Panggil fungsi saat halaman dimuat agar input tampil sesuai dengan old value
+    window.onload = function() {
+        toggleInput();
+    }
+</script>
+@endsection

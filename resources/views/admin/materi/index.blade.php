@@ -121,7 +121,7 @@
 
                     <!-- Form Pencarian dan Tombol Tambah dalam satu baris -->
                     <div class="d-flex justify-content-between mb-2">
-                        <form action="{{ route('materiAdmin.cari') }}" method="GET" class="input-group" style="max-width: 400px;">
+                        <form action="{{ route('materiAdmin.cari') }}" method="GET" class="input-group" style="max-width: 400px; " >
                             <input type="text" name="cari" class="form-control search-input" placeholder="Cari materi..." value="{{ request()->get('search') }}">
                             <div class="input-group-append">
                                 <button class="btn btn-primary search-btn" type="submit">

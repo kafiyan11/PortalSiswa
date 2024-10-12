@@ -153,27 +153,27 @@
     <h1>Materi Pelajaran</h1>
 
     <div class="subject-container">
-        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'matematika']) }}'">
+        <div class="subject-box" onclick="window.location.href='#'">
             <img src="{{ asset('assets/img/mtk.png') }}" alt="Materi Matematika">
             <h2>Matematika</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'pkn']) }}'">
+        <div class="subject-box" onclick="window.location.href='#'">
             <img src="{{ asset('assets/img/pkn2.png') }}" alt="Materi Pendidikan Kewarganegaraan">
             <h2>Pendidikan Kewarganegaraan</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'indonesia']) }}'">
+        <div class="subject-box" onclick="window.location.href='#'">
             <img src="{{ asset('assets/img/indo2.png') }}" alt="Materi Bahasa Indonesia">
             <h2>Bahasa Indonesia</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'sunda']) }}'">
+        <div class="subject-box" onclick="window.location.href='#'">
             <img src="{{ asset('assets/img/sejarah2.png') }}" alt="Materi Bahasa Sunda">
             <h2>Bahasa Sunda</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'kewirausahaan']) }}'">
+        <div class="subject-box" onclick="window.location.href='#'">
             <img src="{{ asset('assets/img/aceng.png') }}" alt="Materi Pendidikan Kewirausahaan">
             <h2>Pendidikan Kewirausahaan</h2>
         </div>
-        <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['subject' => 'inggris']) }}'">
+        <div class="subject-box" onclick="window.location.href='#'">
             <img src="{{ asset('assets/img/inggris2.png') }}" alt="Materi Bahasa Inggris">
             <h2>Bahasa Inggris</h2>
         </div>

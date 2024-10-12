@@ -8,22 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class NamaMateri extends Model
 {
     use HasFactory;
-    
-    // Nama tabel
-    protected $table = 'mapel';
 
-    // Primary key
-    protected $primaryKey = 'id_mapel';
+    // Menentukan nama tabel yang digunakan
+    protected $table = 'mapel'; 
 
-    // Jika primary key bukan auto-incrementing integer, sesuaikan:
-    // public $incrementing = false;
-    // protected $keyType = 'string';
+    // Menentukan primary key yang digunakan
+    protected $primaryKey = 'id_mapel'; 
 
-    // Jika tabel tidak menggunakan timestamps
+    // Menonaktifkan timestamps
     public $timestamps = false;
 
     // Fillable attributes
-    protected $fillable = ['nama_mapel'];
-
+    protected $fillable = ['nama_mapel', 'icon']; // Memungkinkan mass assignment untuk nama_mapel dan icon
 }
-

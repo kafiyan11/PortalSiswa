@@ -1,122 +1,108 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Materi</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .mx-auto { 
-            max-width: 800px; /* Mengurangi lebar agar lebih rapi */
-            margin-top: 50px; /* Mengurangi margin top */
-        }
-        .card {
-            margin-top: 20px;
-            padding: 20px; /* Memberikan padding di dalam card */
-            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1); /* Menghaluskan shadow */
-        }
-        .form-group {
-            margin-bottom: 15px; /* Memberikan jarak antar form */
-        }
-        .btn {
-            margin-top: 10px;
-        }
-        h2 {
-            margin-bottom: 20px; /* Memberikan jarak bawah pada judul */
-        }
-        .current-image {
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-    @include("layouts.app")
+@extends('layouts.app')
 
-    <div class="container mx-auto">
-        <div class="card">
-            <h2>Edit Materi</h2>
+@section('content')
+    <h1>Edit Materi</h1>
 
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+    <form action="{{ route('adminMateri.update', $materi->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+
+        <!-- Judul -->
+        <div class="mb-3">
+            <label for="judul" class="form-label">Judul</label>
+            <input type="text" name="judul" id="judul" class="form-control" value="{{ old('judul', $materi->judul) }}" required>
+            @error('judul')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <!-- Mapel Dropdown -->
+        <div class="mb-3">
+            <label for="id_mapel" class="form-label">Mapel</label>
+            <select name="id_mapel" id="id_mapel" class="form-control" required>
+                <option value="">-- Pilih Mapel --</option>
+                @foreach($mapel as $m)
+                    <option value="{{ $m->id_mapel }}" {{ (old('id_mapel', $materi->id_mapel) == $m->id_mapel) ? 'selected' : '' }}>
+                        {{ $m->nama_mapel }}
+                    </option>
+                @endforeach
+            </select>
+            @error('id_mapel')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <!-- Tipe -->
+        <div class="mb-3">
+            <label class="form-label">Tipe</label>
+            <div class="form-check">
+                <input type="radio" name="tipe" id="tipe_gambar" value="gambar" class="form-check-input" {{ (old('tipe', $materi->tipe) == 'gambar') ? 'checked' : '' }} required>
+                <label for="tipe_gambar" class="form-check-label">Gambar</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" name="tipe" id="tipe_youtube" value="youtube" class="form-check-input" {{ (old('tipe', $materi->tipe) == 'youtube') ? 'checked' : '' }} required>
+                <label for="tipe_youtube" class="form-check-label">YouTube</label>
+            </div>
+            @error('tipe')
+                <div class="text-danger mt-1">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <!-- Gambar -->
+        <div id="gambar_input" class="mb-3" style="{{ $materi->tipe == 'youtube' ? 'display:none;' : '' }}">
+            <label for="gambar" class="form-label">Gambar</label>
+            @if($materi->gambar)
+                <div>
+                    <img src="{{ asset('storage/' . $materi->gambar) }}" alt="{{ $materi->judul }}" width="150">
                 </div>
             @endif
-
-            <form action="{{ route('adminMateri.update', $materi->id) }}" method="post" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="form-group">
-                    <label for="judul">Judul Materi:</label>
-                    <input type="text" name="judul" class="form-control" required value="{{ old('judul', $materi->judul) }}">
-                </div>
-                <div class="mb-3 row">
-                    <label for="kelas" class="col-form-label">Kelas</label>
-                    <input type="text" name="kelas" class="form-control" required value="{{ old('kelas', $materi->kelas) }}">
-                </div>
-
-                <div class="form-group">
-                    <label for="uploadOption">Pilih jenis materi:</label><br>
-                    <input type="radio" id="uploadGambar" name="tipe" value="gambar" {{ (old('tipe', $materi->tipe) == 'gambar') ? 'checked' : '' }}>
-                    <label for="uploadGambar">Unggah Gambar</label><br>
-                    <input type="radio" id="uploadYoutube" name="tipe" value="youtube" {{ (old('tipe', $materi->tipe) == 'youtube') ? 'checked' : '' }}>
-                    <label for="uploadYoutube">Link YouTube</label>
-                </div>
-
-                <div class="form-group" id="gambarUpload">
-                    <label for="gambar">Unggah Gambar:</label>
-                    @if($materi->gambar)
-                        <div class="current-image">
-                            <img src="{{ asset($materi->gambar) }}" alt="{{ $materi->judul }}" width="150">
-                        </div>
-                    @endif
-                    <input type="file" name="gambar" class="form-control">
-                </div>
-
-                <div class="form-group" id="linkYoutube" style="display: none;">
-                    <label for="link_youtube">Link YouTube:</label>
-                    <input type="url" name="link_youtube" class="form-control" value="{{ old('link_youtube', $materi->link_youtube) }}">
-                </div>
-
-                <button type="submit" class="btn btn-primary">Perbarui Materi</button>
-                <a href="{{ route('admin.materi.index') }}" class="btn btn-secondary">Kembali</a>
-            </form>
+            <input type="file" name="gambar" id="gambar" accept="image/*" class="form-control">
+            @error('gambar')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
-    </div>
+
+        <!-- Link YouTube -->
+        <div id="youtube_input" class="mb-3" style="{{ $materi->tipe == 'gambar' ? 'display:none;' : '' }}">
+            <label for="link_youtube" class="form-label">Link YouTube</label>
+            <input type="url" name="link_youtube" id="link_youtube" value="{{ old('link_youtube', $materi->link_youtube) }}" class="form-control">
+            @error('link_youtube')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Perbarui</button>
+    </form>
 
     <script>
-        // Script untuk menampilkan/menghilangkan form input sesuai pilihan
-        document.addEventListener("DOMContentLoaded", function () {
-            const uploadOptions = document.querySelectorAll('input[name="tipe"]');
-            const gambarUpload = document.getElementById('gambarUpload');
-            const linkYoutube = document.getElementById('linkYoutube');
-
-            uploadOptions.forEach(option => {
-                option.addEventListener('change', function () {
-                    if (this.value === 'gambar') {
-                        gambarUpload.style.display = 'block';
-                        linkYoutube.style.display = 'none';
-                    } else if (this.value === 'youtube') {
-                        gambarUpload.style.display = 'none';
-                        linkYoutube.style.display = 'block';
-                    }
-                });
-            });
-
-            // Jalankan saat halaman pertama kali dimuat
-            const selectedOption = document.querySelector('input[name="tipe"]:checked').value;
-            if (selectedOption === 'gambar') {
-                gambarUpload.style.display = 'block';
-                linkYoutube.style.display = 'none';
-            } else if (selectedOption === 'youtube') {
-                gambarUpload.style.display = 'none';
-                linkYoutube.style.display = 'block';
+        document.addEventListener('DOMContentLoaded', function() {
+            const tipeGambar = document.getElementById('tipe_gambar');
+            const tipeYoutube = document.getElementById('tipe_youtube');
+            const gambarInput = document.getElementById('gambar_input');
+            const youtubeInput = document.getElementById('youtube_input');
+    
+            function toggleInputs() {
+                console.log("Toggle Inputs Function Called");
+                console.log("tipeGambar checked:", tipeGambar.checked);
+                console.log("tipeYoutube checked:", tipeYoutube.checked);
+    
+                if (tipeGambar.checked) {
+                    gambarInput.style.display = 'block';
+                    youtubeInput.style.display = 'none';
+                } else if (tipeYoutube.checked) {
+                    gambarInput.style.display = 'none';
+                    youtubeInput.style.display = 'block';
+                }
             }
+    
+            // Set initial visibility based on the selected radio button
+            toggleInputs();
+    
+            // Add event listeners to radio buttons
+            tipeGambar.addEventListener('change', toggleInputs);
+            tipeYoutube.addEventListener('change', toggleInputs);
         });
     </script>
     
-</body>
-</html>
+@endsection

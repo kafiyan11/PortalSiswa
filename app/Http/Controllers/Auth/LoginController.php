@@ -7,8 +7,6 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use function Laravel\Prompts\error;
-
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
