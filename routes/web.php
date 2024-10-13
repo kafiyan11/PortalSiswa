@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
+
+
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\JadwalguruController;
 use App\Http\Controllers\MateriAdminController;
@@ -24,35 +26,15 @@ use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TambahController;
 use App\Http\Controllers\TambahGuruController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ScoreController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\JadwalController;
-use App\Http\Controllers\MateriController;
-use App\Http\Controllers\TambahController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\OrangTuaController;
-use App\Http\Controllers\PostGuruController;
-use App\Http\Controllers\PostSiswaController;
-use App\Http\Controllers\JadwalguruController;
-use App\Http\Controllers\NamaMateriController;
 use App\Http\Controllers\SocialLinkController;
-use App\Http\Controllers\TambahGuruController;
 use App\Http\Controllers\CommentGuruController;
-use App\Http\Controllers\MateriAdminController;
-use App\Http\Controllers\NIlaidiGuruController;
-use App\Http\Controllers\ProfileGuruController;
-use App\Http\Controllers\TambahTugasController;
 use App\Http\Controllers\CommentSiswaController;
-use App\Http\Controllers\ProfileAdminController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TambahOrangtuaController;
 use App\Http\Controllers\TambahTugasController;
-use App\Models\Siswa;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -80,7 +62,6 @@ Route::get('/social-links', [SocialLinkController::class, 'index'])->name('socia
 Route::get('/social-links/edit', [SocialLinkController::class, 'edit'])->name('social-links.edit');
 Route::post('/social-links/update', [SocialLinkController::class, 'update'])->name('social-links.update');
 
-Route::get('/', [HomeController::class, 'storeSocialLinks'])->name('social.links');
 
 Auth::routes(); // Ini akan menambahkan semua rute autentikasi bawaan Laravel termasuk login dan register
 
@@ -103,6 +84,11 @@ Route::middleware(['auth','role:Admin'])->group(function(){
         Route::put('jadwal/{id}', [JadwalController::class, 'update'])->name('jadwal.update');
         Route::delete('jadwal/{id}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
     });
+
+
+    Route::get('/social-links', [SocialLinkController::class, 'index'])->name('social-links.index');
+    Route::get('/social-links/edit', [SocialLinkController::class, 'edit'])->name('social-links.edit');
+    Route::get('/social-links/update', [SocialLinkController::class, 'update'])->name('social-links.update');
 
     //profil
 Route::get('/admin/profiles', [ProfileAdminController::class, 'show'])->name('admin.profiles.show');
@@ -278,18 +264,6 @@ Route::middleware(['auth','role:Guru'])->group(function(){
     Route::get('/materi/{id}/edit', [MateriController::class, 'edit'])->name('materi.edit'); // Menggunakan MateriController
     Route::put('/guru/materi/{id}', [MateriController::class, 'update'])->name('materi.update'); // Menambahkan rute untuk memperbarui materi
     Route::delete('/materi/{id}', [MateriController::class, 'destroy'])->name('materi.destroy'); // Menggunakan MateriController
-
-
-        //CRUD NILAI
-    Route::prefix('guru')->group(function () {
-        Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
-        Route::get('/scores/create', [ScoreController::class, 'create'])->name('scores.create');
-        Route::post('/scores', [ScoreController::class, 'store'])->name('scores.store');
-        Route::get('/scores/{id}/edit', [ScoreController::class, 'edit'])->name('scores.edit');
-        Route::put('/scores/{id}', [ScoreController::class, 'update'])->name('scores.update');
-        Route::delete('/scores/{id}', [ScoreController::class, 'destroy'])->name('scores.destroy');
-        Route::get('/scores/cari', [ScoreController::class, 'cari'])->name('scores.cari');
-    });
 
 
     //CRUD NILAI
