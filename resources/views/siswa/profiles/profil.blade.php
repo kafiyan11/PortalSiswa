@@ -1,107 +1,183 @@
-@extends('layouts.app')
-
-@section('title', 'Profil Siswa')
-
-@section('content')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Guru</title>
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
     <style>
         body {
-            font-family: 'Poppins', sans-serif; /* Font yang digunakan */
-            background-color: #f8f9fa; /* Warna latar belakang halaman */
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Mencegah pengguliran */
         }
-
-        .main-content {
+        .profile-container {
+            max-width: 1100px;
+            margin: auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            margin-top: 30px;
+        }
+        .profile-header {
             display: flex;
-            justify-content: center; /* Menjaga konten tetap di tengah */
-            align-items: flex-start; /* Mengatur agar konten diatur ke atas */
-            height: 100vh; /* Mengatur tinggi konten utama */
-            padding: 20px; /* Tambahkan padding untuk ruang */
+            align-items: center;
+            background-color: #4a6670;
+            padding: 30px;
+            color: white;
+            text-align: left;
+            position: relative;
+            height: 200px;
         }
-
-        .card {
-            border-radius: 15px; /* Sudut yang lebih halus */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bayangan untuk tampilan yang lebih modern */
-            max-width: 600px; /* Maksimal lebar card yang lebih kecil */
-            width: 100%; /* Lebar penuh */
-            height: auto; /* Mengatur tinggi card agar otomatis */
-            padding: 20px; /* Padding untuk ruang di dalam card */
-            margin-top: 40px; /* Tambahkan margin atas agar tidak terlalu dekat dengan navbar */
+        .profile-header img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            background-color: white;
+            margin-right: 20px;
         }
-
-        .card-body {
-            background: linear-gradient(to bottom right, #ffffff, #f8f9fa); /* Gradasi ringan untuk tampilan yang lebih modern */
-            padding: 20px; /* Padding untuk ruang di dalam card */
+        .profile-header h2 {
+            margin: 0;
+            font-size: 32px;
         }
-
-        .info-item {
-            margin-bottom: 15px; /* Spasi di antara item info */
+        .profile-body {
+            padding: 20px;
         }
-
-        .info-item span {
-            color: #343a40; /* Warna gelap untuk teks */
-            display: block; /* Memastikan label dan nilai diatur di bawah satu sama lain */
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
         }
-
+        .form-group label {
+            width: 150px;
+            font-size: 14px;
+            color: #333;
+            margin-right: 10px;
+        }
+        .form-group input {
+            width: calc(100% - 170px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            background-color: #f1f1f1;
+            padding: 10px 0;
+        }
+        .tabs a {
+            text-decoration: none;
+            padding: 10px 20px;
+            color: #333;
+            border-bottom: 2px solid transparent;
+        }
+        .tabs a.active {
+            border-bottom: 2px solid #4a6670;
+            color: #4a6670;
+        }
+        .alert {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #555;
+            width: calc(100% - 170px);
+        }
+        .text-right {
+            text-align: right;
+        }
         .btn {
-            transition: background-color 0.3s ease; /* Transisi halus saat hover */
-            padding: 10px 15px; /* Padding tombol untuk ukuran yang lebih besar */
-            border-radius: 5px; /* Sudut tombol yang halus */
-            background-color: #007bff; /* Warna latar belakang tombol */
-            color: #ffffff; /* Warna teks tombol */
-            text-decoration: none; /* Menghilangkan garis bawah pada teks */
+            text-decoration: none;
+            background-color: #4a6670;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-left: 10px;
         }
-
-        .btn:hover {
-            background-color: #0056b3; /* Warna tombol saat hover */
+        .btn-warning {
+            background-color: orange;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
         }
     </style>
-
-    <div class="main-content">
-        <div class="card shadow border-0 rounded">
-            <div class="card-body">
-                <h1 class="mb-4 text-center">Profil Siswa</h1>
-                <div class="row">
-                    <div class="col-md-4 text-center">
-                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('default-avatar.png') }}" alt="Admin" class="profile-img rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;"> <!-- Mengurangi ukuran gambar -->
-                        <h4 class="mt-3">{{ Auth::user()->name }}</h4>
-                        <p class="text-muted">{{ Auth::user()->alamat }}</p>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="info-item mb-3">
-                            <span class="info-label fw-bold">Nama Lengkap:</span>
-                            <span>{{ Auth::user()->name }}</span>
-                        </div>
-                        <div class="info-item mb-3">
-                            <span class="info-label fw-bold">NIS:</span>
-                            <span>{{ Auth::user()->nis }}</span>
-                        </div>
-                        @if(Auth::user()->role !== 'guru')
-                        <div class="info-item mb-3">
-                            <span class="info-label fw-bold">Kelas:</span>
-                            <span>{{ Auth::user()->kelas }}</span>
-                        </div>
-                        @endif
-                        <div class="info-item mb-3">
-                            <span class="info-label fw-bold">No Hp:</span>
-                            <span>{{ Auth::user()->nohp ?? 'Nomor HP Belum Di isi' }}</span>
-                        </div>
-                        <div class="info-item mb-3">
-                            <span class="info-label fw-bold">Alamat:</span>
-                            <span>{{ Auth::user()->alamat ?? 'Alamat Belum Di isi' }}</span>
-                        </div>
-                        <div class="info-item mb-3">
-                            <span class="info-label fw-bold">Sebagai:</span>
-                            <span>{{ Auth::user()->role }}</span>
-                        </div>
-                        <div class="mt-4 d-flex justify-content-between">
-                            <a href="{{ route('siswa.dashboard') }}" class="btn btn-primary btn-lg">Kembali</a>
-                            <a href="{{ route('siswa.profiles.edit', Auth::user()->id) }}" class="btn btn-warning btn-lg">Edit Profil Siswa</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+</head>
+<body>
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/default-avatar.png') }}" alt="Profile Picture">
+        <h2>Profil</h2>
     </div>
-@endsection
+    <div class="tabs">
+        <a class="active">Lihat Profil</a>
+    </div>
+    <div class="profile-body">
+        <!-- Nama -->
+        <div class="form-group">
+            <label for="name">Nama</label>
+            <input type="text" id="name" value="{{ $user->name }}" readonly>
+        </div>
+
+        <!-- NIP -->
+        <div class="form-group">
+            <label for="nip">NIP</label>
+            <input type="text" id="nip" value="{{ $user->nis }}" readonly>
+        </div>
+                <!-- Judul -->
+        <div class="form-group">
+            <label for="judul">Mengajar</label>
+            @if($user->judul)
+                <input type="text" id="judul" value="{{ $user->judul }}" readonly>
+            @else
+                <div class="alert">
+                    Mengajar belum diisi.
+                </div>
+            @endif
+        </div>
+        <!-- Sebagai -->
+        <div class="form-group">
+            <label for="role">Sebagai</label>
+            <input type="text" id="role" value="{{ $user->role }}" readonly>
+        </div>
+
+        <!-- Alamat -->
+        <div class="form-group">
+            <label for="alamat">Alamat</label>
+            @if($user->alamat)
+                <input type="text" id="alamat" value="{{ $user->alamat }}" readonly>
+            @else
+                <div class="alert">
+                    Alamat belum diisi.
+                </div>
+            @endif
+        </div>
+
+        <!-- Nomor HP -->
+        <div class="form-group">
+            <label for="nohp">Nomor HP</label>
+            @if($user->nohp)
+                <input type="text" id="nohp" value="{{ $user->nohp }}" readonly>
+            @else
+                <div class="alert">
+                    Nomor HP belum diisi.
+                </div>
+            @endif
+        </div>
+        <!-- Tombol Aksi -->
+        <div class="text-right">
+            <a href="{{ route('guru.dashboard') }}" class="btn">Kembali</a>
+            <a href="{{ route('guru.profiles.edit', $user->id) }}" class="btn">Edit Profil</a>
+        </div>  
+    </div>
+</div>
+</body>
+</html>

@@ -43,7 +43,9 @@
     </style>
 </head>
 <body>
-    @include('layouts.app')
+    @extends('layouts.app') 
+    
+    @section('content') <!-- Define a section for your content -->
     <div class="container">
         <h1>Data Tugas Siswa</h1>
         <div class="card">
@@ -68,13 +70,14 @@
                             <td>
                                 @if ($tugasItem->gambar_tugas)
                                     <a href="{{ asset('gambar_tugas/' . $tugasItem->gambar_tugas) }}" target="_blank">
-                                    <img src="{{ asset('gambar_tugas/' . $tugasItem->gambar_tugas) }}" alt="Gambar Tugas" width="100">
+                                        <img src="{{ asset('gambar_tugas/' . $tugasItem->gambar_tugas) }}" alt="Gambar Tugas" width="100">
+                                    </a> <!-- Ensure the link is closed properly -->
                                 @endif
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center">Tidak ada tugas tersedia</td>
+                            <td colspan="5" class="text-center">Tidak ada tugas tersedia</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -82,5 +85,6 @@
             </div>
         </div>
     </div>
+    @endsection <!-- End of section -->
 </body>
 </html>

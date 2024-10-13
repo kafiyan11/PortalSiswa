@@ -2,35 +2,54 @@
 
 @section('content')
 <head>
-    <!-- Memuat library SweetAlert2 -->
+    <!-- Load SweetAlert2 library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         body {
-            background-color: #f8f9fa; /* Warna latar belakang */
+            background-color: #f8f9fa; /* Background color */
+            font-family: 'Arial', sans-serif; /* Font style */
         }
         h2 {
-            color: #343a40; /* Warna judul */
-            margin-bottom: 20px; /* Jarak bawah judul */
+            color: #343a40; /* Title color */
+            margin-bottom: 20px; /* Margin below title */
+            font-weight: bold; /* Bold title */
         }
         .card {
-            border: none; /* Tanpa border */
-            border-radius: 10px; /* Sudut melengkung */
+            border: none; /* No border */
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
         }
         .table th, .table td {
-            vertical-align: middle; /* Vertikal alignment */
+            vertical-align: middle; /* Vertical alignment */
+            padding: 12px; /* Padding in table cells */
+        }
+        .table tbody tr:hover {
+            background-color: #f1f1f1; /* Row hover effect */
         }
         .search-container {
-            padding: 10px; /* Padding di sekitar kontainer pencarian */
-            background: linear-gradient(to right, #e9ecef, #f8f9fa); /* Warna latar belakang gradien */
-            border-radius: 10px; /* Sudut melengkung */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan ringan */
+            padding: 10px; /* Padding around search container */
+            background: linear-gradient(to right, #e9ecef, #f8f9fa); /* Background gradient */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow */
         }
         .search-input {
-            border-radius: 20px; /* Sudut melengkung untuk input pencarian */
+            border-radius: 20px; /* Rounded input */
+            transition: box-shadow 0.3s; /* Transition effect */
+        }
+        .search-input:focus {
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus effect */
+            border-color: #007bff; /* Border color on focus */
         }
         .search-btn {
-            border-radius: 20px; /* Sudut melengkung untuk tombol pencarian */
+            border-radius: 20px; /* Rounded button */
+            transition: background-color 0.3s; /* Transition effect */
+        }
+        .search-btn:hover {
+            background-color: #0056b3; /* Darker on hover */
+        }
+        .btn-custom {
+            border-radius: 20px; /* Rounded buttons */
         }
     </style>
 </head>
@@ -49,7 +68,7 @@
                         </button>
                     </div>
                 </form>
-                <a href="{{ route('admin.scores.create') }}" class="btn btn-success">
+                <a href="{{ route('admin.scores.create') }}" class="btn btn-success btn-custom">
                     <i class="fas fa-plus"></i> Tambah Nilai
                 </a>
             </div>
@@ -88,10 +107,10 @@
                             <td>{{ $score->final_test_score }}</td>
                             <td class="text-center">
                                 <div class="d-inline-flex align-items-center">
-                                    <a href="{{ route('admin.scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1">
+                                    <a href="{{ route('admin.scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1 btn-custom">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $score->id }}')">
+                                    <button type="button" class="btn btn-danger btn-sm btn-custom" onclick="confirmDelete('{{ $score->id }}')">
                                         <i class="fas fa-trash"></i> Hapus
                                     </button>
                                     <form id="delete-form-{{ $score->id }}" action="{{ route('admin.scores.destroy', $score->id) }}" method="POST" style="display: none;">

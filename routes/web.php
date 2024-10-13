@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 
 
 use App\Http\Controllers\JadwalController;
@@ -41,7 +42,18 @@ use App\Http\Controllers\CommentGuruController;
 use App\Http\Controllers\CommentSiswaController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TambahOrangtuaController;
-use App\Http\Controllers\TambahTugasController;
+
+
+
+
+Route::get('/', [SocialLinkController::class, 'landing_page'])->name('welcome');
+
+
+
+
+
+
+
 
 
 
@@ -56,7 +68,6 @@ Route::get('/', [SocialLinkController::class, 'landing_page'])->name('welcome');
 Auth::routes(); // Ini akan menambahkan semua rute autentikasi bawaan Laravel termasuk login dan register
 
 // Rute untuk menampilkan halaman home
-Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Rute untuk menyimpan dan menampilkan social links
 

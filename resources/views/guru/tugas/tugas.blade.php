@@ -58,10 +58,11 @@
         .d-flex .input-group {
             max-width: 920px; /* Adjust as needed */
         }
+
         .search-input {
-        border-radius: 25px 0 0 25px;
-        border: 2px solid #007bff;
-        transition: border-color 0.3s ease-in-out;
+            border-radius: 25px 0 0 25px;
+            border: 2px solid #007bff;
+            transition: border-color 0.3s ease-in-out;
         }
 
         /* Change border color on focus */
@@ -69,7 +70,6 @@
             outline: none;
             border-color: #0056b3;
         }
-
 
         .search-btn {
             border-radius: 0 25px 25px 0;
@@ -84,7 +84,6 @@
             border-color: #0056b3;
             transform: scale(1.05);
         }
-
 
         .add-btn {
             padding: 8px 20px;
@@ -105,14 +104,17 @@
         .add-btn i {
             margin-right: 5px;
         }
-        </style>
+    </style>
 </head>
 <body>
-    @include('layouts.app')
-    <h1 class="text-center">Data Tugas Siswa</h1>
-    <!-- Main content -->
-    <section class="content">
-        <div class="container">
+    @extends('layouts.app') 
+
+    @section('content') <!-- Start of content section -->
+    <div class="container">
+        <h1 class="text-center">Data Tugas Siswa</h1>
+        
+        <!-- Main content -->
+        <section class="content">
             <div class="card">
                 <div class="card-body">
                     @if(session('success'))
@@ -136,76 +138,75 @@
                             </div>
                         </form>
                         <a href="{{ route('guru.addTugas') }}" class="btn btn-primary">
-                        <i class="fas fa-plus-circle"></i> Tambah Tugas</a>
-                        </div>
-                            @endif
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>NO</th>
-                                        <th>NIS</th>
-                                        <th>Nama</th>
-                                        <th>Kelas</th>
-                                        <th>Gambar</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($siswa as $no => $siswas)
-                                    <tr>
-                                        <td>{{ $no + 1 }}</td>
-                                        <td>{{ $siswas->nis }}</td>
-                                        <td>{{ $siswas->nama }}</td>
-                                        <td>{{ $siswas->kelas }}</td>
-                                        
-                                        <td>
-                                        <a href="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" target="_blank">
-                                            @if ($siswas->gambar_tugas)
-                                                <img src="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" alt="Gambar Tugas" width="100"></a>
-                                            @endif
-                                        </td>
-                                    <td>
-                                        <a href="{{ route('edit_tugas', $siswas->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $siswas->id }}')">Hapus</button>
-                                        
-                                        <!-- Form tersembunyi untuk menghapus materi -->
-                                        <form id="delete-form-{{ $siswas->id }}" action="{{ route('guru.tugas.destroy', $siswas->id) }}" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                        
-                                    </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <div class="d-flex justify-content-end">
-                             {{ $siswa->links() }}
-                            </div>
-                        </div>
+                            <i class="fas fa-plus-circle"></i> Tambah Tugas</a>
+                    </div>
+                    @endif
+                    
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>NIS</th>
+                                <th>Nama</th>
+                                <th>Kelas</th>
+                                <th>Gambar</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($siswa as $no => $siswas)
+                            <tr>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $siswas->nis }}</td>
+                                <td>{{ $siswas->nama }}</td>
+                                <td>{{ $siswas->kelas }}</td>
+                                <td>
+                                    <a href="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" target="_blank">
+                                        @if ($siswas->gambar_tugas)
+                                            <img src="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" alt="Gambar Tugas" width="100"></a>
+                                        @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('edit_tugas', $siswas->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $siswas->id }}')">Hapus</button>
+                                    
+                                    <!-- Form tersembunyi untuk menghapus materi -->
+                                    <form id="delete-form-{{ $siswas->id }}" action="{{ route('guru.tugas.destroy', $siswas->id) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-end">
+                        {{ $siswa->links() }}
                     </div>
                 </div>
-                <script>
-                    function confirmDelete(id) {
-                        Swal.fire({
-                            title: 'Apakah Anda yakin?',
-                            text: "Data ini akan dihapus dan tidak bisa dikembalikan!",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Ya, hapus!',
-                            cancelButtonText: 'Batal'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Jika dikonfirmasi, submit form penghapusan
-                                document.getElementById('delete-form-' + id).submit();
-                            }
-                        });
-                    }
-                </script>
-                
-            </section>
-        </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data ini akan dihapus dan tidak bisa dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika dikonfirmasi, submit form penghapusan
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+    </script>
+    @endsection <!-- End of content section -->
 </body>
 </html>
