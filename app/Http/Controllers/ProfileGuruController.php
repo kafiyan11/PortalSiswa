@@ -64,7 +64,6 @@ class ProfileGuruController extends Controller
             'kelas' => 'nullable|string|max:50',
             'alamat' => 'nullable|string|max:255',
             'nohp' => 'nullable|string|max:15',
-            'judul' => 'nullable|string|max:255', // Validasi untuk 'judul'
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -73,7 +72,6 @@ class ProfileGuruController extends Controller
         $user->kelas = $request->input('kelas');
         $user->alamat = $request->input('alamat');
         $user->nohp = $request->input('nohp');
-        $user->judul = $request->input('judul'); // Update 'judul'
 
         // Handle profile photo
         if ($request->hasFile('photo')) {

@@ -20,7 +20,6 @@ class User extends Authenticatable
         'alamat',
         'nohp',
         'kelas',
-        'judul',//untuk mendepinisikan untuk guru mengajar apa
     ];
 
     protected $hidden = [

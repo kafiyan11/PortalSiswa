@@ -14,7 +14,7 @@ class NamaMateri extends Model
 
     // Menentukan primary key yang digunakan
     protected $primaryKey = 'id_mapel'; 
-
+ 
     // Menonaktifkan timestamps
     public $timestamps = false;
 

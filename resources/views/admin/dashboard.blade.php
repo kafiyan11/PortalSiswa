@@ -216,6 +216,11 @@
                 <h1 class="h2">Beranda</h1>
             </div>
 
+            
+            <div class="title">
+                <p>Selamat datang, {{ Auth::user()->name }}!</p>
+            </div>
+
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="card metrics-card bg-primary text-white">
