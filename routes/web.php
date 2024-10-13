@@ -1,18 +1,16 @@
 <?php
 
-use App\Models\Siswa;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentGuruController;
+use App\Http\Controllers\CommentSiswaController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PostController;
-
-
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\JadwalguruController;
 use App\Http\Controllers\MateriAdminController;
 use App\Http\Controllers\MateriController;
-
 use App\Http\Controllers\NamaMateriController;
 use App\Http\Controllers\NIlaidiGuruController;
 use App\Http\Controllers\OrangTuaController;
@@ -25,34 +23,14 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfileGuruController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\TambahController;
 use App\Http\Controllers\TambahGuruController;
-use App\Http\Controllers\AdminController;
-
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ScoreController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\JadwalController;
-use App\Http\Controllers\MateriController;
-use App\Http\Controllers\ProfilController;
-use App\Http\Controllers\TambahController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\SocialLinkController;
-use App\Http\Controllers\CommentGuruController;
-use App\Http\Controllers\CommentSiswaController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TambahOrangtuaController;
-
-
-
-
-Route::get('/', [SocialLinkController::class, 'landing_page'])->name('welcome');
-
-
-
-
-
-
+use App\Http\Controllers\TambahTugasController;
+use App\Models\Siswa;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 
 
