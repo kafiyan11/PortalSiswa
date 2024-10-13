@@ -19,15 +19,16 @@
         .navbar-brand {
             font-weight: 600;
         }
-        .navbar-brand h1 {
-            font-size: 1.2rem;
-            margin: 0;
-            color: white;
+        .navbar-brand div {
+            margin-left: 10px; /* Atur jarak antara gambar dan teks */
         }
+
+        .navbar-brand h1 {
+            font-size: 1.5rem; /* Ukuran font h1 */
+        }
+
         .navbar-brand p {
-            font-size: 0.8rem;
-            margin: 0;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem; /* Ukuran font p */
         }
         .sidebar {
             background-color: #ffffff;
@@ -107,12 +108,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand d-flex align-items-center" href="#">
-          <img src="{{ asset('assets/img/LOGO11.png') }}" alt="Logo" height="40" class="d-inline-block align-text-top me-2">
-          <div>
-              <h1 class="mb-0">Portal Siswa</h1>
-              <p class="mb-0">SMKN 1 KAWALI</p>
-          </div>
-        </a>    
+            <img src="{{ asset('assets/img/LOGO11.png') }}" alt="Logo" height="40" class="d-inline-block align-text-top me-2">
+            <div>
+                <h1 class="mb-0">Portal Siswa</h1>
+                <p class="mb-0">SMKN 1 KAWALI</p>
+            </div>
+        </a>
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -130,85 +132,6 @@
         </div>
     </div>
 </nav>
-
-<div class="sidebar collapsed" id="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
-  <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Beranda</a>
-  <a href="{{ route('admin.profiles.show') }}"><i class="fas fa-user"></i> Profil</a>
-
-  <!-- Dropdown for 'Tambah Akun' -->
-  <div class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#tambahAkunDropdown" aria-expanded="false" aria-controls="tambahAkunDropdown">
-      <i class="fas fa-plus"></i> Tambah Akun
-    </a>
-    <div class="collapse" id="tambahAkunDropdown">
-      <a class="dropdown-item" href="{{ route('tambah') }}"><i class="fas fa-user-graduate"></i>Data Siswa</a>
-      <a class="dropdown-item" href="{{ route('tambahguru') }}"><i class="fas fa-chalkboard-teacher"></i>Data Guru</a>
-      <a class="dropdown-item" href="{{ route('ortu') }}"><i class="fas fa-user-friends"></i>Data Orang Tua</a>
-    </div>
-  </div>
-
-  <div class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#jadwalDropdown" aria-expanded="false" aria-controls="jadwalDropdown">
-      <i class="fas fa-calendar-alt"></i> Jadwal 
-    </a>
-    <div class="collapse" id="jadwalDropdown">
-      <a class="dropdown-item" href="{{ route('admin.jadwal.index') }}"><i class="fas fa-calendar-alt"></i> Jadwal Pelajaran</a>
-      <a class="dropdown-item" href="{{ route('admin.jadwalguru.index') }}"><i class="fas fa-chalkboard-teacher"></i> Jadwal Guru</a>
-    </div>
-  </div>
-  
-  <a href="{{ route('admin.tugas.index') }}"><i class="fas fa-tasks"></i> Tugas</a>
-  <a href="{{ route('namamapel.index') }}"><i class="fas fa-tasks"></i> Daftar Mapel</a>
-  <a href="{{ route('admin.materi.index') }}"><i class="fas fa-book"></i> Materi Pelajaran</a>
-  <a href="{{ route('admin.scores.index') }}"><i class="fas fa-graduation-cap"></i> Nilai</a>
-  <a href="{{ route('posts.index') }}"><i class="fas fa-comments"></i> Forum Diskusi </a>
-  <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-    <i class="fas fa-sign-out-alt"></i> Log Out
-  </a>
-  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-    @csrf
-  </form>
-</div>
-
-<div class="main-content" id="main-content">
-  <div class="container">
-    @if(session('success'))
-    <script>
-        Swal.fire({
-            title: "Good job!",
-            text: "{{ session('success') }}", // Mengambil pesan dari session
-            icon: "success"
-        });
-    </script>
-    @endif
-
-    <div class="title">
-      <h1>Beranda</h1>
-      <p>Selamat datang, {{ Auth::user()->name }}!</p>
-    </div>
-
-<div class="row mb-4">
-<!-- Total Siswa -->
-<div class="col-md-4">
-  <div class="card metrics-card bg-primary text-white">
-      <div class="card-body d-flex justify-content-between align-items-center">
-          <div>
-              <h1 class="display-4">{{ $totalSiswa }}</h1> <!-- Angka besar -->
-              <h5>Total Siswa</h5> <!-- Judul -->
-          </div>
-          <div>
-              <i class="fas fa-user-graduate fa-3x"></i> <!-- Ikon besar -->
-          </div>
-      </div>
-      <!-- Bagian untuk panah dan teks 'More info' -->
-      <div class="card-footer d-flex justify-content-between align-items-center bg-light text-dark">
-          <!-- Menambahkan link untuk ikon panah -->
-          <a href="{{ route('tambah') }}" class="text-dark">
-              <i class="fas fa-arrow-circle-right"></i> <!-- Ikon panah -->
-          </a>
-      </div>
-  </div>
-</div>
 
 <div class="container-fluid">
     <div class="row">

@@ -9,11 +9,20 @@ use Illuminate\Support\Facades\Storage;
 class NamaMateriController extends Controller
 {
     // Menampilkan semua data materi (READ)
-    public function index()
+    public function index(Request $request)
     {
-        $materi = NamaMateri::paginate(4); // Mengambil semua data materi
-        return view('admin.namamapel.index', compact('materi')); // Mengembalikan view dengan data materi
+        // Mengambil input pencarian dari request
+        $search = $request->input('search');
+    
+        // Mengambil data materi dengan opsi pencarian
+        $materi = NamaMateri::when($search, function ($query, $search) {
+            return $query->where('nama_mapel', 'LIKE', "%{$search}%");
+        })->paginate(4); // Mengambil semua data materi yang dipaginate
+    
+        // Mengembalikan view dengan data materi
+        return view('admin.namamapel.index', compact('materi', 'search'));
     }
+    
 
     // Menampilkan halaman form untuk membuat materi baru (CREATE)
     public function create()

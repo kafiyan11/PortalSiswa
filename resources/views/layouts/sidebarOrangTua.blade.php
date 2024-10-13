@@ -8,7 +8,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('siswa.profiles.profil') }}">
+                <a class="nav-link" href="{{ route('ortu.nilai') }}">
                     <i class="fas fa-graduation-cap me-2"></i>
                     Nilai Siswa
                 </a>
