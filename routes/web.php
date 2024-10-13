@@ -27,6 +27,14 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TambahController;
 use App\Http\Controllers\TambahGuruController;
 use App\Http\Controllers\AdminController;
+
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\TambahController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\CommentGuruController;
@@ -38,29 +46,11 @@ use App\Http\Controllers\TambahTugasController;
 
 
 
+
 Route::get('/', [SocialLinkController::class, 'landing_page'])->name('welcome');
 
 
-
-
-
-
-
-
-
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
-
-
 // routes/web.php
-Route::get('/social-links', [SocialLinkController::class, 'index'])->name('social-links.index');
-Route::get('/social-links/edit', [SocialLinkController::class, 'edit'])->name('social-links.edit');
-Route::post('/social-links/update', [SocialLinkController::class, 'update'])->name('social-links.update');
 
 
 Auth::routes(); // Ini akan menambahkan semua rute autentikasi bawaan Laravel termasuk login dan register
@@ -74,7 +64,7 @@ Route::middleware(['auth','role:Admin'])->group(function(){
     //Bagian Admin
     Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin-tugas',[AdminController::class, 'tugas'] )->name('admin.tugas');
-
+    
     //jadwal
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
@@ -85,10 +75,11 @@ Route::middleware(['auth','role:Admin'])->group(function(){
         Route::delete('jadwal/{id}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
     });
 
-
+    
     Route::get('/social-links', [SocialLinkController::class, 'index'])->name('social-links.index');
     Route::get('/social-links/edit', [SocialLinkController::class, 'edit'])->name('social-links.edit');
-    Route::get('/social-links/update', [SocialLinkController::class, 'update'])->name('social-links.update');
+    Route::post('/social-links/update', [SocialLinkController::class, 'update'])->name('social-links.update');
+    
 
     //profil
 Route::get('/admin/profiles', [ProfileAdminController::class, 'show'])->name('admin.profiles.show');
@@ -114,7 +105,7 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
     Route::post('/admin-store',[TambahController::class, 'store'])->name('store');
     Route::get('/admin-edit/{id}',[TambahController::class, 'edit'])->name('edit');
     Route::put('/admin-update/{id}',[TambahController::class, 'update'])->name('update');
-    Route::delete('/admin-delete/{id}',[TambahController::class, 'delet'])->name('delete');
+    Route::delete('/admin-delete/{id}',[TambahController::class, 'delete'])->name('delete');
 
     //tambah guru
     Route::get('/admin-tambahguru',[TambahGuruController::class, 'index'])->name('tambahguru');
@@ -164,7 +155,7 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
         Route::get('/admin/materi/create', [MateriAdminController::class, 'createMateri'])->name('adminMateri.create');
         Route::post('/admin/materi/store', [MateriAdminController::class, 'storeAdmin'])->name('adminMateri.store');
         Route::get('/admin/materi/{id}/edit', [MateriAdminController::class, 'editMateri'])->name('adminMateri.edit');
-        Route::put('/admin/materi/{id}', [MateriAdminController::class, 'updateMateri'])->name('adminMateri.update');
+        Route::put('/admin/materi/{id}', [MateriAdminController::class, 'updateMateri'])->name('adminMateri.update');        
         Route::delete('/admin/materi/{id}', [MateriAdminController::class, 'destroyMateri'])->name('adminMateri.destroy');
         Route::get('/admin/materi/cari', [MateriAdminController::class, 'cariMateri'])->name('materiAdmin.cari');
 

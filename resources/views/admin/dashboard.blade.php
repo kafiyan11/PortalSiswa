@@ -19,15 +19,16 @@
         .navbar-brand {
             font-weight: 600;
         }
-        .navbar-brand h1 {
-            font-size: 1.2rem;
-            margin: 0;
-            color: white;
+        .navbar-brand div {
+            margin-left: 10px; /* Atur jarak antara gambar dan teks */
         }
+
+        .navbar-brand h1 {
+            font-size: 1.5rem; /* Ukuran font h1 */
+        }
+
         .navbar-brand p {
-            font-size: 0.8rem;
-            margin: 0;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem; /* Ukuran font p */
         }
         .sidebar {
             background-color: #ffffff;
@@ -107,12 +108,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand d-flex align-items-center" href="#">
-          <img src="{{ asset('assets/img/LOGO11.png') }}" alt="Logo" height="40" class="d-inline-block align-text-top me-2">
-          <div>
-              <h1 class="mb-0">Portal Siswa</h1>
-              <p class="mb-0">SMKN 1 KAWALI</p>
-          </div>
-        </a>    
+            <img src="{{ asset('assets/img/LOGO11.png') }}" alt="Logo" height="40" class="d-inline-block align-text-top me-2">
+            <div>
+                <h1 class="mb-0">Portal Siswa</h1>
+                <p class="mb-0">SMKN 1 KAWALI</p>
+            </div>
+        </a>
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -130,25 +132,6 @@
         </div>
     </div>
 </nav>
-
-<div class="main-content" id="main-content">
-  <div class="container">
-    @if(session('success'))
-    <script>
-        Swal.fire({
-            title: "Good job!",
-            text: "{{ session('success') }}", // Mengambil pesan dari session
-            icon: "success"
-        });
-    </script>
-    @endif
-
-
-      <!-- Bagian untuk panah dan teks 'More info' -->
-      <div class="card-footer d-flex justify-content-between align-items-center bg-light text-dark">
-      </div>
-  </div>
-</div>
 
 <div class="container-fluid">
     <div class="row">

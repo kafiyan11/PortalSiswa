@@ -2,30 +2,72 @@
 
 @section('content')
 <head>
+    <link href="assets/img/favicon.png" rel="icon">
+    <!-- Tambahkan Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Pastikan jQuery dimuat -->
     <style>
-        /* Styling tambahan untuk memperindah tampilan */
+        /* Mengatur font global */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f6f9; /* Tambahkan warna latar belakang yang lembut */
+        }
+
+        /* Styling tambahan untuk tampilan yang lebih modern */
         .table-hover tbody tr:hover {
-            background-color: #f8f9fa;
+            background-color: #e9f7fe;
         }
         .card {
             border: none;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.2);
+            border-radius: 10px;
+            background-color: #fff;
         }
         .btn-custom {
-            background-color: #007bff;
+            background-color: #28a745;
             color: #fff;
+            border-radius: 5px;
+            font-weight: 500;
         }
         .btn-custom:hover {
-            background-color: #0056b3;
+            background-color: #218838;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #fff;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
         }
         .btn-danger-custom {
             background-color: #dc3545;
             color: #fff;
+            border-radius: 5px;
+            font-weight: 500;
         }
         .btn-danger-custom:hover {
             background-color: #c82333;
+        }
+        .table thead {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: 700;
+        }
+        h1, h3 {
+            font-weight: 700;
+        }
+        .alert {
+            font-weight: 500;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .btn-lg {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -53,14 +95,13 @@
         Tidak ada jadwal yang tersedia. Silakan tambahkan jadwal baru.
     </div>
     @else
-    <!-- Menggunakan card untuk membungkus tabel -->
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
                 @foreach($jadwalguru as $group => $items)
                     <h3 class="mt-4">{{ str_replace('-', ' - ', $group) }}</h3> <!-- Menampilkan kelas dan minggu -->
                     <table class="table table-hover table-striped align-middle">
-                        <thead class="table-dark">
+                        <thead>
                             <tr>
                                 <th>No</th> <!-- Tambahkan kolom No di sini -->
                                 <th>Kelas</th>
@@ -79,8 +120,8 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td> <!-- Tampilkan nomor di sini -->
                                 <td>{{ $jadwal->kelas }}</td>
-                                <td>{{ $jadwal->nis }}</td>
-                                <td>{{ $jadwal->guru }}</td>
+                                <td>{{ $jadwal->nis }}</td> <!-- Pastikan field NIP benar -->
+                                <td>{{ $jadwal->guru }}</td> <!-- Pastikan field nama_guru benar -->
                                 <td>{{ $jadwal->jam_mulai }}</td>
                                 <td>{{ $jadwal->jam_selesai }}</td>
                                 <td>{{ $jadwal->tanggal }}</td>
@@ -93,7 +134,7 @@
                                     <form id="form-delete-{{ $jadwal->id }}" action="{{ route('admin.jadwalguru.destroy', $jadwal->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="{{ $jadwal->id }}">
+                                        <button type="button" class="btn btn-danger-custom btn-sm delete-btn" data-id="{{ $jadwal->id }}">
                                             <i class="fas fa-trash-alt"></i> Hapus
                                         </button>
                                     </form>
