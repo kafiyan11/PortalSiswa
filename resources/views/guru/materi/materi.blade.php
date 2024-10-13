@@ -102,7 +102,9 @@
     </style>
 </head>
 <body>
-    @include('layouts.app')
+@extends('layouts.app')
+
+@section('content')
     <h1 class="text-center">Materi Siswa</h1>
     <section class="content">
         <div class="container">
@@ -204,3 +206,4 @@
     </script>
 </body>
 </html>
+@endsection

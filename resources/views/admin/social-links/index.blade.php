@@ -10,9 +10,6 @@
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">Tautan Media Sosial Kami</h4>
-                    <a href="{{ route('social-links.edit') }}" class="btn btn-outline-light btn-sm">
-                        <i class="bi bi-pencil-square"></i> Edit Tautan
-                    </a>
                 </div>
                 <div class="card-body">
                     <!-- Table untuk Menampilkan Tautan Media Sosial -->
@@ -83,6 +80,11 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="text-end">
+                            <a href="{{ route('social-links.edit') }}" class="btn btn-primary btn-sm px-3">
+                                <i class="bi bi-pencil-square me-1"></i>Edit Tautan
+                            </a>
+                        </div>                        
                     </div>
                 </div>
             </div>
