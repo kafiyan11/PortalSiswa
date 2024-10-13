@@ -10,10 +10,9 @@
             font-family: 'Poppins', sans-serif;
             background: white;
             color: #333;
-            display: flex;
+            display: top;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
             margin: 0;
             box-sizing: border-box;
         }

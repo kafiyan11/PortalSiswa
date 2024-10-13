@@ -1,12 +1,22 @@
-<!-- resources/views/admin/namapel/index.blade.php -->
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
-    <h2>Daftar Materi</h2>
-    <a href="{{ route('namamapel.create') }}" class="btn btn-success mb-4">Tambah Materi</a>
-
-    <table class="table">
+    <h2 class="fw-bold mb-4">Daftar Materi</h2>
+    <div class="d-flex justify-content-between mb-4">
+        <a href="{{ route('namamapel.create') }}" class="btn btn-success">Tambah Materi</a>
+        <!-- Form Pencarian -->
+        <form action="{{ route('namamapel.index') }}" method="GET" class="w-50">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Cari Materi..." value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Cari
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>ID</th>
@@ -16,17 +26,17 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($materi as $no=>$item)
+            @foreach($materi as $no => $item)
             <tr>
-                <td>{{ $no+1 }}</td>
+                <td>{{ $no + 1 }}</td>
                 <td>{{ $item->nama_mapel }}</td>
                 <td><img src="{{ asset('storage/' . $item->icon) }}" alt="Icon" width="50"></td>
                 <td>
-                    <a href="{{ route('namamapel.edit', $item->id_mapel) }}" class="btn btn-warning">Edit</a>
+                    <a href="{{ route('namamapel.edit', $item->id_mapel) }}" class="btn btn-warning btn-sm">Edit</a>
                     <form action="{{ route('namamapel.destroy', $item->id_mapel) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
                     </form>
                 </td>
             </tr>

@@ -25,7 +25,7 @@ class MateriAdminController extends Controller
      */
     public function createMateri()
     {
-        $mapel = NamaMateri::all(); // Correctly fetch all Mapel for the dropdown
+        $mapel = NamaMateri::all(); // Menggunakan Mapel::all() yang benar
         return view('admin.materi.create', compact('mapel'));
     }
 
@@ -37,16 +37,20 @@ class MateriAdminController extends Controller
         // Validate the request including id_mapel
         $request->validate([
             'judul' => 'required|string|max:255',
-            'id_mapel' => 'required|integer|exists:mapel,id_mapel', // Corrected 'id' to 'id_mapel'
+            'id_mapel' => 'required|integer|exists:mapel,id_mapel', // Pastikan ini benar
             'kelas' => 'required|string|max:255',
             'tipe' => 'required|string|in:gambar,youtube',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'link_youtube' => 'nullable|url',
         ]);
 
-        // Ensure at least one of gambar or link_youtube is provided
-        if (!$request->hasFile('gambar') && !$request->link_youtube) {
-            return back()->withErrors(['msg' => 'Anda harus mengunggah gambar atau memasukkan link YouTube.']);
+        // Ensure that the 'tipe' matches the provided data
+        if ($request->tipe === 'gambar' && !$request->hasFile('gambar')) {
+            return back()->withErrors(['gambar' => 'Anda harus mengunggah gambar untuk tipe gambar.']);
+        }
+
+        if ($request->tipe === 'youtube' && !$request->link_youtube) {
+            return back()->withErrors(['link_youtube' => 'Anda harus memasukkan link YouTube untuk tipe YouTube.']);
         }
 
         // Handle file upload if present
@@ -72,10 +76,10 @@ class MateriAdminController extends Controller
     /**
      * Show the form to edit existing Materi.
      */
-    public function editMateri($id) // Corrected method name
+    public function editMateri($id)
     {
         $materi = Materi::findOrFail($id);
-        $mapel = NamaMateri::all(); // Correctly fetch all Mapel for the dropdown
+        $mapel = NamaMateri::all(); // Menggunakan Mapel::all() yang benar
         return view('admin.materi.edit', compact('materi', 'mapel'));
     }
 
@@ -84,45 +88,44 @@ class MateriAdminController extends Controller
      */
     public function updateMateri(Request $request, $id)
     {
-        // Validate the request including id_mapel
+
         $request->validate([
             'judul' => 'required|string|max:255',
-            'id_mapel' => 'required|integer|exists:mapel,id_mapel', // Corrected 'id' to 'id_mapel'
+            'id_mapel' => 'required|integer|exists:mapel,id_mapel',
             'kelas' => 'required|string|max:255',
             'tipe' => 'required|string|in:gambar,youtube',
             'gambar' => 'nullable|image|max:2048',
             'link_youtube' => 'nullable|url',
         ]);
-
+    
         $materi = Materi::findOrFail($id);
-
-        // Update fields
         $materi->judul = $request->judul;
         $materi->id_mapel = $request->id_mapel;
         $materi->kelas = $request->kelas;
         $materi->tipe = $request->tipe;
-
-        // Handle gambar upload
+    
+        // Upload gambar
         if ($request->hasFile('gambar')) {
-            // Optionally, delete the old image if it exists
+            // Hapus gambar lama jika ada
             if ($materi->gambar) {
                 Storage::disk('public')->delete($materi->gambar);
             }
             $materi->gambar = $request->file('gambar')->store('materi', 'public');
         }
-
-        // Handle link_youtube based on tipe
+    
+        // Update link youtube sesuai tipe
         if ($request->tipe === 'youtube') {
             $materi->link_youtube = $request->link_youtube;
-            $materi->gambar = null; // Clear gambar if tipe is youtube
+            $materi->gambar = null; // Kosongkan gambar jika tipe adalah youtube
         } elseif ($request->tipe === 'gambar') {
-            $materi->link_youtube = null; // Clear link_youtube if tipe is gambar
+            $materi->link_youtube = null; // Kosongkan link youtube jika tipe adalah gambar
         }
-
-        $materi->save();
-
+    
+        $materi->save(); // Simpan perubahan
+    
         return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil diperbarui.');
     }
+    
 
     /**
      * Delete a Materi from storage.

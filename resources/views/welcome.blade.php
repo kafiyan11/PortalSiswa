@@ -261,9 +261,9 @@
           <h4>Ikuti Kami</h4>
           <p></p>
           <div class="social-links d-flex">
-            <a href="https://x.com/smkn1kawali"><i class="bi bi-twitter-x"></i></a>
-            <a href="https://www.facebook.com/smkn1kawali"><i class="bi bi-facebook"></i></a>
-            <a href="https://www.instagram.com/smkn1kawali/"><i class="bi bi-instagram"></i></a>
+            <a href="{{ $socialLinks->twitter }}"><i class="bi bi-twitter-x"></i></a>
+            <a href="{{ $socialLinks->facebook }}"><i class="bi bi-facebook"></i></a>
+            <a href="{{ $socialLinks->instagram }}"><i class="bi bi-instagram"></i></a>
             <a href="{{ $socialLinks->youtube }}"><i class="bi bi-youtube"></i></a>
           </div>
         </div>

@@ -29,8 +29,7 @@
 
         /* Kontainer utama untuk login */
         .login-container {
-            margin-top: 40px;
-            margin-left: 300px;
+            margin: auto;
             max-width: 900px; /* Lebar maksima-l kontainer */
             width: 100%; /* Lebar penuh */
             padding: 20px; /* Padding di dalam kontainer */
