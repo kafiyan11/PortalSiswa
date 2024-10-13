@@ -30,17 +30,18 @@
                 <!-- Mapel Dropdown -->
                 <div class="mb-3">
                     <label for="id_mapel" class="form-label">Mapel <span class="text-danger">*</span></label>
-                     <select class="form-control @error('id_mapel') is-invalid @enderror" 
-                            name="id_mapel" 
-                            id="id_mapel" 
-                            required>
-                        <option value="">-- Pilih Mapel --</option>
-                        @foreach($mapel as $m)
-                            <option value="{{ $m->id_mapel }}" {{ old('id_mapel') == $m->id_mapel ? 'selected' : '' }}>
-                                {{ $m->nama_mapel }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <select class="form-control @error('id_mapel') is-invalid @enderror" 
+                    name="id_mapel" 
+                    id="id_mapel" 
+                    required>
+                <option value="">-- Pilih Mapel --</option>
+                @foreach($mapel as $m)
+                    <option value="{{ $m->id_mapel }}" {{ old('id_mapel') == $m->id_mapel ? 'selected' : '' }}>
+                        {{ $m->nama_mapel }}
+                    </option>
+                @endforeach
+            </select>
+            
                     @error('id_mapel')
                         <div class="invalid-feedback">
                             {{ $message }}
