@@ -38,7 +38,7 @@
     <div class="container-custom">
         <div class="form-section">
             <h2>Edit Tugas</h2>
-            <form action="{{ route('adminMateri.update', $siswa->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('updatee_tugas', $siswa->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="mb-3 row">

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin</title>
+    <link href="assets/img/favicon.png" rel="icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -22,11 +23,9 @@
         .navbar-brand div {
             margin-left: 10px; /* Atur jarak antara gambar dan teks */
         }
-
         .navbar-brand h1 {
             font-size: 1.5rem; /* Ukuran font h1 */
         }
-
         .navbar-brand p {
             font-size: 1rem; /* Ukuran font p */
         }
@@ -35,6 +34,8 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             height: calc(100vh - 56px);
             padding-top: 20px;
+            position: sticky; /* Keep sidebar in view */
+            top: 0; /* Maintain position */
         }
         .sidebar .nav-link {
             color: #495057;
@@ -133,25 +134,6 @@
     </div>
 </nav>
 
-
-
-<div class="main-content" id="main-content">
-  <div class="container">
-    @if(session('success'))
-    <script>
-        Swal.fire({
-            title: "Good job!",
-            text: "{{ session('success') }}", // Mengambil pesan dari session
-            icon: "success"
-        });
-    </script>
-    @endif
-
-
-
-<div class="row mb-4">
-
-
 <div class="container-fluid">
     <div class="row">
         <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
@@ -233,13 +215,7 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Beranda</h1>
-                <p>Selamat datang, {{ Auth::user()->name }}!</p>
 
-            </div>
-
-            
-            <div class="title">
-                <p>Selamat datang, {{ Auth::user()->name }}!</p>
             </div>
 
             <div class="row">
@@ -284,9 +260,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Add any additional JavaScript here
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -195,6 +195,14 @@
                 document.getElementById('delete-form-' + id).submit();
             }
         });
+        @if(session('success'))
+            Swal.fire({
+                title: "Good job!",
+                text: "{{ session('success') }}",
+                icon: "success",
+                confirmButtonText: "OK"
+            });
+        @endif
     }
 </script>
 </body>

@@ -6,15 +6,20 @@
         <div class="col-lg-10">
             <div class="card shadow-sm border-0 rounded-lg">
                 <div class="card-body p-4">
-                    <!-- Formulir Pencarian -->
-                    <form action="{{ route('siswa.lihatmateri', $id_mapel ?? '') }}" method="GET" class="mb-4" style="max-width: 400px">
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Cari materi berdasarkan judul..." value="{{ request('search') }}">
-                            <button class="btn btn-primary" type="submit">
-                                <i class="fas fa-search"></i> Cari
-                            </button>
-                        </div>
-                    </form>
+                    <!-- Flex Container for Title and Search Form -->
+                    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                        <h1 class="mb-3 mb-md-0">Materi Pelajaran</h1>
+                        <!-- Formulir Pencarian -->
+                        <form action="{{ route('siswa.lihatmateri', $id_mapel ?? '') }}" method="GET" class="ms-md-3" style="max-width: 400px; width: 100%;">
+                            <div class="input-group">
+                                <input type="text" name="search" class="form-control" placeholder="Cari materi berdasarkan judul..." value="{{ request('search') }}">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-search"></i> Cari
+                                </button>
+                            </div>
+                        </form>
+                        
+                    </div><hr>
 
                     @if($materi->isEmpty())
                         @if(request('search'))
@@ -33,7 +38,6 @@
                     @else                        
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
-                                <h1 class="text-center mb-4">Materi Pelajaran</h1>
 
                                 <thead>
                                     <tr>
