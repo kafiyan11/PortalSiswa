@@ -19,49 +19,11 @@
                         <label for="nip">NIP</label>
                         <input type="text" name="nip" class="form-control" value="{{ Auth::user()->nis }}" readonly>
                     @else
-                        <label for="nis">NIS</label>
+                        <label for="nis">NIP</label>
                         <input type="text" name="nis" class="form-control" value="{{ Auth::user()->nis }}" readonly>
                     @endif
                 </div>
 
-                {{-- Bagian kelas hanya ditampilkan jika user bukan Guru --}}
-                @if(Auth::user()->role !== 'Guru')
-                <div class="form-group">
-                    <label for="kelas">Kelas</label>
-                    <select id="kelas" name="kelas" class="form-control" onchange="updateKelasOptions()">
-                        <option value="" disabled selected>Pilih Kelas</option>
-                        <option value="X">X</option>
-                        <option value="XI">XI</option>
-                        <option value="XII">XII</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="jurusan">Jurusan</label>
-                    <select id="jurusan" name="jurusan" class="form-control" onchange="updateNomorOptions()" disabled>
-                        <option value="" disabled selected>Pilih Jurusan</option>
-                        <option value="TKRO">TKRO</option>
-                        <option value="TKJ">TKJ</option>
-                        <option value="RPL">RPL</option>
-                        <option value="MP">MP</option>
-                        <option value="AKL">AKL</option>
-                        <option value="DPIB">DPIB</option>
-                        <option value="SK">SK</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="nomor">Nomor Kelas</label>
-                    <select id="nomor" name="nomor" class="form-control" disabled>
-                        <option value="" disabled selected>Pilih Nomor Kelas</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
-
-                <input type="hidden" name="kelas" id="kelas_hidden" value="{{ Auth::user()->kelas }}">
-                @endif
 
                 <div class="form-group">
                     <label for="nohp">No HP</label>

@@ -17,7 +17,7 @@ class ProfileController extends Controller
     public function show()
     {
         // Retrieve the currently authenticated user
-        $user = Auth::user();
+        $user = Auth::User();
 
         // Redirect to the 'profil.blade.php' view with user data
         return view('siswa.profiles.profil', compact('user'));

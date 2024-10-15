@@ -224,7 +224,7 @@
                                     <span class="text-muted" style="font-size: 12px;">{{ $reply->created_at->diffForHumans() }}</span>
 
                                     @if($reply->user_id == Auth::id())
-                                        <form action="{{ route('siswa.comment.destroy', $reply->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('comment.delete', $reply->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-link p-0 text-danger" onclick="return confirm('Yakin ingin menghapus balasan ini?')">Hapus</button>

@@ -1,26 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Siswa</title>
+    <title>Profil</title>
+    <link href="assets/img/favicon.png" rel="icon">
+
+    <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <style>
+        /* Mengatur tampilan dasar body */
         body {
+            font-family: Arial, sans-serif; /* Font yang digunakan */
+            background-color: #f4f7f6; /* Warna latar belakang */
+            margin: 0; /* Menghilangkan margin default */
+            padding: 0; /* Menghilangkan padding default */
+            padding-top: 50px; /* Menambahkan padding atas untuk menghindari navbar */
+        }
+
+        /* Kontainer utama profil */
+        .profile-container {
+            max-width: 1100px; /* Lebar maksimal kontainer */
+            margin: auto; /* Menengahkan kontainer */
+            background-color: white; /* Warna latar belakang putih */
+            border-radius: 10px; /* Sudut melengkung */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Bayangan kotak */
+            overflow: hidden; /* Menghindari overflow */
+            padding: 20px; /* Padding di dalam kontainer */
             background-color: #f4f7f6;
             margin: 0;
             padding-top: 50px;
-        }
-
-        .profile-container {
-            max-width: 1100px;
-            margin: auto;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            padding: 20px;
         }
 
         .poto img {
@@ -44,8 +62,11 @@
                 flex-direction: column;
             }
         }
+
+        /* Tambahan gaya lainnya sesuai kebutuhan di sini ... */
     </style>
 </head>
+
 @extends('layouts.app')
 
 @section('content')
@@ -130,6 +151,27 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Bootstrap JS dan dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        document.getElementById('photo-upload').addEventListener('change', function (event) {
+            const [file] = this.files;
+            if (file) {
+                const img = this.parentElement.parentElement.querySelector('img');
+                img.src = URL.createObjectURL(file);
+                img.onload = () => URL.revokeObjectURL(img.src); // Membersihkan URL objek
+            }
+        });
+    </script>
 </body>
 @endsection
+
+</html>
+
+

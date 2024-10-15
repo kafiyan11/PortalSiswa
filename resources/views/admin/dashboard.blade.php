@@ -20,6 +20,10 @@
         .navbar-brand h1 {
             font-size: 1.5rem;
             margin-bottom: 0;
+
+        .navbar-brand h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0;
         .navbar-brand {
             font-weight: 600;
         }
@@ -185,7 +189,8 @@
         </nav>
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-
+            <h1 class="h2">Beranda</h1>
+            <p>Selamat datang, {{ Auth::user()->name }}!</p>
             <h1 class="h2">Beranda</h1>
             <p>Selamat datang, {{ Auth::user()->name }}!</p>
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -221,7 +226,7 @@
                         <div class="card-body">
                             <div>
                                 <h2>{{ $totalOrangTua }}</h2>
-                                <p>Total Orang Tua</p>
+                                <p>Total Orangtua</p>
                             </div>
                             <i class="fas fa-tasks"></i>
                         </div>
@@ -233,9 +238,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
- 
-</body>
+ </body>
 </html>
