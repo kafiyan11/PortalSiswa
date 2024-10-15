@@ -211,7 +211,7 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
 Route::middleware(['auth','role:Guru'])->group(function(){
     Route::get('/guru-dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
     Route::get('/guru-profile', [GuruController::class, 'profil'])->name('guru.profil');
-    Route::get('/guru-tugas', [GuruController::class, 'tugas'])->name('guru.tugas.tugas');
+    Route::get('/guru-tugas', [TambahTugasController::class, 'tugas'])->name('guru.tugas.tugas');
     Route::get('/guru-jadwal', [GuruController::class, 'jadwal'])->name('guru.jadwal');
     Route::get('/guru-forum', [PostController::class, 'tampilGuru'])->name('guru.forumdiskusi');
     Route::get('/guru-nilai', [ScoreController::class, 'lihat'])->name('guru.scores.index');

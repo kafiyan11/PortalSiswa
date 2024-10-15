@@ -1,7 +1,5 @@
-@extends('layouts.app')
-
-@section('content')
 <head>
+    <title>Jadwal Mengajar | Portal Siswa</title>
     <link href="assets/img/favicon.png" rel="icon">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Pastikan jQuery dimuat -->
@@ -30,6 +28,11 @@
         }
     </style>
 </head>
+
+@extends('layouts.app')
+
+@section('content')
+
 <div class="container mt-5">
     <!-- Menggunakan card untuk membungkus tabel -->
     @if($jadwalguru->isEmpty())

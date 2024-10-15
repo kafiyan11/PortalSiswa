@@ -59,7 +59,6 @@
       </nav>
 
       <a class="btn-getstarted" href="{{route('login')}}">Masuk</a>
-
     </div>
   </header>
 

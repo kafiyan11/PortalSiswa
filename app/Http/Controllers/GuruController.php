@@ -121,12 +121,6 @@ class GuruController extends Controller
         return redirect()->route('guru.scores.index')->with('success', 'Nilai berhasil dihapus!');
     }
 
-    
-public function tugas()
-{
-    $siswa = Tugas::paginate(10); // Mengambil data dari model Tugas
-    return view('guru.tugas.tugas', ['siswa' => $siswa]); // Mengirim variabel $siswa ke view
-}
 public function forum()
 {
     $posts = Post::with(['user', 'comments.replies.user'])->latest()->get();

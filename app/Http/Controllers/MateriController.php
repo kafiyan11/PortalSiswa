@@ -15,7 +15,7 @@ class MateriController extends Controller
      */
     public function materi()
     {
-        $materi = Materi::with('mapel')->paginate(4); // Mengambil semua data materi dengan eager loading
+        $materi = Materi::with('mapel')->paginate(2); // Mengambil semua data materi dengan eager loading
         return view('guru.materi.materi', ['materi' => $materi]); // Mengarahkan ke view untuk menampilkan daftar materi
     }
 

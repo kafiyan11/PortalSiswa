@@ -1,3 +1,6 @@
+<head>
+    <title>Edit Profil | Portal Siswa</title>
+</head>
 @extends('layouts.app')
 
 @section('content')
