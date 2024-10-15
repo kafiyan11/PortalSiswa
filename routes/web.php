@@ -150,8 +150,6 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
 
 
         //forum
-        Route::get('/forum', [PostController::class, 'index'])->name('posts.index');
-        Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
         Route::get('forum', [PostController::class, 'index'])->name('posts.index');
         Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
         Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');

@@ -63,7 +63,7 @@
             </div>
             <!-- Bagian Utama Profil -->
             <div class="col-md-8">
-                <div class="judul"><h1>Profil Guru</h1><br></div>
+                <div class="judul"><h1>Profil Admin</h1><br></div>
                 <div class="card mb-3">
                     <div class="card-body">
                         @if(session('success'))
@@ -94,17 +94,10 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-sm-3"><h6 class="mb-0">NIS</h6></div>
+                            <div class="col-sm-3"><h6 class="mb-0">NIP</h6></div>
                             <div class="col-sm-9 text-secondary">{{ Auth::user()->nis }}</div>
                         </div>
                         <hr>
-                        @if(Auth::user()->role !== 'guru')
-                            <div class="row">
-                                <div class="col-sm-3"><h6 class="mb-0">Kelas</h6></div>
-                                <div class="col-sm-9 text-secondary">{{ Auth::user()->kelas }}</div>
-                            </div>
-                            <hr>
-                        @endif
                         <div class="row">
                             <div class="col-sm-3"><h6 class="mb-0">No Hp</h6></div>
                             <div class="col-sm-9 text-secondary">{{ Auth::user()->nohp ?? 'Nomor HP Belum Di isi' }}</div>
@@ -122,8 +115,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-12">
-                                <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Kembali</a>
-                                <a href="{{ route('admin.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil Siswa</a>
+                                <a href="{{ route('admin.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
                             </div>
                         </div>
                     </div>

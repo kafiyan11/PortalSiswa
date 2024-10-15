@@ -92,6 +92,6 @@ class ProfileAdminController extends Controller
 
         // Redirect back to the profile page with success message
         return redirect()->route('admin.profiles.show', $user->id)
-                        ->with('success', 'Profile updated successfully');
+                        ->with('success', 'Profile berhasil di perbarui');
     }
 }
