@@ -178,7 +178,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
-                    <img src="{{ asset('assets/img/LOGO11.png') }}" alt="Logo">
+                    <img src="{{ asset('assets/img/LOGO11.PNG') }}" alt="Logo">
                     <div class="portal-info">
                         <h1>Portal Siswa</h1>
                         <h2>SMKN 1 KAWALI</h2>
@@ -189,19 +189,27 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fas fa-sign-out-alt"></i> Log Out
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </li>
+                        @auth
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fas fa-sign-out-alt"></i> Log Out
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url()->previous() }}">
+                                    <i class="fas fa-arrow-left"></i> Kembali
+                                </a>
+                            </li>
+                        @endauth
                     </ul>
                 </div>
             </div>
         </nav>
+        
 
         @auth
             @if(auth()->user()->role=='Siswa')
