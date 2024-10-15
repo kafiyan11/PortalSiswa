@@ -63,7 +63,7 @@
             </div>
             <!-- Bagian Utama Profil -->
             <div class="col-md-8">
-                <div class="judul"><h1>Profil Guru</h1><br></div>
+                <div class="judul"><h1>Profil Admin</h1><br></div>
                 <div class="card mb-3">
                     <div class="card-body">
                         @if(session('success'))

@@ -212,7 +212,7 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
 Route::middleware(['auth','role:Guru'])->group(function(){
     Route::get('/guru-dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
     Route::get('/guru-profile', [GuruController::class, 'profil'])->name('guru.profil');
-    Route::get('/guru-tugas', [GuruController::class, 'tugas'])->name('guru.tugas.tugas');
+    Route::get('/guru-tugas', [TambahTugasController::class, 'tugas'])->name('guru.tugas.tugas');
     Route::get('/guru-jadwal', [GuruController::class, 'jadwal'])->name('guru.jadwal');
     Route::get('/guru-forum', [PostController::class, 'tampilGuru'])->name('guru.forumdiskusi');
     Route::get('/guru-nilai', [ScoreController::class, 'lihat'])->name('guru.scores.index');
@@ -222,10 +222,12 @@ Route::middleware(['auth','role:Guru'])->group(function(){
     Route::get('/guru/profiles/edit/{id}', [ProfileGuruController::class, 'edit'])->name('guru.profiles.edit');
     Route::put('/guru/profiles/update/{id}', [ProfileGuruController::class, 'update'])->name('guru.profiles.update');
 
-    //
+    //Tugass di guru
     Route::get('/guru/tambah-tugas', [TambahTugasController::class, 'tambah_tugas'])->name('guru.addTugas');
     Route::post('/guru/tambah-tugas', [TambahTugasController::class, 'create'])->name('guru.storetugas');
-    Route::get('/guru-edittugas', [TambahTugasController::class, 'edit'])->name('edit_tugas');
+    Route::get('/guru-edittugas/{id}', [TambahTugasController::class, 'edit'])->name('edit_tugas');
+    Route::put('/guru/update/{id}', [TambahTugasController::class, 'update'])->name('update_tugas');
+
     Route::delete('/guru/tugas/{id}', [TambahTugasController::class, 'destroy'])->name('guru.tugas.destroy');
 
     //materi
