@@ -1,20 +1,19 @@
-<!-- resources/views/social-links/index.blade.php -->
-
-@extends('layouts.app') <!-- Pastikan Anda memiliki layout utama -->
+@extends('layouts.app')
 
 @section('content')
+<!-- Tambahkan link ke Bootstrap Icons CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <!-- Card untuk Social Links -->
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">Tautan Media Sosial Kami</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Table untuk Menampilkan Tautan Media Sosial -->
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle">
+                        <table class="table table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col">Platform</th>
@@ -25,66 +24,74 @@
                                 <!-- Twitter -->
                                 <tr>
                                     <td>
-                                        <i class="bi bi-twitter" style="color: #1DA1F2;"></i> Twitter
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-twitter text-primary me-3" style="font-size: 1.5rem;"></i>
+                                            <span>Twitter</span>
+                                        </div>
                                     </td>
                                     <td>
                                         @if($socialLinks->twitter)
-                                            <a href="{{ $socialLinks->twitter }}" target="_blank">{{ $socialLinks->twitter }}</a>
+                                            <span class="text-muted">{{ $socialLinks->twitter }}</span>
                                         @else
                                             <span class="text-muted">Tidak tersedia</span>
                                         @endif
                                     </td>
-
                                 </tr>
                                 <!-- Facebook -->
                                 <tr>
                                     <td>
-                                        <i class="bi bi-facebook" style="color: #1877F2;"></i> Facebook
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-facebook text-primary me-3" style="font-size: 1.5rem;"></i>
+                                            <span>Facebook</span>
+                                        </div>
                                     </td>
                                     <td>
                                         @if($socialLinks->facebook)
-                                            <a href="{{ $socialLinks->facebook }}" target="_blank">{{ $socialLinks->facebook }}</a>
+                                            <span class="text-muted">{{ $socialLinks->facebook }}</span>
                                         @else
                                             <span class="text-muted">Tidak tersedia</span>
                                         @endif
                                     </td>
-
                                 </tr>
                                 <!-- Instagram -->
                                 <tr>
                                     <td>
-                                        <i class="bi bi-instagram" style="color: #E1306C;"></i> Instagram
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-instagram text-danger me-3" style="font-size: 1.5rem;"></i>
+                                            <span>Instagram</span>
+                                        </div>
                                     </td>
                                     <td>
                                         @if($socialLinks->instagram)
-                                            <a href="{{ $socialLinks->instagram }}" target="_blank">{{ $socialLinks->instagram }}</a>
+                                            <span class="text-muted">{{ $socialLinks->instagram }}</span>
                                         @else
                                             <span class="text-muted">Tidak tersedia</span>
                                         @endif
                                     </td>
-
                                 </tr>
                                 <!-- YouTube -->
                                 <tr>
                                     <td>
-                                        <i class="bi bi-youtube" style="color: #FF0000;"></i> YouTube
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-youtube text-danger me-3" style="font-size: 1.5rem;"></i>
+                                            <span>YouTube</span>
+                                        </div>
                                     </td>
                                     <td>
                                         @if($socialLinks->youtube)
-                                            <a href="{{ $socialLinks->youtube }}" target="_blank">{{ $socialLinks->youtube }}</a>
+                                            <span class="text-muted">{{ $socialLinks->youtube }}</span>
                                         @else
                                             <span class="text-muted">Tidak tersedia</span>
                                         @endif
                                     </td>
-
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="text-end">
-                            <a href="{{ route('social-links.edit') }}" class="btn btn-primary btn-sm px-3">
-                                <i class="bi bi-pencil-square me-1"></i>Edit Tautan
-                            </a>
-                        </div>                        
+                    </div>
+                    <div class="text-end mt-3">
+                        <a href="{{ route('social-links.edit') }}" class="btn btn-primary btn-sm px-3">
+                            <i class="bi bi-pencil-square me-1"></i>Edit Tautan
+                        </a>
                     </div>
                 </div>
             </div>
@@ -92,4 +99,18 @@
     </div>
 </div>
 
+<style>
+    .table tr:hover {
+        background-color: #f8f9fa;
+        transition: background-color 0.3s ease;
+    }
+    
+    .card {
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+</style>
 @endsection

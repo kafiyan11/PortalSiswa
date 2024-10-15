@@ -16,11 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -148,8 +144,9 @@
     </style>
 </head>
 <body>
-    @include('layouts.app')
+    @extends('layouts.app')
 
+    @section('content')
     <h1>Materi Pelajaran</h1>
 
     <div class="subject-container">
@@ -178,5 +175,6 @@
             <h2>Bahasa Inggris</h2>
         </div>
     </div>
+    @endsection
 </body>
 </html>

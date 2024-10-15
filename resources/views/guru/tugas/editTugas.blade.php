@@ -32,19 +32,22 @@
 </head>
 
 <body>
+@include('layouts.app')
 
-    @include('layouts.app')
-
-    <div class="container-custom">
-        <div class="form-section">
-            <h2>Edit Tugas</h2>
-            <form action="{{ route('update_tugas', $siswa->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="mb-3 row">
-                    <label for="nis" class="col-sm-2 col-form-label">NIS</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="nis" name="nis" required value="{{ old('nis', $siswa->nis) }}">
+    <div class="mx-auto">
+        <div class="card">
+            <div class="card-header">
+                Edit Tugas
+            </div>
+            <div class="card-body">
+                <form action="{{ route('guru.tugas.update', $siswa->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3 row">
+                        <label for="nis" class="col-sm-2 col-form-label">NIS</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="nis" name="nis" required value="{{ old('nis', $siswa->nis) }}">
+                        </div>
                     </div>
                 </div>
                 <div class="mb-3 row">
