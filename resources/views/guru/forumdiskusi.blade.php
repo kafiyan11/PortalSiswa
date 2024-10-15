@@ -1,7 +1,5 @@
-@extends('layouts.app')
-
-@section('content')
 <head>
+    <title>Forum Diskusi | Portal Siswa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
@@ -103,6 +101,10 @@
         }
     </style>
 </head>
+
+@extends('layouts.app')
+
+@section('content')
 
 <div class="container">
     <div class="row justify-content-center">

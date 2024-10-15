@@ -178,7 +178,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
-                    <img src="{{ asset('assets/img/LOGO11.png') }}" alt="Logo">
+                    <img src="{{ asset('assets/img/LOGO11.PNG') }}" alt="Logo">
                     <div class="portal-info">
                         <h1>Portal Siswa</h1>
                         <h2>SMKN 1 KAWALI</h2>
@@ -198,10 +198,12 @@
                                 @csrf
                             </form>
                         </li>
+            
                     </ul>
                 </div>
             </div>
         </nav>
+        
 
         @auth
             @if(auth()->user()->role=='Siswa')

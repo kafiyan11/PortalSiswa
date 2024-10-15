@@ -1,3 +1,7 @@
+<head>
+    <title>Tambah Tugas | Portal Siswa</title>
+</head>
+
 @extends('layouts.app')
 
 @section('content')
@@ -16,7 +20,7 @@
                 </ul>
             </div>
             @endif
-            <form action="{{route('guru.addTugas')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('guru.tugas.create')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('post')
                 <div class="mb-3">

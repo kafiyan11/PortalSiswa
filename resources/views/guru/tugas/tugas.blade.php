@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Tugas Siswa</title>
+    <title>Data Tugas Siswa | Portal Siswa</title>
     <link href="assets/img/favicon.png" rel="icon">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
@@ -137,7 +137,7 @@
                                 </button>
                             </div>
                         </form>
-                        <a href="{{ route('guru.addTugas') }}" class="btn btn-primary">
+                        <a href="{{ route('guru.tugas.tambah') }}" class="btn btn-primary">
                             <i class="fas fa-plus-circle"></i> Tambah Tugas</a>
                     </div>
                     @endif
@@ -167,7 +167,7 @@
                                         @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('edit_tugas', $siswas->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                    <a href="{{ route('guru.tugas.edit', $siswas->id) }}" class="btn btn-sm btn-info">Edit</a>
                                     <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $siswas->id }}')">Hapus</button>
                                     
                                     <!-- Form tersembunyi untuk menghapus materi -->

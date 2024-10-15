@@ -16,7 +16,6 @@
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f8f9fa;
-            display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
@@ -31,6 +30,7 @@
             max-width: 500px;
             width: 100%;
             margin-top: 100px;
+            margin-left: 250px;
         }
 
         .form-header {
@@ -118,7 +118,8 @@
     </style>
 </head>
 <body>
-    @include("layouts.app")
+    @extends("layouts.app")
+    @section('content')
     <div class="form-container">
         <div class="form-header">
             <h2>Tambah Tugas</h2>
@@ -168,6 +169,7 @@
             </form>
         </div>
     </div>
+    @endsection
     <!-- Bootstrap JS (Optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

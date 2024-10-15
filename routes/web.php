@@ -129,10 +129,9 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
         Route::get('/admin-tugas', [AdminController::class, 'tugas'])->name('admin.tugas.index');
         Route::get('/admin-tambahtugas', [AdminController::class, 'tambah_tugas'])->name('admin.create');
         Route::post('/admin-tambahtugas', [AdminController::class, 'create'])->name('create_tugas');
-        Route::delete('/tugas/{id}', [AdminController::class, 'hapus'])->name('tugas.hapus');
+        Route::delete('admin/tugas/{id}', [AdminController::class, 'hapus'])->name('tugas.hapus');
         Route::get('/admin/tugas/edit/{id}', [AdminController::class, 'editTugas_Admin'])->name('tugas.edit');
-        Route::put('/update/{id}', [AdminController::class, 'updateTugass'])->name('updatee_tugas');
-
+        Route::put('admin/update/{id}', [AdminController::class, 'updateTugass'])->name('updatee_tugas');
 
 
 
@@ -210,7 +209,7 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
 Route::middleware(['auth','role:Guru'])->group(function(){
     Route::get('/guru-dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
     Route::get('/guru-profile', [GuruController::class, 'profil'])->name('guru.profil');
-    Route::get('/guru-tugas', [GuruController::class, 'tugas'])->name('guru.tugas.tugas');
+    Route::get('/guru-tugas', [TambahTugasController::class, 'tugas'])->name('guru.tugas.tugas');
     Route::get('/guru-jadwal', [GuruController::class, 'jadwal'])->name('guru.jadwal');
     Route::get('/guru-forum', [PostController::class, 'tampilGuru'])->name('guru.forumdiskusi');
     Route::get('/guru-nilai', [ScoreController::class, 'lihat'])->name('guru.scores.index');
@@ -220,11 +219,14 @@ Route::middleware(['auth','role:Guru'])->group(function(){
     Route::get('/guru/profiles/edit/{id}', [ProfileGuruController::class, 'edit'])->name('guru.profiles.edit');
     Route::put('/guru/profiles/update/{id}', [ProfileGuruController::class, 'update'])->name('guru.profiles.update');
 
-    //
-    Route::get('/guru/tambah-tugas', [TambahTugasController::class, 'tambah_tugas'])->name('guru.addTugas');
-    Route::post('/guru/tambah-tugas', [TambahTugasController::class, 'create'])->name('guru.storetugas');
-    Route::get('/guru-edittugas', [TambahTugasController::class, 'edit'])->name('edit_tugas');
-    Route::delete('/guru/tugas/{id}', [TambahTugasController::class, 'destroy'])->name('guru.tugas.destroy');
+    // bagian Tugas 
+    Route::get('/tugas', [TambahTugasController::class, 'tugas'])->name('guru.tugas.tugas');
+    Route::get('/tugas/tambah', [TambahTugasController::class, 'tambah_tugas'])->name('guru.tugas.tambah');
+    Route::post('/tugas/create', [TambahTugasController::class, 'create'])->name('guru.tugas.create');
+    Route::get('/tugas/{id}/edit', [TambahTugasController::class, 'edit'])->name('guru.tugas.edit');
+    Route::put('/tugas/{id}', [TambahTugasController::class, 'update'])->name('guru.tugas.update');
+    Route::delete('/tugas/{id}', [TambahTugasController::class, 'destroy'])->name('guru.tugas.destroy');
+    Route::get('/tugas/cari', [TambahTugasController::class, 'cari'])->name('guru.tugas.cari');
 
     //materi
     Route::get('/materi/cari', [GuruController::class, 'cari'])->name('materi.cari');
