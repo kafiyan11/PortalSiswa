@@ -1,8 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Score;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ScoreController extends Controller
 {
@@ -24,8 +26,6 @@ class ScoreController extends Controller
         return view('admin.scores.index', compact('scores'));
     }
     
-    
-
     public function create()
     {
         return view('admin.scores.create');
@@ -46,7 +46,7 @@ class ScoreController extends Controller
         return redirect()->route('admin.scores.index')->with('success', 'Nilai berhasil ditambahkan!');
     }
 
-    public function edit(Score $score, $id)
+    public function edit($id)
     {
         $score = Score::findOrFail($id);
         return view('admin.scores.edit', compact('score'));
@@ -84,7 +84,13 @@ class ScoreController extends Controller
 
     public function wujud()
     {
-        $scores = Score::all();
+        // Mendapatkan NIS dari user yang sedang login
+        $nis = Auth::user()->nis;
+
+        // Mendapatkan skor berdasarkan NIS
+        $scores = Score::where('nis', $nis)->get();
+
+        // Mengirim data skor ke view siswa.nilai
         return view('siswa.nilai', compact('scores'));
     }
 }

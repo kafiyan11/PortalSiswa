@@ -10,7 +10,6 @@
         body {
             background-color: #f7f9fc;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden; /* Mencegah pengguliran */
 
         }
         .sidebar {
@@ -142,7 +141,7 @@
                     <p>Total Siswa: <span class="badge badge-primary">{{ $totalSiswa }}</span></p> <!-- Menampilkan jumlah siswa -->
                 </div>
                 <!-- Tampilkan tautan pagination -->
-                <div class="d-flex justify-content-center">
+                <div class="d-flex">
                     {{ $data->appends(['search' => request()->get('search')])->links() }}
                 </div>   
             </div>

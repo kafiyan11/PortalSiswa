@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User; // Pastikan untuk mengimpor model User
 
 class Score extends Model
 {
     use HasFactory;
 
-    // Tentukan nama tabel jika tidak sesuai dengan konvensi nama tabel default
+
     protected $table = 'scores';
 
-    // Tentukan kolom-kolom yang bisa diisi massal
     protected $fillable = [
         'nama',
         'nis',
@@ -20,13 +20,9 @@ class Score extends Model
         'midterm_test_score',
         'final_test_score',
     ];
-    
 
-    // Definisikan relasi jika model ini berhubungan dengan model lain
-    // Contoh: jika Score memiliki relasi dengan Student
-    // public function student()
-    // {
-    //     return $this->belongsTo(Student::class);
-    // }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'nis', 'nis');
+    }
 }
-
