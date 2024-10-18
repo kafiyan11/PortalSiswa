@@ -1,10 +1,12 @@
-@extends('layouts.app')
+<head>
+    <title>Nilai | Portal Siswa</title>
+</head>@extends('layouts.app')
 
 @section('content')
 
 <div class="container mt-5">
     <div class="d-flex justify-content-center align-items-center mb-4">
-        <h2 class="text-primary font-weight-bold">Nilai Siswa</h2>
+        <h2 class="font-weight-bold">Nilai </h2>
     </div>
     <div class="table-responsive shadow-lg mx-auto" style="max-width: 1000px;">
         <table class="table table-striped table-bordered table-hover">

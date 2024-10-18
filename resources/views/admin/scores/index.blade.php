@@ -1,4 +1,6 @@
-@extends('layouts.app')
+<head>
+    <title>Nilai Siswa | Portal Siswa</title>
+</head>@extends('layouts.app')
 
 @section('content')
 <head>

@@ -122,7 +122,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <a href="{{ route('guru.dashboard') }}" class="btn btn-primary">Kembali</a>
-                                <a href="{{ route('guru.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil Siswa</a>
+                                <a href="{{ route('guru.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil Guru</a>
                             </div>
                         </div>
                     </div>

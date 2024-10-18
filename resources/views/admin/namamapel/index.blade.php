@@ -1,14 +1,16 @@
-@extends('layouts.app')
+<head>
+    <title>Daftar Mata Pelajaran | Portal Siswa</title>
+</head>@extends('layouts.app')
 
 @section('content')
 <div class="container">
-    <h2 class="fw-bold mb-4">Daftar Materi</h2>
+    <h2 class="fw-bold mb-4">Daftar Mata Pelajaran</h2>
     <div class="d-flex justify-content-between mb-4">
-        <a href="{{ route('namamapel.create') }}" class="btn btn-success">Tambah Materi</a>
+        <a href="{{ route('namamapel.create') }}" class="btn btn-success">Tambah Mata Pelajaran</a>
         <!-- Form Pencarian -->
         <form action="{{ route('namamapel.index') }}" method="GET" class="w-50">
             <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Cari Materi..." value="{{ request('search') }}">
+                <input type="text" name="search" class="form-control" placeholder="Cari Mata Pelajaran..." value="{{ request('search') }}">
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-search"></i> Cari
                 </button>

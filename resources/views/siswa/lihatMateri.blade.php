@@ -1,4 +1,6 @@
-@extends('layouts.app')
+<head>
+    <title>Materi Pelajaran | Portal Siswa</title>
+</head>@extends('layouts.app')
 
 @section('content')
 <div class="container py-5">
@@ -18,8 +20,8 @@
                                 </button>
                             </div>
                         </form>
-                        
-                    </div><hr>
+                    </div>
+                    <hr>
 
                     @if($materi->isEmpty())
                         @if(request('search'))
@@ -37,8 +39,7 @@
                         @endif
                     @else                        
                         <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-
+                            <table class="table table-hover align-middle table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col" class="text-center">No</th>
@@ -79,12 +80,12 @@
                             <p class="text-muted mb-3">Menampilkan {{ $materi->count() }} dari {{ $materi->total() }} materi.</p>
                             {{ $materi->appends(['search' => request('search')])->links() }}
                         </div>
-                        @endif
-                    </div>
-                    <div class="card-footer bg-light py-3 d-flex justify-content-end">
-                        <a href="{{ route('siswa.coba') }}" class="btn btn-dark">
-                            <i class="fas fa-arrow-left me-2"></i> Kembali
-                    </a>
+                        <div class="d-flex justify-content-end">
+                            <a href="{{ route('siswa.coba') }}" class="btn btn-dark">
+                                <i class="fas fa-arrow-left me-2"></i> Kembali
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -94,34 +95,33 @@
 
 @push('styles')
 <style>
-    /* CSS Anda tetap sama */
     body {
         background-color: #f8f9fa;
         font-family: 'Helvetica Neue', Arial, sans-serif;
         color: #333;
     }
+
     .card {
-        transition: box-shadow 0.3s ease;
+        transition: box-shadow 0.3s ease, transform 0.2s ease;
         border: none;
+        background-color: #fff;
+        padding: 0;
     }
+
     .card:hover {
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+        box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.05);
+        transform: translateY(-5px);
     }
-    .card-header {
-        border-bottom: none;
-    }
-    .card-header h1 {
-        font-size: 1.5rem;
-        font-weight: 300;
-        letter-spacing: 0.5px;
-    }
+
     .table {
         margin-bottom: 0;
     }
+
     .table th, .table td {
         padding: 1rem;
         border-color: #f0f0f0;
     }
+
     .table thead th {
         border-top: none;
         font-weight: 600;
@@ -130,37 +130,49 @@
         letter-spacing: 0.5px;
         color: #666;
     }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
     .btn-sm {
         padding: 0.4rem 0.8rem;
         font-size: 0.875rem;
-        border-radius: 2px;
+        border-radius: 0.25rem;
         transition: all 0.2s ease;
     }
+
     .btn-sm:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
-    .btn-group .btn {
-        border-radius: 0;
-    }
-    .btn-group .btn:first-child {
-        border-top-left-radius: 2px;
-        border-bottom-left-radius: 2px;
-    }
-    .btn-group .btn:last-child {
-        border-top-right-radius: 2px;
-        border-bottom-right-radius: 2px;
-    }
+
     .alert-light {
-        background-color: #fafafa;
+        background-color: #f8f9fa;
         border-color: #e9ecef;
     }
+
     .alert-warning {
         background-color: #fff3cd;
         border-color: #ffeeba;
     }
-    .table-hover tbody tr:hover {
-        background-color: rgba(0, 0, 0, 0.01);
+
+    .btn-group .btn {
+        border-radius: 0;
+    }
+
+    .btn-group .btn:first-child {
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+    }
+
+    .btn-group .btn:last-child {
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
     }
 </style>
 @endpush

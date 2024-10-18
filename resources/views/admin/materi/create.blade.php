@@ -1,5 +1,7 @@
 <!-- resources/views/admin/materi/create.blade.php -->
-
+<head>
+    <title>Tambah Materi | Portal Siswa</title>
+</head>
 @extends('layouts.app')
 
 @section('content')

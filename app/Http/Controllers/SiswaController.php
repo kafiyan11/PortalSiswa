@@ -99,7 +99,7 @@ class SiswaController extends Controller
     public function materii(){
 
             $materi = NamaMateri::all(); // Mengambil semua data materi
-            return view('siswa.coba', compact('materi')); // Mengembalikan view dengan data materi
+            return view('siswa.materi', compact('materi')); // Mengembalikan view dengan data materi
             
     }
 }

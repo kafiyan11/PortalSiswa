@@ -1,8 +1,10 @@
-@extends('layouts.app')
+<head>
+    <title>Edit Profil | Portal Siswa</title>
+</head>@extends('layouts.app')
 
 @section('content')
 <div class="container">
-    <h2>Edit Profile</h2>
+    <h2>Edit Profil </h2>
     <div class="card">
         <div class="card-body">
             <form action="{{ route('admin.profiles.update', Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
@@ -10,7 +12,7 @@
                 @method('PUT')
 
                 <div class="form-group">
-                    <label for="name">Name</label>
+                    <label for="name">Nama Lengkap</label>
                     <input type="text" name="name" class="form-control" value="{{ Auth::user()->name }}" readonly>
                 </div>
 
@@ -49,7 +51,7 @@
                     @endif
                 </div>
 
-                <button type="submit" class="btn btn-primary">Update Profile</button>
+                <button type="submit" class="btn btn-primary">Update Profil</button>
             </form>
         </div>
     </div>

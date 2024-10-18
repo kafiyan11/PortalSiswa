@@ -1,4 +1,6 @@
-@extends('layouts.app')
+<head>
+ Register | Portal Siswa   <title></title>
+</head>@extends('layouts.app')
 
 @section('content')
 <div class="container">

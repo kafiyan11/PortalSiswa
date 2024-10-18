@@ -1,5 +1,7 @@
 <!-- resources/views/social-links/edit.blade.php -->
-
+<head>
+    <title>Edit Tautan Sosial Media | Portal Siswa</title>
+</head>
 @extends('layouts.app')
 
 @section('content')
@@ -30,7 +32,7 @@
                             <input type="url" name="youtube" class="form-control" id="youtube" value="{{ $socialLinks->youtube }}" required placeholder="Masukkan URL YouTube">
                         </div>
                         <div class="text-end">
-                            <button type="submit" class="btn btn-primary">Update Links</button>
+                            <button type="submit" class="btn btn-primary">Update Tautan</button>
                         </div>
                     </form>
                 </div>

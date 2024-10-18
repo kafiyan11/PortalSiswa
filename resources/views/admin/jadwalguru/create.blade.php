@@ -1,3 +1,7 @@
+<head>
+    <title>Tambah Jadwal | Portal Siswa</title>
+</head>
+
 @extends('layouts.app')
 
 @section('content')

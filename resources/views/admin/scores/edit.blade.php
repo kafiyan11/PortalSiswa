@@ -1,4 +1,6 @@
-@extends('layouts.app') <!-- Extend the layout -->
+<head>
+    <title>Edit Nilai Siswa | Portal Siswa</title>
+</head>@extends('layouts.app') <!-- Extend the layout -->
 
 @section('content') <!-- Start the content section -->
     <div class="container">
