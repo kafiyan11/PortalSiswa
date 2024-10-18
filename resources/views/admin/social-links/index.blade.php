@@ -85,6 +85,70 @@
                                         @endif
                                     </td>
                                 </tr>
+                                <!-- Alamat -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-house-door text-secondary me-3" style="font-size: 1.5rem;"></i>
+                                            <span>Alamat</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if($socialLinks->alamat)
+                                            <span class="text-muted">{{ $socialLinks->alamat }}</span>
+                                        @else
+                                            <span class="text-muted">Tidak tersedia</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <!-- Telepon -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-telephone text-secondary me-3" style="font-size: 1.5rem;"></i>
+                                            <span>Telepon</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if($socialLinks->telepon)
+                                            <span class="text-muted">{{ $socialLinks->telepon }}</span>
+                                        @else
+                                            <span class="text-muted">Tidak tersedia</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <!-- Email -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-envelope text-secondary me-3" style="font-size: 1.5rem;"></i>
+                                            <span>Email</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if($socialLinks->email)
+                                            <span class="text-muted">{{ $socialLinks->email }}</span>
+                                        @else
+                                            <span class="text-muted">Tidak tersedia</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <!-- Jam Buka -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-clock text-secondary me-3" style="font-size: 1.5rem;"></i>
+                                            <span>Jam Buka</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if($socialLinks->jam_buka)
+                                            <span class="text-muted">{{ $socialLinks->jam_buka }}</span>
+                                        @else
+                                            <span class="text-muted">Tidak tersedia</span>
+                                        @endif
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -98,7 +162,17 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Sukses!',
+            text: '{{ session('success') }}',
+            confirmButtonText: 'OK'
+        });
+    @endif
+</script>
 <style>
     .table tr:hover {
         background-color: #f8f9fa;

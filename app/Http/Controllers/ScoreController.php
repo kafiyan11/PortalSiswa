@@ -78,9 +78,29 @@ class ScoreController extends Controller
 
     public function ortu()
     {
-        $scores = Score::all();
-        return view('orangtua.nilai', compact('scores'));
+        $parent = Auth::user();
+    
+        // Pastikan hanya orang tua yang dapat mengakses fungsi ini
+        if ($parent->role !== 'Orang Tua') {
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+    
+        // Mengambil siswa yang terkait dengan orang tua ini
+        $students = $parent->children;
+    
+        if ($students->isEmpty()) {
+            // Jika tidak ada siswa yang terkait
+            $scores = collect(); // Menghasilkan koleksi kosong
+        } else {
+            // Mengambil skor untuk siswa-siswa yang terkait menggunakan 'nis'
+            $scores = Score::whereIn('nis', $students->pluck('nis'))
+                           ->with(['user']) // Pastikan relasi 'mapel' sudah didefinisikan di model Score
+                           ->get();
+        }
+    
+        return view('orangtua.nilai', compact('scores', 'students'));
     }
+    
 
     public function wujud()
     {

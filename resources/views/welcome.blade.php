@@ -52,6 +52,7 @@
           <li><a href="#beranda" class="active">Beranda</a></li>
           <li><a href="#jurusan">Jurusan</a></li>
           <li><a href="#tentang">Tentang</a></li>
+          <li><a href="#tim">Tim</a></li>
           <li><a href="#kontak">Kontak</a></li>
           </li>
         </ul>
@@ -197,9 +198,88 @@
 
     </section><!-- /About Section -->
 
+    <section id="tim" class="about section py-5" style="background-color: #ffffff;">
+      <div class="container">
+        <div class="row text-center mb-4">
+          <div class="col">
+            <h2 class="mb-3" style="font-weight: bold; color: #333;">Tim Kami</h2>
+            <p class="lead" style="color: #666;">Kenali tim kami yang berdedikasi dan profesional</p>
+          </div>
+        </div>
+        <div class="row gy-3 justify-content-center">
+          <!-- Anggota Tim 1 -->
+          <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
+            <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
+              <img src="assets/img/nayaka.jpeg" class="card-img-top rounded-top" alt="Nayaka Abi Akhlannaimi">
+              <div class="card-body text-center d-flex flex-column">
+                <h6 class="card-title mb-1">Nayaka Abi Akhlannaimi</h6>
+                <p class="card-text text-muted small">Leader</p>
+                <div class="mt-auto">
+                  <!-- Optional: Additional content or social links -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Anggota Tim 2 -->
+          <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
+            <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
+              <img src="assets/img/alif.jpeg" class="card-img-top rounded-top" alt="Alif Miftah Fauzan">
+              <div class="card-body text-center d-flex flex-column">
+                <h6 class="card-title mb-1">Alif Miftah Fauzan</h6>
+                <p class="card-text text-muted small">Project Manager</p>
+                <div class="mt-auto">
+                  <!-- Optional: Additional content or social links -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Anggota Tim 5 -->
+          <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
+            <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
+              <img src="assets/img/lukman.jpeg" class="card-img-top rounded-top" alt="Lukman Nulhakim">
+              <div class="card-body text-center d-flex flex-column">
+                <h6 class="card-title mb-1">Lukman Nulhakim</h6>
+                <p class="card-text text-muted small">Anggota</p>
+                <div class="mt-auto">
+                  <!-- Optional: Additional content or social links -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Anggota Tim 3 -->
+          <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
+            <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
+              <img src="assets/img/kafiyan.jpeg" class="card-img-top rounded-top" alt="Kafiyan Nurhidayah">
+              <div class="card-body text-center d-flex flex-column">
+                <h6 class="card-title mb-1">Kafiyan Nurhidayah</h6>
+                <p class="card-text text-muted small">CEO</p>
+                <div class="mt-auto">
+                  <!-- Optional: Additional content or social links -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Anggota Tim 4 -->
+          <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
+            <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
+              <img src="assets/img/aan.jpeg" class="card-img-top rounded-top" alt="Aan Padilah">
+              <div class="card-body text-center d-flex flex-column">
+                <h6 class="card-title mb-1">Aan Padilah</h6>
+                <p class="card-text text-muted small">Konsumen</p>
+                <div class="mt-auto">
+                  <!-- Optional: Additional content or social links -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
 
     <!-- Contact Section -->
-    <section id="kontak" class="contact section">
+    <section id="kontak" class="about section light-background">
 
       <!-- Section Title -->
       <div class="container section-title text-center" data-aos="fade-up">
@@ -215,7 +295,7 @@
                 <div class="info-item" data-aos="fade" data-aos-delay="200">
                   <a href="https://maps.app.goo.gl/VQMDqhpocUPqYM8C8"><i class="bi bi-geo-alt"></i></a>
                   <h3>Alamat</h3>
-                  <p>Jalan. Talagasari No. 35 Kawalimukti Kawali Ciamis 46253</p>
+                  <p>{{ $socialLinks->alamat }}</p>
                 </div>
               </div><!-- End Info Item -->
     
@@ -223,7 +303,7 @@
                 <div class="info-item" data-aos="fade" data-aos-delay="300">
                   <i class="bi bi-telephone"></i>
                   <h3>Telepon</h3>
-                  <p>(0265) 791727</p>
+                  <p>{{ $socialLinks->telepon }}</p>
                 </div>
               </div><!-- End Info Item -->
     
@@ -231,7 +311,7 @@
                 <div class="info-item" data-aos="fade" data-aos-delay="400">
                   <i class="bi bi-envelope"></i>
                   <h3>Email</h3>
-                  <a class="mail-link" href="mailto:smkn1kawali@gmail.com">smkn1kawali@gmail.com</a>
+                  <p>{{ $socialLinks->email }}</p>
                 </div>
               </div><!-- End Info Item -->
     
@@ -240,7 +320,7 @@
                   <i class="bi bi-clock"></i>
                   <h3>Jam Buka</h3>
                   <p>Senin - Jum'at</p>
-                  <p>7:00WIB - 15:00WIB</p>
+                  <p>{{ $socialLinks->jam_buka }}</p>
                 </div>
               </div><!-- End Info Item -->
             </div>
@@ -255,20 +335,20 @@
 
   <footer id="footer" class="footer">
     <div class="container footer-top">
-      <div class="row gy-4">
-        <div class="col-lg-4 col-md-12">
+      <div class="row gy-4 justify-content-center">
+        <div class="col-lg-4 col-md-12 text-center">
           <h4>Ikuti Kami</h4>
           <p></p>
-          <div class="social-links d-flex">
+          <div class="social-links d-flex justify-content-center">
             <a href="{{ $socialLinks->twitter }}"><i class="bi bi-twitter-x"></i></a>
             <a href="{{ $socialLinks->facebook }}"><i class="bi bi-facebook"></i></a>
             <a href="{{ $socialLinks->instagram }}"><i class="bi bi-instagram"></i></a>
             <a href="{{ $socialLinks->youtube }}"><i class="bi bi-youtube"></i></a>
           </div>
         </div>
-
       </div>
     </div>
+    
 
     <div class="container copyright text-center mt-4">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">Kawali</strong> <span>2024 - 2025</span></p>
