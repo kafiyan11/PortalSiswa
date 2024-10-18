@@ -54,7 +54,13 @@
         <div class="row">
             <!-- Sidebar Profil -->
             <div class="col-md-4 text-center poto">
-                <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('default-avatar.png') }}" alt="Admin">
+                @if(Auth::user()->photo)
+                    <!-- Menampilkan foto pengguna jika ada -->
+                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Admin" class="rounded-circle" style="width: 150px; height: 150px;">
+                @else
+                    <!-- Menampilkan ikon profil default jika foto belum ditambahkan -->
+                    <i class="fas fa-user-circle" style="font-size: 150px; color: #ccc;"></i>
+                @endif
                 <div class="mt-3">
                     <h4>{{ Auth::user()->name }}</h4>
                     <h6>{{ Auth::user()->alamat }}</h6>
@@ -97,21 +103,14 @@
                             <div class="col-sm-9 text-secondary">{{ Auth::user()->nis }}</div>
                         </div>
                         <hr>
-                        @if(Auth::user()->role !== 'guru')
-                            <div class="row">
-                                <div class="col-sm-3"><h6 class="mb-0">Kelas</h6></div>
-                                <div class="col-sm-9 text-secondary">{{ Auth::user()->kelas }}</div>
-                            </div>
-                            <hr>
-                        @endif
                         <div class="row">
                             <div class="col-sm-3"><h6 class="mb-0">No Hp</h6></div>
-                            <div class="col-sm-9 text-secondary">{{ Auth::user()->nohp ?? 'Nomor HP Belum Di isi' }}</div>
+                            <div class="col-sm-9 text-secondary">{{ Auth::user()->nohp ?? 'Nomor HP Belum Diisi' }}</div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-3"><h6 class="mb-0">Alamat</h6></div>
-                            <div class="col-sm-9 text-secondary">{{ Auth::user()->alamat ?? 'Alamat Belum Di isi' }}</div>
+                            <div class="col-sm-9 text-secondary">{{ Auth::user()->alamat ?? 'Alamat Belum Diisi' }}</div>
                         </div>
                         <hr>
                         <div class="row">
@@ -119,10 +118,16 @@
                             <div class="col-sm-9 text-secondary">{{ Auth::user()->role }}</div>
                         </div>
                         <hr>
+                        <!-- Bagian Mengajar -->
+                        <div class="row">
+                            <div class="col-sm-3"><h6 class="mb-0">Mengajar</h6></div>
+                            <div class="col-sm-9 text-secondary">{{ Auth::user()->mengajar ?? 'Informasi Mengajar Belum Diisi' }}</div>
+                        </div>
+                        <hr>
                         <div class="row">
                             <div class="col-sm-12">
                                 <a href="{{ route('guru.dashboard') }}" class="btn btn-primary">Kembali</a>
-                                <a href="{{ route('guru.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil Guru</a>
+                                <a href="{{ route('guru.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
                             </div>
                         </div>
                     </div>
@@ -130,6 +135,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Pastikan script SweetAlert2 dimuat setelah elemen HTML lainnya -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 @endsection

@@ -138,65 +138,110 @@
         <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
             <div class="position-sticky">
                 <ul class="nav flex-column">
+                    <!-- Beranda -->
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('admin.dashboard') }}">
+                        <a class="nav-link {{ Route::currentRouteName() == 'admin.dashboard' ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                             <i class="fas fa-home me-2"></i>
                             Beranda
                         </a>
                     </li>
+                    
+                    <!-- Profil -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.profiles.show') }}">
+                        <a class="nav-link {{ Route::currentRouteName() == 'admin.profiles.show' ? 'active' : '' }}" href="{{ route('admin.profiles.show') }}">
                             <i class="fas fa-user me-2"></i>
                             Profil
                         </a>
                     </li>
+                    
+                    <!-- Tambah Akun Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="tambahAkunDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        @php
+                            $tambahAkunRoutes = ['tambah', 'tambahguru', 'ortu'];
+                            $isTambahAkunActive = in_array(Route::currentRouteName(), $tambahAkunRoutes);
+                        @endphp
+                        <a class="nav-link dropdown-toggle {{ $isTambahAkunActive ? 'active' : '' }}" href="#" id="tambahAkunDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="{{ $isTambahAkunActive ? 'true' : 'false' }}">
                             <i class="fas fa-plus me-2"></i>
                             Tambah Akun
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="tambahAkunDropdown">
-                            <li><a class="dropdown-item" href="{{ route('tambah') }}"><i class="fas fa-user-graduate me-2"></i>Data Siswa</a></li>
-                            <li><a class="dropdown-item" href="{{ route('tambahguru') }}"><i class="fas fa-chalkboard-teacher me-2"></i>Data Guru</a></li>
-                            <li><a class="dropdown-item" href="{{ route('ortu') }}"><i class="fas fa-user-friends me-2"></i>Data Orang Tua</a></li>
+                        <ul class="dropdown-menu {{ $isTambahAkunActive ? 'show' : '' }}" aria-labelledby="tambahAkunDropdown">
+                            <li>
+                                <a class="dropdown-item {{ Route::currentRouteName() == 'tambah' ? 'active' : '' }}" href="{{ route('tambah') }}">
+                                    <i class="fas fa-user-graduate me-2"></i>Data Siswa
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ Route::currentRouteName() == 'tambahguru' ? 'active' : '' }}" href="{{ route('tambahguru') }}">
+                                    <i class="fas fa-chalkboard-teacher me-2"></i>Data Guru
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ Route::currentRouteName() == 'ortu' ? 'active' : '' }}" href="{{ route('ortu') }}">
+                                    <i class="fas fa-user-friends me-2"></i>Data Orang Tua
+                                </a>
+                            </li>
                         </ul>
                     </li>
+                    
+                    <!-- Jadwal Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="jadwalDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        @php
+                            $jadwalRoutes = ['admin.jadwal.index', 'admin.jadwalguru.index'];
+                            $isJadwalActive = in_array(Route::currentRouteName(), $jadwalRoutes);
+                        @endphp
+                        <a class="nav-link dropdown-toggle {{ $isJadwalActive ? 'active' : '' }}" href="#" id="jadwalDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="{{ $isJadwalActive ? 'true' : 'false' }}">
                             <i class="fas fa-calendar-alt me-2"></i>
                             Jadwal
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="jadwalDropdown">
-                            <li><a class="dropdown-item" href="{{ route('admin.jadwal.index') }}"><i class="fas fa-calendar-alt me-2"></i>Jadwal Pelajaran</a></li>
-                            <li><a class="dropdown-item" href="{{ route('admin.jadwalguru.index') }}"><i class="fas fa-chalkboard-teacher me-2"></i>Jadwal Guru</a></li>
+                        <ul class="dropdown-menu {{ $isJadwalActive ? 'show' : '' }}" aria-labelledby="jadwalDropdown">
+                            <li>
+                                <a class="dropdown-item {{ Route::currentRouteName() == 'admin.jadwal.index' ? 'active' : '' }}" href="{{ route('admin.jadwal.index') }}">
+                                    <i class="fas fa-calendar-alt me-2"></i>Jadwal Pelajaran
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ Route::currentRouteName() == 'admin.jadwalguru.index' ? 'active' : '' }}" href="{{ route('admin.jadwalguru.index') }}">
+                                    <i class="fas fa-chalkboard-teacher me-2"></i>Jadwal Guru
+                                </a>
+                            </li>
                         </ul>
                     </li>
+                    
+                    <!-- Tugas -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.tugas.index') }}">
+                        <a class="nav-link {{ Route::currentRouteName() == 'admin.tugas.index' ? 'active' : '' }}" href="{{ route('admin.tugas.index') }}">
                             <i class="fas fa-tasks me-2"></i>
                             Tugas
                         </a>
                     </li>
+                    
+                    <!-- Daftar Pelajaran -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('namamapel.index') }}">
+                        <a class="nav-link {{ Route::currentRouteName() == 'namamapel.index' ? 'active' : '' }}" href="{{ route('namamapel.index') }}">
                             <i class="fas fa-globe me-2"></i>
                             Daftar Pelajaran
                         </a>
                     </li>
+                    
+                    <!-- Materi Pelajaran -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.materi.index') }}">
+                        <a class="nav-link {{ Route::currentRouteName() == 'admin.materi.index' ? 'active' : '' }}" href="{{ route('admin.materi.index') }}">
                             <i class="fas fa-book me-2"></i>
                             Materi Pelajaran
                         </a>
                     </li>
+                    
+                    <!-- Nilai -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.scores.index') }}">
+                        <a class="nav-link {{ Route::currentRouteName() == 'admin.scores.index' ? 'active' : '' }}" href="{{ route('admin.scores.index') }}">
                             <i class="fas fa-graduation-cap me-2"></i>
                             Nilai
                         </a>
                     </li>
+                    
+                    <!-- Forum Diskusi -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('posts.index') }}">
+                        <a class="nav-link {{ Route::currentRouteName() == 'posts.index' ? 'active' : '' }}" href="{{ route('posts.index') }}">
                             <i class="fas fa-comments me-2"></i>
                             Forum Diskusi
                         </a>
@@ -249,7 +294,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" defer></script>
 </body>
 </html>

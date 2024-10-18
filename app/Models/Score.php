@@ -10,7 +10,6 @@ class Score extends Model
 {
     use HasFactory;
 
-
     protected $table = 'scores';
 
     protected $fillable = [
@@ -21,8 +20,18 @@ class Score extends Model
         'final_test_score',
     ];
 
+    // Relasi dengan User (one to many)
     public function user()
     {
-        return $this->belongsTo(User::class, 'nis', 'nis');
+        return $this->belongsTo(User::class, 'nis', 'nis'); // nis is the foreign key in scores table
+    }
+    public function scores()
+    {
+        return $this->hasMany(Score::class);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(User::class, 'parent_id');
     }
 }
