@@ -42,6 +42,7 @@
         }
 
         .poto img {
+            margin-top: 3rem;
             border-radius: 50%;
             width: 150px;
             height: 150px;
@@ -49,7 +50,7 @@
         }
 
         .judul {
-            margin-top: 20px;
+            margin-top: 0,1rem;
             margin-left: 50px;
         }
 
@@ -143,7 +144,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Kembali</a>
-                                <a href="{{ route('admin.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil Siswa</a>
+                                <a href="{{ route('siswa.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
                             </div>
                         </div>
                     </div>

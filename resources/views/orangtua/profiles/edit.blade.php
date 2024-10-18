@@ -1,14 +1,23 @@
-<head>
-    <title>Edit Profil | Portal Siswa</title>
-</head>
 @extends('layouts.app')
 
 @section('content')
 <div class="container mt-4">
     <h2 class="mb-4">Edit Profil</h2>
+
+    <!-- Display Validation Errors -->
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="card shadow-sm">
         <div class="card-body">
-            <form action="{{ route('guru.profiles.update', Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('orangtua.profiles.update', Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -18,15 +27,10 @@
                     <input type="text" name="name" class="form-control" value="{{ Auth::user()->name }}" readonly>
                 </div>
 
-                <!-- NIP atau NIS (Readonly) -->
+                <!-- NIS (Readonly) -->
                 <div class="form-group">
-                    @if(Auth::user()->role === 'Guru')
-                        <label for="nip">NIP</label>
-                        <input type="text" name="nip" class="form-control" value="{{ Auth::user()->nis }}" readonly>
-                    @else
-                        <label for="nis">NIS</label>
-                        <input type="text" name="nis" class="form-control" value="{{ Auth::user()->nis }}" readonly>
-                    @endif
+                    <label for="nis">NIS</label>
+                    <input type="text" name="nis" class="form-control" value="{{ Auth::user()->nis }}" readonly>
                 </div>
 
                 <!-- No HP -->
@@ -47,13 +51,19 @@
                     <input type="text" name="role" class="form-control" value="{{ Auth::user()->role }}" readonly>
                 </div>
 
-                <!-- Mengajar -->
+                <!-- Siswa Dari -->
                 <div class="form-group">
-                    <label for="mengajar">Mengajar</label>
-                    <input type="text" name="mengajar" class="form-control" value="{{ old('mengajar', Auth::user()->mengajar) }}" placeholder="Masukkan Mata Pelajaran yang Diampu">
-                    @error('mengajar')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                    <label for="students">Siswa Dari</label>
+                    <select name="students[]" id="students" class="form-control" multiple>
+                        <option value="" disabled {{ old('students') ? '' : 'selected' }}>Pilih Siswa</option>
+                        @foreach(App\Models\User::where('role', 'Siswa')->get() as $student)
+                            <option value="{{ $student->id }}" 
+                                {{ Auth::user()->children->contains('id', $student->id) ? 'selected' : '' }}>
+                                {{ $student->name }} (NIS: {{ $student->nis }})
+                            </option>
+                        @endforeach
+                    </select>
+                    <small class="form-text text-muted">Pilih maksimal 2 siswa yang terkait dengan Anda.</small>
                 </div>
 
                 <!-- Foto Profil -->
@@ -71,12 +81,26 @@
                 <!-- Tombol Submit dan Kembali -->
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary">Update Profil</button>
-                    <a href="{{ route('guru.dashboard') }}" class="btn btn-secondary ml-2">Kembali</a>
+                    <a href="{{ route('orangtua.dashboard') }}" class="btn btn-secondary ml-2">Kembali</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<!-- JavaScript to Limit Selection to 2 -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const select = document.getElementById('students');
+        select.addEventListener('change', function () {
+            if (this.selectedOptions.length > 2) {
+                alert('Anda hanya dapat memilih maksimal 2 siswa.');
+                // Deselect the last selected option
+                this.options[this.selectedOptions.length - 1].selected = false;
+            }
+        });
+    });
+</script>
 
 <style>
     /* Tambahan styling untuk tampilan form */

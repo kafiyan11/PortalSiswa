@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Models\User; // Ensure the User model is used
+use App\Models\User; // Pastikan model User digunakan
 
 class ProfileGuruController extends Controller
 {
@@ -58,13 +58,14 @@ class ProfileGuruController extends Controller
             return redirect()->route('guru.profiles.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
         }
 
-        // Validate the request data, termasuk 'judul'
+        // Validate the request data, termasuk 'mengajar'
         $request->validate([
             'name' => 'required|string|max:255',
             'kelas' => 'nullable|string|max:50',
             'alamat' => 'nullable|string|max:255',
             'nohp' => 'nullable|string|max:15',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'mengajar' => 'nullable|string|max:255', // Validasi untuk 'mengajar'
         ]);
 
         // Update user fields
@@ -72,6 +73,7 @@ class ProfileGuruController extends Controller
         $user->kelas = $request->input('kelas');
         $user->alamat = $request->input('alamat');
         $user->nohp = $request->input('nohp');
+        $user->mengajar = $request->input('mengajar'); // Update atribut 'mengajar'
 
         // Handle profile photo
         if ($request->hasFile('photo')) {

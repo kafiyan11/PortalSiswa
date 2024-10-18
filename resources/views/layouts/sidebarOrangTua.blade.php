@@ -8,6 +8,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ route('orangtua.profiles.show') }}">
+                    <i class="fas fa-user me-2"></i>
+                    Profil
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ route('ortu.nilai') }}">
                     <i class="fas fa-graduation-cap me-2"></i>
                     Nilai Siswa

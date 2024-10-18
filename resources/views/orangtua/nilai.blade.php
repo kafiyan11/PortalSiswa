@@ -18,6 +18,12 @@
     </script>
     @endif
 
+    <!-- Cek apakah ada data siswa -->
+    @if($scores->isEmpty())
+    <div class="alert alert-warning text-center" role="alert">
+        Belum ada siswa yang terhubung.
+    </div>
+    @else
     <!-- Tabel responsif untuk menampilkan daftar nilai siswa -->
     <div class="table-responsive shadow-sm rounded">
         <table class="table table-striped table-bordered table-hover">
@@ -45,5 +51,6 @@
             </tbody>
         </table>
     </div>
+    @endif
 </div>
 @endsection

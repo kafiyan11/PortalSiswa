@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Guru | Portal Siswa</title>
+    <title>Profil Orang Tua | Portal Siswa</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
@@ -68,7 +68,7 @@
             </div>
             <!-- Bagian Utama Profil -->
             <div class="col-md-8">
-                <div class="judul"><h1>Profil Guru</h1><br></div>
+                <div class="judul"><h1>Profil Orang Tua</h1><br></div>
                 <div class="card mb-3">
                     <div class="card-body">
                         @if(session('success'))
@@ -118,16 +118,29 @@
                             <div class="col-sm-9 text-secondary">{{ Auth::user()->role }}</div>
                         </div>
                         <hr>
-                        <!-- Bagian Mengajar -->
+                        <!-- Bagian Siswa Dari -->
+                        @if(Auth::user()->role === 'Orang Tua')
                         <div class="row">
-                            <div class="col-sm-3"><h6 class="mb-0">Mengajar</h6></div>
-                            <div class="col-sm-9 text-secondary">{{ Auth::user()->mengajar ?? 'Informasi Mengajar Belum Diisi' }}</div>
+                            <div class="col-sm-3"><h6 class="mb-0">Orang Tua Dari</h6></div>
+                            <div class="col-sm-9 text-secondary">
+                                @if(Auth::user()->children->count() > 0)
+                                    <ul class="list-unstyled">
+                                        @foreach(Auth::user()->children as $child)
+                                            <li>{{ $child->name }} (NIS: {{ $child->nis }})</li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <span>Tidak ada siswa yang terhubung.</span>
+                                @endif
+                            </div>
                         </div>
                         <hr>
+                    @endif
+                    
                         <div class="row">
                             <div class="col-sm-12">
-                                <a href="{{ route('guru.dashboard') }}" class="btn btn-primary">Kembali</a>
-                                <a href="{{ route('guru.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
+                                <a href="{{ route('orangtua.dashboard') }}" class="btn btn-primary">Kembali</a>
+                                <a href="{{ route('orangtua.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
                             </div>
                         </div>
                     </div>

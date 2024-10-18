@@ -26,5 +26,9 @@ class SocialLink extends Model
         'facebook',
         'instagram',
         'youtube',
+        'alamat',
+        'telepon',
+        'email',
+        'jam_buka',
     ];
 }
