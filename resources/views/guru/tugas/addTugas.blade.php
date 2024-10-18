@@ -39,7 +39,7 @@
                     <label for="gambar_tugas" class="form-label">Gambar</label>
                     <input type="file" class="form-control" id="gambar_tugas" name="gambar_tugas" accept=".jpeg,.png,.jpg,.gif,.svg" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Simpan Data</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
             </form>
         </div>
     </div>

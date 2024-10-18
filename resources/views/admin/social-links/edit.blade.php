@@ -1,3 +1,6 @@
+<head>
+    <title>Edit Tautan Sosial Media | Portal Siswa</title>
+</head>
 @extends('layouts.app')
 
 @section('content')
@@ -44,7 +47,7 @@
                             <input type="text" name="jam_buka" class="form-control" id="jam_buka" value="{{ $socialLinks->jam_buka }}" required placeholder="Masukkan Jam Buka">
                         </div>
                         <div class="text-end">
-                            <button type="submit" class="btn btn-primary">Update Links</button>
+                            <button type="submit" class="btn btn-primary">Update Tautan</button>
                         </div>
                     </form>
                 </div>

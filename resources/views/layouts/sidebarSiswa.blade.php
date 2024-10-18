@@ -28,7 +28,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('siswa.coba') }}">
                     <i class="fas fa-book me-2"></i>
-                    Materi Pelajaran
+                    Mata Pelajaran
                 </a>
             </li>
             <li class="nav-item">

@@ -1,3 +1,6 @@
+<head>
+    <title>Tambah Siswa | Portal Siswa</title>
+</head>
 @extends('layouts.app')
 
 @section('content')

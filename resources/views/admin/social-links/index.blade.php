@@ -1,3 +1,6 @@
+<head>
+    <title>Tautan Sosial Media | Portal Siswa</title>
+</head>
 @extends('layouts.app')
 
 @section('content')

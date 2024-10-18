@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Guru</title>
+    <title>Data Guru | Portal Siswa</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
@@ -66,7 +66,7 @@
     <div class="row">
         <!-- Sidebar sudah ada di 'layouts.app', jadi fokus ke content -->
         <div class="col-lg-10 col-md-9 offset-lg-2 offset-md-3 content">
-            <h1 class="text-primary">Daftar Guru</h1>
+            <h1 class="text-primary">Data Guru</h1>
 
             <!-- Tombol Tambah Siswa dan Pencarian -->
             <div class="d-flex justify-content-between align-items-center mb-3">

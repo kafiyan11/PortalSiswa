@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="assets/img/favicon.png" rel="icon">
-    <title>Data Tugas Siswa</title>
+    <title>Tugas | Portal Siswa</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         /* Custom CSS */
@@ -47,7 +47,7 @@
     
     @section('content') <!-- Define a section for your content -->
     <div class="container">
-        <h1>Data Tugas Siswa</h1>
+        <h1>Tugas </h1>
         <div class="card">
             <div class="card-body">
                 <table class="table table-bordered table-striped">

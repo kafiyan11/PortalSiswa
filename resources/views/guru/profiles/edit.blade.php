@@ -4,9 +4,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-    <h2 class="mb-4">Edit Profil</h2>
-    <div class="card shadow-sm">
+
+<div class="container">
+    <h2>Edit Profil</h2>
+    <div class="card">
         <div class="card-body">
             <form action="{{ route('guru.profiles.update', Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -67,8 +68,6 @@
                         </div>
                     @endif
                 </div>
-
-                <!-- Tombol Submit dan Kembali -->
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary">Update Profil</button>
                     <a href="{{ route('guru.dashboard') }}" class="btn btn-secondary ml-2">Kembali</a>

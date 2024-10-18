@@ -1,4 +1,6 @@
-@extends('layouts.app')
+<head>
+    <title>Tambah Data Orang Tua | Portal Siswa</title>
+</head>@extends('layouts.app')
 
 @section('content')
 <div class="container">

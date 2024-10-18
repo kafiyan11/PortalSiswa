@@ -176,15 +176,15 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
 /////////// untuk siswa
 Route::middleware(['auth','role:Siswa'])->group(function(){
     Route::get('/siswa-dashboard', [JadwalController::class, 'tampil'])->name('siswa.dashboard');
-    Route::get('/siswa-profile', [SiswaController::class, 'profil'])->name('siswa.profiles.profil');
+    Route::get('/siswa-profil', [SiswaController::class, 'profil'])->name('siswa.profiles.profil');
     Route::get('/siswa-materi', [SiswaController::class, 'materi'])->name('siswa.materi');
     Route::get('/siswa-jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
     Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
     Route::get('/siswa-nilai', [ScoreController::class, 'wujud'])->name('siswa.wujud');
     Route::get('/siswa-forum', [PostController::class, 'tampil'])->name('siswa.forumdiskusi');
     
-    //coba
-    Route::get('/siswa-coba', [SiswaController::class, 'materii'])->name('siswa.coba');
+    //tampilan mata pelajaran
+    Route::get('/siswa-matapelajaran', [SiswaController::class, 'materii'])->name('siswa.coba');
 
     //profile
     Route::get('siswa/profiles', [ProfileController::class, 'show'])->name('siswa.profiles.show');
@@ -195,12 +195,12 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
     //siswa melihat materi
     Route::get('/siswa/materi/lihat/{id_mapel}', [MateriController::class, 'lihatMateriSiswa'])->name('siswa.lihatmateri');
 
-     //forum
+     //tampilan forum di siswa
     Route::get('/siswa/forumdiskusi', [PostSiswaController::class, 'index'])->name('siswa.forumdiskusi');
     Route::post('/siswa/forumdiskusi', [PostSiswaController::class, 'store'])->name('siswa.posts.store');
     Route::delete('/siswa/forumdiskusi/{post}', [PostSiswaController::class, 'destroy'])->name('siswa.posts.destroy');
 
-        
+    //komen forum
     Route::post('/siswa/forumdiskusi/{post}/comment', [CommentSiswaController::class, 'store'])->name('siswa.comment.store');
     Route::post('/siswa/forumdiskusi/{post}/comment/{comment}/reply', [CommentSiswaController::class, 'replyComment'])->name('siswa.comment.reply');
     Route::delete('/siswa/forumdiskusi/comment/{comment}', [CommentSiswaController::class, 'destroy'])->name('siswa.comment.destroy');
@@ -258,7 +258,6 @@ Route::middleware(['auth','role:Guru'])->group(function(){
         Route::get('/guru/scores/cari', [NIlaidiGuruController::class, 'cari'])->name('scores.cari');
         });
     //forum
-
     Route::get('guru/forumdiskusi', [PostGuruController::class, 'index'])->name('guru.forumdiskusi');
     Route::post('guru/forumdiskusi/store', [PostGuruController::class, 'store'])->name('guru.posts.store');
     Route::delete('guru/forumdiskusi/{post}', [PostGuruController::class, 'destroy'])->name('guru.posts.destroy');

@@ -1,8 +1,10 @@
-@extends('layouts.app')
+<head>
+    <title>Edit Data Siswa | Portal Siswa</title>
+</head>@extends('layouts.app')
 
 @section('content')
 <div class="container">
-    <h1>Edit Data</h1>
+    <h1>Edit Data Siswa</h1>
     
     <!-- Alert Section -->
     @if(session('success'))

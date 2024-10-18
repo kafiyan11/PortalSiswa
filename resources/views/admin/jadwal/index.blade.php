@@ -1,3 +1,6 @@
+<head>
+    <title>Jadwal Siswa | Portal Siswa</title>
+</head>
 @extends('layouts.app')
 
 @section('content')
@@ -63,6 +66,7 @@
         }
     </style>
 </head>
+
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="fw-bold">Jadwal Siswa</h1>

@@ -1,3 +1,7 @@
+<head>
+    <title>Jadwal Guru | Portal Siswa</title>
+</head>
+
 @extends('layouts.app')
 
 @section('content')

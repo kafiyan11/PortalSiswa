@@ -1,8 +1,10 @@
-@extends('layouts.app')
+<head>
+    <title>Edit Profil | Portal Siswa</title>
+</head>@extends('layouts.app')
 
 @section('content')
 <div class="container">
-    <h2>Edit Profile</h2>
+    <h2>Edit Profil</h2>
     <div class="card">
         <div class="card-body">
             <form action="{{ route('siswa.profiles.update', Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
@@ -87,7 +89,7 @@
                     @endif
                 </div>
 
-                <button type="submit" class="btn btn-primary">Update Profile</button>
+                <button type="submit" class="btn btn-primary">Update Profil</button>
             </form>
         </div>
     </div>

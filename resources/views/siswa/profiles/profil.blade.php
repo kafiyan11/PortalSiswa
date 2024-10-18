@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil</title>
+    <title>Profil | Portal Siswa</title>
     <link href="assets/img/favicon.png" rel="icon">
 
     <!-- Bootstrap CSS -->
@@ -143,8 +143,8 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-12">
-                                <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Kembali</a>
-                                <a href="{{ route('siswa.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil</a>
+                                <a href="{{ route('siswa.dashboard') }}" class="btn btn-primary">Kembali</a>
+                                <a href="{{ route('siswa.profiles.edit', Auth::user()->id) }}" class="btn btn-primary">Edit Profil Siswa</a>
                             </div>
                         </div>
                     </div>
