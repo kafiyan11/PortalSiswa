@@ -1,4 +1,6 @@
-@extends('layouts.app')
+<head>
+    <title>Forum Diskusi | Portal Siswa</title>
+</head>@extends('layouts.app')
 
 @section('content')
 <head>

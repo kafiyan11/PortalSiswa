@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Tugas</title>
+    <title>Edit Tugas | Portal Siswa</title>
     <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="text-end">
-                    <input type="submit" value="Simpan Data" class="btn btn-primary">
+                    <input type="submit" value="Simpan" class="btn btn-primary">
                 </div>
             </form>
         </div>

@@ -1,4 +1,6 @@
-@extends('layouts.app') <!-- Extend the layout -->
+<head>
+    <title>Tambah Nilai Siswa | Portal Siswa</title>
+</head>@extends('layouts.app') <!-- Extend the layout -->
 
 @section('content') <!-- Define the content section -->
     <div class="container mt-5">
@@ -32,6 +34,7 @@
                     <label for="final_test_score">UAS</label>
                     <input type="number" name="final_test_score" id="final_test_score" class="form-control" placeholder="Masukkan Nilai UAS (Opsional)">
                 </div>
+
 
                 <button type="submit" class="btn btn-primary btn-block">Simpan <i class="fas fa-save"></i></button>
             </form>

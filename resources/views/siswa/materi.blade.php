@@ -1,40 +1,23 @@
-<!DOCTYPE html>
-<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
-    <title>Materi Pelajaran</title>
+    <title> Mata Pelajaran | Portal Siswa</title>
+</head>
+@extends('layouts.app')
 
-    <!-- Google Fonts: Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+@section('content')
+<div class="container">
+    <h1 class="text-center mb-4">Mata Pelajaran</h1>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
     <style>
-
-
+        /* General Styles */
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f7f8fc, #e0e7ff);
+            background: white;
             color: #333;
-            display: flex;
+            display: top;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
             margin: 0;
             box-sizing: border-box;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: #2c3e50;
-            margin-top: 130px; /* Menambahkan jarak dari bagian atas halaman */
         }
 
         .subject-container {
@@ -43,6 +26,7 @@
             gap: 20px;
             width: 100%;
             max-width: 1200px;
+            margin-top: 20px;
         }
 
         .subject-box {
@@ -54,9 +38,11 @@
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            overflow: hidden;
             animation: fadeIn 0.8s ease-in-out;
         }
 
+        /* Animation */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -69,112 +55,46 @@
         }
 
         .subject-box:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
         }
 
         .subject-box img {
-            width: 50px;
-            height: 50px;
+            width: 65px;
+            height: 65px;
             margin-bottom: 15px;
             transition: transform 0.3s ease;
         }
 
         .subject-box:hover img {
-            transform: scale(1.1);
+            transform: scale(1.2);
         }
 
         .subject-box h2 {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             margin-bottom: 10px;
-            color: #2980b9;
+            color: #000000; /* Bootstrap Primary Color */
         }
 
-        .subject-box p {
-            font-size: 1rem;
-            color: #7f8c8d;
-        }
-
-        .new-assignment {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #e74c3c;
-            color: #fff;
-            border-radius: 50%;
-            padding: 8px;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-
-        @media (max-width: 1000px) {
-            h1 {
-                font-size: 2rem;
+        /* Delay for each box */
+        @for ($i = 1; $i <= 7; $i++)
+            .subject-box:nth-child({{ $i }}) {
+                animation-delay: {{ 0.1 * $i }}s;
             }
-        }
-
-        /* Delay untuk setiap box */
-        .subject-box:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .subject-box:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .subject-box:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .subject-box:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .subject-box:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-
-        .subject-box:nth-child(6) {
-            animation-delay: 0.6s;
-        }
-
-        .subject-box:nth-child(7) {
-            animation-delay: 0.7s;
-        }
+        @endfor
     </style>
-</head>
-<body>
-    @extends('layouts.app')
-
-    @section('content')
-    <h1>Materi Pelajaran</h1>
 
     <div class="subject-container">
-        <div class="subject-box" onclick="window.location.href='#'">
-            <img src="{{ asset('assets/img/mtk.png') }}" alt="Materi Matematika">
-            <h2>Matematika</h2>
-        </div>
-        <div class="subject-box" onclick="window.location.href='#'">
-            <img src="{{ asset('assets/img/pkn2.png') }}" alt="Materi Pendidikan Kewarganegaraan">
-            <h2>Pendidikan Kewarganegaraan</h2>
-        </div>
-        <div class="subject-box" onclick="window.location.href='#'">
-            <img src="{{ asset('assets/img/indo2.png') }}" alt="Materi Bahasa Indonesia">
-            <h2>Bahasa Indonesia</h2>
-        </div>
-        <div class="subject-box" onclick="window.location.href='#'">
-            <img src="{{ asset('assets/img/sejarah2.png') }}" alt="Materi Bahasa Sunda">
-            <h2>Bahasa Sunda</h2>
-        </div>
-        <div class="subject-box" onclick="window.location.href='#'">
-            <img src="{{ asset('assets/img/aceng.png') }}" alt="Materi Pendidikan Kewirausahaan">
-            <h2>Pendidikan Kewirausahaan</h2>
-        </div>
-        <div class="subject-box" onclick="window.location.href='#'">
-            <img src="{{ asset('assets/img/inggris2.png') }}" alt="Materi Bahasa Inggris">
-            <h2>Bahasa Inggris</h2>
-        </div>
+        @if($materi && $materi->isNotEmpty())
+            @foreach($materi as $item)
+                <div class="subject-box" onclick="window.location.href='{{ route('siswa.lihatmateri', ['id_mapel' => $item->id_mapel]) }}'">
+                    <img src="{{ asset('storage/' . $item->icon) }}" alt="Icon for {{ $item->nama_mapel }}" onerror="this.onerror=null; this.src='{{ asset('path_to_default_image.jpg') }}';">
+                    <h2>{{ $item->nama_mapel }}</h2>
+                </div>
+            @endforeach
+        @else
+            <p class="text-center">Tidak ada materi tersedia.</p> <!-- Pesan jika tidak ada materi -->
+        @endif
     </div>
-    @endsection
-</body>
-</html>
+</div>
+@endsection

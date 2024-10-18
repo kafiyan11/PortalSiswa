@@ -1,3 +1,6 @@
+<head>
+    <title>Edit Mata Pelajaran | Portal Siswa</title>
+</head>
 @extends('layouts.app')
 
 @section('content')
@@ -30,10 +33,10 @@
                     <form action="{{ route('namamapel.update', $materi) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <h3>Edit Materi</h3><br>
+                        <h3>Edit Mata Pelajaran</h3><br>
                         <!-- Nama Materi Field -->
                         <div class="form-group">
-                            <label for="nama_mapel">Nama Pelajaran</label>
+                            <label for="nama_mapel">Nama Mata Pelajaran</label>
                             <input type="text" name="nama_mapel" id="nama_mapel" 
                                    value="{{ old('nama_mapel', $materi->nama_mapel) }}" 
                                    class="form-control @error('nama_mapel') is-invalid @enderror" 
@@ -68,7 +71,7 @@
 
                         <!-- Form Buttons -->
                         <div class="form-group mt-4">
-                            <button type="submit" class="btn btn-dark">Update Pelajaran</button>
+                            <button type="submit" class="btn btn-dark">Update Mata Pelajaran</button>
                             <a href="{{ route('namamapel.index') }}" class="btn btn-light">Kembali</a>
                         </div>
                     </form>

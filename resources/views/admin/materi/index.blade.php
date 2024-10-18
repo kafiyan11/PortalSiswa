@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Materi</title>
-    <link href="assets/img/favicon.png" rel="icon">
+    <title>Data Materi Siswa | Portal Siswa</title>
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
@@ -19,16 +22,16 @@
             display: flex;
             min-height: 100vh; /* Pastikan tinggi minimal 100% viewport */
         }
+
         /* Konten utama */
         .content {
-            margin-left: 120px; /* Memberikan margin kiri untuk menghindari tumpang tindih */
+            flex: 1; /* Menggunakan flex untuk mengisi sisa ruang */
             padding: 20px; /* Padding di konten */
-            width: calc(100% - 130px); /* Menyesuaikan lebar dengan sisa ruang */
         }
 
-        .table {
-            margin: 0 auto;
-            width: 80%; /* Lebar tabel */
+        /* Tabel responsif */
+        .table-responsive {
+            width: 100%;
         }
 
         table th, table td {
@@ -71,7 +74,7 @@
         }
 
         .d-flex .input-group {
-            max-width: 920px; /* Lebar maksimum input group */
+            max-width: 100%; /* Lebar maksimum input group */
         }
 
         .search-input {
@@ -117,6 +120,13 @@
             margin-right: 5px; /* Margin antara ikon dan teks */
         }
 
+        /* Kelas Kustom untuk Formulir Pencarian */
+        .search-form {
+            flex: 0 1 400px; /* Tidak tumbuh, dapat menyusut, lebar dasar 400px */
+            max-width: 400px; /* Lebar maksimum 400px */
+            width: 100%; /* Lebar 100% dari container */
+        }
+
         /* Responsif untuk layar kecil */
         @media (max-width: 768px) {
             .sidebar {
@@ -128,11 +138,31 @@
                 margin-left: 0; /* Tidak ada margin kiri pada layar kecil */
                 width: 100%; /* Lebar penuh untuk konten */
             }
+
+            .d-flex {
+                flex-direction: column; /* Susun ulang elemen dalam kolom */
+            }
+
+            .d-flex .input-group {
+                max-width: 100%;
+                margin-bottom: 10px; /* Margin bawah untuk pemisah */
+            }
+
+            .add-btn {
+                width: 100%; /* Lebar penuh pada tombol tambah */
+            }
+
+            .search-form {
+                max-width: 100%; /* Lebar penuh pada layar kecil */
+            }
         }
     </style>
 </head>
 <body>
-    @include('layouts.app') <!-- Memasukkan layout app -->
+    @extends('layouts.app') <!-- Memasukkan layout app -->
+
+    @section('content')
+    <div class="container-main">
         <div class="content">
             <h1 class="text-center">Materi Siswa</h1>
             <section class="content">
@@ -141,67 +171,77 @@
                         <div class="card-body">
                             <!-- Menampilkan pesan flash -->
                             @if(session('success'))
-                            <script>
-                                Swal.fire({
-                                    title: "Kerja Bagus!", // Judul popup
-                                    text: "{{ session('success') }}", // Pesan sukses dari session
-                                    icon: "success" // Ikon popup (success)
-                                });
-                            </script>
+                                <script>
+                                    Swal.fire({
+                                        title: "Kerja Bagus!", // Judul popup
+                                        text: "{{ session('success') }}", // Pesan sukses dari session
+                                        icon: "success" // Ikon popup (success)
+                                    });
+                                </script>
                             @endif
 
                             <!-- Form Pencarian dan Tombol Tambah dalam satu baris -->
-                            <div class="d-flex justify-content-between mb-2">
-                                <form action="{{ route('materiAdmin.cari') }}" method="GET" class="input-group" style="max-width: 400px;">
-                                    <input type="text" name="cari" class="form-control search-input" placeholder="Cari materi..." value="{{ request()->get('search') }}">
+                            <div class="d-flex justify-content-between flex-wrap mb-2">
+                                <form action="{{ route('materiAdmin.cari') }}" method="GET" class="input-group mb-2 mb-md-0 search-form">
+                                    <input type="text" name="cari" class="form-control search-input" placeholder="Cari materi..." value="{{ request()->get('cari') }}">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary search-btn" type="submit">
                                             <i class="fas fa-search"></i> Cari
                                         </button>
                                     </div>
                                 </form>
-                                <a href="{{ route('adminMateri.create') }}" class="btn btn-primary add-btn">
-                                    <i class="fas fa-plus-circle"></i> Tambah Materi
-                                </a>
+                                <div class="mt-2 mt-md-0">
+                                    <a href="{{ route('adminMateri.create') }}" class="btn btn-primary add-btn">
+                                        <i class="fas fa-plus-circle"></i> Tambah Materi
+                                    </a>
+                                </div>
                             </div>
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>NO</th>
-                                        <th>Judul</th>
-                                        <th>Kelas</th>
-                                        <th>Materi</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($materi as $index => $item)
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
-                                            <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
-                                            <td>{{ $item->kelas }}</td>
-                                            <td>
-                                                @if($item->tipe == 'gambar')
-                                                    <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank">
-                                                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
-                                                @else
-                                                    <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('adminMateri.edit', $item->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                                <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $item->id }}')">Hapus</button>
-                                                
-                                                <!-- Form tersembunyi untuk menghapus materi -->
-                                                <form id="delete-form-{{ $item->id }}" action="{{ route('adminMateri.destroy', $item->id) }}" method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </td>
+                                            <th>NO</th>
+                                            <th>Judul</th>
+                                            <th>Kelas</th>
+                                            <th>Materi</th>
+                                            <th>Aksi</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($materi as $index => $item)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
+                                                <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
+                                                <td>{{ $item->kelas }}</td>
+                                                <td>
+                                                    @if($item->tipe == 'gambar')
+                                                        <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank">
+                                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" class="img-fluid" style="max-width: 100px;">
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('adminMateri.edit', $item->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $item->id }}')">Hapus</button>
+                                                    
+                                                    <!-- Form tersembunyi untuk menghapus materi -->
+                                                    <form id="delete-form-{{ $item->id }}" action="{{ route('adminMateri.destroy', $item->id) }}" method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        @if($materi->isEmpty())
+                                            <tr>
+                                                <td colspan="5" class="text-center">Tidak ada data materi ditemukan.</td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
                             <!-- Link pagination -->
                             <div class="d-flex justify-content-end">
                                 {{ $materi->links() }}
@@ -233,5 +273,6 @@
             </script>
         </div>
     </div>
+    @endsection
 </body>
 </html>

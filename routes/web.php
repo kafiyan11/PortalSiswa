@@ -1,36 +1,37 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\CommentGuruController;
-use App\Http\Controllers\CommentSiswaController;
-use App\Http\Controllers\GuruController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\JadwalController;
-use App\Http\Controllers\JadwalguruController;
-use App\Http\Controllers\MateriAdminController;
-use App\Http\Controllers\MateriController;
-use App\Http\Controllers\NamaMateriController;
-use App\Http\Controllers\NIlaidiGuruController;
-use App\Http\Controllers\OrangTuaController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\PostGuruController;
-use App\Http\Controllers\PostSiswaController;
-use App\Http\Controllers\ProfilController;
-use App\Http\Controllers\ProfileAdminController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProfileGuruController;
-use App\Http\Controllers\ScoreController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\SocialLinkController;
-use App\Http\Controllers\TambahController;
-use App\Http\Controllers\TambahGuruController;
-use App\Http\Controllers\TambahOrangtuaController;
-use App\Http\Controllers\TambahTugasController;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GuruController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\TambahController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\PostGuruController;
+use App\Http\Controllers\PostSiswaController;
+use App\Http\Controllers\JadwalguruController;
+use App\Http\Controllers\NamaMateriController;
+use App\Http\Controllers\SocialLinkController;
+use App\Http\Controllers\TambahGuruController;
+use App\Http\Controllers\CommentGuruController;
+use App\Http\Controllers\MateriAdminController;
+use App\Http\Controllers\NIlaidiGuruController;
+use App\Http\Controllers\ProfileGuruController;
+use App\Http\Controllers\TambahTugasController;
+use App\Http\Controllers\CommentSiswaController;
+use App\Http\Controllers\ProfileAdminController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ProfilOrangtuaController;
+use App\Http\Controllers\TambahOrangtuaController;
 
 
 
@@ -175,31 +176,31 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
 /////////// untuk siswa
 Route::middleware(['auth','role:Siswa'])->group(function(){
     Route::get('/siswa-dashboard', [JadwalController::class, 'tampil'])->name('siswa.dashboard');
-    Route::get('/siswa-profile', [SiswaController::class, 'profil'])->name('siswa.profiles.profil');
+    Route::get('/siswa-profil', [SiswaController::class, 'profil'])->name('siswa.profiles.profil');
     Route::get('/siswa-materi', [SiswaController::class, 'materi'])->name('siswa.materi');
     Route::get('/siswa-jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
     Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
     Route::get('/siswa-nilai', [ScoreController::class, 'wujud'])->name('siswa.wujud');
     Route::get('/siswa-forum', [PostController::class, 'tampil'])->name('siswa.forumdiskusi');
     
-    //coba
-    Route::get('/siswa-coba', [SiswaController::class, 'materii'])->name('siswa.coba');
+    //tampilan mata pelajaran
+    Route::get('/siswa-matapelajaran', [SiswaController::class, 'materii'])->name('siswa.coba');
 
     //profile
-    Route::get('/profiles', [ProfileController::class, 'show'])->name('siswa.profiles.show');
-    Route::get('/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('siswa.profiles.edit');
-    Route::put('/profiles/{id}', [ProfileController::class, 'update'])->name('siswa.profiles.update');
+    Route::get('siswa/profiles', [ProfileController::class, 'show'])->name('siswa.profiles.show');
+    Route::get('siswa/profiles/{id}/edit', [ProfileController::class, 'edit'])->name('siswa.profiles.edit');
+    Route::put('sisws/profiles/{id}', [ProfileController::class, 'update'])->name('siswa.profiles.update');
     
 
     //siswa melihat materi
     Route::get('/siswa/materi/lihat/{id_mapel}', [MateriController::class, 'lihatMateriSiswa'])->name('siswa.lihatmateri');
 
-     //forum
+     //tampilan forum di siswa
     Route::get('/siswa/forumdiskusi', [PostSiswaController::class, 'index'])->name('siswa.forumdiskusi');
     Route::post('/siswa/forumdiskusi', [PostSiswaController::class, 'store'])->name('siswa.posts.store');
     Route::delete('/siswa/forumdiskusi/{post}', [PostSiswaController::class, 'destroy'])->name('siswa.posts.destroy');
 
-        
+    //komen forum
     Route::post('/siswa/forumdiskusi/{post}/comment', [CommentSiswaController::class, 'store'])->name('siswa.comment.store');
     Route::post('/siswa/forumdiskusi/{post}/comment/{comment}/reply', [CommentSiswaController::class, 'replyComment'])->name('siswa.comment.reply');
     Route::delete('/siswa/forumdiskusi/comment/{comment}', [CommentSiswaController::class, 'destroy'])->name('siswa.comment.destroy');
@@ -257,7 +258,6 @@ Route::middleware(['auth','role:Guru'])->group(function(){
         Route::get('/guru/scores/cari', [NIlaidiGuruController::class, 'cari'])->name('scores.cari');
         });
     //forum
-
     Route::get('guru/forumdiskusi', [PostGuruController::class, 'index'])->name('guru.forumdiskusi');
     Route::post('guru/forumdiskusi/store', [PostGuruController::class, 'store'])->name('guru.posts.store');
     Route::delete('guru/forumdiskusi/{post}', [PostGuruController::class, 'destroy'])->name('guru.posts.destroy');
@@ -270,4 +270,9 @@ Route::middleware(['auth','role:Guru'])->group(function(){
 Route::middleware(['auth','role:Orang Tua'])->group(function(){
     Route::get('/orangtua-dashboard', [OrangTuaController::class, 'index'])->name('orangtua.dashboard');
     Route::get('/ortu-nilai', [ScoreController::class, 'ortu'])->name('ortu.nilai');
+
+    //profile
+    Route::get('/profiles', [ProfilOrangtuaController::class, 'show'])->name('orangtua.profiles.show');
+    Route::get('/profiles/{id}/edit', [ProfilOrangtuaController::class, 'edit'])->name('orangtua.profiles.edit');
+    Route::put('/profiles/{id}', [ProfilOrangtuaController::class, 'update'])->name('orangtua.profiles.update');
 });

@@ -1,9 +1,11 @@
-@extends('layouts.app')
+<head>
+    <title>Dashboard | Portal Siswa</title>
+</head>@extends('layouts.app')
 
 @section('content')
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="fw-bold">Jadwal Hari Ini</h1>
+        <h1 class="fw-bold">Beranda</h1>
     </div>
 
     @if($jadwals->isEmpty())

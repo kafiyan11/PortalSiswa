@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User; // Pastikan untuk mengimpor model User
 
 class Score extends Model
 {
@@ -18,13 +19,18 @@ class Score extends Model
     ];
 
 
-    
+    // Relasi dengan User (one to many)
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'nis', 'nis'); // nis is the foreign key in scores table
+    }
+    public function scores()
+    {
+        return $this->hasMany(Score::class);
+    }
 
-    // Definisikan relasi jika model ini berhubungan dengan model lain
-    // Contoh: jika Score memiliki relasi dengan Student
-    // public function student()
-    // {
-    //     return $this->belongsTo(Student::class);
-    // }
+    public function parent()
+    {
+        return $this->belongsTo(User::class, 'parent_id');
+    }
 }
-
