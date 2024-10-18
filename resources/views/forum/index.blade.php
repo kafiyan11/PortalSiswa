@@ -68,7 +68,6 @@
             padding: 10px;
             margin-bottom: 10px;
             text-align: left; /* Ensure comments are left-aligned */
-            border-left: 4px solid #007bff; /* Optional: add a left border for visual distinction */
         }
 
         .replies-container {

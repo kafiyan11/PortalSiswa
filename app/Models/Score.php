@@ -9,10 +9,6 @@ class Score extends Model
 {
     use HasFactory;
 
-    // Tentukan nama tabel jika tidak sesuai dengan konvensi nama tabel default
-    protected $table = 'scores';
-
-    // Tentukan kolom-kolom yang bisa diisi massal
     protected $fillable = [
         'nama',
         'nis',
@@ -20,6 +16,8 @@ class Score extends Model
         'midterm_test_score',
         'final_test_score',
     ];
+
+
     
 
     // Definisikan relasi jika model ini berhubungan dengan model lain

@@ -160,7 +160,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="gambar_tugas" class="form-label">Gambar</label>
-                    <div class="input-group">
+                    <yudiv class="input-group">
                         <span class="input-group-text"><i class="bi bi-image"></i></span>
                         <input type="file" class="form-control" id="gambar_tugas" name="gambar_tugas" accept="image/*" required>
                     </div>

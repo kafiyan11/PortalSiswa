@@ -7,14 +7,14 @@
     <form action="{{ route('namamapel.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label for="nama_mapel">Nama Materi</label>
+            <label for="nama_mapel">Nama Pelajaran</label>
             <input type="text" name="nama_mapel" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="icon">Upload Ikon</label>
+            <label for="icon">Upload Icon</label>
             <input type="file" name="icon" class="form-control" accept="image/*" required>
         </div>
-        <button type="submit" class="btn btn-primary">Simpan Materi</button>
+        <button type="submit" class="btn btn-primary">Simpan Pelajaran</button>
         <a href="{{ route('namamapel.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>

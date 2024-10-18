@@ -2,15 +2,15 @@
     <div class="position-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="{{ route('orangtua.dashboard') }}">
+                <a class="nav-link {{ Route::currentRouteName() == 'orangtua.dashboard' ? 'active' : '' }}" href="{{ route('orangtua.dashboard') }}">
                     <i class="fas fa-home me-2"></i>
                     Beranda
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('ortu.nilai') }}">
-                    <i class="fas fa-graduation-cap me-2"></i>
-                    Nilai Siswa
+                <a class="nav-link {{ Route::currentRouteName() == 'ortu.nilai' ? 'active' : '' }}" href="{{ route('ortu.nilai') }}">
+                    <i class="fas fa-home me-2"></i>
+                    Nilai
                 </a>
             </li>
         </ul>
