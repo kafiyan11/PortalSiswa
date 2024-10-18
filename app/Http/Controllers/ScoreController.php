@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -10,22 +11,30 @@ class ScoreController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->get('cari'); // Ambil input pencarian
+        $search = $request->get('cari');
     
-        if ($search) {
-            // Jika ada pencarian, cari data yang sesuai dengan 'nama' atau 'nis' dan paginate hasilnya
-            $scores = Score::where('nama', 'LIKE', "%{$search}%")
-                            ->orWhere('nis', 'LIKE', "%{$search}%")
-                            ->paginate(2);
-        } else {
-            // Jika tidak ada pencarian, ambil semua data dengan pagination
-            $scores = Score::paginate(2);
-        }
+        // Fetch scores and calculate total score
+        $scoresQuery = Score::selectRaw('*, (daily_test_score + midterm_test_score + final_test_score) as total_score')
+                            ->when($search, function ($query, $search) {
+                                return $query->where('nama', 'LIKE', "%{$search}%")
+                                             ->orWhere('nis', 'LIKE', "%{$search}%");
+                            })
+                            ->orderByDesc('total_score'); // Order by total score (descending for ranking)
     
-        // Mengirim variabel $scores ke view
+        // Paginate the scores
+        $scores = $scoresQuery->paginate(5);
+    
+        // Add rank and average score to each score in the paginated result
+        $scores->getCollection()->transform(function ($score, $index) use ($scores) {
+            $score->rank = ($scores->currentPage() - 1) * $scores->perPage() + $index + 1; // Calculate rank based on pagination
+            $score->average_score = $score->total_score / 3; // Calculate average score
+            return $score;
+        });
+    
         return view('admin.scores.index', compact('scores'));
     }
-    
+
+
     public function create()
     {
         return view('admin.scores.create');
@@ -36,15 +45,28 @@ class ScoreController extends Controller
         $validated = $request->validate([
             'nama' => 'required|string',
             'nis' => 'required|numeric',
-            'daily_test_score' => 'required|numeric',
-            'midterm_test_score' => 'required|numeric',
-            'final_test_score' => 'required|numeric',
+            'daily_test_score' => 'nullable|numeric', // Allow null
+            'midterm_test_score' => 'nullable|numeric', // Allow null
+            'final_test_score' => 'nullable|numeric', // Allow null
         ]);
-
-        Score::create($validated);
-
+    
+        // Set default values for missing scores
+        $dailyTestScore = $validated['daily_test_score'] ?? 0;
+        $midtermTestScore = $validated['midterm_test_score'] ?? 0;
+        $finalTestScore = $validated['final_test_score'] ?? 0;
+    
+        // Create the Score entry
+        Score::create([
+            'nama' => $validated['nama'],
+            'nis' => $validated['nis'],
+            'daily_test_score' => $dailyTestScore,
+            'midterm_test_score' => $midtermTestScore,
+            'final_test_score' => $finalTestScore,
+        ]);
+    
         return redirect()->route('admin.scores.index')->with('success', 'Nilai berhasil ditambahkan!');
     }
+    
 
     public function edit($id)
     {
@@ -57,13 +79,13 @@ class ScoreController extends Controller
         $validated = $request->validate([
             'nama' => 'required|string',
             'nis' => 'required|numeric',
-            'daily_test_score' => 'required|numeric',
-            'midterm_test_score' => 'required|numeric',
-            'final_test_score' => 'required|numeric',
+            'daily_test_score' => 'nullable|numeric', // Allow null
+            'midterm_test_score' => 'nullable|numeric', // Allow null
+            'final_test_score' => 'nullable|numeric', // Allow null
         ]);
 
         $score = Score::findOrFail($id);
-        $score->update($validated);
+        $score->update($validated); // Use validated data directly
 
         return redirect()->route('admin.scores.index')->with('success', 'Nilai berhasil diperbarui!');
     }

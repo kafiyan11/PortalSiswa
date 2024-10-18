@@ -22,23 +22,22 @@
                 
                 <div class="form-group">
                     <label for="daily_test_score">UH</label>
-                    <input type="number" name="daily_test_score" id="daily_test_score" class="form-control" placeholder="Masukkan Nilai UH" required>
+                    <input type="number" name="daily_test_score" id="daily_test_score" class="form-control" placeholder="Masukkan Nilai UH (Opsional)">
                 </div>
                 
                 <div class="form-group">
                     <label for="midterm_test_score">UTS</label>
-                    <input type="number" name="midterm_test_score" id="midterm_test_score" class="form-control" placeholder="Masukkan Nilai UTS" required>
+                    <input type="number" name="midterm_test_score" id="midterm_test_score" class="form-control" placeholder="Masukkan Nilai UTS (Opsional)">
                 </div>
                 
                 <div class="form-group">
                     <label for="final_test_score">UAS</label>
-                    <input type="number" name="final_test_score" id="final_test_score" class="form-control" placeholder="Masukkan Nilai UAS" required>
-                </div><br>
+                    <input type="number" name="final_test_score" id="final_test_score" class="form-control" placeholder="Masukkan Nilai UAS (Opsional)">
+                </div>
+
 
                 <button type="submit" class="btn btn-primary btn-block">Simpan <i class="fas fa-save"></i></button>
             </form>
         </div>
     </div>
 @endsection <!-- End the content section -->
-
-<!-- Optionally, if you need custom scripts for this page, you can add them here -->

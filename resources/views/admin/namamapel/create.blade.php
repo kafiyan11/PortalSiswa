@@ -14,8 +14,9 @@
             <input type="text" name="nama_mapel" class="form-control" required>
         </div><br>
         <div class="form-group">
-            <label for="icon">Upload Ikon</label>
+            <label for="icon">Upload Icon</label>
             <input type="file" name="icon" class="form-control" accept="image/*" required>
+
         </div><br>
         <button type="submit" class="btn btn-primary">Simpan Mata Pelajaran</button>
         <a href="{{ route('namamapel.index') }}" class="btn btn-secondary">Kembali</a>

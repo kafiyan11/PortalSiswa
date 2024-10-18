@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="container">
+
     <h2 class="fw-bold mb-4">Daftar Mata Pelajaran</h2>
     <div class="d-flex justify-content-between mb-4">
         <a href="{{ route('namamapel.create') }}" class="btn btn-success">Tambah Mata Pelajaran</a>
@@ -22,7 +23,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nama Mapel</th>
+                <th>Nama Pelajaran</th>
                 <th>Icon</th>
                 <th>Aksi</th>
             </tr>

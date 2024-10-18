@@ -10,8 +10,6 @@ class Score extends Model
 {
     use HasFactory;
 
-    protected $table = 'scores';
-
     protected $fillable = [
         'nama',
         'nis',
@@ -19,6 +17,7 @@ class Score extends Model
         'midterm_test_score',
         'final_test_score',
     ];
+
 
     // Relasi dengan User (one to many)
     public function user()

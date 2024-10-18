@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -20,21 +21,22 @@
             font-weight: 600;
         }
         .navbar-brand div {
-            margin-left: 10px; /* Atur jarak antara gambar dan teks */
+            margin-left: 10px;
         }
         .navbar-brand h1 {
-            font-size: 1.5rem; /* Ukuran font h1 */
+            font-size: 1.5rem;
         }
         .navbar-brand p {
-            font-size: 1rem; /* Ukuran font p */
+            font-size: 1rem;
         }
         .sidebar {
             background-color: #ffffff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             height: calc(100vh - 56px);
             padding-top: 20px;
-            position: sticky; /* Keep sidebar in view */
-            top: 0; /* Maintain position */
+            position: sticky;
+            top: 0;
+            z-index: 1000; /* Pastikan sidebar di atas konten lainnya */
         }
         .sidebar .nav-link {
             color: #495057;
@@ -135,115 +137,68 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
             <div class="position-sticky">
                 <ul class="nav flex-column">
-                    <!-- Beranda -->
                     <li class="nav-item">
-                        <a class="nav-link {{ Route::currentRouteName() == 'admin.dashboard' ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                        <a class="nav-link active" href="{{ route('guru.dashboard') }}">
                             <i class="fas fa-home me-2"></i>
                             Beranda
                         </a>
-                    </li>
-                    
-                    <!-- Profil -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ Route::currentRouteName() == 'admin.profiles.show' ? 'active' : '' }}" href="{{ route('admin.profiles.show') }}">
-                            <i class="fas fa-user me-2"></i>
+                </li>
+                <li class="nav-item ">
+                        <a class="nav-link" href="{{ route('admin.profiles.show') }}">
+                            <i class="fas fa-user me-2"></i> 
                             Profil
                         </a>
                     </li>
-                    
-                    <!-- Tambah Akun Dropdown -->
-                    <li class="nav-item dropdown">
-                        @php
-                            $tambahAkunRoutes = ['tambah', 'tambahguru', 'ortu'];
-                            $isTambahAkunActive = in_array(Route::currentRouteName(), $tambahAkunRoutes);
-                        @endphp
-                        <a class="nav-link dropdown-toggle {{ $isTambahAkunActive ? 'active' : '' }}" href="#" id="tambahAkunDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="{{ $isTambahAkunActive ? 'true' : 'false' }}">
-                            <i class="fas fa-plus me-2"></i>
-                            Tambah Akun
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" href="#" id="tambahAkunDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-plus me-2"></i> Tambah Akun
                         </a>
-                        <ul class="dropdown-menu {{ $isTambahAkunActive ? 'show' : '' }}" aria-labelledby="tambahAkunDropdown">
-                            <li>
-                                <a class="dropdown-item {{ Route::currentRouteName() == 'tambah' ? 'active' : '' }}" href="{{ route('tambah') }}">
-                                    <i class="fas fa-user-graduate me-2"></i>Data Siswa
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item {{ Route::currentRouteName() == 'tambahguru' ? 'active' : '' }}" href="{{ route('tambahguru') }}">
-                                    <i class="fas fa-chalkboard-teacher me-2"></i>Data Guru
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item {{ Route::currentRouteName() == 'ortu' ? 'active' : '' }}" href="{{ route('ortu') }}">
-                                    <i class="fas fa-user-friends me-2"></i>Data Orang Tua
-                                </a>
-                            </li>
+                        <ul class="dropdown-menu" aria-labelledby="tambahAkunDropdown">
+                            <li><a class="dropdown-item" href="{{ route('tambah') }}"><i class="fas fa-user-graduate me-2"></i> Data Siswa</a></li>
+                            <li><a class="dropdown-item" href="{{ route('tambahguru') }}"><i class="fas fa-chalkboard-teacher me-2"></i> Data Guru</a></li>
+                            <li><a class="dropdown-item" href="{{ route('ortu') }}"><i class="fas fa-user-friends me-2"></i> Data Orang Tua</a></li>
                         </ul>
                     </li>
-                    
-                    <!-- Jadwal Dropdown -->
-                    <li class="nav-item dropdown">
-                        @php
-                            $jadwalRoutes = ['admin.jadwal.index', 'admin.jadwalguru.index'];
-                            $isJadwalActive = in_array(Route::currentRouteName(), $jadwalRoutes);
-                        @endphp
-                        <a class="nav-link dropdown-toggle {{ $isJadwalActive ? 'active' : '' }}" href="#" id="jadwalDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="{{ $isJadwalActive ? 'true' : 'false' }}">
-                            <i class="fas fa-calendar-alt me-2"></i>
-                            Jadwal
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" href="#" id="jadwalDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-calendar-alt me-2"></i> Jadwal
                         </a>
-                        <ul class="dropdown-menu {{ $isJadwalActive ? 'show' : '' }}" aria-labelledby="jadwalDropdown">
-                            <li>
-                                <a class="dropdown-item {{ Route::currentRouteName() == 'admin.jadwal.index' ? 'active' : '' }}" href="{{ route('admin.jadwal.index') }}">
-                                    <i class="fas fa-calendar-alt me-2"></i>Jadwal Pelajaran
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item {{ Route::currentRouteName() == 'admin.jadwalguru.index' ? 'active' : '' }}" href="{{ route('admin.jadwalguru.index') }}">
-                                    <i class="fas fa-chalkboard-teacher me-2"></i>Jadwal Guru
-                                </a>
-                            </li>
+                        <ul class="dropdown-menu" aria-labelledby="jadwalDropdown">
+                            <li><a class="dropdown-item" href="{{ route('admin.jadwal.index') }}"><i class="fas fa-calendar-alt me-2"></i> Jadwal Pelajaran</a></li>
+                            <li><a class="dropdown-item" href="{{ route('admin.jadwalguru.index') }}"><i class="fas fa-chalkboard-teacher me-2"></i> Jadwal Guru</a></li>
                         </ul>
                     </li>
-                    
-                    <!-- Tugas -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ Route::currentRouteName() == 'admin.tugas.index' ? 'active' : '' }}" href="{{ route('admin.tugas.index') }}">
-                            <i class="fas fa-tasks me-2"></i>
-                            Tugas
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{ route('admin.tugas.index') }}">
+                            <i class="fas fa-tasks me-2"></i> Tugas
                         </a>
                     </li>
-                    
-                    <!-- Daftar Pelajaran -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ Route::currentRouteName() == 'namamapel.index' ? 'active' : '' }}" href="{{ route('namamapel.index') }}">
-                            <i class="fas fa-globe me-2"></i>
-                            Daftar Pelajaran
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{ route('namamapel.index') }}">
+                            <i class="fas fa-globe me-2"></i> Daftar Pelajaran
                         </a>
                     </li>
-                    
-                    <!-- Materi Pelajaran -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ Route::currentRouteName() == 'admin.materi.index' ? 'active' : '' }}" href="{{ route('admin.materi.index') }}">
-                            <i class="fas fa-book me-2"></i>
-                            Materi Pelajaran
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{ route('admin.materi.index') }}">
+                            <i class="fas fa-book me-2"></i> Materi Pelajaran
                         </a>
                     </li>
-                    
-                    <!-- Nilai -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ Route::currentRouteName() == 'admin.scores.index' ? 'active' : '' }}" href="{{ route('admin.scores.index') }}">
-                            <i class="fas fa-graduation-cap me-2"></i>
-                            Nilai
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{ route('admin.scores.index') }}">
+                            <i class="fas fa-graduation-cap me-2"></i> Nilai
                         </a>
                     </li>
-                    
-                    <!-- Forum Diskusi -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ Route::currentRouteName() == 'posts.index' ? 'active' : '' }}" href="{{ route('posts.index') }}">
-                            <i class="fas fa-comments me-2"></i>
-                            Forum Diskusi
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{ route('posts.index') }}">
+                            <i class="fas fa-comments me-2"></i> Forum Diskusi
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{ route('social-links.index') }}">
+                            <i class="fas fa-link me-2"></i> Tautan Sosial
                         </a>
                     </li>
                 </ul>
@@ -290,11 +245,95 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Tambahkan grafik di sini -->
+            <div class="row">
+                <div class="col-md-12">
+                    <canvas id="userChart"></canvas> <!-- Tempat grafik Chart.js -->
+                </div>
+            </div>
         </main>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<!-- Tambahkan skrip untuk grafik -->
+<script>
+    const ctx = document.getElementById('userChart').getContext('2d');
+    const userChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Siswa', 'Guru', 'Orang Tua'],
+            datasets: [{
+                label: 'Jumlah',
+                data: [{{ $totalSiswa }}, {{ $totalGuru }}, {{ $totalOrangTua }}],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.6)', // Updated opacity for better visibility
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 2, // Increased border width for better definition
+                barThickness: 50, // Adjusted bar thickness for better visualization
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Allows the chart to occupy full height of the container
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Jenis Pengguna', // Added X-axis title
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Jumlah', // Added Y-axis title
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    },
+                    ticks: {
+                        stepSize: 1 // Adjust step size if necessary
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top', // Position the legend at the top
+                    labels: {
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.dataset.label + ': ' + tooltipItem.raw; // Customized tooltip
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+
 </body>
 </html>
