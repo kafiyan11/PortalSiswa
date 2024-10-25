@@ -153,6 +153,10 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
         Route::get('forum', [PostController::class, 'index'])->name('posts.index');
         Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
         Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+        Route::get('/admin/posts', [PostController::class, 'index'])->name('admin.posts.index');
+Route::post('/admin/posts/{id}/approve', [PostController::class, 'approve'])->name('admin.posts.approve');
+Route::post('/admin/posts/{id}/reject', [PostController::class, 'reject'])->name('admin.posts.reject');
+
 
         
         Route::post('/posts/{post}/comment', [CommentController::class, 'store'])->name('posts.comment.store');
@@ -179,6 +183,7 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
     Route::get('/siswa-profil', [SiswaController::class, 'profil'])->name('siswa.profiles.profil');
     Route::get('/siswa-materi', [SiswaController::class, 'materi'])->name('siswa.materi');
     Route::get('/siswa-jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
+    Route::get('/siswa-lihatNilai', [ScoreController::class, 'lihatNilai'])->name('siswa.lihatNilai');
     Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
     Route::get('/siswa-nilai', [ScoreController::class, 'wujud'])->name('siswa.wujud');
     Route::get('/siswa-forum', [PostController::class, 'tampil'])->name('siswa.forumdiskusi');
@@ -204,6 +209,8 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
     Route::post('/siswa/forumdiskusi/{post}/comment', [CommentSiswaController::class, 'store'])->name('siswa.comment.store');
     Route::post('/siswa/forumdiskusi/{post}/comment/{comment}/reply', [CommentSiswaController::class, 'replyComment'])->name('siswa.comment.reply');
     Route::delete('/siswa/forumdiskusi/comment/{comment}', [CommentSiswaController::class, 'destroy'])->name('siswa.comment.destroy');
+
+    
 });
 
 ///////////// untuk guru

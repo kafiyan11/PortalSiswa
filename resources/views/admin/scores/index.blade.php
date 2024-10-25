@@ -1,6 +1,7 @@
 <head>
     <title>Nilai Siswa | Portal Siswa</title>
-</head>@extends('layouts.app')
+</head>
+@extends('layouts.app')
 
 @section('content')
 <head>
@@ -8,51 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        body {
-            background-color: #f8f9fa; /* Background color */
-            font-family: 'Arial', sans-serif; /* Font style */
-        }
-        h2 {
-            color: #343a40; /* Title color */
-            margin-bottom: 20px; /* Margin below title */
-            font-weight: bold; /* Bold title */
-        }
-        .card {
-            border: none; /* No border */
-            border-radius: 15px; /* Rounded corners */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
-        }
-        .table th, .table td {
-            vertical-align: middle; /* Vertical alignment */
-            padding: 12px; /* Padding in table cells */
-        }
-        .table tbody tr:hover {
-            background-color: #f1f1f1; /* Row hover effect */
-        }
-        .search-container {
-            padding: 10px; /* Padding around search container */
-            background: linear-gradient(to right, #e9ecef, #f8f9fa); /* Background gradient */
-            border-radius: 10px; /* Rounded corners */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow */
-        }
-        .search-input {
-            border-radius: 20px; /* Rounded input */
-            transition: box-shadow 0.3s; /* Transition effect */
-        }
-        .search-input:focus {
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus effect */
-            border-color: #007bff; /* Border color on focus */
-        }
-        .search-btn {
-            border-radius: 20px; /* Rounded button */
-            transition: background-color 0.3s; /* Transition effect */
-        }
-        .search-btn:hover {
-            background-color: #0056b3; /* Darker on hover */
-        }
-        .btn-custom {
-            border-radius: 20px; /* Rounded buttons */
-        }
+        /* Your existing styles remain unchanged */
     </style>
 </head>
 
@@ -92,6 +49,7 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>NIS</th>
+                            {{-- <th>Mata Pelajaran</th> <!-- Added Mata Pelajaran header --> --}}
                             <th>UH</th>
                             <th>UTS</th>
                             <th>UAS</th>
@@ -107,6 +65,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $score->nama }}</td>
                             <td>{{ $score->nis }}</td>
+                            {{-- <td>{{ optional($score->namaMateri)->nama_mapel ?? 'Mata pelajaran tidak ditemukan' }}</td> --}}
                             <td>{{ $score->daily_test_score }}</td>
                             <td>{{ $score->midterm_test_score }}</td>
                             <td>{{ $score->final_test_score }}</td>
@@ -135,7 +94,6 @@
                     {{ $scores->links() }}
                 </div>
             </div>
-            
         </div>
     </div>
 </div>

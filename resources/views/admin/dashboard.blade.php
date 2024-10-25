@@ -247,11 +247,46 @@
             </div>
 
             <!-- Tambahkan grafik di sini -->
-            <div class="row">
-                <div class="col-md-12">
-                    <canvas id="userChart"></canvas> <!-- Tempat grafik Chart.js -->
-                </div>
-            </div>
+            <!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container mt-4">
+    <h2 class="text-center">Dashboard Admin</h2>
+
+    <!-- Average Scores Chart -->
+    <canvas id="averageScoresChart" width="400" height="200"></canvas>
+
+    <script>
+        var averageScores = @json($averageScores); // Get average scores from the controller
+        var labels = [...Array(averageScores.length).keys()].map(i => 'Siswa ' + (i + 1)); // Adjust to show student names if available
+
+        // Setup your chart data
+        var data = {
+            labels: labels,
+            datasets: [{
+                label: 'Rata-rata Nilai Siswa',
+                data: averageScores,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false,
+            }]
+        };
+
+        var ctx = document.getElementById('averageScoresChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</div>
+
         </main>
     </div>
 </div>

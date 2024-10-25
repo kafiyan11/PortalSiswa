@@ -1,7 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\NamaMateri;
 use App\Models\Score;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class NIlaidiGuruController extends Controller
@@ -28,28 +31,60 @@ class NIlaidiGuruController extends Controller
 
     public function create()
     {
-        return view('guru.scores.create');
-    }
+        // Ambil semua data siswa
+        $siswa = User::where('role', 'Siswa')->get();
+        $mapel = NamaMateri::all(); // Ambil semua data mapel (pelajaran)
 
+        return view('guru.scores.create', [
+            'siswa' => $siswa,
+            'mapel' => $mapel,
+        ]);
+    }
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'student_id' => 'required|exists:users,id', // Pastikan student_id valid
+
             'nama' => 'required|string',
             'nis' => 'required|numeric',
-            'daily_test_score' => 'required|numeric',
-            'midterm_test_score' => 'required|numeric',
-            'final_test_score' => 'required|numeric',
+            'id_mapel' => 'required|integer|exists:mapel,id_mapel', // Validasi id_mapel
+            'daily_test_score' => 'nullable|numeric', // Allow null
+            'midterm_test_score' => 'nullable|numeric', // Allow null
+            'final_test_score' => 'nullable|numeric', // Allow null
         ]);
+    
+        // Set default values for missing scores
+        $dailyTestScore = $validated['daily_test_score'] ?? 0;
+        $midtermTestScore = $validated['midterm_test_score'] ?? 0;
+        $finalTestScore = $validated['final_test_score'] ?? 0;
+    
+        // Create the Score entry
+        Score::create([
+            'student_id' => $request->student_id,
 
-        Score::create($validated);
-
+            'nama' => $validated['nama'],
+            'nis' => $validated['nis'],
+            'daily_test_score' => $dailyTestScore,
+            'midterm_test_score' => $midtermTestScore,
+            'final_test_score' => $finalTestScore,
+        ]);
+    
         return redirect()->route('guru.scores.index')->with('success', 'Nilai berhasil ditambahkan!');
     }
 
     public function edit(Score $score, $id)
     {
-        $score = Score::findOrFail($id);
-        return view('guru.scores.edit', compact('score'));
+    // Ambil data nilai berdasarkan ID
+    $score = Score::findOrFail($id);
+
+    // Ambil data semua siswa dengan role 'Siswa'
+    $siswa = User::where('role', 'Siswa')->get();
+
+    // Ambil data mapel (mata pelajaran)
+    $mapel = NamaMateri::all();
+
+    // Kirim data ke view
+    return view('guru.scores.edit', compact('score', 'siswa', 'mapel'));
     }
 
     public function update(Request $request, $id)

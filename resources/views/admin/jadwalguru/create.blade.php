@@ -66,14 +66,20 @@
         <input type="hidden" id="kelas_hidden" name="kelas" value="">
     
         <div class="form-group">
-            <label for="nis">NIP</label>
-            <input type="text" class="form-control" id="nis" name="nis" value="{{ old('nis', $jadwal->nis ?? '') }}" required>
+            <label for="guru">Guru</label>
+            <select id="guru" name="guru" class="form-control" required>
+                <option value="">-- Pilih Guru --</option>
+                @foreach($guruList as $guru)
+                    <option value="{{ $guru->name }}" data-nip="{{ $guru->nis }}">{{ $guru->name }}</option>
+                @endforeach
+            </select>
         </div>
         
-        <div class="mb-3">
-            <label for="guru" class="form-label">Guru</label>
-            <input type="text" id="guru" name="guru" class="form-control" placeholder="Masukkan nama guru" value="{{ old('guru') }}" required>
+        <div class="form-group">
+            <label for="nis">NIP</label>
+            <input type="text" class="form-control" id="nis" name="nis" value="{{ old('nis') }}" readonly required>
         </div>
+        
     
         <div class="row">
             <div class="col-md-6 mb-3">
@@ -117,7 +123,14 @@
             document.getElementById('kelas_hidden').value = `${tahun} ${jenisKelas} ${nomor}`;
         }
     }
+    document.getElementById('guru').addEventListener('change', function() {
+        // Ambil NIP dari guru yang dipilih
+        var selectedGuru = this.options[this.selectedIndex];
+        var nip = selectedGuru.getAttribute('data-nip');
 
+        // Isi input NIP
+        document.getElementById('nis').value = nip;
+    });
     document.getElementById('jenis_kelas').addEventListener('change', getSelectedKelas);
     document.getElementById('nomor').addEventListener('change', getSelectedKelas);
 </script>

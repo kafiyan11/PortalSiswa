@@ -33,4 +33,8 @@ class Score extends Model
     {
         return $this->belongsTo(User::class, 'parent_id');
     }
+    // public function NamaMateri()
+    // {
+    //     return $this->hasMany(NamaMateri::class,'mata_pelajaran_id', 'id_mapel');
+    // }
 }
