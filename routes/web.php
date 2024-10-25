@@ -188,12 +188,14 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
     Route::get('/siswa-profil', [SiswaController::class, 'profil'])->name('siswa.profiles.profil');
     Route::get('/siswa-materi', [SiswaController::class, 'materi'])->name('siswa.materi');
     Route::get('/siswa-jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
-    Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
+    Route::get('/siswa-tugas/{id_mapel}', [SiswaController::class, 'lihatTugasSiswa'])->name('siswa.tugas');
     Route::get('/siswa-nilai', [ScoreController::class, 'wujud'])->name('siswa.wujud');
     Route::get('/siswa-forum', [PostController::class, 'tampil'])->name('siswa.forumdiskusi');
     
     //tampilan mata pelajaran
-    Route::get('/siswa-matapelajaran', [SiswaController::class, 'materii'])->name('siswa.coba');
+    Route::get('/siswa-materi-matapelajaran', [SiswaController::class, 'materii'])->name('siswa.coba');
+
+    Route::get('/siswa-tugas-matapelajaran', [SiswaController::class, 'tugass'])->name('siswa.box');
 
     //profile
     Route::get('siswa/profiles', [ProfileController::class, 'show'])->name('siswa.profiles.show');

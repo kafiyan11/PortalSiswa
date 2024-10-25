@@ -60,6 +60,19 @@
                     </div>
                 </div>
                 <div class="mb-3 row">
+                    <label for="id_mapel">Mapel:</label>
+                    <select name="id_mapel" id="id_mapel" class="form-control" required>
+                    @foreach($mapel as $m)
+                        <option value="{{ $m->id }}" {{ $m->id == $siswa->id_mapel ? 'selected' : '' }}>
+                            {{ $m->nama_mapel }}
+                        </option>
+                    @endforeach
+                    </select>
+                    <div class="invalid-feedback">
+                        Mohon pilih mapel.
+                    </div>
+                </div>
+                <div class="mb-3 row">
                     <label for="gambar_tugas" class="col-sm-2 col-form-label">Gambar</label>
                     <div class="col-sm-10">
                         @if ($siswa->gambar_tugas)

@@ -149,7 +149,8 @@
                                 <th>NIS</th>
                                 <th>Nama</th>
                                 <th>Kelas</th>
-                                <th>Gambar</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Tugas</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -160,6 +161,7 @@
                                 <td>{{ $siswas->nis }}</td>
                                 <td>{{ $siswas->nama }}</td>
                                 <td>{{ $siswas->kelas }}</td>
+                                <td>{{ optional($siswas->mapel)->nama_mapel }}</td>
                                 <td>
                                     <a href="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" target="_blank">
                                         @if ($siswas->gambar_tugas)
@@ -167,14 +169,20 @@
                                         @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('guru.tugas.edit', $siswas->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $siswas->id }}')">Hapus</button>
-                                    
-                                    <!-- Form tersembunyi untuk menghapus materi -->
-                                    <form id="delete-form-{{ $siswas->id }}" action="{{ route('guru.tugas.destroy', $siswas->id) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
+                                    <div class="d-inline-flex">
+                                        <!-- Tombol Edit -->
+                                        <a href="{{ route('guru.tugas.edit', $siswas->id) }}" class="btn btn-sm btn-warning mr-2">
+                                            <i class="fa fa-edit"></i> 
+                                        </a>
+                                        <!-- Tombol Hapus -->
+                                        <form id="delete-form-{{ $siswas->id }}" action="{{ route('guru.tugas.destroy', $siswas->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-sm btn-danger delete-btn" onclick="confirmDelete('{{ $siswas->id }}')">
+                                                <i class="fas fa-trash-alt"></i> 
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

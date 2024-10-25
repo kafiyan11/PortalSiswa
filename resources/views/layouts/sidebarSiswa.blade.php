@@ -20,7 +20,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Route::currentRouteName() == 'siswa.tugas' ? 'active' : '' }}" href="{{ route('siswa.tugas') }}">
+                <a class="nav-link {{ Route::currentRouteName() == 'siswa.box' ? 'active' : '' }}" href="{{ route('siswa.box') }}">
                     <i class="fas fa-tasks me-2"></i>
                     Tugas
                 </a>
@@ -87,7 +87,7 @@
                 </li>
 
                 <li class="nav-item d-lg-none">
-                    <a class="nav-link" href="{{ route('siswa.tugas') }}">
+                    <a class="nav-link" href="{{ route('siswa.box') }}">
                         <i class="fas fa-tasks me-2"></i>
                         Tugas
                     </a>
