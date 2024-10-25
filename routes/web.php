@@ -26,6 +26,7 @@ use App\Http\Controllers\CommentGuruController;
 use App\Http\Controllers\MateriAdminController;
 use App\Http\Controllers\NIlaidiGuruController;
 use App\Http\Controllers\ProfileGuruController;
+use App\Http\Controllers\TambahAdminController;
 use App\Http\Controllers\TambahTugasController;
 use App\Http\Controllers\CommentSiswaController;
 use App\Http\Controllers\ProfileAdminController;
@@ -88,6 +89,14 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
     });
 
     
+
+    //tambah akun
+    Route::get('/admin-tambahadmin',[TambahAdminController::class, 'index'])->name('tambah.admin');
+    Route::get('/admin-create-admin',[TambahAdminController::class, 'create'])->name('create.admin');
+    Route::post('/admin-store-admin',[TambahAdminController::class, 'store'])->name('store.admin');
+    Route::get('/admin-edit/admin/{id}',[TambahAdminController::class, 'edit'])->name('edit.admin');
+    Route::put('/admin-update/admin{id}',[TambahAdminController::class, 'update'])->name('update.admin');
+    Route::delete('/admin-delete/admin/{id}',[TambahAdminController::class, 'delete'])->name('delete.admin');
 
     //tambah akun
     Route::get('/admin-tambahsiswa',[TambahController::class, 'index'])->name('tambah');
@@ -183,13 +192,17 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
     Route::get('/siswa-profil', [SiswaController::class, 'profil'])->name('siswa.profiles.profil');
     Route::get('/siswa-materi', [SiswaController::class, 'materi'])->name('siswa.materi');
     Route::get('/siswa-jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
+
     Route::get('/siswa-lihatNilai', [ScoreController::class, 'lihatNilai'])->name('siswa.lihatNilai');
     Route::get('/siswa-tugas', [SiswaController::class, 'tugas'])->name('siswa.tugas');
+    Route::get('/siswa-tugas/{id_mapel}', [SiswaController::class, 'lihatTugasSiswa'])->name('siswa.tugas');
     Route::get('/siswa-nilai', [ScoreController::class, 'wujud'])->name('siswa.wujud');
     Route::get('/siswa-forum', [PostController::class, 'tampil'])->name('siswa.forumdiskusi');
     
     //tampilan mata pelajaran
-    Route::get('/siswa-matapelajaran', [SiswaController::class, 'materii'])->name('siswa.coba');
+    Route::get('/siswa-materi-matapelajaran', [SiswaController::class, 'materii'])->name('siswa.coba');
+
+    Route::get('/siswa-tugas-matapelajaran', [SiswaController::class, 'tugass'])->name('siswa.box');
 
     //profile
     Route::get('siswa/profiles', [ProfileController::class, 'show'])->name('siswa.profiles.show');

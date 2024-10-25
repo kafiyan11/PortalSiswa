@@ -64,11 +64,32 @@
                                                         </a>
                                                     </div>
                                                 @else
-                                                    <a href="{{ $item->link_youtube }}" target="_blank" class="btn btn-outline-dark btn-sm">
-                                                        <i class="fab fa-youtube me-1"></i> Tonton Video
-                                                    </a>
+                                                    @if (Str::contains($item->link_youtube, 'youtube.com') || Str::contains($item->link_youtube, 'youtu.be'))
+                                                        @php
+                                                            // Mendapatkan video ID dari link YouTube
+                                                            $youtubeUrl = $item->link_youtube;
+                                                            $videoId = null;
+                                                            if (preg_match('/(youtube\.com.*(\?v=|\/embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/', $youtubeUrl, $matches)) {
+                                                                $videoId = $matches[3];
+                                                            }
+                                                        @endphp
+                                                        @if($videoId)
+                                                            <div class="embed-responsive embed-responsive-16by9">
+                                                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allowfullscreen></iframe>
+                                                            </div>
+                                                        @else
+                                                            <a href="{{ $item->link_youtube }}" target="_blank" class="btn btn-outline-dark btn-sm">
+                                                                <i class="fab fa-youtube me-1"></i> Tonton Video
+                                                            </a>
+                                                        @endif
+                                                    @else
+                                                        <a href="{{ $item->link_youtube }}" target="_blank" class="btn btn-outline-dark btn-sm">
+                                                            <i class="fab fa-youtube me-1"></i> Tonton Video
+                                                        </a>
+                                                    @endif
                                                 @endif
                                             </td>
+
                                         </tr>
                                     @endforeach
                                 </tbody>

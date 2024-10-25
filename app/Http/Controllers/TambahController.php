@@ -62,9 +62,10 @@ class TambahController extends Controller
             'name' => 'required|string|max:255',
             'nis' => 'required|string|max:255|unique:users,nis',
             'password' => 'required|string|min:6|confirmed',
-            // Tambahkan validasi untuk 'alamat', 'nohp', 'kelas' jika diperlukan
+            'kelas' => 'nullable|string|max:50', // Tambahkan validasi untuk 'kelas'
+            // Tambahkan validasi untuk 'alamat', 'nohp' jika diperlukan
         ]);
-
+    
         // Buat pengguna baru menggunakan mass assignment
         User::create([
             'name' => $request->name,
@@ -72,12 +73,13 @@ class TambahController extends Controller
             'password' => Hash::make($request->password),
             'plain_password' => $request->password, // Menyimpan plain password jika diperlukan
             'role' => 'Siswa',
+            'kelas' => $request->kelas, // Tambahkan kelas jika ada
             // Tambahkan field lain jika ada di form
         ]);
-
+    
         // Mengosongkan cache jumlah siswa karena data telah berubah
         Cache::forget('total_siswa_count');
-
+    
         return redirect()->route('tambah')->with('success', 'Akun siswa berhasil ditambahkan');
     }
 
@@ -114,35 +116,37 @@ class TambahController extends Controller
     {
         // Cari pengguna berdasarkan ID
         $user = User::findOrFail($id);
-
+    
         // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
             'nis' => 'required|string|max:255|unique:users,nis,' . $id,
             'password' => 'nullable|string|min:6|confirmed',
-            // Tambahkan validasi untuk 'alamat', 'nohp', 'kelas' jika diperlukan
+            'kelas' => 'nullable|string|max:50', // Tambahkan validasi untuk 'kelas'
+            // Tambahkan validasi untuk 'alamat', 'nohp' jika diperlukan
         ]);
-
+    
         // Siapkan data yang akan diupdate
         $updateData = [
             'name' => $request->name,
             'nis' => $request->nis,
             'role' => 'Siswa',
+            'kelas' => $request->kelas, // Tambahkan kelas jika ada
             // Tambahkan field lain jika ada di form
         ];
-
+    
         // Jika password diisi, tambahkan ke data yang diupdate
         if ($request->filled('password')) {
-            $updateData['password'] = $request->password; // Mutator akan meng-hash otomatis
-            $updateData['plain_password'] = $request->password; // Mutator akan mengenkripsi otomatis
+            $updateData['password'] = Hash::make($request->password);
+            $updateData['plain_password'] = $request->password;
         }
-
+    
         // Update data pengguna
         $user->update($updateData);
-
+    
         // Mengosongkan cache jumlah siswa karena data telah berubah
         Cache::forget('total_siswa_count');
-
+    
         return redirect()->route('tambah')->with('success', 'Akun siswa berhasil diedit');
     }
 

@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\tugas;
+use App\Models\NamaMateri;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 
 class TambahTugasController extends Controller
 {
     public function tugas()
     {
-        $siswa = Tugas::paginate(2);
+        $siswa = Tugas::with('mapel')->paginate(2);
         return view('guru.tugas.tugas', ['siswa' => $siswa]);
     }
 
-    public function tambah_tugas(){
-        return view('guru.tugas.addTugas');
+    public function tambah_tugas()
+    {
+        $mapel = NamaMateri::all(); // Mengambil semua data dari tabel Mapel
+        return view('guru.tugas.addTugas',compact('mapel'));
     }
    
     public function create(Request $request)
@@ -26,26 +30,34 @@ class TambahTugasController extends Controller
             'nis' => 'required|unique:tugas,nis',
             'nama' => 'required|string|max:255',
             'kelas' => 'required|string|max:255',
-            'gambar_tugas' => 'nullable|mimes:jpeg,png,pdf,jpg,gif,svg|max:40048', // 10MB max
+            'id_mapel' => 'required|exists:mapel,id_mapel', // Validasi mapel
+            'gambar_tugas' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:10048', // 2MB max
         ]);
-    
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-    
-        // Ambil semua data dari request
-        $data = $request->all();
-    
+        
         // Proses upload gambar
-        if ($request->hasFile('gambar_tugas')) {
-            $fileName = time() . '.' . $request->file('gambar_tugas')->extension();
-            $request->file('gambar_tugas')->move(public_path('gambar_tugas'), $fileName);
-            $data['gambar_tugas'] = $fileName;
+        {
+            $data = $request->all();
+    
+            if ($request->file('gambar_tugas')) {
+                $fileName = time().'.'.$request->gambar_tugas->extension();
+                $request->gambar_tugas->move(public_path('gambar_tugas'), $fileName);
+                $data['gambar_tugas'] = $fileName;
+            }
+            Tugas::create($data);
+            return redirect()->route('guru.tugas.tugas')->with('success', 'Student created successfully.');
         }
-    
         // Simpan data ke database
-        Tugas::create($data);
-    
+        Tugas::create([
+            'nis' => $request->input('nis'),
+            'nama' => $request->input('nama'),
+            'kelas' => $request->input('kelas'),
+            'gambar_tugas' => isset($newName) ? $newName : null,
+        ]);
+
         return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil ditambahkan!');
     }
     
@@ -65,7 +77,6 @@ class TambahTugasController extends Controller
     
         // Hapus data dari database
         $tugas->delete();
-    
         return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil dihapus!');
     }
     
@@ -74,7 +85,8 @@ class TambahTugasController extends Controller
     public function edit($id)
     {
     $siswa = tugas::findOrFail($id);
-    return view('guru.tugas.editTugas', compact('siswa'));
+    $mapel = NamaMateri::all(); // Mengambil semua data mapel dari tabel mapel
+    return view('guru.tugas.editTugas', compact('siswa', 'mapel'));
     }
     
 
@@ -86,6 +98,7 @@ class TambahTugasController extends Controller
         'nis' => 'required|string|max:255',
         'nama' => 'required|string|max:255',
         'kelas' => 'required|string|max:255',
+        'id_mapel' => 'required|exists:mapel,id_mapel', // Validasi mapel
         'gambar_tugas' => 'nullable|image|mimes:jpeg,png,pdf,jpg,gif,svg|max:40048',
     ]);
 
@@ -119,6 +132,5 @@ class TambahTugasController extends Controller
         $siswa = tugas::where('nis', 'like', '%'.$data.'%')->paginate(2);
 
     return view('guru.tugas.tugas', compact('siswa'));
-}
-
     }
+}

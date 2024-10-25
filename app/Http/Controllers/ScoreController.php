@@ -32,9 +32,10 @@ class ScoreController extends Controller
             $score->average_score = $score->total_score / 3; // Calculate average score
             return $score;
         });
+        $totalUts = Score::sum('midterm_test_score'); // Sesuaikan nama kolom jika diperlukan
+        $totalUas = Score::sum('final_test_score'); // Sesuaikan nama kolom jika diperlukan
     
-        return view('admin.scores.index', compact('scores'));
-    }
+        return view('admin.scores.index', compact('scores', 'totalUts', 'totalUas'));    }
 
 
     public function create()

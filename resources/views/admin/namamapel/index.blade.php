@@ -1,6 +1,9 @@
 <head>
     <title>Daftar Mata Pelajaran | Portal Siswa</title>
-</head>@extends('layouts.app')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -22,7 +25,7 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Nama Pelajaran</th>
                 <th>Icon</th>
                 <th>Aksi</th>
@@ -35,11 +38,15 @@
                 <td>{{ $item->nama_mapel }}</td>
                 <td><img src="{{ asset('storage/' . $item->icon) }}" alt="Icon" width="50"></td>
                 <td>
-                    <a href="{{ route('namamapel.edit', $item->id_mapel) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{{ route('namamapel.edit', $item->id_mapel) }}" class="btn btn-warning btn-sm">
+                        <i class="fa fa-edit"></i>
+                    </a>
                     <form action="{{ route('namamapel.destroy', $item->id_mapel) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">
+                            <i class="fa fa-trash-alt"></i>
+                        </button>
                     </form>
                 </td>
             </tr>

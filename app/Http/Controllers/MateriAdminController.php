@@ -33,45 +33,52 @@ class MateriAdminController extends Controller
      * Store a new Materi in storage.
      */
     public function storeAdmin(Request $request)
-    {
-        // Validate the request including id_mapel
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'id_mapel' => 'required|integer|exists:mapel,id_mapel', // Pastikan ini benar
-            'kelas' => 'required|string|max:255',
-            'tipe' => 'required|string|in:gambar,youtube',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'link_youtube' => 'nullable|url',
-        ]);
+{
+    // Validate the request including id_mapel
+    $request->validate([
+        'judul' => 'required|string|max:255',
+        'id_mapel' => 'required|integer|exists:mapel,id_mapel',
+        'kelas' => 'required|string|max:255',
+        'tipe' => 'required|string|in:gambar,youtube',
+        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'link_youtube' => [
+            'required',
+            'url',
+            'regex:/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/', // Validasi hanya untuk link YouTube
+        ], 
+    ], [
+        'link_youtube.regex' => 'Hanya link dari YouTube yang diizinkan.',
+    ]);
 
-        // Ensure that the 'tipe' matches the provided data
-        if ($request->tipe === 'gambar' && !$request->hasFile('gambar')) {
-            return back()->withErrors(['gambar' => 'Anda harus mengunggah gambar untuk tipe gambar.']);
-        }
-
-        if ($request->tipe === 'youtube' && !$request->link_youtube) {
-            return back()->withErrors(['link_youtube' => 'Anda harus memasukkan link YouTube untuk tipe YouTube.']);
-        }
-
-        // Handle file upload if present
-        $gambarPath = null;
-        if ($request->hasFile('gambar')) {
-            // Store the image in 'public/materi' directory
-            $gambarPath = $request->file('gambar')->store('materi', 'public');
-        }
-
-        // Create the Materi record
-        Materi::create([
-            'judul' => $request->judul,
-            'id_mapel' => $request->id_mapel,
-            'kelas' => $request->kelas,
-            'gambar' => $gambarPath,
-            'link_youtube' => $request->link_youtube,
-            'tipe' => $request->tipe,
-        ]);
-
-        return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil diunggah.');
+    // Pastikan tipe dan input sesuai
+    if ($request->tipe === 'gambar' && !$request->hasFile('gambar')) {
+        return back()->withErrors(['gambar' => 'Anda harus mengunggah gambar untuk tipe gambar.']);
     }
+
+    if ($request->tipe === 'youtube' && !$request->link_youtube) {
+        return back()->withErrors(['link_youtube' => 'Anda harus memasukkan link YouTube untuk tipe YouTube.']);
+    }
+
+    // Handle file upload if present
+    $gambarPath = null;
+    if ($request->hasFile('gambar')) {
+        // Store the image in 'public/materi' directory
+        $gambarPath = $request->file('gambar')->store('materi', 'public');
+    }
+
+    // Create the Materi record
+    Materi::create([
+        'judul' => $request->judul,
+        'id_mapel' => $request->id_mapel,
+        'kelas' => $request->kelas,
+        'gambar' => $gambarPath,
+        'link_youtube' => $request->link_youtube,
+        'tipe' => $request->tipe,
+    ]);
+
+    return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil diunggah.');
+}
+
 
     /**
      * Show the form to edit existing Materi.

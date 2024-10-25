@@ -36,27 +36,31 @@ class SiswaController extends Controller
         // Mengirimkan data materi ke view
         return view('siswa.materi', ['materi' => $materi]);
     }
-
     public function jadwal()
     {
         // Mendapatkan hari ini dalam bahasa Indonesia
         $hariIni = Carbon::now()->locale('id')->translatedFormat('l');
-    
+        
         // Mendapatkan status minggu ganjil/genap
         $minggu = $this->getGanjilGenapFromTanggal(now());
     
         // Mengambil ID kelas dari user yang sedang login
-        $kelasSiswa = Auth::User()->kelas;
+        $kelasSiswa = Auth::user()->kelas;
     
-        // Mendapatkan semua jadwal sesuai hari ini, minggu ganjil/genap, dan kelas siswa
-        $jadwals = Jadwal::where('hari', $hariIni)
-                        ->where('ganjil_genap', $minggu)
+        // Mendapatkan tanggal awal dan akhir minggu
+        $awalMinggu = Carbon::now()->startOfWeek(); // Awal minggu (Senin)
+        $akhirMinggu = Carbon::now()->endOfWeek(); // Akhir minggu (Minggu)
+    
+        // Mengambil semua jadwal sesuai rentang tanggal, minggu ganjil/genap, dan kelas siswa
+        $jadwals = Jadwal::where('ganjil_genap', $minggu)
                         ->where('kelas', $kelasSiswa)
+                        ->whereBetween('tanggal', [$awalMinggu, $akhirMinggu]) // Pastikan ada kolom tanggal di tabel jadwal
                         ->get();
     
         // Menampilkan jadwal di view
         return view('siswa.jadwal', compact('jadwals', 'hariIni', 'minggu'));
     }
+    
     
 
     // Method untuk menentukan ganjil atau genap berdasarkan tanggal
@@ -89,6 +93,43 @@ class SiswaController extends Controller
 
         return view('siswa.tugas', compact('tugas'));
     }
+
+    public function tugass(){
+        $tugas = Tugas::where('nis', Auth::user()->nis)->get();
+        $tugas = NamaMateri::all(); // Mengambil semua data materi
+        return view('siswa.boxTugas', compact('tugas')); // Mengembalikan view dengan data materi
+        
+    }
+    public function lihatTugasSiswa($id_mapel)
+    {
+        $user = Auth::user();
+    
+        // Pastikan pengguna terautentikasi
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Silakan login untuk mengakses halaman ini.');
+        }
+    
+        // Ambil kelas dari pengguna yang terautentikasi
+        $kelas = $user->kelas;
+    
+        // Ambil input pencarian dari request
+        $search = request('search');
+    
+        // Ambil materi yang sesuai dengan kelas pengguna dan id_mapel yang diberikan, serta filter pencarian berdasarkan judul saja
+        $tugasQuery = tugas::where('kelas', $kelas)
+                            ->where('id_mapel', $id_mapel)
+                            ->when($search, function ($query) use ($search) {
+                                // Filter berdasarkan judul saja
+                                return $query->where('judul', 'like', '%' . $search . '%');
+                            });
+    
+        // Paginasi dengan 5 item per halaman
+        $tugas = $tugasQuery->paginate(4)->appends(['search' => $search]);
+    
+        // Kirim variabel 'materi', 'kelas', 'search', dan 'id_mapel' ke view
+        return view('siswa.tugas', compact('tugas', 'kelas', 'search', 'id_mapel'));
+    }
+    
 
     public function forum()
     {

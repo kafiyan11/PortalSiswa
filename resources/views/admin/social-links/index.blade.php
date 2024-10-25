@@ -12,7 +12,7 @@
         <div class="col-md-10">
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h4 class="mb-0">Tautan Media Sosial Kami</h4>
+                    <h4 class="mb-0">Pengaturan</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

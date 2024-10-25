@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Siswa | Portal Siswa</title>
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
@@ -92,6 +93,7 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>NIS</th>
+                            <th>Kelas</th>
                             <th>Password</th>
                             <th>Role</th>
                             <th>Aksi</th>
@@ -105,6 +107,7 @@
                                 <td>{{ ($data->currentPage()-1) * $data->perPage() + $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->nis }}</td>
+                                <td>{{ $item->kelas }}</td>
                                 <td>{{ $item->plain_password }}</td>
                                 <td>
                                     <span class="badge 
@@ -118,13 +121,13 @@
                                 </td>
                                 <td class="d-flex justify-content-center">
                                     <a href="{{ route('edit', $item->id) }}" class="btn btn-warning btn-sm mr-2">
-                                        <i class="fas fa-edit"></i> Edit
+                                        <i class="fas fa-edit"></i>
                                     </a>
                                     <form id="form-delete-{{ $item->id }}" action="{{ route('delete', $item->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="{{ $item->id }}">
-                                            <i class="fas fa-trash-alt"></i> Hapus
+                                            <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>

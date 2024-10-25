@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Jadwal;
+use App\Models\NamaMateri;
 use App\Models\User;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 
 class JadwalController extends Controller
 {
-    // Menampilkan daftar jadwal di admin
     public function index()
     {
-        $jadwals = Jadwal::all()->groupBy(function($item) {
-            return $item->kelas . '-' . $item->ganjil_genap; // Mengelompokkan berdasarkan kelas dan ganjil/genap
+        $jadwals = Jadwal::with(['guru', 'materi'])->get(); // Pastikan memuat relasi guru dan materi
+        
+    
+        // Mengelompokkan jadwal berdasarkan kelas dan ganjil/genap
+        $jadwals = $jadwals->groupBy(function($item) {
+            return $item->kelas . '-' . $item->ganjil_genap; 
         });
     
         return view('admin.jadwal.index', compact('jadwals'));
@@ -25,7 +29,10 @@ class JadwalController extends Controller
     // Menampilkan formulir untuk membuat jadwal baru
     public function create()
     {
-        return view('admin.jadwal.create');
+        $mapel = NamaMateri::all();
+        $gurus = User::withRole('Guru')->get();
+
+        return view('admin.jadwal.create',compact('mapel','gurus'));
     }
 
     // Menyimpan jadwal baru ke database
@@ -55,7 +62,11 @@ class JadwalController extends Controller
     public function edit($id)
     {
         $jadwal = Jadwal::findOrFail($id);
-        return view('admin.jadwal.edit', compact('jadwal'));
+        $mapel = NamaMateri::all();
+        $gurus = User::withRole('Guru')->get();
+
+
+        return view('admin.jadwal.edit', compact('jadwal','mapel','gurus'));
     }
 
     // Memperbarui jadwal yang ada di database

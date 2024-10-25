@@ -43,12 +43,18 @@ class MateriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'id_mapel' => 'required|integer|exists:mapel,id_mapel', // Validasi id_mapel
+           'judul' => 'required|string|max:255',
+            'id_mapel' => 'required|integer|exists:mapel,id_mapel',
             'kelas' => 'required|string|max:255',
             'tipe' => 'required|string|in:gambar,youtube',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'link_youtube' => 'nullable|url',
+            'link_youtube' => [
+                'required',
+                'url',
+                'regex:/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/', // Validasi hanya untuk link YouTube
+            ], 
+        ], [
+            'link_youtube.regex' => 'Hanya link dari YouTube yang diizinkan.',
         ]);
 
         // Validasi bahwa salah satu harus diisi
@@ -92,12 +98,18 @@ class MateriController extends Controller
     {
         // Validasi input
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'id_mapel' => 'required|integer|exists:mapel,id_mapel', // Validasi id_mapel
+           'judul' => 'required|string|max:255',
+            'id_mapel' => 'required|integer|exists:mapel,id_mapel',
             'kelas' => 'required|string|max:255',
             'tipe' => 'required|string|in:gambar,youtube',
-            'gambar' => 'nullable|image|max:2048',
-            'link_youtube' => 'nullable|url',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'link_youtube' => [
+                'required',
+                'url',
+                'regex:/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/', // Validasi hanya untuk link YouTube
+            ], 
+        ], [
+            'link_youtube.regex' => 'Hanya link dari YouTube yang diizinkan.',
         ]);
         
     

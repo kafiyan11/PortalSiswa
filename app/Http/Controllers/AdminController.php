@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Materi;
 use App\Models\tugas;
+use App\Models\NamaMateri;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,11 +44,19 @@ class AdminController extends Controller
             ->groupBy('nis')
             ->pluck('average_score');
     
+        // Menghitung jumlah total orang tua dengan cache untuk optimasi
+        $totalAdmin = Cache::remember('total_admin_count', 60, function () {
+            return User::where('role', 'Admin')->count();
+        });
+
         return view('admin.dashboard', [
             'totalSiswa' => $totalSiswa,
             'totalGuru' => $totalGuru,
             'totalOrangTua' => $totalOrangTua,
             'averageScores' => $averageScores,
+
+            'totalAdmin' => $totalAdmin,
+            // Tambahkan data lain yang diperlukan untuk dashboard
         ]);
     }
     
@@ -143,14 +152,15 @@ class AdminController extends Controller
     //TUGAS
     public function tugas()
     {
-        $siswa = Tugas::paginate(2);
-        return view('admin.tugas.index', ['siswa' => $siswa]);
+        $siswa = Tugas::with('mapel')->paginate(2); // Mengambil data dengan relasi mapel
+        return view('admin.tugas.index', ['siswa' => $siswa]); // Mengembalikan ke view
     }
 
-    public function tambah_tugas(){
-        return view('admin.tugas.create');
+    public function tambah_tugas()
+    {
+        $mapel = NamaMateri::all(); // Mengambil semua data dari tabel Mapel
+        return view('admin.tugas.create', compact('mapel'));
     }
-   
     public function create(Request $request)
     {
         // Validasi input
@@ -158,13 +168,14 @@ class AdminController extends Controller
             'nis' => 'required|unique:tugas,nis',
             'nama' => 'required|string|max:255',
             'kelas' => 'required|string|max:255',
+            'id_mapel' => 'required|exists:mapel,id_mapel', // Validasi mapel
             'gambar_tugas' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:10048', // 2MB max
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        // dd($request->all());
+
         // Proses upload gambar
         {
             $data = $request->all();
@@ -195,8 +206,14 @@ class AdminController extends Controller
         if (!$tugas) {
             return redirect()->route('admin.tugas.index')->with('error', 'Data tidak ditemukan!');
         }
+
+        // Hapus gambar jika ada
+        if ($tugas->gambar_tugas && file_exists(public_path('gambar_tugas/' . $tugas->gambar_tugas))) {
+            unlink(public_path('gambar_tugas/' . $tugas->gambar_tugas));
+        }
+
         $tugas->delete();
-            return redirect()->route('admin.tugas.index')->with('success', 'Data berhasil dihapus!');
+        return redirect()->route('admin.tugas.index')->with('success', 'Data berhasil dihapus!');
     }
 
     
@@ -204,18 +221,20 @@ class AdminController extends Controller
     public function editTugas_Admin($id)
     {
     $siswa = tugas::findOrFail($id);
-    return view('admin.tugas.edit', compact('siswa'));
+    $mapel = NamaMateri::all(); // Mengambil semua data mapel dari tabel mapel
+    return view('admin.tugas.edit', compact('siswa', 'mapel'));
     }
     
 
 
     //update siswa
-    public function updateTugass(Request $request, $id)
+    public function updateTugass(Request $request, $id) 
     {
     $validatedData = $request->validate([
         'nis' => 'required|string|max:255',
         'nama' => 'required|string|max:255',
         'kelas' => 'required|string|max:255',
+        'id_mapel' => 'required|exists:mapel,id_mapel', // Validasi mapel
         'gambar_tugas' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10048',
     ]);
 
@@ -243,9 +262,10 @@ class AdminController extends Controller
 
     return redirect()->route('admin.tugas.index')->with('success', 'Data berhasil diubah!');
     }
+
     public function cari(Request $request){
         $data = $request->input('cari');
-        $siswa = tugas::where('nis', 'like', '%'.$data.'%')->paginate(10);
+        $siswa = tugas::where('nis', 'like', '%'.$data.'%')->paginate(2);
 
     return view('admin.tugas.index', compact('siswa'));
     }

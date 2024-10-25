@@ -1,6 +1,4 @@
-<head>
-    <title>Tambah Data Orang Tua | Portal Siswa</title>
-</head>@extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -45,6 +43,7 @@
                     </div>
                 @enderror
             </div>
+
             <!-- NIS -->
             <div class="mb-3">
                 <label for="nis" class="form-label">NIS</label>
@@ -63,6 +62,7 @@
                     </div>
                 @enderror
             </div>
+
             <!-- Password -->
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
@@ -80,6 +80,7 @@
                     </div>
                 @enderror
             </div>
+
             <!-- Konfirmasi Password -->
             <div class="mb-3">
                 <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
@@ -97,6 +98,30 @@
                     </div>
                 @enderror
             </div>
+
+            <!-- Dropdown Siswa -->
+            <div class="mb-3">
+                <label for="students" class="form-label">Siswa Terkait</label>
+                <select 
+                    class="form-select @error('students') is-invalid @enderror" 
+                    id="students" 
+                    name="students[]" 
+                    multiple
+                >
+                    @foreach($students as $student)
+                        <option value="{{ $student->id }}" {{ in_array($student->id, old('students', [])) ? 'selected' : '' }}>
+                            {{ $student->name }} ({{ $student->nis }})
+                        </option>
+                    @endforeach
+                </select>
+                @error('students')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+                <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.</small>
+            </div>
+
             <!-- Tombol Submit dan Kembali -->
             <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="{{ route('ortu') }}" class="btn btn-secondary">Kembali</a>

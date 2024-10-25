@@ -26,4 +26,9 @@ class NamaMateri extends Model
     // {
     //     return $this->hasMany(Score::class, 'mata_pelajaran_id', 'id_mapel'); // Change this to match your score's foreign key
     // }
+    public function tugas()
+    {
+        return $this->hasMany(Tugas::class, 'id_mapel', 'id_mapel');
+    }
+
 }

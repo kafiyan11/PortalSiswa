@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin</title>
+    <title>Beranda Admin | Portal Siswa</title>
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -157,6 +158,7 @@
                             <i class="fas fa-plus me-2"></i> Tambah Akun
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="tambahAkunDropdown">
+                            <li><a class="dropdown-item" href="{{ route('tambah.admin') }}"><i class="fas fa-user-shield me-2"></i> Data Admin</a></li>
                             <li><a class="dropdown-item" href="{{ route('tambah') }}"><i class="fas fa-user-graduate me-2"></i> Data Siswa</a></li>
                             <li><a class="dropdown-item" href="{{ route('tambahguru') }}"><i class="fas fa-chalkboard-teacher me-2"></i> Data Guru</a></li>
                             <li><a class="dropdown-item" href="{{ route('ortu') }}"><i class="fas fa-user-friends me-2"></i> Data Orang Tua</a></li>
@@ -208,9 +210,22 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Dashboard</h1>
+                <p>Selamat Datang {{ Auth::user()->name }}</p>
             </div>
-
+            <br>
             <div class="row">
+                <!-- Mengubah box Total Admin -->
+                <div class="col-md-4 mb-4">
+                    <div class="card metrics-card bg-warning text-white"> <!-- Ubah warna latar belakang menjadi bg-warning -->
+                        <div class="card-body">
+                            <div>
+                                <h2>{{ $totalAdmin }}</h2>
+                                <p>Total Admin</p>
+                            </div>
+                            <i class="fas fa-user-shield"></i> <!-- Mengganti ikon menjadi fas fa-user-shield -->
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-4 mb-4">
                     <div class="card metrics-card bg-primary text-white">
                         <div class="card-body">
@@ -233,6 +248,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Mengubah box Total Orang Tua -->
                 <div class="col-md-4 mb-4">
                     <div class="card metrics-card bg-info text-white">
                         <div class="card-body">
@@ -240,7 +256,7 @@
                                 <h2>{{ $totalOrangTua }}</h2>
                                 <p>Total Orang Tua</p>
                             </div>
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-users"></i> <!-- Mengganti ikon menjadi fas fa-users -->
                         </div>
                     </div>
                 </div>
@@ -287,6 +303,13 @@
     </script>
 </div>
 
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <canvas id="userChart"></canvas> <!-- Tempat grafik Chart.js -->
+                </div>
+            </div>
         </main>
     </div>
 </div>
@@ -294,80 +317,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-<!-- Tambahkan skrip untuk grafik -->
-<script>
-    const ctx = document.getElementById('userChart').getContext('2d');
-    const userChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Siswa', 'Guru', 'Orang Tua'],
-            datasets: [{
-                label: 'Jumlah',
-                data: [{{ $totalSiswa }}, {{ $totalGuru }}, {{ $totalOrangTua }}],
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.6)', // Updated opacity for better visibility
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)'
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)'
-                ],
-                borderWidth: 2, // Increased border width for better definition
-                barThickness: 50, // Adjusted bar thickness for better visualization
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false, // Allows the chart to occupy full height of the container
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Jenis Pengguna', // Added X-axis title
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        }
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Jumlah', // Added Y-axis title
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        }
-                    },
-                    ticks: {
-                        stepSize: 1 // Adjust step size if necessary
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    position: 'top', // Position the legend at the top
-                    labels: {
-                        font: {
-                            size: 14,
-                            weight: 'bold'
-                        }
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return tooltipItem.dataset.label + ': ' + tooltipItem.raw; // Customized tooltip
-                        }
-                    }
-                }
-            }
-        }
-    });
-</script>
 
 
 </body>
