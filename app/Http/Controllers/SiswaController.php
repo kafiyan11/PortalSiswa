@@ -90,6 +90,43 @@ class SiswaController extends Controller
         return view('siswa.tugas', compact('tugas'));
     }
 
+    public function tugass(){
+        $tugas = Tugas::where('nis', Auth::user()->nis)->get();
+        $tugas = NamaMateri::all(); // Mengambil semua data materi
+        return view('siswa.boxTugas', compact('tugas')); // Mengembalikan view dengan data materi
+        
+    }
+    public function lihatTugasSiswa($id_mapel)
+    {
+        $user = Auth::user();
+    
+        // Pastikan pengguna terautentikasi
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Silakan login untuk mengakses halaman ini.');
+        }
+    
+        // Ambil kelas dari pengguna yang terautentikasi
+        $kelas = $user->kelas;
+    
+        // Ambil input pencarian dari request
+        $search = request('search');
+    
+        // Ambil materi yang sesuai dengan kelas pengguna dan id_mapel yang diberikan, serta filter pencarian berdasarkan judul saja
+        $tugasQuery = tugas::where('kelas', $kelas)
+                            ->where('id_mapel', $id_mapel)
+                            ->when($search, function ($query) use ($search) {
+                                // Filter berdasarkan judul saja
+                                return $query->where('judul', 'like', '%' . $search . '%');
+                            });
+    
+        // Paginasi dengan 5 item per halaman
+        $tugas = $tugasQuery->paginate(4)->appends(['search' => $search]);
+    
+        // Kirim variabel 'materi', 'kelas', 'search', dan 'id_mapel' ke view
+        return view('siswa.tugas', compact('tugas', 'kelas', 'search', 'id_mapel'));
+    }
+    
+
     public function forum()
     {
         $posts = Post::with(['user', 'comments.replies.user'])->latest()->get();

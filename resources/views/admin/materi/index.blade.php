@@ -6,6 +6,7 @@
     <title>Data Materi Siswa | Portal Siswa</title>
     <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
     <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
@@ -182,19 +183,15 @@
 
                             <!-- Form Pencarian dan Tombol Tambah dalam satu baris -->
                             <div class="d-flex justify-content-between flex-wrap mb-2">
-                                <form action="{{ route('materiAdmin.cari') }}" method="GET" class="input-group mb-2 mb-md-0 search-form">
-                                    <input type="text" name="cari" class="form-control search-input" placeholder="Cari materi..." value="{{ request()->get('cari') }}">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary search-btn" type="submit">
-                                            <i class="fas fa-search"></i> Cari
-                                        </button>
-                                    </div>
+                                <form action="{{ route('materiAdmin.cari') }}" method="GET" class="input-group mb-2 mb-md-0">
+                                    <input type="text" name="cari" class="form-control form-control-sm" placeholder="Cari materi..." value="{{ request()->get('cari') }}">
+                                    <button class="btn btn-primary btn-sm" type="submit">
+                                        <i class="bi bi-search"></i> Cari
+                                    </button>
                                 </form>
-                                <div class="mt-2 mt-md-0">
-                                    <a href="{{ route('adminMateri.create') }}" class="btn btn-primary add-btn">
-                                        <i class="fas fa-plus-circle"></i> Tambah Materi
-                                    </a>
-                                </div>
+                                <a href="{{ route('adminMateri.create') }}" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-plus-circle"></i> Tambah Materi
+                                </a>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped">
@@ -203,6 +200,7 @@
                                             <th>NO</th>
                                             <th>Judul</th>
                                             <th>Kelas</th>
+                                            <th>Mata Pelajaran</th>
                                             <th>Materi</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -213,18 +211,42 @@
                                                 <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
                                                 <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
                                                 <td>{{ $item->kelas }}</td>
+                                                <td>{{ optional($item->mapel)->nama_mapel }}</td>
                                                 <td>
                                                     @if($item->tipe == 'gambar')
                                                         <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank">
-                                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" class="img-fluid" style="max-width: 100px;">
+                                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
                                                         </a>
                                                     @else
-                                                        <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
+                                                        @if (Str::contains($item->link_youtube, 'youtube.com') || Str::contains($item->link_youtube, 'youtu.be'))
+                                                            @php
+                                                                // Mendapatkan video ID dari link YouTube
+                                                                $youtubeUrl = $item->link_youtube;
+                                                                $videoId = null;
+                                                                if (preg_match('/(youtube\.com.*(\?v=|\/embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/', $youtubeUrl, $matches)) {
+                                                                    $videoId = $matches[3];
+                                                                }
+                                                            @endphp
+                                                            @if($videoId)
+                                                                <iframe width="200" height="150" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allowfullscreen></iframe>
+                                                            @else
+                                                                <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
+                                                            @endif
+                                                        @else
+                                                            <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
+                                                        @endif
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('adminMateri.edit', $item->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $item->id }}')">Hapus</button>
+                                                <div class="d-inline-flex">
+                                                    <a href="{{ route('adminMateri.edit', $item->id) }}" class="btn btn-warning btn-sm mr-2">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $item->id }}')">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </div>
+
                                                     
                                                     <!-- Form tersembunyi untuk menghapus materi -->
                                                     <form id="delete-form-{{ $item->id }}" action="{{ route('adminMateri.destroy', $item->id) }}" method="POST" style="display: none;">

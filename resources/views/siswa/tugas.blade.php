@@ -54,19 +54,15 @@
                     <thead>
                         <tr>
                             <th>NO</th>
-                            <th>NIS</th>
-                            <th>Nama</th>
-                            <th>Kelas</th>
-                            <th>Gambar</th>
+                            <th>Mata Pelajaran</th>
+                            <th>Tugas</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($tugas as $no => $tugasItem)
                         <tr>
                             <td>{{ $no + 1 }}</td>
-                            <td>{{ $tugasItem->nis }}</td>
-                            <td>{{ $tugasItem->nama }}</td>
-                            <td>{{ $tugasItem->kelas }}</td>
+                            <td>{{ optional($tugasItem->mapel)->nama_mapel ?? 'N/A' }}</td>
                             <td>
                                 @if ($tugasItem->gambar_tugas)
                                     <a href="{{ asset('gambar_tugas/' . $tugasItem->gambar_tugas) }}" target="_blank">

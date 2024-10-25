@@ -1,5 +1,5 @@
 <head>
-    <title>Dashboard | Portal Siswa</title>
+    <title>Beranda | Portal Siswa</title>
 </head>@extends('layouts.app')
 
 @section('content')

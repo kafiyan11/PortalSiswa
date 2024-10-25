@@ -141,6 +141,7 @@
                                 <th>NO</th>
                                 <th>Judul</th>
                                 <th>Kelas</th>
+                                <th>Mata Pelajaran</th>
                                 <th>Materi</th>
                                 <th>Aksi</th>
                             </tr>
@@ -151,23 +152,48 @@
                                     <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
                                     <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
                                     <td>{{ $item->kelas }}</td>
+                                    <td>{{ optional($item->mapel)->nama_mapel }}</td>
                                     <td>
                                         @if($item->tipe == 'gambar')
                                             <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank">
-                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
+                                                <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
+                                            </a>
                                         @else
-                                            <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
+                                            @if (Str::contains($item->link_youtube, 'youtube.com') || Str::contains($item->link_youtube, 'youtu.be'))
+                                                @php
+                                                    // Mendapatkan video ID dari link YouTube
+                                                    $youtubeUrl = $item->link_youtube;
+                                                    $videoId = null;
+                                                    if (preg_match('/(youtube\.com.*(\?v=|\/embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/', $youtubeUrl, $matches)) {
+                                                        $videoId = $matches[3];
+                                                    }
+                                                @endphp
+                                                @if($videoId)
+                                                    <iframe width="200" height="150" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allowfullscreen></iframe>
+                                                @else
+                                                    <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
+                                                @endif
+                                            @else
+                                                <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
+                                            @endif
                                         @endif
                                     </td>
+
                                     <td>
-                                        <a href="{{ route('materi.edit', $item->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $item->id }}')">Hapus</button>
-                                        
+                                        <div class="d-inline-flex">
+                                            <a href="{{ route('materi.edit', $item->id) }}" class="btn btn-warning btn-sm mr-2">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $item->id }}')">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                                                                               
                                         <!-- Form tersembunyi untuk menghapus materi -->
                                         <form id="delete-form-{{ $item->id }}" action="{{ route('materi.destroy', $item->id) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
