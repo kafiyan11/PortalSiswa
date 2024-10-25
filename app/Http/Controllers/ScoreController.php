@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\NamaMateri;
 use App\Models\Score;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,14 +40,23 @@ class ScoreController extends Controller
 
     public function create()
     {
-        return view('admin.scores.create');
-    }
+        // Ambil semua data siswa
+        $siswa = User::where('role', 'Siswa')->get();
+        $mapel = NamaMateri::all(); // Ambil semua data mapel (pelajaran)
 
+        return view('admin.scores.create', [
+            'siswa' => $siswa,
+            'mapel' => $mapel,
+        ]);
+    }
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'student_id' => 'required|exists:users,id', // Pastikan student_id valid
+
             'nama' => 'required|string',
             'nis' => 'required|numeric',
+            'id_mapel' => 'required|integer|exists:mapel,id_mapel', // Validasi id_mapel
             'daily_test_score' => 'nullable|numeric', // Allow null
             'midterm_test_score' => 'nullable|numeric', // Allow null
             'final_test_score' => 'nullable|numeric', // Allow null
@@ -58,6 +69,8 @@ class ScoreController extends Controller
     
         // Create the Score entry
         Score::create([
+            'student_id' => $request->student_id,
+
             'nama' => $validated['nama'],
             'nis' => $validated['nis'],
             'daily_test_score' => $dailyTestScore,
@@ -69,10 +82,19 @@ class ScoreController extends Controller
     }
     
 
-    public function edit($id)
+    public function edit(Score $score, $id)
     {
-        $score = Score::findOrFail($id);
-        return view('admin.scores.edit', compact('score'));
+    // Ambil data nilai berdasarkan ID
+    $score = Score::findOrFail($id);
+
+    // Ambil data semua siswa dengan role 'Siswa'
+    $siswa = User::where('role', 'Siswa')->get();
+
+    // Ambil data mapel (mata pelajaran)
+    $mapel = NamaMateri::all();
+
+    // Kirim data ke view
+    return view('admin.scores.edit', compact('score', 'siswa', 'mapel'));
     }
 
     public function update(Request $request, $id)
@@ -129,11 +151,40 @@ class ScoreController extends Controller
     {
         // Mendapatkan NIS dari user yang sedang login
         $nis = Auth::user()->nis;
-
+    
         // Mendapatkan skor berdasarkan NIS
         $scores = Score::where('nis', $nis)->get();
-
-        // Mengirim data skor ke view siswa.nilai
-        return view('siswa.nilai', compact('scores'));
+    
+        // Mendapatkan materi berdasarkan NIS (atau metode lain untuk mendapatkan materi)
+        $materi = NamaMateri::all();
+    
+        // Mengirim data skor dan materi ke view siswa.nilai
+        return view('siswa.nilai', compact('scores', 'materi'));
     }
+    public function lihatNilai(Request $request)
+    {
+        $search = $request->get('cari');
+    
+        // Fetch scores and calculate total score
+        $scoresQuery = Score::selectRaw('*, (daily_test_score + midterm_test_score + final_test_score) as total_score')
+                            ->when($search, function ($query, $search) {
+                                return $query->where('nama', 'LIKE', "%{$search}%")
+                                             ->orWhere('nis', 'LIKE', "%{$search}%");
+                            })
+                            ->orderByDesc('total_score'); // Order by total score (descending for ranking)
+    
+        // Paginate the scores
+        $scores = $scoresQuery->paginate(5);
+    
+        // Add rank and average score to each score in the paginated result
+        $scores->getCollection()->transform(function ($score, $index) use ($scores) {
+            $score->rank = ($scores->currentPage() - 1) * $scores->perPage() + $index + 1; // Calculate rank based on pagination
+            $score->average_score = $score->total_score / 3; // Calculate average score
+            return $score;
+        });
+    
+        return view('siswa.lihatNilai', compact('scores'));
+    }
+
+    
 }

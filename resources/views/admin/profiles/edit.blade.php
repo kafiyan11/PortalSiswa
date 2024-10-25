@@ -13,18 +13,19 @@
 
                 <div class="form-group">
                     <label for="name">Nama Lengkap</label>
-                    <input type="text" name="name" class="form-control" value="{{ Auth::user()->name }}" readonly>
+                    <input type="text" name="name" class="form-control" value="{{ Auth::user()->name }}">
                 </div>
-
+                
                 <div class="form-group">
                     @if(Auth::user()->role === 'Guru')
                         <label for="nip">NIP</label>
-                        <input type="text" name="nip" class="form-control" value="{{ Auth::user()->nis }}" readonly>
+                        <input type="text" name="nip" class="form-control" value="{{ Auth::user()->nip }}">
                     @else
-                        <label for="nis">NIP</label>
-                        <input type="text" name="nis" class="form-control" value="{{ Auth::user()->nis }}" readonly>
+                        <label for="nis">NIS</label>
+                        <input type="text" name="nis" class="form-control" value="{{ Auth::user()->nis }}">
                     @endif
                 </div>
+                
 
 
                 <div class="form-group">

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 use App\Models\Jadwalguru;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,8 +22,10 @@ class JadwalguruController extends Controller
     // Menampilkan formulir untuk membuat jadwal baru
     public function create()
     {
-        return view('admin.jadwalguru.create');
-    }
+        
+            $guruList = User::where('role', 'Guru')->get();
+            return view('admin.jadwalguru.create', compact('guruList'));
+        }
 
     // Menyimpan jadwal baru ke database
     public function store(Request $request)
@@ -50,7 +54,9 @@ class JadwalguruController extends Controller
     public function edit($id)
     {
         $jadwal = Jadwalguru::findOrFail($id);
-        return view('admin.jadwalguru.edit', compact('jadwal'));
+        $guruList = User::where('role', 'Guru')->get(); // Ambil data guru
+    
+        return view('admin.jadwalguru.edit', compact('jadwal', 'guruList'));
     }
 
     // Memperbarui jadwal yang ada di database

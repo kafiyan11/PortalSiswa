@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
@@ -26,16 +28,22 @@ class AdminController extends Controller
         $totalSiswa = Cache::remember('total_siswa_count', 60, function () {
             return User::where('role', 'Siswa')->count();
         });
-
+    
         // Menghitung jumlah total guru dengan cache untuk optimasi
         $totalGuru = Cache::remember('total_guru_count', 60, function () {
             return User::where('role', 'Guru')->count();
         });
-
+    
         // Menghitung jumlah total orang tua dengan cache untuk optimasi
         $totalOrangTua = Cache::remember('total_orangtua_count', 60, function () {
             return User::where('role', 'Orang Tua')->count();
         });
+    
+        // Fetch average scores for all students using the correct column names
+        $averageScores = Tugas::select(DB::raw('AVG(daily_test_score + midterm_test_score + final_test_score) / 3 as average_score'))
+            ->groupBy('nis')
+            ->pluck('average_score');
+    
         // Menghitung jumlah total orang tua dengan cache untuk optimasi
         $totalAdmin = Cache::remember('total_admin_count', 60, function () {
             return User::where('role', 'Admin')->count();
@@ -45,10 +53,16 @@ class AdminController extends Controller
             'totalSiswa' => $totalSiswa,
             'totalGuru' => $totalGuru,
             'totalOrangTua' => $totalOrangTua,
+            'averageScores' => $averageScores,
+
             'totalAdmin' => $totalAdmin,
             // Tambahkan data lain yang diperlukan untuk dashboard
         ]);
     }
+    
+    
+
+
 
 
 

@@ -50,48 +50,42 @@ class ProfileAdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Find the user by ID or fail
-        $user = User::findOrFail($id);
-
-        // Ensure that only the logged-in user can update their own profile
-        if (Auth::user()->id != $id) {
-            return redirect()->route('admin.profiles.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
-        }
-
-        // Validate the request data
+        // Validasi data
         $request->validate([
             'name' => 'required|string|max:255',
-            'kelas' => 'nullable|string|max:50',
+            'nip' => 'nullable|string|max:255', // Untuk Guru
+            'nis' => 'nullable|string|max:255', // Untuk Siswa
+            'nohp' => 'nullable|string|max:20',
             'alamat' => 'nullable|string|max:255',
-            'nohp' => 'nullable|string|max:15',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        // Update user fields
+    
+        // Cari user berdasarkan ID
+        $user = User::findOrFail($id);
+    
+        // Update data
         $user->name = $request->input('name');
-        $user->kelas = $request->input('kelas');
-        $user->alamat = $request->input('alamat');
-        $user->nohp = $request->input('nohp');
-
-        // Handle profile photo
-        if ($request->hasFile('photo')) {
-            // Delete the old photo if it exists
-            if ($user->photo && Storage::exists('public/' . $user->photo)) {
-                Storage::delete('public/' . $user->photo);
-            }
-
-            // Save the new photo
-            $file = $request->file('photo');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('profile_photos', $filename, 'public');
-            $user->photo = $path;
+        
+        if ($user->role === 'Guru') {
+            $user->nip = $request->input('nip'); // Update NIP jika role Guru
+        } else {
+            $user->nis = $request->input('nis'); // Update NIS jika role Siswa
         }
-
-        // Save changes
+    
+        $user->nohp = $request->input('nohp');
+        $user->alamat = $request->input('alamat');
+    
+        // Jika ada file foto yang diunggah
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('profile_photos', 'public');
+            $user->photo = $photoPath;
+        }
+    
+        // Simpan perubahan
         $user->save();
-
-        // Redirect back to the profile page with success message
-        return redirect()->route('admin.profiles.show', $user->id)
-                        ->with('success', 'Profile berhasil di perbarui');
+    
+        // Redirect atau berikan response sesuai kebutuhan
+        return redirect()->route('admin.profiles.show', $id)->with('success', 'Profil berhasil diperbarui!');
     }
+    
 }

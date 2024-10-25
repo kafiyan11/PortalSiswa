@@ -263,6 +263,46 @@
             </div>
 
             <!-- Tambahkan grafik di sini -->
+            <!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container mt-4">
+    <h2 class="text-center">Dashboard Admin</h2>
+
+    <!-- Average Scores Chart -->
+    <canvas id="averageScoresChart" width="400" height="200"></canvas>
+
+    <script>
+        var averageScores = @json($averageScores); // Get average scores from the controller
+        var labels = [...Array(averageScores.length).keys()].map(i => 'Siswa ' + (i + 1)); // Adjust to show student names if available
+
+        // Setup your chart data
+        var data = {
+            labels: labels,
+            datasets: [{
+                label: 'Rata-rata Nilai Siswa',
+                data: averageScores,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false,
+            }]
+        };
+
+        var ctx = document.getElementById('averageScoresChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</div>
+
             <br>
             <br>
             <div class="row">
@@ -277,80 +317,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-<!-- Tambahkan skrip untuk grafik -->
-<script>
-    const ctx = document.getElementById('userChart').getContext('2d');
-    const userChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['UH', 'Guru', 'Orang Tua'],
-            datasets: [{
-                label: 'Jumlah',
-                data: [{{ $totalSiswa }}, {{ $totalGuru }}, {{ $totalOrangTua }}],
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.6)', // Updated opacity for better visibility
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)'
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)'
-                ],
-                borderWidth: 2, // Increased border width for better definition
-                barThickness: 50, // Adjusted bar thickness for better visualization
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false, // Allows the chart to occupy full height of the container
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Jenis Pengguna', // Added X-axis title
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        }
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Jumlah', // Added Y-axis title
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        }
-                    },
-                    ticks: {
-                        stepSize: 1 // Adjust step size if necessary
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    position: 'top', // Position the legend at the top
-                    labels: {
-                        font: {
-                            size: 14,
-                            weight: 'bold'
-                        }
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return tooltipItem.dataset.label + ': ' + tooltipItem.raw; // Customized tooltip
-                        }
-                    }
-                }
-            }
-        }
-    });
-</script>
 
 
 </body>

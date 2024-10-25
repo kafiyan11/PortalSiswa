@@ -49,28 +49,45 @@ class SocialLinkController extends Controller
     }
 
     public function update(Request $request)
-    {
-        $request->validate([
-            'twitter' => 'nullable|url',
-            'facebook' => 'nullable|url',
-            'instagram' => 'nullable|url',
-            'youtube' => 'nullable|url',
-            'alamat' => 'required|string',
-            'telepon' => 'required|string',
-            'email' => 'required|email',
-            'jam_buka' => 'required|string',
-        ]);
-    
-        $socialLinks = SocialLink::first();
-    
-        if (!$socialLinks) {
-            $socialLinks = SocialLink::create($request->all());
-        } else {
-            $socialLinks->update($request->all());
-        }
-    
-        return redirect()->route('social-links.index')->with('success', 'Links updated successfully.');
+{
+    $request->validate([
+        'twitter' => [
+            'nullable', 
+            'url', 
+            'regex:/^(https?:\/\/)?(www\.)?x\.com\/[a-zA-Z0-9_]+$/'
+        ],
+        'facebook' => [
+            'nullable', 
+            'url', 
+            'regex:/^(https?:\/\/)?(www\.)?facebook\.com\/[a-zA-Z0-9\.]+$/'
+        ],
+        'instagram' => [
+            'nullable', 
+            'url', 
+            'regex:/^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_\.]+$/'
+        ],
+        'youtube' => [
+            'nullable', 
+            'url', 
+            'regex:/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/'
+        ],
+        'alamat' => 'required|string',
+        'telepon' => 'required|string',
+        'email' => 'required|email',
+        'jam_buka' => 'required|string',
+    ]);
+
+    $socialLinks = SocialLink::first();
+
+    if (!$socialLinks) {
+        $socialLinks = SocialLink::create($request->all());
+    } else {
+        $socialLinks->update($request->all());
     }
+
+    return redirect()->route('social-links.index')->with('success', 'Links updated successfully.');
+}
+
     
 
     public function landing_page()
