@@ -64,6 +64,59 @@
                     </div>
                 @enderror
             </div>
+            <!-- Kelas -->
+                <div class="form-group mb-3">
+                    <label for="kelas">Kelas</label>
+                    <select id="kelas" name="kelas" class="form-control @error('kelas') is-invalid @enderror" onchange="updateKelasOptions()">
+                        <option value="" disabled selected>Pilih Kelas</option>
+                        <option value="X">X</option>
+                        <option value="XI">XI</option>
+                        <option value="XII">XII</option>
+                    </select>
+                    @error('kelas')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="jurusan">Jurusan</label>
+                    <select id="jurusan" name="jurusan" class="form-control @error('jurusan') is-invalid @enderror" onchange="updateNomorOptions()" disabled>
+                        <option value="" disabled selected>Pilih Jurusan</option>
+                        <option value="TKRO">TKRO</option>
+                        <option value="TKJ">TKJ</option>
+                        <option value="RPL">RPL</option>
+                        <option value="MP">MP</option>
+                        <option value="AKL">AKL</option>
+                        <option value="DPIB">DPIB</option>
+                        <option value="SK">SK</option>
+                    </select>
+                    @error('jurusan')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="nomor">Nomor Kelas</label>
+                    <select id="nomor" name="nomor" class="form-control @error('nomor') is-invalid @enderror" disabled>
+                        <option value="" disabled selected>Pilih Nomor Kelas</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    @error('nomor')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <input type="hidden" name="kelas" id="kelas_hidden" value="{{ old('kelas', Auth::user()->kelas) }}">
+            
+
             <!-- Password -->
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
@@ -104,4 +157,42 @@
         </form>
     </div>
 </div>
+<script>
+    function updateKelasOptions() {
+        // Aktifkan dropdown jurusan ketika kelas dipilih
+        const kelas = document.getElementById('kelas').value;
+        const jurusan = document.getElementById('jurusan');
+        
+        if (kelas) {
+            jurusan.disabled = false;
+        } else {
+            jurusan.disabled = true;
+        }
+    }
+
+    function updateNomorOptions() {
+        // Aktifkan dropdown nomor kelas ketika jurusan dipilih
+        const jurusan = document.getElementById('jurusan').value;
+        const nomor = document.getElementById('nomor');
+        
+        if (jurusan) {
+            nomor.disabled = false;
+        } else {
+            nomor.disabled = true;
+        }
+    }
+
+    function getSelectedKelas() {
+        const kelas = document.getElementById('kelas').value;
+        const jurusan = document.getElementById('jurusan').value;
+        const nomor = document.getElementById('nomor').value;
+
+        if (kelas && jurusan && nomor) {
+            document.getElementById('kelas_hidden').value = `${kelas} ${jurusan} ${nomor}`;
+        }
+    }
+
+    document.getElementById('jurusan').addEventListener('change', getSelectedKelas);
+    document.getElementById('nomor').addEventListener('change', getSelectedKelas);
+</script>
 @endsection

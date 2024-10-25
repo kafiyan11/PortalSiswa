@@ -1,6 +1,4 @@
-<head>
-    <title>Edit Data Orang Tua | Portal Siswa</title>
-</head>@extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -25,10 +23,9 @@
     @endif
 
     <div class="card p-4 shadow-sm">
-        <form action="{{ route('update.ortu', $data->id) }}" method="POST">
+        <form action="{{ route('update.ortu', $parent->id) }}" method="POST">
             @csrf
             @method('PUT')
-            
             <!-- Nama Orang Tua -->
             <div class="mb-3">
                 <label for="name" class="form-label">Nama Orang Tua</label>
@@ -37,8 +34,9 @@
                     class="form-control @error('name') is-invalid @enderror" 
                     id="name" 
                     name="name" 
-                    required 
-                    value="{{ old('name', $data->name) }}"
+                    placeholder="Masukkan nama orang tua" 
+                    value="{{ old('name', $parent->name) }}" 
+                    required
                 >
                 @error('name')
                     <div class="invalid-feedback">
@@ -46,7 +44,7 @@
                     </div>
                 @enderror
             </div>
-            
+
             <!-- NIS -->
             <div class="mb-3">
                 <label for="nis" class="form-label">NIS</label>
@@ -55,8 +53,9 @@
                     class="form-control @error('nis') is-invalid @enderror" 
                     id="nis" 
                     name="nis" 
-                    required 
-                    value="{{ old('nis', $data->nis) }}"
+                    placeholder="Masukkan NIS orang tua" 
+                    value="{{ old('nis', $parent->nis) }}" 
+                    required
                 >
                 @error('nis')
                     <div class="invalid-feedback">
@@ -64,10 +63,10 @@
                     </div>
                 @enderror
             </div>
-            
-            <!-- Password Baru -->
+
+            <!-- Password (Opsional) -->
             <div class="mb-3">
-                <label for="password" class="form-label">Password Baru</label>
+                <label for="password" class="form-label">Password (Opsional)</label>
                 <input 
                     type="password" 
                     class="form-control @error('password') is-invalid @enderror" 
@@ -81,16 +80,16 @@
                     </div>
                 @enderror
             </div>
-            
-            <!-- Konfirmasi Password Baru -->
+
+            <!-- Konfirmasi Password (Opsional) -->
             <div class="mb-3">
-                <label for="password_confirmation" class="form-label">Konfirmasi Password Baru</label>
+                <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
                 <input 
                     type="password" 
                     class="form-control @error('password_confirmation') is-invalid @enderror" 
                     id="password_confirmation" 
                     name="password_confirmation" 
-                    placeholder="Konfirmasi password baru"
+                    placeholder="Konfirmasi password baru jika ingin mengganti"
                 >
                 @error('password_confirmation')
                     <div class="invalid-feedback">
@@ -98,7 +97,30 @@
                     </div>
                 @enderror
             </div>
-            
+
+            <!-- Dropdown Siswa -->
+            <div class="mb-3">
+                <label for="students" class="form-label">Siswa Terkait</label>
+                <select 
+                    class="form-select @error('students') is-invalid @enderror" 
+                    id="students" 
+                    name="students[]" 
+                    multiple
+                >
+                    @foreach($students as $student)
+                        <option value="{{ $student->id }}" {{ in_array($student->id, old('students', $assignedStudents ?? [])) ? 'selected' : '' }}>
+                            {{ $student->name }} ({{ $student->nis }})
+                        </option>
+                    @endforeach
+                </select>
+                @error('students')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+                <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.</small>
+            </div>
+
             <!-- Tombol Submit dan Kembali -->
             <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="{{ route('ortu') }}" class="btn btn-secondary">Kembali</a>

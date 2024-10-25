@@ -35,11 +35,16 @@ class AdminController extends Controller
         $totalOrangTua = Cache::remember('total_orangtua_count', 60, function () {
             return User::where('role', 'Orang Tua')->count();
         });
+        // Menghitung jumlah total orang tua dengan cache untuk optimasi
+        $totalAdmin = Cache::remember('total_admin_count', 60, function () {
+            return User::where('role', 'Admin')->count();
+        });
 
         return view('admin.dashboard', [
             'totalSiswa' => $totalSiswa,
             'totalGuru' => $totalGuru,
             'totalOrangTua' => $totalOrangTua,
+            'totalAdmin' => $totalAdmin,
             // Tambahkan data lain yang diperlukan untuk dashboard
         ]);
     }

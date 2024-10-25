@@ -26,45 +26,6 @@
                     @endif
                 </div>
 
-                {{-- Bagian kelas hanya ditampilkan jika user bukan Guru --}}
-                @if(Auth::user()->role !== 'Guru')
-                <div class="form-group">
-                    <label for="kelas">Kelas</label>
-                    <select id="kelas" name="kelas" class="form-control" onchange="updateKelasOptions()">
-                        <option value="" disabled selected>Pilih Kelas</option>
-                        <option value="X">X</option>
-                        <option value="XI">XI</option>
-                        <option value="XII">XII</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="jurusan">Jurusan</label>
-                    <select id="jurusan" name="jurusan" class="form-control" onchange="updateNomorOptions()" disabled>
-                        <option value="" disabled selected>Pilih Jurusan</option>
-                        <option value="TKRO">TKRO</option>
-                        <option value="TKJ">TKJ</option>
-                        <option value="RPL">RPL</option>
-                        <option value="MP">MP</option>
-                        <option value="AKL">AKL</option>
-                        <option value="DPIB">DPIB</option>
-                        <option value="SK">SK</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="nomor">Nomor Kelas</label>
-                    <select id="nomor" name="nomor" class="form-control" disabled>
-                        <option value="" disabled selected>Pilih Nomor Kelas</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
-
-                <input type="hidden" name="kelas" id="kelas_hidden" value="{{ Auth::user()->kelas }}">
-                @endif
-
                 <div class="form-group">
                     <label for="nohp">No HP</label>
                     <input type="text" name="nohp" class="form-control" value="{{ Auth::user()->nohp }}">
@@ -95,46 +56,4 @@
     </div>
 </div>
 
-<style>
-    /* Style yang sudah ada tetap digunakan */
-</style>
-
-<script>
-    function updateKelasOptions() {
-        // Aktifkan dropdown jurusan ketika kelas dipilih
-        const kelas = document.getElementById('kelas').value;
-        const jurusan = document.getElementById('jurusan');
-        
-        if (kelas) {
-            jurusan.disabled = false;
-        } else {
-            jurusan.disabled = true;
-        }
-    }
-
-    function updateNomorOptions() {
-        // Aktifkan dropdown nomor kelas ketika jurusan dipilih
-        const jurusan = document.getElementById('jurusan').value;
-        const nomor = document.getElementById('nomor');
-        
-        if (jurusan) {
-            nomor.disabled = false;
-        } else {
-            nomor.disabled = true;
-        }
-    }
-
-    function getSelectedKelas() {
-        const kelas = document.getElementById('kelas').value;
-        const jurusan = document.getElementById('jurusan').value;
-        const nomor = document.getElementById('nomor').value;
-
-        if (kelas && jurusan && nomor) {
-            document.getElementById('kelas_hidden').value = `${kelas} ${jurusan} ${nomor}`;
-        }
-    }
-
-    document.getElementById('jurusan').addEventListener('change', getSelectedKelas);
-    document.getElementById('nomor').addEventListener('change', getSelectedKelas);
-</script>
 @endsection

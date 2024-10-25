@@ -157,6 +157,7 @@
                             <i class="fas fa-plus me-2"></i> Tambah Akun
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="tambahAkunDropdown">
+                            <li><a class="dropdown-item" href="{{ route('tambah.admin') }}"><i class="fas fa-user-shield me-2"></i> Data Admin</a></li>
                             <li><a class="dropdown-item" href="{{ route('tambah') }}"><i class="fas fa-user-graduate me-2"></i> Data Siswa</a></li>
                             <li><a class="dropdown-item" href="{{ route('tambahguru') }}"><i class="fas fa-chalkboard-teacher me-2"></i> Data Guru</a></li>
                             <li><a class="dropdown-item" href="{{ route('ortu') }}"><i class="fas fa-user-friends me-2"></i> Data Orang Tua</a></li>
@@ -208,9 +209,22 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Dashboard</h1>
+                <p>Selamat Datang {{ Auth::user()->name }}</p>
             </div>
-
+            <br>
             <div class="row">
+                <!-- Mengubah box Total Admin -->
+                <div class="col-md-4 mb-4">
+                    <div class="card metrics-card bg-warning text-white"> <!-- Ubah warna latar belakang menjadi bg-warning -->
+                        <div class="card-body">
+                            <div>
+                                <h2>{{ $totalAdmin }}</h2>
+                                <p>Total Admin</p>
+                            </div>
+                            <i class="fas fa-user-shield"></i> <!-- Mengganti ikon menjadi fas fa-user-shield -->
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-4 mb-4">
                     <div class="card metrics-card bg-primary text-white">
                         <div class="card-body">
@@ -233,6 +247,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Mengubah box Total Orang Tua -->
                 <div class="col-md-4 mb-4">
                     <div class="card metrics-card bg-info text-white">
                         <div class="card-body">
@@ -240,13 +255,15 @@
                                 <h2>{{ $totalOrangTua }}</h2>
                                 <p>Total Orang Tua</p>
                             </div>
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-users"></i> <!-- Mengganti ikon menjadi fas fa-users -->
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Tambahkan grafik di sini -->
+            <br>
+            <br>
             <div class="row">
                 <div class="col-md-12">
                     <canvas id="userChart"></canvas> <!-- Tempat grafik Chart.js -->

@@ -1,16 +1,15 @@
-<head>
-    <title>Edit Jadwal | Portal Siswa</title>
-</head>
 @extends('layouts.app')
 
 @section('content')
 <head>
+    <title>Edit Jadwal | Portal Siswa</title>
     <style>
-        .container{
+        .container {
             margin-top: -20px;
         }
     </style>
 </head>
+
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="fw-bold">Edit Jadwal</h1>
@@ -37,33 +36,47 @@
 
         <div class="mb-3">
             <label for="kelas" class="form-label">Kelas</label>
-            <input type="text" name="kelas" class="form-control" value="{{ $jadwal->kelas }}" required>
+            <input type="text" name="kelas" class="form-control" value="{{ old('kelas', $jadwal->kelas) }}" required>
         </div>
 
         <div class="mb-3">
             <label for="mata_pelajaran" class="form-label">Mata Pelajaran</label>
-            <input type="text" name="mata_pelajaran" class="form-control" value="{{ $jadwal->mata_pelajaran }}" required>
+            <select id="mata_pelajaran" name="mata_pelajaran" class="form-control" required>
+                <option value="">Pilih Mata Pelajaran</option>
+                @foreach($mapel as $m)
+                    <option value="{{ $m->id_mapel }}" {{ old('mata_pelajaran', $jadwal->mata_pelajaran) == $m->id_mapel ? 'selected' : '' }}>
+                        {{ $m->nama_mapel }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <div class="mb-3">
             <label for="guru" class="form-label">Guru</label>
-            <input type="text" name="guru" class="form-control" value="{{ $jadwal->guru }}" required>
+            <select id="guru" name="guru" class="form-control" required>
+                <option value="">Pilih Guru</option>
+                @foreach($gurus as $guru)
+                    <option value="{{ $guru->name }}" {{ old('guru', $jadwal->guru) == $guru->id ? 'selected' : '' }}>
+                        {{ $guru->name }} <!-- Pastikan ini field yang sesuai dari model User -->
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="jam_mulai" class="form-label">Jam Mulai</label>
-                <input type="time" name="jam_mulai" class="form-control" value="{{ $jadwal->jam_mulai }}" required>
+                <input type="time" name="jam_mulai" class="form-control" value="{{ old('jam_mulai', $jadwal->jam_mulai) }}" required>
             </div>
             <div class="col-md-6 mb-3">
                 <label for="jam_selesai" class="form-label">Jam Selesai</label>
-                <input type="time" name="jam_selesai" class="form-control" value="{{ $jadwal->jam_selesai }}" required>
+                <input type="time" name="jam_selesai" class="form-control" value="{{ old('jam_selesai', $jadwal->jam_selesai) }}" required>
             </div>
         </div>
 
         <div class="mb-3">
             <label for="tanggal" class="form-label">Tanggal</label>
-            <input type="date" name="tanggal" class="form-control" value="{{ $jadwal->tanggal }}" required>
+            <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal', $jadwal->tanggal) }}" required>
         </div>
 
         <div class="text-end">

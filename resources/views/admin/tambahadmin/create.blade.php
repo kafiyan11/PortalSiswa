@@ -1,8 +1,11 @@
+<head>
+    <title>Tambah Siswa | Portal Siswa</title>
+</head>
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4 text-primary">Tambah Data Orang Tua</h1>
+    <h1 class="mb-4">Tambah Data Admin</h1>
     
     <!-- Alert Section -->
     @if(session('success'))
@@ -22,18 +25,18 @@
         </div>
     @endif
 
-    <div class="card p-4 shadow-sm">
-        <form action="{{ route('store.ortu') }}" method="POST">
+    <div class="card p-4">
+        <form action="{{ route('store.admin') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <!-- Nama Orang Tua -->
+            <!-- Nama -->
             <div class="mb-3">
-                <label for="name" class="form-label">Nama Orang Tua</label>
+                <label for="name" class="form-label">Nama</label>
                 <input 
                     type="text" 
                     class="form-control @error('name') is-invalid @enderror" 
                     id="name" 
                     name="name" 
-                    placeholder="Masukkan nama orang tua" 
+                    placeholder="Masukkan nama" 
                     value="{{ old('name') }}" 
                     required
                 >
@@ -43,7 +46,6 @@
                     </div>
                 @enderror
             </div>
-
             <!-- NIS -->
             <div class="mb-3">
                 <label for="nis" class="form-label">NIS</label>
@@ -52,7 +54,7 @@
                     class="form-control @error('nis') is-invalid @enderror" 
                     id="nis" 
                     name="nis" 
-                    placeholder="Masukkan NIS orang tua" 
+                    placeholder="Masukkan NIS" 
                     value="{{ old('nis') }}" 
                     required
                 >
@@ -62,7 +64,6 @@
                     </div>
                 @enderror
             </div>
-
             <!-- Password -->
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
@@ -80,7 +81,6 @@
                     </div>
                 @enderror
             </div>
-
             <!-- Konfirmasi Password -->
             <div class="mb-3">
                 <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
@@ -98,34 +98,12 @@
                     </div>
                 @enderror
             </div>
-
-            <!-- Dropdown Siswa -->
-            <div class="mb-3">
-                <label for="students" class="form-label">Siswa Terkait</label>
-                <select 
-                    class="form-select @error('students') is-invalid @enderror" 
-                    id="students" 
-                    name="students[]" 
-                    multiple
-                >
-                    @foreach($students as $student)
-                        <option value="{{ $student->id }}" {{ in_array($student->id, old('students', [])) ? 'selected' : '' }}>
-                            {{ $student->name }} ({{ $student->nis }})
-                        </option>
-                    @endforeach
-                </select>
-                @error('students')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-                <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.</small>
-            </div>
-
-            <!-- Tombol Submit dan Kembali -->
+            <!-- Tombol Submit -->
             <button type="submit" class="btn btn-primary">Simpan</button>
-            <a href="{{ route('ortu') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('tambah.admin') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>
+
 </div>
+
 @endsection

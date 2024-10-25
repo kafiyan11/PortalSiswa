@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Models\User; // Ensure the User model is used
+use App\Models\User; // Pastikan model User digunakan
 
 class ProfileController extends Controller
 {
@@ -16,10 +16,10 @@ class ProfileController extends Controller
      */
     public function show()
     {
-        // Retrieve the currently authenticated user
+        // Mengambil data user yang sedang login
         $user = Auth::User();
 
-        // Redirect to the 'profil.blade.php' view with user data
+        // Mengarahkan ke view 'profil.blade.php' dengan data user
         return view('siswa.profiles.profil', compact('user'));
     }
 
@@ -50,47 +50,45 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Find the user by ID or fail
+        // Mencari user berdasarkan ID
         $user = User::findOrFail($id);
 
-        // Ensure that only the logged-in user can update their own profile
+        // Pastikan hanya user yang sedang login dapat mengedit profil mereka sendiri
         if (Auth::user()->id != $id) {
             return redirect()->route('siswa.profiles.show')->with('error', 'Anda tidak memiliki akses untuk mengedit profil ini.');
         }
 
-        // Validate the request data
+        // Validasi data yang dikirim
         $request->validate([
             'name' => 'required|string|max:255',
-            'kelas' => 'nullable|string|max:50',
             'alamat' => 'nullable|string|max:255',
             'nohp' => 'nullable|string|max:15',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Update user fields
+        // Update data user
         $user->name = $request->input('name');
-        $user->kelas = $request->input('kelas');
         $user->alamat = $request->input('alamat');
         $user->nohp = $request->input('nohp');
 
-        // Handle profile photo
+        // Menangani foto profil
         if ($request->hasFile('photo')) {
-            // Delete the old photo if it exists
+            // Hapus foto lama jika ada
             if ($user->photo && Storage::exists('public/' . $user->photo)) {
                 Storage::delete('public/' . $user->photo);
             }
 
-            // Save the new photo
+            // Simpan foto baru
             $file = $request->file('photo');
             $filename = time() . '_' . $file->getClientOriginalName();
             $path = $file->storeAs('profile_photos', $filename, 'public');
             $user->photo = $path;
         }
 
-        // Save changes
+        // Simpan perubahan
         $user->save();
 
-        // Redirect back to the profile page with success message
+        // Kembali ke halaman profil dengan pesan sukses
         return redirect()->route('siswa.profiles.show', $user->id)
                         ->with('success', 'Profile updated successfully');
     }
