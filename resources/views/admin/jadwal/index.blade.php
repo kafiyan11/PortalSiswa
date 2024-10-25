@@ -1,6 +1,3 @@
-<head>
-    <title>Jadwal Siswa | Portal Siswa</title>
-</head>
 @extends('layouts.app')
 
 @section('content')
@@ -114,7 +111,7 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $jadwal->kelas }}</td>
-                                <td>{{ $jadwal->mata_pelajaran }}</td>
+                                <td>{{ $jadwal->materi ? $jadwal->materi->nama_mapel : 'Tidak Diketahui' }}</td>
                                 <td>{{ $jadwal->guru }}</td>
                                 <td>{{ $jadwal->jam_mulai }}</td>
                                 <td>{{ $jadwal->jam_selesai }}</td>
@@ -133,7 +130,7 @@
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach
+                            @endforeach           
                         </tbody>
                     </table>
                 @endforeach

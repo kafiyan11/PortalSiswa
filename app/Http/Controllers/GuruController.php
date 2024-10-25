@@ -26,18 +26,20 @@ class GuruController extends Controller
         // Mengambil NIS dari pengguna yang sedang login
         $nis = Auth::user()->nis; // Pastikan pengguna memiliki atribut NIS
     
-        // Mendapatkan hari saat ini dalam bahasa Indonesia
-        $hariIni = Carbon::now()->locale('id')->translatedFormat('l'); // Contoh: "Senin"
+        // Mendapatkan tanggal awal dan akhir minggu
+        $awalMinggu = Carbon::now()->startOfWeek(); // Awal minggu (Senin)
+        $akhirMinggu = Carbon::now()->endOfWeek(); // Akhir minggu (Minggu)
     
-        // Mengambil jadwal yang sesuai dengan NIS guru dan hari ini
+        // Mengambil jadwal yang sesuai dengan NIS guru dan rentang tanggal minggu ini
         $jadwalguru = Jadwalguru::where('nis', $nis)
-                        ->where('hari', $hariIni)
+                        ->whereBetween('tanggal', [$awalMinggu, $akhirMinggu]) // Pastikan ada kolom tanggal di tabel jadwalguru
                         ->get()
                         ->groupBy('kelas'); // Group by kelas
     
         // Mengembalikan view dengan data
-        return view('guru.jadwal', compact('jadwalguru', 'hariIni')); // Pastikan jalur tampilan benar
+        return view('guru.jadwal', compact('jadwalguru')); // Pastikan jalur tampilan benar
     }
+    
     
 
 

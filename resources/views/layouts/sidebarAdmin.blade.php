@@ -28,6 +28,7 @@
                     <i class="fas fa-plus me-2"></i> Tambah Akun
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="tambahAkunDropdown">
+                    <li><a class="dropdown-item {{ Route::is('tambah.admin') ? 'active' : '' }}" href="{{ route('tambah.admin') }}"><i class="fas fa-user-graduate me-2"></i> Data Admin</a></li>
                     <li><a class="dropdown-item {{ Route::is('tambah') ? 'active' : '' }}" href="{{ route('tambah') }}"><i class="fas fa-user-graduate me-2"></i> Data Siswa</a></li>
                     <li><a class="dropdown-item {{ Route::is('tambahguru') ? 'active' : '' }}" href="{{ route('tambahguru') }}"><i class="fas fa-chalkboard-teacher me-2"></i> Data Guru</a></li>
                     <li><a class="dropdown-item {{ Route::is('ortu') ? 'active' : '' }}" href="{{ route('ortu') }}"><i class="fas fa-user-friends me-2"></i> Data Orang Tua</a></li>

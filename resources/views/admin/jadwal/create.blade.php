@@ -1,6 +1,3 @@
-<head>
-    <title>Tambah Jadwal | Portal Siswa</title>
-</head>
 @extends('layouts.app')
 
 @section('content')
@@ -48,7 +45,6 @@
                 <option value="AKL">AKL</option>
                 <option value="DPIB">DPIB</option>
                 <option value="SK">SK</option>
-                <!-- Tambahkan jenis kelas lain jika ada -->
             </select>
         </div>
 
@@ -66,13 +62,29 @@
 
         <div class="mb-3">
             <label for="mata_pelajaran" class="form-label">Mata Pelajaran</label>
-            <input type="text" id="mata_pelajaran" name="mata_pelajaran" class="form-control" placeholder="Masukkan mata pelajaran" value="{{ old('mata_pelajaran') }}" required>
+            <select id="mata_pelajaran" name="mata_pelajaran" class="form-control" required>
+                <option value="">Pilih Mata Pelajaran</option>
+                @foreach($mapel as $m)
+                    <option value="{{ $m->id_mapel }}" {{ old('mata_pelajaran') == $m->id_mapel ? 'selected' : '' }}>
+                        {{ $m->nama_mapel }}
+                    </option>
+                @endforeach
+            </select>
         </div>
-    
+        
+
         <div class="mb-3">
             <label for="guru" class="form-label">Guru</label>
-            <input type="text" id="guru" name="guru" class="form-control" placeholder="Masukkan nama guru" value="{{ old('guru') }}" required>
+            <select id="guru" name="guru" class="form-control" required>
+                <option value="">Pilih guru</option>
+                @foreach($gurus as $guru)
+                    <option value="{{ $guru->name }}" {{ old('guru') == $guru->name ? 'selected' : '' }}>
+                        {{ $guru->name }} <!-- Ganti dengan field yang sesuai dari model User -->
+                    </option>
+                @endforeach
+            </select>
         </div>
+        
     
         <div class="row">
             <div class="col-md-6 mb-3">

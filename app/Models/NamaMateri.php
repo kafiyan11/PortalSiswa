@@ -20,4 +20,10 @@ class NamaMateri extends Model
 
     // Fillable attributes
     protected $fillable = ['nama_mapel', 'icon']; // Memungkinkan mass assignment untuk nama_mapel dan icon
+
+    public function tugas()
+    {
+        return $this->hasMany(Tugas::class, 'id_mapel', 'id_mapel');
+    }
+
 }

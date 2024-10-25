@@ -76,7 +76,13 @@
         <div class="row">
             <!-- Sidebar Profil -->
             <div class="col-md-4 text-center poto">
-                <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('default-avatar.png') }}" alt="Admin">
+                @if(Auth::user()->photo)
+                    <!-- Menampilkan foto pengguna jika ada -->
+                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Admin" class="rounded-circle" style="width: 150px; height: 150px;">
+                @else
+                    <!-- Menampilkan ikon profil default jika foto belum ditambahkan -->
+                    <i class="fas fa-user-circle" style="font-size: 150px; color: #ccc;"></i>
+                @endif
                 <div class="mt-3">
                     <h4>{{ Auth::user()->name }}</h4>
                     <h6>{{ Auth::user()->alamat }}</h6>

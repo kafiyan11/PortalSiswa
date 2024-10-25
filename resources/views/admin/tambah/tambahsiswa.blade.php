@@ -92,6 +92,7 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>NIS</th>
+                            <th>Kelas</th>
                             <th>Password</th>
                             <th>Role</th>
                             <th>Aksi</th>
@@ -105,6 +106,7 @@
                                 <td>{{ ($data->currentPage()-1) * $data->perPage() + $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->nis }}</td>
+                                <td>{{ $item->kelas }}</td>
                                 <td>{{ $item->plain_password }}</td>
                                 <td>
                                     <span class="badge 
