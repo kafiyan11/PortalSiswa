@@ -63,6 +63,30 @@
                     </div>
                 @enderror
             </div>
+        <!-- Mengajar Dropdown -->
+        <div class="mb-3">
+            <label for="mengajar" class="form-label">Mengajar <span class="text-danger">*</span></label>
+            <select 
+                class="form-control @error('mengajar') is-invalid @enderror" 
+                name="mengajar" 
+                id="mengajar" 
+                required
+            >
+                <option value="">-- Pilih Bagian Mengajar --</option>
+                @foreach($mapel as $m) <!-- Pastikan variabel $mapel berisi data mapel -->
+                    <option value="{{ $m->nama_mapel }}" {{ old('mengajar') == $m->nama_mapel ? 'selected' : '' }}>
+                        {{ $m->nama_mapel }}
+                    </option>
+                @endforeach
+            </select>
+            
+            @error('mengajar')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
             <!-- Password -->
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>

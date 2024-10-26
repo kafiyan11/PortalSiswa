@@ -30,5 +30,5 @@ class NamaMateri extends Model
     {
         return $this->hasMany(Tugas::class, 'id_mapel', 'id_mapel');
     }
-
+    
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\NamaMateri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
@@ -49,6 +50,7 @@ class TambahGuruController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'nis' => 'required|string|max:255|unique:users,nis',
+            'mengajar' => 'required',
             'password' => 'required|string|min:6|confirmed',
             // Tambahkan validasi untuk 'alamat', 'nohp', 'kelas' jika diperlukan
         ]);
@@ -57,6 +59,7 @@ class TambahGuruController extends Controller
         User::create([
             'name' => $request->name,
             'nis' => $request->nis,
+            'mengajar' => $request->mengajar,
             'password' => Hash::make($request->password),
             'plain_password' => $request->password, // Menyimpan plain password jika diperlukan
             'role' => 'Guru',
@@ -75,7 +78,9 @@ class TambahGuruController extends Controller
      */
     public function create()
     {
-        return view('admin.tambahguru.createguru');
+        $mapel = NamaMateri::all(); // Mengambil data dari model Mapel
+
+        return view('admin.tambahguru.createguru',compact(('mapel')));
     }
 
     /**
@@ -84,7 +89,9 @@ class TambahGuruController extends Controller
     public function edit($id)
     {
         $data = User::findOrFail($id);
-        return view('admin.tambahguru.editguru', compact('data'));
+        $mapel = NamaMateri::all(); // Mengambil data dari model Mapel
+
+        return view('admin.tambahguru.editguru', compact('data','mapel'));
     }
 
     /**
@@ -96,6 +103,7 @@ class TambahGuruController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'nis' => 'required|string|max:255|unique:users,nis,' . $id,
+            'mengajar' => 'required',
             'password' => 'nullable|string|min:6|confirmed',
             // Tambahkan validasi untuk 'alamat', 'nohp', 'kelas' jika diperlukan
         ]);
@@ -107,6 +115,7 @@ class TambahGuruController extends Controller
         $updateData = [
             'name' => $request->name,
             'nis' => $request->nis,
+            'mengajar' => $request->mengajar,
             'role' => 'Guru',
             // Tambahkan field lain jika ada di form
         ];

@@ -92,6 +92,7 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>NIP</th>
+                            <th>Mengajar</th>
                             <th>Password</th>
                             <th>Role</th>
                             <th>Aksi</th>
@@ -105,6 +106,7 @@
                                 <td>{{ ($guru->currentPage()-1) * $guru->perPage() + $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->nis }}</td>
+                                <td>{{ $item->mengajar }}</td>
                                 <td>{{ $item->plain_password }}</td>
         
                                 <td>
@@ -118,13 +120,13 @@
                                 </td>
                                 <td class="d-flex justify-content-center">
                                     <a href="{{ route('edit.guru', $item->id) }}" class="btn btn-warning btn-sm mr-2">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-edit"></i>Edit
                                     </a>
                                     <form id="form-delete-{{ $item->id }}" action="{{ route('delet.guru', $item->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="{{ $item->id }}">
-                                            <i class="fas fa-trash-alt"></i>
+                                            <i class="fas fa-trash-alt"></i>Hapus
                                         </button>
                                     </form>
                                 </td>
