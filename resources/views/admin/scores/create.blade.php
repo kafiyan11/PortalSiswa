@@ -1,4 +1,6 @@
-@extends('layouts.app')
+<head>
+    <title>Tambah Nilai | Portal Siswa</title>
+</head>@extends('layouts.app')
 
 @section('content')
     <div class="container mt-5">
@@ -57,7 +59,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">Simpan <i class="fas fa-save"></i></button>
+                <button type="submit" class="btn btn-primary">Simpan <i class="fas fa-save"></i></button>
             </form>
         </div>
     </div>
