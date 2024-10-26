@@ -13,6 +13,7 @@ class Score extends Model
     protected $fillable = [
         'nama',
         'nis',
+        'id_mapel',
         'daily_test_score',
         'midterm_test_score',
         'final_test_score',
@@ -33,8 +34,8 @@ class Score extends Model
     {
         return $this->belongsTo(User::class, 'parent_id');
     }
-    // public function NamaMateri()
-    // {
-    //     return $this->hasMany(NamaMateri::class,'mata_pelajaran_id', 'id_mapel');
-    // }
+    public function mapel()
+    {
+        return $this->belongsTo(NamaMateri::class, 'id_mapel', 'id_mapel');
+    }
 }

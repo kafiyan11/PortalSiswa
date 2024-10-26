@@ -126,13 +126,13 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
 
     //CRUD NILAI
     Route::prefix('admin')->group(function () {
-        Route::get('/admin/scores', [ScoreController::class, 'index'])->name('admin.scores.index');
-        Route::get('/admin/scores/create', [ScoreController::class, 'create'])->name('admin.scores.create');
-        Route::post('/admin/scores', [ScoreController::class, 'store'])->name('admin.scores.store');
-        Route::get('/admin/scores/{id}/edit', [ScoreController::class, 'edit'])->name('admin.scores.edit');
-        Route::put('/admin/scores/{id}', [ScoreController::class, 'update'])->name('admin.scores.update');
-        Route::delete('admin//scores/{id}', [ScoreController::class, 'destroy'])->name('admin.scores.destroy');
-        Route::get('admin//scores/cari', [ScoreController::class, 'cari'])->name('admin.scores.cari');
+        Route::get('/scores', [ScoreController::class, 'index'])->name('admin.scores.index');
+        Route::get('/scores/create', [ScoreController::class, 'create'])->name('admin.scores.create');
+        Route::post('/scores', [ScoreController::class, 'store'])->name('admin.scores.store');
+        Route::get('/scores/{id}/edit', [ScoreController::class, 'edit'])->name('admin.scores.edit');
+        Route::put('/scores/{id}', [ScoreController::class, 'update'])->name('admin.scores.update');
+        Route::delete('/scores/{id}', [ScoreController::class, 'destroy'])->name('admin.scores.destroy');
+        Route::get('/scores/cari', [ScoreController::class, 'cari'])->name('admin.scores.cari');
     });
 
     //CRUD TUGAS

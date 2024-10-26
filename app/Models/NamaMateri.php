@@ -21,14 +21,15 @@ class NamaMateri extends Model
     // Fillable attributes
     protected $fillable = ['nama_mapel', 'icon']; // Memungkinkan mass assignment untuk nama_mapel dan icon
 
-
-    // public function scores()
-    // {
-    //     return $this->hasMany(Score::class, 'mata_pelajaran_id', 'id_mapel'); // Change this to match your score's foreign key
-    // }
     public function tugas()
     {
         return $this->hasMany(Tugas::class, 'id_mapel', 'id_mapel');
+    }
+
+    // Relasi ke model Score
+    public function scores()
+    {
+        return $this->hasMany(Score::class, 'id_mapel', 'id_mapel');
     }
 
 }

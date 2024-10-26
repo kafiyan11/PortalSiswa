@@ -39,26 +39,34 @@ class AdminController extends Controller
             return User::where('role', 'Orang Tua')->count();
         });
     
-        // Fetch average scores for all students using the correct column names
-        $averageScores = Tugas::select(DB::raw('AVG(daily_test_score + midterm_test_score + final_test_score) / 3 as average_score'))
-            ->groupBy('nis')
-            ->pluck('average_score');
-    
-        // Menghitung jumlah total orang tua dengan cache untuk optimasi
+        // Menghitung jumlah total admin dengan cache untuk optimasi
         $totalAdmin = Cache::remember('total_admin_count', 60, function () {
             return User::where('role', 'Admin')->count();
         });
+    
+        // Mengambil rata-rata nilai per mapel
+        $averageScoresPerMapel = Tugas::select('mapel.nama_mapel', DB::raw('AVG((daily_test_score + midterm_test_score + final_test_score) / 3) as average_score'))
+            ->join('mapel', 'tugas.id_mapel', '=', 'mapel.id_mapel')
+            ->groupBy('mapel.nama_mapel')
+            ->pluck('average_score', 'mapel.nama_mapel');
 
-        return view('admin.dashboard', [
+            // Mengambil data historis
+        $historicalScores = Tugas::select('mapel.nama_mapel', DB::raw('MONTH(tugas.created_at) as month'), DB::raw('AVG((daily_test_score + midterm_test_score + final_test_score) / 3) as average_score'))
+            ->join('mapel', 'tugas.id_mapel', '=', 'mapel.id_mapel')
+            ->groupBy('mapel.nama_mapel', 'month')
+            ->orderBy('month')
+            ->get();
+
+            return view('admin.dashboard', [
             'totalSiswa' => $totalSiswa,
             'totalGuru' => $totalGuru,
             'totalOrangTua' => $totalOrangTua,
-            'averageScores' => $averageScores,
-
             'totalAdmin' => $totalAdmin,
-            // Tambahkan data lain yang diperlukan untuk dashboard
-        ]);
+            'averageScoresPerMapel' => $averageScoresPerMapel,
+            'historicalScores' => $historicalScores,
+            ]);
     }
+    
     
     
 
