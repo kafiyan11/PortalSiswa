@@ -4,9 +4,12 @@
 
 @section('content')
 <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="fw-bold text-primary">Jadwal Hari Ini</h1>
-    </div>
+    <h1>Beranda</h1>
+    <p>Selamat datang <strong>{{ Auth::user()->name }}</strong></p>
+    <hr>
+    <div class="d-flex justify-content-center align-items-center mb-4">
+        <h2 class="fw-bold  text-center">Jadwal Hari Ini</h2>
+    </div>    
 
     @if($jadwals->isEmpty())
         <div class="alert alert-custom text-center shadow-lg" role="alert">

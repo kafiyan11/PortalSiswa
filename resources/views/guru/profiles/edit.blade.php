@@ -48,15 +48,6 @@
                     <input type="text" name="role" class="form-control" value="{{ Auth::user()->role }}" readonly>
                 </div>
 
-                <!-- Mengajar -->
-                <div class="form-group">
-                    <label for="mengajar">Mengajar</label>
-                    <input type="text" name="mengajar" class="form-control" value="{{ old('mengajar', Auth::user()->mengajar) }}" placeholder="Masukkan Mata Pelajaran yang Diampu">
-                    @error('mengajar')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
                 <!-- Foto Profil -->
                 <div class="form-group">
                     <label for="photo">Foto Profil</label>
@@ -70,7 +61,7 @@
                 </div>
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary">Update Profil</button>
-                    <a href="{{ route('guru.dashboard') }}" class="btn btn-secondary ml-2">Kembali</a>
+                    <a href="{{ route('guru.profil') }}" class="btn btn-secondary ml-2">Kembali</a>
                 </div>
             </form>
         </div>

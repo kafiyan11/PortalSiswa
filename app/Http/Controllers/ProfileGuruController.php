@@ -65,7 +65,6 @@ class ProfileGuruController extends Controller
             'alamat' => 'nullable|string|max:255',
             'nohp' => 'nullable|string|max:15',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'mengajar' => 'nullable|string|max:255', // Validasi untuk 'mengajar'
         ]);
 
         // Update user fields
@@ -73,8 +72,6 @@ class ProfileGuruController extends Controller
         $user->kelas = $request->input('kelas');
         $user->alamat = $request->input('alamat');
         $user->nohp = $request->input('nohp');
-        $user->mengajar = $request->input('mengajar'); // Update atribut 'mengajar'
-
         // Handle profile photo
         if ($request->hasFile('photo')) {
             // Delete the old photo if it exists

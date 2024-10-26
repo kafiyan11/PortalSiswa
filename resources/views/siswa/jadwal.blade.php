@@ -35,8 +35,9 @@
 
 @section('content')
 <div class="container">
+    <br>
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="fw-bold text-primary">Jadwal Hari Ini</h1>
+        <h1 class="fw-bold text-dark">Jadwal Mingguan</h1>
     </div>
 
     @if($jadwals->isEmpty())

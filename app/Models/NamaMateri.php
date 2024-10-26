@@ -25,11 +25,9 @@ class NamaMateri extends Model
     {
         return $this->hasMany(Tugas::class, 'id_mapel', 'id_mapel');
     }
-
     // Relasi ke model Score
     public function scores()
     {
         return $this->hasMany(Score::class, 'id_mapel', 'id_mapel');
     }
-
 }

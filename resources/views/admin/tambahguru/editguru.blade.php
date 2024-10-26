@@ -1,6 +1,7 @@
 <head>
     <title>Edit Data Guru | Portal Siswa</title>
-</head>@extends('layouts.app')
+</head>
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -58,6 +59,29 @@
                 value="{{ old('nis', $data->nis) }}"
             >
             @error('nis')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+        
+        <!-- Mengajar Dropdown -->
+        <div class="mb-3">
+            <label for="mengajar" class="form-label">Mengajar</label>
+            <select 
+                class="form-control @error('mengajar') is-invalid @enderror" 
+                name="mengajar" 
+                id="mengajar"
+            >
+                <option value="">-- Pilih Bagian Mengajar (Kosongkan jika tidak ingin mengubah) --</option>
+                @foreach($mapel as $m)
+                    <option value="{{ $m->nama_mapel }}" {{ (old('mengajar') == $m->nama_mapel || $data->mengajar == $m->nama_mapel) ? 'selected' : '' }}>
+                        {{ $m->nama_mapel }}
+                    </option>
+                @endforeach
+            </select>
+            
+            @error('mengajar')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
