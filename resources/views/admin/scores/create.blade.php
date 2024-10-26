@@ -15,7 +15,7 @@
                         <option value="">-- Pilih Siswa --</option>
                         @foreach($siswa as $s)
                             <option value="{{ $s->id }}" data-nis="{{ $s->nis }}">
-                                {{ $s->name }} 
+                                {{ $s->name }} (NIS: {{ $s->nis }}) 
                             </option>
                         @endforeach
                     </select>
