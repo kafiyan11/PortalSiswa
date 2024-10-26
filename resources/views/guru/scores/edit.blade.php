@@ -6,7 +6,7 @@
     <div class="container">
         <div class="card">
             <h1 class="text-center">Edit Nilai</h1>
-            <form action="{{ route('admin.scores.update', $score->id) }}" method="POST">
+            <form action="{{ route('guru.scores.update', $score->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="form-group">

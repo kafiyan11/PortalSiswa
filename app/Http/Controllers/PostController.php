@@ -48,7 +48,15 @@ class PostController extends Controller
     
         return redirect()->back()->with('success', 'Postingan berhasil ditambahkan!');
     }
-    
+    public function approve($id)
+{
+    $post = Post::findOrFail($id);
+    $post->is_approved = true;
+    $post->save();
+
+    return redirect()->back()->with('success', 'Postingan berhasil disetujui.');
+}
+
 
     public function destroy(Post $post)
     {
