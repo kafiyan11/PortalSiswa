@@ -35,38 +35,35 @@ class NIlaidiGuruController extends Controller
         $siswa = User::where('role', 'Siswa')->get();
         $mapel = NamaMateri::all(); // Ambil semua data mapel (pelajaran)
 
-        return view('guru.scores.create', [
-            'siswa' => $siswa,
-            'mapel' => $mapel,
-        ]);
+        return view('guru.scores.create', compact('siswa', 'mapel'));
     }
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'student_id' => 'required|exists:users,id', // Pastikan student_id valid
-
-            'nama' => 'required|string',
-            'nis' => 'required|numeric',
-            'id_mapel' => 'required|integer|exists:mapel,id_mapel', // Validasi id_mapel
-            'daily_test_score' => 'nullable|numeric', // Allow null
-            'midterm_test_score' => 'nullable|numeric', // Allow null
-            'final_test_score' => 'nullable|numeric', // Allow null
+            'student_id' => 'required|exists:users,id',
+            'id_mapel' => 'required|exists:mapel,id_mapel',
+            'daily_test_score' => 'nullable|numeric',
+            'midterm_test_score' => 'nullable|numeric',
+            'final_test_score' => 'nullable|numeric',
         ]);
     
+        // Ambil data siswa berdasarkan student_id
+        $student = User::find($validated['student_id']);
+    
         // Set default values for missing scores
-        $dailyTestScore = $validated['daily_test_score'] ?? 0;
-        $midtermTestScore = $validated['midterm_test_score'] ?? 0;
-        $finalTestScore = $validated['final_test_score'] ?? 0;
+        $validated['daily_test_score'] = $validated['daily_test_score'] ?? 0;
+        $validated['midterm_test_score'] = $validated['midterm_test_score'] ?? 0;
+        $validated['final_test_score'] = $validated['final_test_score'] ?? 0;
     
         // Create the Score entry
         Score::create([
-            'student_id' => $request->student_id,
-
-            'nama' => $validated['nama'],
-            'nis' => $validated['nis'],
-            'daily_test_score' => $dailyTestScore,
-            'midterm_test_score' => $midtermTestScore,
-            'final_test_score' => $finalTestScore,
+            'student_id' => $validated['student_id'],
+            'nama' => $student->name, // Ambil nama siswa dari model User
+            'nis' => $student->nis, // Ambil NIS dari model User
+            'id_mapel' => $validated['id_mapel'],
+            'daily_test_score' => $validated['daily_test_score'],
+            'midterm_test_score' => $validated['midterm_test_score'],
+            'final_test_score' => $validated['final_test_score'],
         ]);
     
         return redirect()->route('guru.scores.index')->with('success', 'Nilai berhasil ditambahkan!');

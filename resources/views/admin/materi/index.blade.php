@@ -182,17 +182,19 @@
                             @endif
 
                             <!-- Form Pencarian dan Tombol Tambah dalam satu baris -->
-                            <div class="d-flex justify-content-between flex-wrap mb-2">
-                                <form action="{{ route('materiAdmin.cari') }}" method="GET" class="input-group mb-2 mb-md-0">
-                                    <input type="text" name="cari" class="form-control form-control-sm" placeholder="Cari materi..." value="{{ request()->get('cari') }}">
-                                    <button class="btn btn-primary btn-sm" type="submit">
-                                        <i class="bi bi-search"></i> Cari
-                                    </button>
-                                </form>
-                                <a href="{{ route('adminMateri.create') }}" class="btn btn-primary btn-sm">
-                                    <i class="bi bi-plus-circle"></i> Tambah Materi
-                                </a>
-                            </div>
+                             <div class="d-flex justify-content-between flex-wrap mb-3">
+            <!-- Fitur pencarian -->
+            <form action="{{ route('materiAdmin.cari') }}" method="GET" class="input-group mb-2 mb-md-0">
+                <input type="text" name="cari" class="form-control form-control-sm text-center" placeholder="Cari tugas..." value="{{ request()->get('cari') }}" required style="max-width: 200px;">
+                <button class="btn btn-primary btn-sm" type="submit">
+                    <i class="bi bi-search"></i> Cari
+                </button>
+            </form>
+            <!-- Tombol tambah tugas -->
+            <a href="{{ route('adminMateri.create') }}" class="btn btn-primary btn-sm ml-auto" style="width: 150px;">
+                <i class="bi bi-plus-circle"></i> Tambah Tugas
+            </a>
+        </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped">
                                     <thead>
