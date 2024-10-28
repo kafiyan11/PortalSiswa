@@ -24,7 +24,7 @@ class ScoreController extends Controller
                             ->orderByDesc('total_score'); // Order by total score (descending for ranking)
     
         // Paginate the scores
-        $scores = $scoresQuery->paginate(5);
+        $scores = $scoresQuery->paginate(10);
     
         // Add rank and average score to each score in the paginated result
         $scores->getCollection()->transform(function ($score, $index) use ($scores) {
