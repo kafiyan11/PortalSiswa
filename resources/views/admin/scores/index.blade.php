@@ -1,15 +1,27 @@
-<head>
-    <title>Nilai Siswa | Portal Siswa</title>
-</head>
 @extends('layouts.app')
 
 @section('content')
 <head>
-    <!-- Load SweetAlert2 library -->
+    <title>Nilai Siswa | Portal Siswa</title>
+
+    <!-- Library SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Library Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    
+    <!-- Library Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
-        /* Your existing styles remain unchanged */
+        .btn-custom {
+            margin-right: 5px;
+        }
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
 </head>
 
@@ -18,6 +30,7 @@
 
     <div class="card shadow-sm mb-4">
         <div class="card-body">
+            <!-- Pencarian dan Tombol Tambah Nilai -->
             <div class="d-flex justify-content-between align-items-center mb-3 search-container">
                 <form action="" method="GET" class="input-group" style="max-width: 400px;">
                     <input type="text" name="cari" class="form-control search-input" placeholder="Cari siswa..." value="{{ request()->get('search') }}">
@@ -32,6 +45,7 @@
                 </a>
             </div>
 
+            <!-- Notifikasi SweetAlert2 -->
             @if(session('success'))
                 <script>
                     Swal.fire({
@@ -42,6 +56,7 @@
                 </script>
             @endif
 
+            <!-- Tabel Nilai Siswa -->
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead class="thead-light">
@@ -96,9 +111,18 @@
             </div>
         </div>
     </div>
+
+    <!-- Grafik Nilai Rata-Rata Siswa -->
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="text-center">Grafik Nilai Rata-Rata Siswa</h5>
+            <canvas id="averageScoreChart"></canvas>
+        </div>
+    </div>
 </div>
 
 <script>
+    // Fungsi konfirmasi hapus dengan SweetAlert2
     function confirmDelete(id) {
         Swal.fire({
             title: "Apakah Anda yakin?",
@@ -115,5 +139,46 @@
             }
         });
     }
+
+    // Inisialisasi Chart.js untuk Grafik Nilai Rata-Rata Siswa dalam bentuk garis
+    document.addEventListener("DOMContentLoaded", function () {
+        const labels = {!! json_encode($scores->pluck('nama')->toArray()) !!}; // Nama siswa
+        const data = {!! json_encode($scores->pluck('average_score')->toArray()) !!}; // Nilai rata-rata siswa
+
+        const ctx = document.getElementById('averageScoreChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line', // Jenis grafik (line chart)
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Nilai Rata-Rata',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: true, // Isi di bawah garis
+                    tension: 0.4 // Memberikan efek lengkung pada garis
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Nilai'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    });
 </script>
 @endsection
