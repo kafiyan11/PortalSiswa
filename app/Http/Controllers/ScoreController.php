@@ -53,7 +53,7 @@ class ScoreController extends Controller
         'id_mapel' => 'required|exists:mapel,id_mapel',
         'daily_test_score' => 'nullable|numeric',
         'midterm_test_score' => 'nullable|numeric',
-        'final_test_score' => 'nullable|numeric',
+        'final_test_score' => 'nullable|n umeric',
     ]);
 
     // Ambil data siswa berdasarkan student_id
