@@ -203,6 +203,12 @@
                             <i class="fas fa-comments me-2"></i> Forum Diskusi
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is('admin.posts.pendingApproval') ? 'active' : '' }}" href="{{ route('admin.posts.pendingApproval') }}">
+                            <i class="fas fa-check-circle me-2"></i> Approve Post
+                        </a>
+                    </li>
+                    
                     <li class="nav-item ">
                         <a class="nav-link" href="{{ route('social-links.index') }}">
                             <i class="fas fa-link me-2"></i> Tautan Sosial

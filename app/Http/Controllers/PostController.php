@@ -18,6 +18,7 @@ class PostController extends Controller
         ->latest()
         ->get();        
         
+        $posts = Post::where('is_approved', true)->get();
 
         return view('forum.index', compact('posts'));
     }
@@ -48,16 +49,32 @@ class PostController extends Controller
     
         return redirect()->back()->with('success', 'Postingan berhasil ditambahkan!');
     }
+    public function pendingApproval()
+    {
+        $pendingPosts = Post::where('is_approved', false)->with('user')->get();
+        return view('forum.pendingApproval', compact('pendingPosts'));
+    }
+    
     public function approve($id)
-{
-    $post = Post::findOrFail($id);
-    $post->is_approved = true;
-    $post->save();
+    {
+        $post = Post::findOrFail($id);
+        $post->is_approved = true; // Set status postingan menjadi disetujui
+        $post->save();
+    
+        return redirect()->route('admin.posts.pendingApproval')->with('status', 'Postingan berhasil disetujui.');
+    }
+    public function reject($id)
+    {
+        // Find the post by ID and delete it
+        $post = Post::findOrFail($id);
+        $post->delete(); // This will delete the post from the database
+    
+        return redirect()->back()->with('status', 'Postingan tidak disetujui dan telah dihapus.');
+    }
+    
+    
 
-    return redirect()->back()->with('success', 'Postingan berhasil disetujui.');
-}
-
-
+    
     public function destroy(Post $post)
     {
         // Cek jika user yang menghapus adalah pemilik postingan
