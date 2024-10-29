@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jadwalguru;
-use App\Models\Materi;
 use App\Models\Post;
 use App\Models\Score;
 use Carbon\Carbon;

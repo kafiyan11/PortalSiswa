@@ -129,14 +129,14 @@
                 
                     @if(auth()->user()->role == 'Guru')
                     <div class="d-flex justify-content-between mb-2">
-                        <form action="{{route('siswa.cari')}}" method="GET" class="input-group" style="max-width: 400px;">
-                            <input type="text" name="cari" class="form-control search-input" placeholder="Cari tugas...">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary search-btn" type="submit">
-                                    <i class="fas fa-search"></i> Cari
-                                </button>
-                            </div>
-                        </form>
+                    <form action="{{ route('guru.tugas.tugas') }}" method="GET" class="input-group" style="max-width: 400px;">
+                        <input type="text" name="cari" class="form-control search-input" placeholder="Cari tugas..." value="{{ request()->get('cari') }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary search-btn" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
                         <a href="{{ route('guru.tugas.tambah') }}" class="btn btn-primary">
                             <i class="fas fa-plus-circle"></i> Tambah Tugas</a>
                     </div>

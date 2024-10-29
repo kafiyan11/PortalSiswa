@@ -6,7 +6,6 @@
 
 @section('content')
 <head>
-    <link href="assets/img/favicon.png" rel="icon">
     <!-- Tambahkan Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -133,13 +132,13 @@
                                 <td>{{ $jadwal->ganjil_genap }}</td>
                                 <td>
                                     <a href="{{ route('admin.jadwalguru.edit', $jadwal->id) }}" class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil-square"></i> Edit
+                                        <i class="fas fa-edit"></i> 
                                     </a>
                                     <form id="form-delete-{{ $jadwal->id }}" action="{{ route('admin.jadwalguru.destroy', $jadwal->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn btn-danger-custom btn-sm delete-btn" data-id="{{ $jadwal->id }}">
-                                            <i class="fas fa-trash-alt"></i> Hapus
+                                            <i class="fas fa-trash-alt"></i> 
                                         </button>
                                     </form>
                                 </td>

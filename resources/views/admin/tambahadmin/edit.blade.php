@@ -48,7 +48,7 @@
         
         <!-- NIS -->
         <div class="mb-3">
-            <label for="nis" class="form-label">NIS</label>
+            <label for="nis" class="form-label">NIP</label>
             <input 
                 type="text" 
                 class="form-control @error('nis') is-invalid @enderror" 

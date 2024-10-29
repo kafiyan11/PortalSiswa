@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Materi;
 use App\Models\tugas;
 use App\Models\NamaMateri;
+use App\Models\Score;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         // Menghitung jumlah total siswa dengan cache untuk optimasi
         $totalSiswa = Cache::remember('total_siswa_count', 60, function () {
@@ -43,37 +44,34 @@ class AdminController extends Controller
         $totalAdmin = Cache::remember('total_admin_count', 60, function () {
             return User::where('role', 'Admin')->count();
         });
-    
-        // Mengambil rata-rata nilai per mapel
-        $averageScoresPerMapel = Tugas::select('mapel.nama_mapel', DB::raw('AVG((daily_test_score + midterm_test_score + final_test_score) / 3) as average_score'))
-            ->join('mapel', 'tugas.id_mapel', '=', 'mapel.id_mapel')
-            ->groupBy('mapel.nama_mapel')
-            ->pluck('average_score', 'mapel.nama_mapel');
+        
 
-            // Mengambil data historis
-        $historicalScores = Tugas::select('mapel.nama_mapel', DB::raw('MONTH(tugas.created_at) as month'), DB::raw('AVG((daily_test_score + midterm_test_score + final_test_score) / 3) as average_score'))
-            ->join('mapel', 'tugas.id_mapel', '=', 'mapel.id_mapel')
-            ->groupBy('mapel.nama_mapel', 'month')
-            ->orderBy('month')
-            ->get();
-
-            return view('admin.dashboard', [
-            'totalSiswa' => $totalSiswa,
-            'totalGuru' => $totalGuru,
-            'totalOrangTua' => $totalOrangTua,
-            'totalAdmin' => $totalAdmin,
-            'averageScoresPerMapel' => $averageScoresPerMapel,
-            'historicalScores' => $historicalScores,
-            ]);
+            $search = $request->get('cari');
+        
+            // Fetch scores and calculate total score
+            $scoresQuery = Score::selectRaw('*, (daily_test_score + midterm_test_score + final_test_score) as total_score')
+                                ->when($search, function ($query, $search) {
+                                    return $query->where('nama', 'LIKE', "%{$search}%")
+                                                 ->orWhere('nis', 'LIKE', "%{$search}%");
+                                })
+                                ->orderByDesc('total_score'); // Order by total score (descending for ranking)
+        
+            // Paginate the scores
+            $scores = $scoresQuery->paginate(10);
+        
+            // Add rank and average score to each score in the paginated result
+            $scores->getCollection()->transform(function ($score, $index) use ($scores) {
+                $score->rank = ($scores->currentPage() - 1) * $scores->perPage() + $index + 1; // Calculate rank based on pagination
+                $score->average_score = $score->total_score / 3; // Calculate average score
+                return $score;
+            });
+            $totalUts = Score::sum('midterm_test_score'); // Sesuaikan nama kolom jika diperlukan
+            $totalUas = Score::sum('final_test_score'); // Sesuaikan nama kolom jika diperlukan
+        
+        
+            return view('admin.dashboard', compact('totalSiswa', 'totalGuru', 'totalOrangTua', 'totalAdmin', 'scores', 'totalUts', 'totalUas'));
     }
     
-    
-    
-
-
-
-
-
     //Profil Admin
     public function Profile()
     {
@@ -158,11 +156,25 @@ class AdminController extends Controller
     }
   
     //TUGAS
-    public function tugas()
+    public function tugas(Request $request)
     {
-        $siswa = Tugas::with('mapel')->paginate(2); // Mengambil data dengan relasi mapel
-        return view('admin.tugas.index', ['siswa' => $siswa]); // Mengembalikan ke view
+        // Mengambil kata kunci dari input pencarian
+        $cari = $request->input('cari');
+    
+        // Query untuk mencari data berdasarkan kata kunci pada kolom yang relevan
+        $siswa = Tugas::with('mapel')
+            ->when($cari, function ($query, $cari) {
+                return $query->where('nis', 'like', "%{$cari}%") // Sesuaikan nama kolom jika diperlukan
+                             ->orWhereHas('mapel', function ($query) use ($cari) {
+                                 $query->where('nis', 'like', "%{$cari}%"); // Sesuaikan nama kolom pada relasi mapel
+                             });
+            })
+            ->paginate(2);
+    
+        // Mengembalikan ke view dan mengirimkan kata kunci pencarian
+        return view('admin.tugas.index', ['siswa' => $siswa, 'cari' => $cari]);
     }
+    
 
     public function tambah_tugas()
     {
@@ -238,7 +250,7 @@ class AdminController extends Controller
     //update siswa
     public function updateTugass(Request $request, $id) 
     {
-    $validatedData = $request->validate([
+        $request->validate([
         'nis' => 'required|string|max:255',
         'nama' => 'required|string|max:255',
         'kelas' => 'required|string|max:255',
@@ -249,9 +261,11 @@ class AdminController extends Controller
     $siswa = Tugas::findOrFail($id);
 
     // Update field-field yang diinput
-    $siswa->nis = $validatedData['nis'];
-    $siswa->nama = $validatedData['nama'];
-    $siswa->kelas = $validatedData['kelas'];
+    $siswa->nis = $request->nis;
+    $siswa->nama = $request->nama;
+    $siswa->kelas = $request->kelas;
+    $siswa->id_mapel = $request->id_mapel;
+
 
     // Jika ada gambar baru, hapus gambar lama dan upload yang baru
     if ($request->file('gambar_tugas')) {
@@ -269,12 +283,5 @@ class AdminController extends Controller
     $siswa->save();
 
     return redirect()->route('admin.tugas.index')->with('success', 'Data berhasil diubah!');
-    }
-
-    public function cari(Request $request){
-        $data = $request->input('cari');
-        $siswa = tugas::where('nis', 'like', '%'.$data.'%')->paginate(2);
-
-    return view('admin.tugas.index', compact('siswa'));
     }
 }

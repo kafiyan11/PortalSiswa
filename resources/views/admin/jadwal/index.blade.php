@@ -1,3 +1,6 @@
+<head>
+    <title>Jadwal Siswa | Portal Siswa</title>
+</head>
 @extends('layouts.app')
 
 @section('content')
@@ -118,14 +121,14 @@
                                 <td>{{ $jadwal->tanggal }}</td>
                                 <td>{{ $jadwal->hari }}</td>
                                 <td>
-                                    <a href="{{ route('admin.jadwal.edit', $jadwal->id) }}" class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil-square"></i> Edit
+                                    <a href="{{ route('admin.jadwal.edit', $jadwal->id) }}" class="btn btn-warning btn-sm mr-2">
+                                        <i class="fas fa-edit"></i>
                                     </a>
                                     <form id="form-delete-{{ $jadwal->id }}" action="{{ route('admin.jadwal.destroy', $jadwal->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn btn-danger-custom btn-sm delete-btn" data-id="{{ $jadwal->id }}">
-                                            <i class="fas fa-trash-alt"></i> Hapus
+                                            <i class="fas fa-trash-alt"></i> 
                                         </button>
                                     </form>
                                 </td>

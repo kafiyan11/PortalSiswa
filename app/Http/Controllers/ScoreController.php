@@ -81,8 +81,8 @@ class ScoreController extends Controller
 
     
 
-    public function edit(Score $score, $id)
-    {
+public function edit($id)
+{
     // Ambil data nilai berdasarkan ID
     $score = Score::findOrFail($id);
 
@@ -94,24 +94,35 @@ class ScoreController extends Controller
 
     // Kirim data ke view
     return view('admin.scores.edit', compact('score', 'siswa', 'mapel'));
-    }
+}
 
-    public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'nama' => 'required|string',
-            'nis' => 'required|numeric',
-            'id_mapel' => 'required|exists:mapel,id_mapel', // Validasi mapel
-            'daily_test_score' => 'nullable|numeric', // Allow null
-            'midterm_test_score' => 'nullable|numeric', // Allow null
-            'final_test_score' => 'nullable|numeric', // Allow null
-        ]);
+public function update(Request $request, $id)
+{
+    // Validasi data yang diterima
+    $validated = $request->validate([
+        'student_id' => 'required|exists:users,id',
+        'id_mapel' => 'required|exists:mapel,id_mapel',
+        'daily_test_score' => 'nullable|numeric',
+        'midterm_test_score' => 'nullable|numeric',
+        'final_test_score' => 'nullable|numeric',
+    ]);
 
-        $score = Score::findOrFail($id);
-        $score->update($validated); // Use validated data directly
+    // Cari data Score dan update
+    $score = Score::findOrFail($id);
 
-        return redirect()->route('admin.scores.index')->with('success', 'Nilai berhasil diperbarui!');
-    }
+    // Update data dengan field yang divalidasi
+    $score->update([
+        'student_id' => $validated['student_id'],
+        'id_mapel' => $validated['id_mapel'],
+        'daily_test_score' => $validated['daily_test_score'] ?? 0,
+        'midterm_test_score' => $validated['midterm_test_score'] ?? 0,
+        'final_test_score' => $validated['final_test_score'] ?? 0,
+    ]);
+
+    $score->save();
+
+    return redirect()->route('admin.scores.index')->with('success', 'Nilai berhasil diperbarui!');
+}
 
     public function destroy($id)
     {

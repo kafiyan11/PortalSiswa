@@ -1,5 +1,5 @@
 <head>
-    <title>Tambah Jadwal | Portal Siswa</title>
+    <title>Tambah Jadwal Guru | Portal Siswa</title>
 </head>
 
 @extends('layouts.app')
@@ -28,10 +28,25 @@
     <form action="{{ route('admin.jadwalguru.store') }}" method="POST">
         @csrf
 
+        
+            <div class="form-group">
+                <label for="guru">Guru</label>
+                <select id="guru" name="guru" class="form-control" required>
+                    <option value="">-- Pilih Guru --</option>
+                    @foreach($guruList as $guru)
+                        <option value="{{ $guru->name }}" data-nip="{{ $guru->nis }}">{{ $guru->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="nis">NIP</label>
+                <input type="text" class="form-control" id="nis" name="nis" value="{{ old('nis') }}" readonly required>
+            </div>
         <div class="form-group">
-            <label for="tahun">Tahun</label>
+            <label for="tahun">Kelas</label>
             <select id="tahun" name="tahun" class="form-control" onchange="updateKelasOptions()">
-                <option value="" disabled selected>Pilih Tahun</option>
+                <option value="" disabled selected>Pilih Kelas</option>
                 <option value="X">X</option>
                 <option value="XI">XI</option>
                 <option value="XII">XII</option>
@@ -39,9 +54,9 @@
         </div>
 
         <div class="form-group">
-            <label for="jenis_kelas">Jenis Kelas</label>
+            <label for="jenis_kelas">Jurusan</label>
             <select id="jenis_kelas" name="jenis_kelas" class="form-control" onchange="updateNomorOptions()" disabled>
-                <option value="" disabled selected>Pilih Jenis Kelas</option>
+                <option value="" disabled selected>Pilih Jurusan</option>
                 <option value="TKRO">TKRO</option>
                 <option value="TKJ">TKJ</option>
                 <option value="RPL">RPL</option>
@@ -64,21 +79,6 @@
         </div>
 
         <input type="hidden" id="kelas_hidden" name="kelas" value="">
-    
-        <div class="form-group">
-            <label for="guru">Guru</label>
-            <select id="guru" name="guru" class="form-control" required>
-                <option value="">-- Pilih Guru --</option>
-                @foreach($guruList as $guru)
-                    <option value="{{ $guru->name }}" data-nip="{{ $guru->nis }}">{{ $guru->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="nis">NIP</label>
-            <input type="text" class="form-control" id="nis" name="nis" value="{{ old('nis') }}" readonly required>
-        </div>
         
     
         <div class="row">

@@ -33,115 +33,121 @@ class MateriController extends Controller
      */
     public function create()
 {
-    $mapel = NamaMateri::all(); // Mengambil data dari model Mapel
+    // Pastikan NamaMateri sudah sesuai
+    $mapel = NamaMateri::all(); // Menggunakan model yang benar untuk mapel
     return view('guru.materi.addMateri', compact('mapel'));
 }
 
-    /**
-     * Store a new Materi in storage.
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-           'judul' => 'required|string|max:255',
-            'id_mapel' => 'required|integer|exists:mapel,id_mapel',
-            'kelas' => 'required|string|max:255',
-            'tipe' => 'required|string|in:gambar,youtube',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'link_youtube' => [
-                'required',
-                'url',
-                'regex:/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/', // Validasi hanya untuk link YouTube
-            ], 
-        ], [
-            'link_youtube.regex' => 'Hanya link dari YouTube yang diizinkan.',
-        ]);
+/**
+ * Store a new Materi in storage.
+ */
+public function store(Request $request)
+{
+    // Validasi input termasuk id_mapel
+    $request->validate([
+        'judul' => 'required|string|max:255',
+        'id_mapel' => 'required|integer|exists:mapel,id_mapel',
+        'kelas' => 'required|string|max:255',
+        'tipe' => 'required|string|in:gambar,youtube',
+        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'link_youtube' => [
+            'nullable',
+            'url',
+            'regex:/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/',
+        ],
+    ], [
+        'link_youtube.regex' => 'Hanya link dari YouTube yang diizinkan.',
+    ]);
 
-        // Validasi bahwa salah satu harus diisi
-        if (!$request->hasFile('gambar') && !$request->link_youtube) {
-            return back()->withErrors(['msg' => 'Anda harus mengunggah gambar atau memasukkan link YouTube.']);
-        }
-
-        // Proses upload gambar jika ada
-        $gambarPath = null;
-        if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('materi', 'public');
-        }
-
-        // Simpan data ke database
-        Materi::create([
-            'judul' => $request->judul,
-            'id_mapel' => $request->id_mapel,
-            'kelas' => $request->kelas,
-            'gambar' => $gambarPath,
-            'link_youtube' => $request->link_youtube,
-            'tipe' => $request->tipe,
-        ]);
-
-        return redirect()->route('guru.materi')->with('success', 'Materi berhasil diunggah.');
+    // Pastikan tipe dan input sesuai
+    if ($request->tipe === 'gambar' && !$request->hasFile('gambar')) {
+        return back()->withErrors(['gambar' => 'Anda harus mengunggah gambar untuk tipe gambar.']);
     }
+
+    if ($request->tipe === 'youtube' && empty($request->link_youtube)) {
+        return back()->withErrors(['link_youtube' => 'Anda harus memasukkan link YouTube untuk tipe YouTube.']);
+    }
+
+    // Proses unggah gambar jika ada
+    $gambarPath = null;
+    if ($request->hasFile('gambar')) {
+        // Simpan gambar ke direktori 'public/materi'
+        $gambarPath = $request->file('gambar')->store('materi', 'public');
+    }
+
+    // Buat data materi
+    Materi::create([
+        'judul' => $request->judul,
+        'id_mapel' => $request->id_mapel,
+        'kelas' => $request->kelas,
+        'gambar' => $gambarPath,
+        'link_youtube' => $request->link_youtube,
+        'tipe' => $request->tipe,
+    ]);
+
+    // Redirect ke halaman index materi
+    return redirect()->route('guru.materi')->with('success', 'Materi berhasil diunggah.');
+}
+
 
     /**
      * Show the form to edit existing Materi.
      */
     public function edit($id)
     {
-        $materi = Materi::findOrFail($id); // Get Materi data by ID
-        $mapel = NamaMateri::all(); // Fetch all subjects for the dropdown
-        return view('guru.materi.edit', compact('materi', 'mapel')); // Show edit view with Materi data
+        $materi = Materi::findOrFail($id);
+        $mapel = NamaMateri::all(); // Menggunakan Mapel::all() yang benar
+        return view('guru.materi.edit', compact('materi', 'mapel'));
     }
-    
+
     /**
      * Update an existing Materi in storage.
      */
     public function update(Request $request, $id)
-    {
-        // Validasi input
-        $request->validate([
-           'judul' => 'required|string|max:255',
-            'id_mapel' => 'required|integer|exists:mapel,id_mapel',
-            'kelas' => 'required|string|max:255',
-            'tipe' => 'required|string|in:gambar,youtube',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'link_youtube' => [
-                'required',
-                'url',
-                'regex:/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/', // Validasi hanya untuk link YouTube
-            ], 
-        ], [
-            'link_youtube.regex' => 'Hanya link dari YouTube yang diizinkan.',
-        ]);
-        
-    
-        $materi = Materi::findOrFail($id); // Mengambil data berdasarkan ID
+{
+    $request->validate([
+        'judul' => 'required|string|max:255',
+        'id_mapel' => 'required|integer|exists:mapel,id_mapel',
+        'kelas' => 'required|string|max:255',
+        'tipe' => 'required|string|in:gambar,youtube',
+        'gambar' => 'nullable|image|max:2048',
+        'link_youtube' => [
+            'nullable',
+            'url',
+            function ($attribute, $value, $fail) {
+                if (!preg_match('/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//', $value)) {
+                    $fail('Link YouTube harus berasal dari domain youtube.com atau youtu.be.');
+                }
+            },
+        ],
+    ]);
 
-        // Update data materi
-        $materi->judul = $request->judul;
-        $materi->id_mapel = $request->id_mapel;
-        $materi->kelas = $request->kelas;
-        $materi->tipe = $request->tipe;
+    $materi = Materi::findOrFail($id);
+    $materi->judul = $request->judul;
+    $materi->id_mapel = $request->id_mapel;
+    $materi->kelas = $request->kelas;
+    $materi->tipe = $request->tipe;
 
-        // Jika mengupload gambar baru
-        if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
-            if ($materi->gambar) {
-                Storage::disk('public')->delete($materi->gambar);
-            }
-            $materi->gambar = $request->file('gambar')->store('materi', 'public');
+    // Upload gambar
+    if ($request->hasFile('gambar')) {
+        if ($materi->gambar) {
+            Storage::disk('public')->delete($materi->gambar);
         }
+        $materi->gambar = $request->file('gambar')->store('materi', 'public');
+    }
 
-        // Mengatur link YouTube berdasarkan tipe
-        if ($request->tipe === 'youtube') {
-            $materi->link_youtube = $request->link_youtube;
-            $materi->gambar = null; // Clear gambar jika tipe adalah youtube
-        } elseif ($request->tipe === 'gambar') {
-            $materi->link_youtube = null; // Clear link_youtube jika tipe adalah gambar
-        }
+    if ($request->tipe === 'youtube') {
+        $materi->link_youtube = $request->link_youtube;
+        $materi->gambar = null;
+    } elseif ($request->tipe === 'gambar') {
+        $materi->link_youtube = null;
+    }
 
-        $materi->save(); // Simpan perubahan ke database
+    $materi->save();
 
     return redirect()->route('guru.materi')->with('success', 'Materi berhasil diperbarui.');
-    }
+}
+
 
     /**
      * Delete a Materi from storage.
