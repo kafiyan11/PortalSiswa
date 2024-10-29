@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <h1 class="mb-4">Create Materi</h1>
+    <h1 class="mb-4 text-center">Tambah Materi</h1>
 
     <div class="card">
         <div class="card-body">

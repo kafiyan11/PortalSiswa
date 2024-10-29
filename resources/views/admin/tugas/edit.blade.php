@@ -33,8 +33,9 @@
 
 <body>
 
-    @include('layouts.app')
+    @extends('layouts.app')
 
+    @section('content')
     <div class="container-custom">
         <div class="form-section">
             <h2>Edit Tugas</h2>
@@ -42,15 +43,15 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-3 row">
-                    <label for="nis" class="col-sm-2 col-form-label">NIS</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="nis" name="nis" required value="{{ old('nis', $siswa->nis) }}">
-                    </div>
-                </div>
-                <div class="mb-3 row">
                     <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="nama" name="nama" required value="{{ old('nama', $siswa->nama) }}">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="nis" class="col-sm-2 col-form-label">NIS</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="nis" name="nis" required value="{{ old('nis', $siswa->nis) }}">
                     </div>
                 </div>
                 <div class="mb-3 row">
@@ -63,7 +64,7 @@
                     <label for="id_mapel">Mapel:</label>
                     <select name="id_mapel" id="id_mapel" class="form-control" required>
                     @foreach($mapel as $m)
-                        <option value="{{ $m->id }}" {{ $m->id == $siswa->id_mapel ? 'selected' : '' }}>
+                        <option value="{{ $m->id_mapel }}" {{ $m->id == $siswa->id_mapel ? 'selected' : '' }}>
                             {{ $m->nama_mapel }}
                         </option>
                     @endforeach
@@ -82,7 +83,7 @@
                     </div>
                 </div>
                 <div class="text-end">
-                    <input type="submit" value="Simpan" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
@@ -92,3 +93,4 @@
 </body>
 
 </html>
+@endsection

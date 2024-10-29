@@ -11,11 +11,23 @@ use App\Http\Controllers\Controller;
 
 class TambahTugasController extends Controller
 {
-    public function tugas()
-    {
-        $siswa = Tugas::with('mapel')->paginate(2);
-        return view('guru.tugas.tugas', ['siswa' => $siswa]);
+    public function tugas(Request $request)
+{
+    $query = Tugas::with('mapel');
+
+    // Cek jika ada parameter pencarian
+    if ($request->has('cari')) {
+        $search = $request->get('cari');
+        $query->where('nama_tugas', 'like', '%' . $search . '%')
+              ->orWhereHas('mapel', function($q) use ($search) {
+                  $q->where('nama_mapel', 'like', '%' . $search . '%');
+              });
     }
+
+    $siswa = $query->paginate(2);
+
+    return view('guru.tugas.tugas', ['siswa' => $siswa]);
+}
 
     public function tambah_tugas()
     {
@@ -125,12 +137,5 @@ class TambahTugasController extends Controller
     $siswa->save();
 
     return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil diubah!');
-    }
-
-    public function cari(Request $request){
-        $data = $request->input('cari');
-        $siswa = tugas::where('nis', 'like', '%'.$data.'%')->paginate(2);
-
-    return view('guru.tugas.tugas', compact('siswa'));
     }
 }

@@ -77,9 +77,10 @@
                 Mohon masukkan link YouTube yang valid.
             </div>
         </div>
-
-        <button type="submit" class="btn btn-primary mt-3">Perbarui Materi</button>
-        <a href="{{ route('admin.materi.index') }}" class="btn btn-secondary mt-3">Kembali</a>
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary mt-3">Perbarui Materi</button>
+            <a href="{{ route('admin.materi.index') }}" class="btn btn-secondary mt-3">Kembali</a>
+        <div>
     </form>
 </div>
 

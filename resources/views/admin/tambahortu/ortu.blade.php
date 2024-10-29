@@ -121,13 +121,13 @@
                             </td>
                             <td class="d-flex justify-content-center">
                                 <a href="{{ route('edit.ortu', $item->id) }}" class="btn btn-warning btn-sm mr-2" aria-label="Edit">
-                                    <i class="fas fa-edit"></i> Edit
+                                    <i class="fas fa-edit"></i> 
                                 </a>
                                 <form id="form-delete-{{ $item->id }}" action="{{ route('delet.ortu', $item->id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="{{ $item->id }}" aria-label="Delete">
-                                        <i class="fas fa-trash-alt"></i> Hapus
+                                        <i class="fas fa-trash-alt"></i> 
                                     </button>
                                 </form>
                             </td>

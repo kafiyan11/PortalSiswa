@@ -145,8 +145,6 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
 
 
 
-        Route::get('/admin/cari', [AdminController::class, 'cari'])->name('siswa.cari');
-
         
     //CRUD MATERI
         Route::get('/admin/materi', [MateriAdminController::class, 'materiAdmin'])->name('admin.materi.index');
@@ -248,13 +246,6 @@ Route::middleware(['auth','role:Guru'])->group(function(){
     Route::put('/tugas/{id}', [TambahTugasController::class, 'update'])->name('guru.tugas.update');
     Route::delete('/tugas/{id}', [TambahTugasController::class, 'destroy'])->name('guru.tugas.destroy');
     Route::get('/tugas/cari', [TambahTugasController::class, 'cari'])->name('guru.tugas.cari');
-
-    //materi
-    Route::get('/materi/cari', [GuruController::class, 'cari'])->name('materi.cari');
-    Route::get('/materi/create', [GuruController::class, 'create'])->name('materi.create');
-    Route::get('/materi/{id}/edit', [GuruController::class, 'edit'])->name('materi.edit');
-    Route::delete('/materi/{id}', [GuruController::class, 'destroy'])->name('materi.destroy');
-
 
 
     // bagian tambah Materi

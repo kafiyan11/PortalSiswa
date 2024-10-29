@@ -52,7 +52,7 @@ class NamaMateriController extends Controller
         ]);
     
         // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('namamapel.index')->with('success', 'Materi berhasil ditambahkan.');
+        return redirect()->route('namamapel.index')->with('success', 'Mata Pelajaran berhasil ditambahkan.');
     }
     
 
@@ -97,7 +97,7 @@ class NamaMateriController extends Controller
         $materi->save();
 
         // Redirect with success message
-        return redirect()->route('namamapel.index')->with('success', 'Materi berhasil diperbarui.');
+        return redirect()->route('namamapel.index')->with('success', 'Mata Pelajaran berhasil diperbarui.');
     }
 
     
@@ -111,9 +111,9 @@ class NamaMateriController extends Controller
         // Jika materi ditemukan, hapus
         if ($materi) {
             $materi->delete();
-            return redirect()->route('namamapel.index')->with('success', 'Materi berhasil dihapus.');
+            return redirect()->route('namamapel.index')->with('success', 'Mata Pelajaran berhasil dihapus.');
         }
         
-        return redirect()->route('namamapel.index')->with('error', 'Materi tidak ditemukan.');
+        return redirect()->route('namamapel.index')->with('error', 'Mata Pelajaran tidak ditemukan.');
     }
 }

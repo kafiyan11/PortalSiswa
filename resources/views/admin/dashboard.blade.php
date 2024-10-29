@@ -10,6 +10,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Library Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    
+    <!-- Library Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -261,88 +266,59 @@
                     </div>
                 </div>
             </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="text-center">Grafik Nilai Rata-Rata Siswa</h5>
+                    <canvas id="averageScoreChart"></canvas>
+                </div>
+            </div>
+        </main>
 
-            <!-- Tambahkan grafik di sini -->
-            <!-- Include Chart.js -->
-<!-- Grafik Rata-rata Nilai per Mapel -->
-<div class="container mt-4" style="max-width: 700px;">
-    <h2 class="text-center">Rata-rata Nilai per Mapel</h2>
-    <canvas id="averageScoresChart"></canvas>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const ctx = document.getElementById('averageScoresChart').getContext('2d');
-        const averageScoresChart = new Chart(ctx, {
-            type: 'line',
+<script>
+        // Inisialisasi Chart.js untuk Grafik Nilai Rata-Rata Siswa dalam bentuk garis
+    document.addEventListener("DOMContentLoaded", function () {
+        const labels = {!! json_encode($scores->pluck('nama')->toArray()) !!}; // Nama siswa
+        const data = {!! json_encode($scores->pluck('average_score')->toArray()) !!}; // Nilai rata-rata siswa
+
+        const ctx = document.getElementById('averageScoreChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line', // Jenis grafik (line chart)
             data: {
-                labels: {!! json_encode(array_keys($averageScoresPerMapel->toArray())) !!},
+                labels: labels,
                 datasets: [{
-                    label: 'Rata-rata Nilai per Mapel',
-                    data: {!! json_encode(array_values($averageScoresPerMapel->toArray())) !!},
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.1)', // Tambahkan sedikit background agar lebih jelas
+                    label: 'Nilai Rata-Rata',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 2,
-                    fill: false, // Menghilangkan pengisian area di bawah garis
-                    tension: 0.4 // Menambahkan sedikit kurva pada garis
+                    fill: true, // Isi di bawah garis
+                    tension: 0.4 // Memberikan efek lengkung pada garis
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true, 
                 scales: {
                     y: {
                         beginAtZero: true,
-                        max: 100, // Jika skala nilai dari 0 sampai 100, atur di sini
                         title: {
                             display: true,
-                            text: 'Rata-rata Nilai'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Nama Mapel'
+                            text: 'Nilai'
                         }
                     }
                 },
                 plugins: {
                     legend: {
                         display: true,
-                        position: 'top',
-                    },
-                    tooltip: {
-                        enabled: true
+                        position: 'top'
                     }
                 }
             }
         });
     });
-    </script>
-</div>
+</script>
 
 
-    <!-- Data Historis -->
-    <div class="mt-4">
-        <h2 class="text-center">Data Historis Rata-rata Nilai</h2>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Mapel</th>
-                    <th>Bulan</th>
-                    <th>Rata-rata Nilai</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($historicalScores as $score)
-                    <tr>
-                        <td>{{ $score->nama_mapel }}</td>
-                        <td>{{ $score->month }}</td>
-                        <td>{{ number_format($score->average_score, 2) }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</main>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>

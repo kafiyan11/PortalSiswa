@@ -144,7 +144,7 @@
                     <p>Total Siswa: <span class="badge badge-primary">{{ $totalSiswa }}</span></p> <!-- Menampilkan jumlah siswa -->
                 </div>
                 <!-- Tampilkan tautan pagination -->
-                <div class="d-flex">
+                <div class="d-flex justify-content-end">
                     {{ $data->appends(['search' => request()->get('search')])->links() }}
                 </div>   
             </div>

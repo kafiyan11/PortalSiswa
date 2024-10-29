@@ -120,13 +120,13 @@
                                 </td>
                                 <td class="d-flex justify-content-center">
                                     <a href="{{ route('edit.guru', $item->id) }}" class="btn btn-warning btn-sm mr-2">
-                                        <i class="fas fa-edit"></i>Edit
+                                        <i class="fas fa-edit"></i>
                                     </a>
                                     <form id="form-delete-{{ $item->id }}" action="{{ route('delet.guru', $item->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="{{ $item->id }}">
-                                            <i class="fas fa-trash-alt"></i>Hapus
+                                            <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>

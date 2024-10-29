@@ -1,302 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Materi Siswa | Portal Siswa</title>
+    <title>Materi Siswa | Portal Siswa</title>
     <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- SweetAlert2 -->
+    <!-- Library SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            background-color: #f8f9fa; /* Warna latar belakang yang lebih terang */
-        }
-
-        /* Layout utama dengan Flexbox */
-        .container-main {
-            display: flex;
-            min-height: 100vh; /* Pastikan tinggi minimal 100% viewport */
-        }
-
-        /* Konten utama */
-        .content {
-            flex: 1; /* Menggunakan flex untuk mengisi sisa ruang */
-            padding: 20px; /* Padding di konten */
-        }
-
-        /* Tabel responsif */
-        .table-responsive {
-            width: 100%;
-        }
-
-        table th, table td {
-            text-align: center; /* Pusatkan teks dalam tabel */
-            vertical-align: middle;
-        }
-
-        table th {
-            background-color: #343a40; /* Warna header tabel */
-            color: white;
-            padding: 15px;
-        }
-
-        table td {
-            padding: 10px;
-        }
-
-        table tr:nth-child(even) {
-            background-color: #f2f2f2; /* Warna untuk baris genap */
-        }
-
-        table tr:hover {
-            background-color: #e9ecef; /* Warna saat hover */
-        }
-
-        .btn-primary {
-            margin-bottom: 20px; /* Margin untuk tombol */
-        }
-
-        .alert {
-            margin-top: 20px; /* Margin untuk alert */
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .d-flex .input-group {
-            max-width: 100%; /* Lebar maksimum input group */
-        }
-
-        .search-input {
-            border-radius: 25px 0 0 25px; /* Rounded corners */
-            border: 2px solid #007bff; /* Border untuk input */
-            transition: border-color 0.3s ease-in-out; /* Transisi border */
-        }
-
-        .search-input:focus {
-            outline: none; /* Menghilangkan outline saat fokus */
-            border-color: #0056b3; /* Border warna saat fokus */
-        }
-
-        .search-btn {
-            border-radius: 0 25px 25px 0; /* Rounded corners untuk tombol pencarian */
-            padding: 8px 20px; /* Padding tombol */
-            background-color: #007bff; /* Warna tombol */
-            border-color: #007bff; /* Border warna tombol */
-            transition: background-color 0.3s ease-in-out, transform 0.2s; /* Transisi efek hover */
-        }
-
-        .search-btn:hover {
-            background-color: #0056b3; /* Warna saat hover */
-            border-color: #0056b3; /* Border warna saat hover */
-            transform: scale(1.05); /* Efek skala saat hover */
-        }
-
-        .add-btn {
-            padding: 8px 20px; /* Padding tombol tambah */
-            background-color: #28a745; /* Warna tombol tambah */
-            border-color: #28a745; /* Border warna tombol tambah */
-            transition: background-color 0.3s ease-in-out, transform 0.2s; /* Transisi efek hover */
-        }
-
-        .add-btn:hover {
-            background-color: #218838; /* Warna saat hover tombol tambah */
-            border-color: #218838; /* Border warna saat hover */
-            transform: scale(1.05); /* Efek skala saat hover */
-        }
-
-        .search-btn i,
-        .add-btn i {
-            margin-right: 5px; /* Margin antara ikon dan teks */
-        }
-
-        /* Kelas Kustom untuk Formulir Pencarian */
-        .search-form {
-            flex: 0 1 400px; /* Tidak tumbuh, dapat menyusut, lebar dasar 400px */
-            max-width: 400px; /* Lebar maksimum 400px */
-            width: 100%; /* Lebar 100% dari container */
-        }
-
-        /* Responsif untuk layar kecil */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%; /* Sidebar penuh pada layar kecil */
-                position: relative; /* Tidak fixed pada layar kecil */
-            }
-
-            .content {
-                margin-left: 0; /* Tidak ada margin kiri pada layar kecil */
-                width: 100%; /* Lebar penuh untuk konten */
-            }
-
-            .d-flex {
-                flex-direction: column; /* Susun ulang elemen dalam kolom */
-            }
-
-            .d-flex .input-group {
-                max-width: 100%;
-                margin-bottom: 10px; /* Margin bawah untuk pemisah */
-            }
-
-            .add-btn {
-                width: 100%; /* Lebar penuh pada tombol tambah */
-            }
-
-            .search-form {
-                max-width: 100%; /* Lebar penuh pada layar kecil */
-            }
-        }
-    </style>
+    <!-- Library Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Library Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    @extends('layouts.app') <!-- Memasukkan layout app -->
+@extends('layouts.app')
 
-    @section('content')
-    <div class="container-main">
-        <div class="content">
-            <h1 class="text-center">Materi Siswa</h1>
-            <section class="content">
-                <div class="container">
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- Menampilkan pesan flash -->
-                            @if(session('success'))
-                                <script>
-                                    Swal.fire({
-                                        title: "Kerja Bagus!", // Judul popup
-                                        text: "{{ session('success') }}", // Pesan sukses dari session
-                                        icon: "success" // Ikon popup (success)
-                                    });
-                                </script>
-                            @endif
+@section('content')
+<head>
 
-                            <!-- Form Pencarian dan Tombol Tambah dalam satu baris -->
-                             <div class="d-flex justify-content-between flex-wrap mb-3">
-            <!-- Fitur pencarian -->
-            <form action="{{ route('materiAdmin.cari') }}" method="GET" class="input-group mb-2 mb-md-0">
-                <input type="text" name="cari" class="form-control form-control-sm text-center" placeholder="Cari tugas..." value="{{ request()->get('cari') }}" required style="max-width: 200px;">
-                <button class="btn btn-primary btn-sm" type="submit">
-                    <i class="bi bi-search"></i> Cari
-                </button>
-            </form>
-            <!-- Tombol tambah tugas -->
-            <a href="{{ route('adminMateri.create') }}" class="btn btn-primary btn-sm ml-auto" style="width: 150px;">
-                <i class="bi bi-plus-circle"></i> Tambah Tugas
-            </a>
-        </div>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>NO</th>
-                                            <th>Judul</th>
-                                            <th>Kelas</th>
-                                            <th>Mata Pelajaran</th>
-                                            <th>Materi</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($materi as $index => $item)
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
-                                                <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
-                                                <td>{{ $item->kelas }}</td>
-                                                <td>{{ optional($item->mapel)->nama_mapel }}</td>
-                                                <td>
-                                                    @if($item->tipe == 'gambar')
-                                                        <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank">
-                                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px">
-                                                        </a>
-                                                    @else
-                                                        @if (Str::contains($item->link_youtube, 'youtube.com') || Str::contains($item->link_youtube, 'youtu.be'))
-                                                            @php
-                                                                // Mendapatkan video ID dari link YouTube
-                                                                $youtubeUrl = $item->link_youtube;
-                                                                $videoId = null;
-                                                                if (preg_match('/(youtube\.com.*(\?v=|\/embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/', $youtubeUrl, $matches)) {
-                                                                    $videoId = $matches[3];
-                                                                }
-                                                            @endphp
-                                                            @if($videoId)
-                                                                <iframe width="200" height="150" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allowfullscreen></iframe>
-                                                            @else
-                                                                <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
-                                                            @endif
-                                                        @else
-                                                            <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
-                                                        @endif
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                <div class="d-inline-flex">
-                                                    <a href="{{ route('adminMateri.edit', $item->id) }}" class="btn btn-warning btn-sm mr-2">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $item->id }}')">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </div>
+    <!-- Library SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Library Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    
+    <!-- Library Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
 
-                                                    
-                                                    <!-- Form tersembunyi untuk menghapus materi -->
-                                                    <form id="delete-form-{{ $item->id }}" action="{{ route('adminMateri.destroy', $item->id) }}" method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        @if($materi->isEmpty())
-                                            <tr>
-                                                <td colspan="5" class="text-center">Tidak ada data materi ditemukan.</td>
-                                            </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- Link pagination -->
-                            <div class="d-flex justify-content-end">
-                                {{ $materi->links() }}
-                            </div>
-                        </div>
-                    </div>
+<div class="container mt-4" style="max-width: 1000px;">
+    <h2 class="text-center">Materi Siswa</h2><br>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+            <form action="{{route('materiAdmin.cari')}}" method="GET" class="input-group" style="max-width: 400px;">
+                <input type="text" name="cari" class="form-control search-input" placeholder="Cari siswa..." value="{{ request()->get('cari') }}">
+                <div class="input-group-append">
+                    <button class="btn btn-primary search-btn" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
-            </section>
+            </form>
+                <a href="{{ route('adminMateri.create') }}" class="btn btn-primary"> Tambah Materi</a>
+    </div>
 
-            <!-- Script SweetAlert untuk konfirmasi hapus -->
-            <script>
-                function confirmDelete(id) {
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <!-- Pencarian dan Tombol Tambah Nilai -->
+     
+
+            <!-- Notifikasi SweetAlert2 -->
+            @if(session('success'))
+                <script>
                     Swal.fire({
-                        title: "Apakah Anda yakin?", // Judul konfirmasi
-                        text: "Data ini akan dihapus secara permanen!", // Pesan konfirmasi
-                        icon: "warning", // Ikon peringatan
-                        showCancelButton: true, // Tampilkan tombol batal
-                        confirmButtonColor: "#3085d6", // Warna tombol konfirmasi
-                        cancelButtonColor: "#d33", // Warna tombol batal
-                        confirmButtonText: "Ya, hapus!", // Teks pada tombol konfirmasi
-                        cancelButtonText: "Batal" // Teks pada tombol batal
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Jika pengguna menekan "Ya, hapus!", submit form penghapusan
-                            document.getElementById('delete-form-' + id).submit();
-                        }
+                        title: "Kerja Bagus!",
+                        text: "{{ session('success') }}",
+                        icon: "success"
                     });
-                }
-            </script>
+                </script>
+            @endif
+
+            <!-- Tabel Nilai Siswa -->
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>NO</th>
+                            <th>Judul</th>
+                            <th>Kelas</th>
+                            <th>Mata Pelajaran</th>
+                            <th>Materi</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       <!-- Loop data siswa -->
+                       @foreach($materi as $index => $item)
+                            <tr>
+                                <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
+                                <td>{{ $item->judul }}</td> <!-- Menampilkan judul materi -->
+                                <td>{{ $item->kelas }}</td>
+                                <td>{{ optional($item->mapel)->nama_mapel }}</td>
+                                <td>
+                                    @if($item->tipe == 'gambar')
+                                        <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="Materi Gambar" width="100px"></a>
+                                    @else
+                                        @if (Str::contains($item->link_youtube, 'youtube.com') || Str::contains($item->link_youtube, 'youtu.be'))
+                                            @php
+                                                // Mendapatkan video ID dari link YouTube
+                                                $youtubeUrl = $item->link_youtube;
+                                                $videoId = null;
+                                                if (preg_match('/(youtube\.com.*(\?v=|\/embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/', $youtubeUrl, $matches)) {
+                                                $videoId = $matches[3];
+                                                }
+                                            @endphp
+                                        @if($videoId)
+                                            <iframe width="150" height="100" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allowfullscreen></iframe>
+                                                @else
+                                                    <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
+                                                @endif
+                                                @else
+                                                <a href="{{ $item->link_youtube }}" target="_blank"><i class="fab fa-youtube"></i> Link YouTube</a>
+                                                @endif
+                                        @endif
+                                </td>
+                                <td>
+                                <div class="d-inline-flex">
+                                    <a href="{{ route('adminMateri.edit', $item->id) }}" class="btn btn-warning btn-sm mr-2">
+                                        <i class="fa fa-edit"></i></a>
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ $item->id }}')">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                </div>
+                                    <!-- Form tersembunyi untuk menghapus materi -->
+                                    <form id="delete-form-{{ $item->id }}" action="{{ route('adminMateri.destroy', $item->id) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                            @if($materi->isEmpty())
+                                <tr>
+                                    <td colspan="5" class="text-center">Tidak ada data materi ditemukan.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                </table>
+            </div>
+                <div class="d-flex justify-content-end">
+                    {{ $materi->links() }}
+                </div>
+            </div>
         </div>
     </div>
-    @endsection
+
+    
+    <script>
+        // Fungsi konfirmasi hapus dengan SweetAlert2
+        function confirmDelete(id) {
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Data ini akan dihapus secara permanen!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+    </script>
 </body>
 </html>
+@endsection
+
+
+
+

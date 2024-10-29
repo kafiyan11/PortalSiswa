@@ -1,6 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
 <head>
     <title>Edit Jadwal | Portal Siswa</title>
     <style>
@@ -9,6 +6,9 @@
         }
     </style>
 </head>
+@extends('layouts.app')
+
+@section('content')
 
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -35,6 +35,18 @@
         @method('PUT')
 
         <div class="mb-3">
+            <label for="guru" class="form-label">Guru</label>
+            <select id="guru" name="guru" class="form-control" required>
+                <option value="">Pilih Guru</option>
+                @foreach($gurus as $guru)
+                    <option value="{{ $guru->name }}" {{ old('guru', $jadwal->guru) == $guru->id ? 'selected' : '' }}>
+                        {{ $guru->name }} <!-- Pastikan ini field yang sesuai dari model User -->
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
             <label for="kelas" class="form-label">Kelas</label>
             <input type="text" name="kelas" class="form-control" value="{{ old('kelas', $jadwal->kelas) }}" required>
         </div>
@@ -51,17 +63,7 @@
             </select>
         </div>
 
-        <div class="mb-3">
-            <label for="guru" class="form-label">Guru</label>
-            <select id="guru" name="guru" class="form-control" required>
-                <option value="">Pilih Guru</option>
-                @foreach($gurus as $guru)
-                    <option value="{{ $guru->name }}" {{ old('guru', $jadwal->guru) == $guru->id ? 'selected' : '' }}>
-                        {{ $guru->name }} <!-- Pastikan ini field yang sesuai dari model User -->
-                    </option>
-                @endforeach
-            </select>
-        </div>
+
 
         <div class="row">
             <div class="col-md-6 mb-3">

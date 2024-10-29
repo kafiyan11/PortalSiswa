@@ -20,20 +20,12 @@
                         @endforeach
                     </select>
                 </div>
-
-                <div class="form-group">
-                    <label for="nis">NIS</label>
-                    <input type="text" name="nis" id="nis" class="form-control" placeholder="NIS" readonly>
-                </div>
                 
                 <div class="mb-3">
-                    <label for="id_mapel" class="form-label">Mapel <span class="text-danger">*</span></label>
-                    <select class="form-control @error('id_mapel') is-invalid @enderror" 
-                    name="id_mapel" 
-                    id="id_mapel" required>
-                     <option value="">-- Pilih Mapel --</option>
+                    <label for="id_mapel" class="form-label">Mapel:</label>
+                    <select class="form-control" name="id_mapel" id="id_mapel" required>
                      @foreach($mapel as $m)
-                    <option value="{{ $m->id_mapel }}" {{ old('id_mapel') == $m->id_mapel ? 'selected' : '' }}>
+                    <option value="{{ $m->id_mapel }}" {{ $m->id_mapel == $score->id_mapel ? 'selected' : '' }}>
                         {{ $m->nama_mapel }}
                     </option>
                     @endforeach
@@ -57,10 +49,8 @@
                     <label for="final_test_score">Nilai UAS</label>
                     <input type="number" name="final_test_score" id="final_test_score" class="form-control" value="{{ $score->final_test_score }}" required>
                 </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Update
-                    </button>
+                <div class="text-center d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary"> Perbarui</button>
                 </div>
             </form>
         </div>

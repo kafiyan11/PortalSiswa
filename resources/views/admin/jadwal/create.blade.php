@@ -1,3 +1,6 @@
+<head>
+    <title>Tambah Jadwal Siswa | Portal Siswa</title>
+</head>
 @extends('layouts.app')
 
 @section('content')
@@ -23,11 +26,22 @@
 
     <form action="{{ route('admin.jadwal.store') }}" method="POST">
         @csrf
+        <div class="mb-3">
+            <label for="guru" class="form-label">Guru</label>
+            <select id="guru" name="guru" class="form-control" required>
+                <option value="">Pilih guru</option>
+                @foreach($gurus as $guru)
+                    <option value="{{ $guru->name }}" {{ old('guru') == $guru->name ? 'selected' : '' }}>
+                        {{ $guru->name }} <!-- Ganti dengan field yang sesuai dari model User -->
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
         <div class="form-group">
-            <label for="tahun">Tahun</label>
+            <label for="tahun">Kelas</label>
             <select id="tahun" name="tahun" class="form-control" onchange="updateKelasOptions()">
-                <option value="" disabled selected>Pilih Tahun</option>
+                <option value="" disabled selected>Pilih Kelas</option>
                 <option value="X">X</option>
                 <option value="XI">XI</option>
                 <option value="XII">XII</option>
@@ -35,9 +49,9 @@
         </div>
 
         <div class="form-group">
-            <label for="jenis_kelas">Jenis Kelas</label>
+            <label for="jenis_kelas">Jurusan</label>
             <select id="jenis_kelas" name="jenis_kelas" class="form-control" onchange="updateNomorOptions()" disabled>
-                <option value="" disabled selected>Pilih Jenis Kelas</option>
+                <option value="" disabled selected>Pilih Jurusan</option>
                 <option value="TKRO">TKRO</option>
                 <option value="TKJ">TKJ</option>
                 <option value="RPL">RPL</option>
@@ -73,17 +87,6 @@
         </div>
         
 
-        <div class="mb-3">
-            <label for="guru" class="form-label">Guru</label>
-            <select id="guru" name="guru" class="form-control" required>
-                <option value="">Pilih guru</option>
-                @foreach($gurus as $guru)
-                    <option value="{{ $guru->name }}" {{ old('guru') == $guru->name ? 'selected' : '' }}>
-                        {{ $guru->name }} <!-- Ganti dengan field yang sesuai dari model User -->
-                    </option>
-                @endforeach
-            </select>
-        </div>
         
     
         <div class="row">
