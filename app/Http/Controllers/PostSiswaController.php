@@ -22,32 +22,36 @@ class PostsiswaController extends Controller
         return view('siswa.forumdiskusi', compact('posts'));
     }
 
+    // Di PostSiswaController atau controller yang relevan
     public function store(Request $request)
-    {
-        // Validasi data input
-        $request->validate([
-            'content' => 'required',
-            'image' => 'nullable|image|max:2048',
-            'video' => 'nullable|mimes:mp4,mov,ogg|max:20480'
-        ]);
-    
-        // Buat posting baru
-        $post = new Post;
-        $post->content = $request->input('content');
-        $post->user_id = auth()->id();
-    
-        // Simpan file gambar/video jika ada
-        if ($request->hasFile('image')) {
-            $post->image = $request->file('image')->store('images', 'public');
-        }
-        if ($request->hasFile('video')) {
-            $post->video = $request->file('video')->store('videos', 'public');
-        }
-    
-        $post->save();
-    
-        return redirect()->back()->with('success', 'Postingan berhasil ditambahkan!');
+{
+    $request->validate([
+        'content' => 'required|string',
+        'image' => 'nullable|image',
+        'video' => 'nullable|mimes:mp4,mov,avi|max:20480',
+    ]);
+
+    $post = new Post();
+    $post->content = $request->content;
+    $post->is_approved = false; // Set status postingan sebagai "belum disetujui"
+    $post->user_id = auth()->id(); // Id siswa yang sedang login
+
+    if ($request->hasFile('image')) {
+        $post->image = $request->file('image')->store('image', 'public');
     }
+
+    if ($request->hasFile('video')) {
+        $post->video = $request->file('video')->store('videos', 'public');
+    }
+
+    $post->save();
+
+    // Redirect siswa ke halaman forumdiskusi mereka dengan alert pesan
+    session()->flash('pending', 'Postingan Anda sedang dalam masa pending untuk persetujuan.');
+
+    return redirect()->route('siswa.forumdiskusi');}
+
+    
     
 
     public function destroy(Post $post)

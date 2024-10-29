@@ -162,12 +162,10 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
         Route::get('forum', [PostController::class, 'index'])->name('posts.index');
         Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
         Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
-        Route::get('/admin/posts', [PostController::class, 'index'])->name('admin.posts.index');
-Route::post('/admin/posts/{id}/approve', [PostController::class, 'approve'])->name('admin.posts.approve');
-Route::post('/admin/posts/{id}/reject', [PostController::class, 'reject'])->name('admin.posts.reject');
+        Route::get('/admin/posts/pending-approval', [PostController::class, 'pendingApproval'])->name('admin.posts.pendingApproval');
+        Route::post('/admin/posts/{post}/approve', [PostController::class, 'approve'])->name('posts.approve');
+        Route::post('/posts/{id}/reject', [PostController::class, 'reject'])->name('posts.reject');
 
-
-        
         Route::post('/posts/{post}/comment', [CommentController::class, 'store'])->name('posts.comment.store');
         Route::post('/posts/{post}/comment/{comment}/reply', [CommentController::class, 'replyComment'])->name('posts.comment.reply');
         Route::delete('/comment/delete/{id}', [CommentController::class, 'destroy'])->name('comment.delete');
