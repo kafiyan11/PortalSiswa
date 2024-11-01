@@ -173,29 +173,40 @@ public function update(Request $request, $id)
         return view('siswa.nilai', compact('scores', 'materi'));
     }
     public function lihatNilai(Request $request)
-    {
-        $search = $request->get('cari');
-    
-        // Fetch scores and calculate total score
-        $scoresQuery = Score::selectRaw('*, (daily_test_score + midterm_test_score + final_test_score) as total_score')
-                            ->when($search, function ($query, $search) {
-                                return $query->where('nama', 'LIKE', "%{$search}%")
-                                             ->orWhere('nis', 'LIKE', "%{$search}%");
-                            })
-                            ->orderByDesc('total_score'); // Order by total score (descending for ranking)
-    
-        // Paginate the scores
-        $scores = $scoresQuery->paginate(5);
-    
-        // Add rank and average score to each score in the paginated result
-        $scores->getCollection()->transform(function ($score, $index) use ($scores) {
-            $score->rank = ($scores->currentPage() - 1) * $scores->perPage() + $index + 1; // Calculate rank based on pagination
-            $score->average_score = $score->total_score / 3; // Calculate average score
-            return $score;
-        });
-    
-        return view('siswa.lihatNilai', compact('scores'));
-    }
+{
+    // Ambil pencarian dari request
+    $search = $request->get('cari');
+
+    // Ambil id_mapel dari query string
+    $id_mapel = $request->get('id_mapel'); // Pastikan id_mapel dikirim sebagai query string
+
+    // Ambil semua materi
+    $materi = NamaMateri::all(); // Daftar semua materi
+
+    // Fetch scores and calculate total score
+    $scoresQuery = Score::with('mapel')
+                        ->where('id_mapel', $id_mapel) // Filter berdasarkan id_mapel
+                        ->selectRaw('*, (daily_test_score + midterm_test_score + final_test_score) as total_score')
+                        ->when($search, function ($query, $search) {
+                            return $query->where('nama', 'LIKE', "%{$search}%")
+                                         ->orWhere('nis', 'LIKE', "%{$search}%");
+                        })
+                        ->orderByDesc('total_score'); // Order by total score (descending for ranking)
+
+    // Paginate the scores
+    $scores = $scoresQuery->paginate(5);
+
+    // Add rank and average score to each score in the paginated result
+    $scores->getCollection()->transform(function ($score, $index) use ($scores) {
+        $score->rank = ($scores->currentPage() - 1) * $scores->perPage() + $index + 1; // Calculate rank based on pagination
+        $score->average_score = $score->total_score / 3; // Calculate average score
+        return $score;
+    });
+
+    // Kembalikan view dengan data scores dan materi
+    return view('siswa.lihatNilai', compact('scores', 'materi'));
+}
+
 
     
 }
