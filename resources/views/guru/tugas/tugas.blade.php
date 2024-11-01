@@ -146,8 +146,6 @@
                         <thead>
                             <tr>
                                 <th>NO</th>
-                                <th>NIS</th>
-                                <th>Nama</th>
                                 <th>Kelas</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Tugas</th>
@@ -158,8 +156,6 @@
                             @foreach ($siswa as $no => $siswas)
                             <tr>
                                 <td>{{ $no + 1 }}</td>
-                                <td>{{ $siswas->nis }}</td>
-                                <td>{{ $siswas->nama }}</td>
                                 <td>{{ $siswas->kelas }}</td>
                                 <td>{{ optional($siswas->mapel)->nama_mapel }}</td>
                                 <td>

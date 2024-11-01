@@ -137,7 +137,7 @@ class MateriAdminController extends Controller
 
     $materi->save();
 
-    return redirect()->route('admin.materi,index')->with('success', 'Materi berhasil diperbarui.');
+    return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil diperbarui.');
 }
 
     

@@ -1,5 +1,6 @@
 <head>
     <title>Beranda | Portal Siswa</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>@extends('layouts.app')
 
 @section('content')
@@ -44,4 +45,14 @@
         </div>
     @endif
 </div>
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Sukses!',
+            text: '{{ session('success') }}',
+            confirmButtonText: 'OK'
+        });
+    @endif
+</script>
 @endsection

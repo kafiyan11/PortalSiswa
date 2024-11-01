@@ -35,20 +35,6 @@
                 @csrf
                 @method('post')
                 <div class="mb-4">
-                    <label for="nis" class="form-label">NIS</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-card-text"></i></span>
-                        <input type="text" class="form-control" id="nis" name="nis" placeholder="Masukkan NIS" required>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label for="nama" class="form-label">Nama</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama" required>
-                    </div>
-                </div>
-                <div class="mb-4">
                     <label for="kelas" class="form-label">Kelas</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-book"></i></span>
@@ -67,8 +53,8 @@
                         {{ $m->nama_mapel }}
                     </option>
                 @endforeach
-            </select>
-            </div>
+                </select>
+                </div>
                 <div class="mb-4">
                     <label for="gambar_tugas" class="form-label">Gambar</label>
                     <yudiv class="input-group">

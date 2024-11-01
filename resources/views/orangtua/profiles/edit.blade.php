@@ -53,21 +53,6 @@
                     <input type="text" name="role" class="form-control" value="{{ Auth::user()->role }}" readonly>
                 </div>
 
-                <!-- Siswa Dari -->
-                <div class="form-group">
-                    <label for="students">Siswa Dari</label>
-                    <select name="students[]" id="students" class="form-control" multiple>
-                        <option value="" disabled {{ old('students') ? '' : 'selected' }}>Pilih Siswa</option>
-                        @foreach(App\Models\User::where('role', 'Siswa')->get() as $student)
-                            <option value="{{ $student->id }}" 
-                                {{ Auth::user()->children->contains('id', $student->id) ? 'selected' : '' }}>
-                                {{ $student->name }} (NIS: {{ $student->nis }})
-                            </option>
-                        @endforeach
-                    </select>
-                    <small class="form-text text-muted">Pilih maksimal 2 siswa yang terkait dengan Anda.</small>
-                </div>
-
                 <!-- Foto Profil -->
                 <div class="form-group">
                     <label for="photo">Foto Profil</label>

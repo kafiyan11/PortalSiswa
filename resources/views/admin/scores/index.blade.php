@@ -80,7 +80,7 @@
                                 <div class="d-inline-flex align-items-center">
                                     <a href="{{ route('admin.scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1 btn-custom">
                                         <i class="fas fa-edit"></i>
-                                    </a>
+                                    </a>&nbsp;
                                     <button type="button" class="btn btn-danger btn-sm btn-custom" onclick="confirmDelete('{{ $score->id }}')">
                                         <i class="fas fa-trash"></i>
                                     </button>

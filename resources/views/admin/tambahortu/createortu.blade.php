@@ -105,13 +105,13 @@
 
             <!-- Dropdown Siswa -->
             <div class="mb-3">
-                <label for="students" class="form-label">Siswa Terkait</label>
+                <label for="students" class="form-label">Orang Tua Dari</label>
                 <select 
                     class="form-select @error('students') is-invalid @enderror" 
                     id="students" 
                     name="students[]" 
-                    multiple
-                >
+                    required >
+                    <option value="">Pilih Siswa</option>
                     @foreach($students as $student)
                         <option value="{{ $student->id }}" {{ in_array($student->id, old('students', [])) ? 'selected' : '' }}>
                             {{ $student->name }} ({{ $student->nis }})
@@ -123,7 +123,6 @@
                         {{ $message }}
                     </div>
                 @enderror
-                <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.</small>
             </div>
 
             <!-- Tombol Submit dan Kembali -->

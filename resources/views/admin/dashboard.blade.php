@@ -10,11 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <!-- Library Font Awesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    
-    <!-- Library Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Library Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -272,62 +269,161 @@
                     </div>
                 </div>
             </div>
-            <div class="card mt-4">
+            {{-- <div class="card mt-4">
                 <div class="card-body">
                     <h5 class="text-center">Grafik Nilai Rata-Rata Siswa</h5>
-                    <canvas id="averageScoreChart"></canvas>
+                    
+                    <!-- Search Button aligned to the right -->
+                    <div class="d-flex justify-content-center mb-3">
+                        <button id="openSearchButton" class="btn btn-primary">Cari Siswa</button>
+                    </div>                    
+                    <canvas id="averageScoreChart" width="400" height="200"></canvas>
+                    <div id="noResultsMessage" class="text-danger text-center mt-3" style="display: none;">Siswa tidak ditemukan.</div>
                 </div>
             </div>
-        </main>
-
-<script>
-        // Inisialisasi Chart.js untuk Grafik Nilai Rata-Rata Siswa dalam bentuk garis
-    document.addEventListener("DOMContentLoaded", function () {
-        const labels = {!! json_encode($scores->pluck('nama')->toArray()) !!}; // Nama siswa
-        const data = {!! json_encode($scores->pluck('average_score')->toArray()) !!}; // Nilai rata-rata siswa
-
-        const ctx = document.getElementById('averageScoreChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line', // Jenis grafik (line chart)
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Nilai Rata-Rata',
-                    data: data,
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 2,
-                    fill: true, // Isi di bawah garis
-                    tension: 0.4 // Memberikan efek lengkung pada garis
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Nilai'
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    }
-                }
-            }
-        });
-    });
-</script>
-
-
-
-
+            @php
+                // Mendapatkan daftar unik mata pelajaran dari data nilai
+                $subjects = $scores->pluck('mapel.nama_mapel')->unique()->values();
+            @endphp
+            </main>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Ambil daftar mata pelajaran sebagai label sumbu-x
+                    const subjects = {!! json_encode($subjects) !!};
+            
+                    // Mengelompokkan nilai rata-rata per siswa untuk setiap mata pelajaran
+                    const studentsData = {!! json_encode(
+                        $scores->groupBy('nama')->map(function ($studentScores) use ($subjects) {
+                            return $subjects->map(function ($subject) use ($studentScores) {
+                                return optional($studentScores->firstWhere('mapel.nama_mapel', $subject))->average_score ?? 0;
+                            });
+                        })
+                    ) !!};
+            
+                    // Membuat dataset untuk setiap siswa
+                    const allDatasets = Object.keys(studentsData).map((studentName, index) => {
+                        return {
+                            label: studentName,
+                            data: studentsData[studentName],
+                            backgroundColor: `rgba(${54 + index * 30 % 200}, 162, 235, 0.2)`,
+                            borderColor: `rgba(${54 + index * 30 % 200}, 162, 235, 1)`,
+                            borderWidth: 2,
+                            fill: false,
+                            tension: 0.4
+                        };
+                    });
+            
+                    // Inisialisasi grafik dengan Chart.js
+                    const ctx = document.getElementById('averageScoreChart').getContext('2d');
+                    const averageScoreChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: subjects,
+                            datasets: allDatasets.slice(0, 1)
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Nilai Rata-Rata'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Mata Pelajaran'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top'
+                                },
+                                // Menambahkan plugin untuk menampilkan nilai pada titik data
+                                tooltip: {
+                                    enabled: true,
+                                    callbacks: {
+                                        label: function (tooltipItem) {
+                                            return `Nilai: ${tooltipItem.raw}`;
+                                        }
+                                    }
+                                },
+                                datalabels: {
+                                    display: true,
+                                    align: 'top',
+                                    formatter: (value) => value,
+                                    font: {
+                                        size: 10,
+                                        weight: 'bold'
+                                    }
+                                }
+                            }
+                        },
+                        plugins: [ChartDataLabels] // Aktifkan plugin ChartDataLabels
+                    });
+            
+                    // SweetAlert search functionality
+                    document.getElementById('openSearchButton').addEventListener('click', function() {
+                        Swal.fire({
+                            title: 'Cari Siswa',
+                            input: 'text',
+                            inputPlaceholder: 'Masukkan nama siswa...',
+                            showCancelButton: true,
+                            confirmButtonText: 'Cari',
+                            cancelButtonText: 'Batal',
+                            inputValidator: (value) => {
+                                if (!value) {
+                                    return 'Silakan masukkan nama siswa!';
+                                }
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const searchTerm = result.value.toLowerCase();
+                                const filteredDatasets = allDatasets.filter(dataset => dataset.label.toLowerCase().includes(searchTerm));
+                                
+                                if (filteredDatasets.length > 0) {
+                                    averageScoreChart.data.datasets = filteredDatasets;
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Siswa Ditemukan!',
+                                        text: `Menampilkan grafik untuk siswa: ${filteredDatasets.map(dataset => dataset.label).join(", ")}`,
+                                        confirmButtonText: 'OK'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Siswa tidak ditemukan!',
+                                        confirmButtonText: 'OK'
+                                    });
+                                    averageScoreChart.data.datasets = allDatasets.slice(0, 1);
+                                }
+                                
+                                averageScoreChart.update();
+                            }
+                        });
+                    });
+                });
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script> --}}
+                                        
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Sukses!',
+            text: '{{ session('success') }}',
+            confirmButtonText: 'OK'
+        });
+    @endif
+</script>
 </body>
 </html>

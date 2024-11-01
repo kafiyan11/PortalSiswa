@@ -2,48 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\tugas;
+use App\Models\Tugas;
 use App\Models\NamaMateri;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Controller;
 
 class TambahTugasController extends Controller
 {
     public function tugas(Request $request)
-{
-    $query = Tugas::with('mapel');
-
-    // Cek jika ada parameter pencarian
-    if ($request->has('cari')) {
-        $search = $request->get('cari');
-        $query->where('nama_tugas', 'like', '%' . $search . '%')
-              ->orWhereHas('mapel', function($q) use ($search) {
-                  $q->where('nama_mapel', 'like', '%' . $search . '%');
-              });
+    {
+        $guru = Auth::user();
+    
+        // Ambil nama mapel dari `mengajar`
+        $mapelNames = explode(',', $guru->mengajar);
+    
+        // Ambil ID mapel yang sesuai dengan nama di dalam `mengajar`
+        $mapelIds = NamaMateri::whereIn('nama_mapel', $mapelNames)->pluck('id_mapel')->toArray();
+    
+        $query = Tugas::with('mapel')->whereIn('id_mapel', $mapelIds);
+    
+        // Pencarian berdasarkan nama tugas atau nama mapel
+        if ($request->has('cari')) {
+            $search = $request->get('cari');
+            $query->where(function($q) use ($search) {
+                $q->where('nama_tugas', 'like', '%' . $search . '%')
+                  ->orWhereHas('mapel', function($q) use ($search) {
+                      $q->where('nama_mapel', 'like', '%' . $search . '%');
+                  });
+            });
+        }
+    
+        $siswa = $query->paginate(4);
+        return view('guru.tugas.tugas', ['siswa' => $siswa]);
     }
-
-    $siswa = $query->paginate(2);
-
-    return view('guru.tugas.tugas', ['siswa' => $siswa]);
-}
+    
+    
 
     public function tambah_tugas()
     {
-        $mapel = NamaMateri::all(); // Mengambil semua data dari tabel Mapel
-        return view('guru.tugas.addTugas',compact('mapel'));
+        $mapel = NamaMateri::all();
+        return view('guru.tugas.addTugas', compact('mapel'));
     }
    
     public function create(Request $request)
     {
         // Validasi input
         $validator = Validator::make($request->all(), [
-            'nis' => 'required|unique:tugas,nis',
-            'nama' => 'required|string|max:255',
             'kelas' => 'required|string|max:255',
             'id_mapel' => 'required|exists:mapel,id_mapel', // Validasi mapel
-            'gambar_tugas' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:10048', // 2MB max
+            'gambar_tugas' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:10048', // Max 10MB
         ]);
 
         if ($validator->fails()) {
@@ -51,30 +60,18 @@ class TambahTugasController extends Controller
         }
         
         // Proses upload gambar
-        {
-            $data = $request->all();
-    
-            if ($request->file('gambar_tugas')) {
-                $fileName = time().'.'.$request->gambar_tugas->extension();
-                $request->gambar_tugas->move(public_path('gambar_tugas'), $fileName);
-                $data['gambar_tugas'] = $fileName;
-            }
-            Tugas::create($data);
-            return redirect()->route('guru.tugas.tugas')->with('success', 'Student created successfully.');
+        $data = $request->all();
+        if ($request->file('gambar_tugas')) {
+            $fileName = time().'.'.$request->gambar_tugas->extension();
+            $request->gambar_tugas->move(public_path('gambar_tugas'), $fileName);
+            $data['gambar_tugas'] = $fileName;
         }
-        // Simpan data ke database
-        Tugas::create([
-            'nis' => $request->input('nis'),
-            'nama' => $request->input('nama'),
-            'kelas' => $request->input('kelas'),
-            'gambar_tugas' => isset($newName) ? $newName : null,
-        ]);
 
+        // Simpan data ke database
+        Tugas::create($data);
         return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil ditambahkan!');
     }
     
-
-    // hapus tugas
     public function destroy($id)
     {
         $tugas = Tugas::find($id);
@@ -92,50 +89,39 @@ class TambahTugasController extends Controller
         return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil dihapus!');
     }
     
-
-    //edit data siswa
     public function edit($id)
     {
-    $siswa = tugas::findOrFail($id);
-    $mapel = NamaMateri::all(); // Mengambil semua data mapel dari tabel mapel
-    return view('guru.tugas.editTugas', compact('siswa', 'mapel'));
+        $siswa = Tugas::findOrFail($id);
+        $mapel = NamaMateri::all();
+        return view('guru.tugas.editTugas', compact('siswa', 'mapel'));
     }
-    
 
-
-    //update siswa
     public function update(Request $request, $id)
     {
-    $validatedData = $request->validate([
-        'nis' => 'required|string|max:255',
-        'nama' => 'required|string|max:255',
-        'kelas' => 'required|string|max:255',
-        'id_mapel' => 'required|exists:mapel,id_mapel', // Validasi mapel
-        'gambar_tugas' => 'nullable|image|mimes:jpeg,png,pdf,jpg,gif,svg|max:40048',
-    ]);
+        $validatedData = $request->validate([
+            'kelas' => 'required|string|max:255',
+            'id_mapel' => 'required|exists:mapel,id_mapel', // Validasi mapel
+            'gambar_tugas' => 'nullable|image|mimes:jpeg,png,pdf,jpg,gif,svg|max:40048', // Max 40MB
+        ]);
 
-    $siswa = Tugas::findOrFail($id);
+        $tugas = Tugas::findOrFail($id);
 
-    // Update field-field yang diinput
-    $siswa->nis = $validatedData['nis'];
-    $siswa->nama = $validatedData['nama'];
-    $siswa->kelas = $validatedData['kelas'];
+        // Update field kelas dan id_mapel
+        $tugas->kelas = $validatedData['kelas'];
+        $tugas->id_mapel = $validatedData['id_mapel'];
 
-    // Jika ada gambar baru, hapus gambar lama dan upload yang baru
-    if ($request->file('gambar_tugas')) {
-        // Hapus gambar lama jika ada
-        if ($siswa->gambar_tugas && file_exists(public_path('gambar_tugas/' . $siswa->gambar_tugas))) {
-            unlink(public_path('gambar_tugas/' . $siswa->gambar_tugas));
+        // Jika ada gambar baru, hapus gambar lama dan upload yang baru
+        if ($request->file('gambar_tugas')) {
+            if ($tugas->gambar_tugas && file_exists(public_path('gambar_tugas/' . $tugas->gambar_tugas))) {
+                unlink(public_path('gambar_tugas/' . $tugas->gambar_tugas));
+            }
+
+            $gambarName = time() . '.' . $request->file('gambar_tugas')->extension();
+            $request->file('gambar_tugas')->move(public_path('gambar_tugas'), $gambarName);
+            $tugas->gambar_tugas = $gambarName;
         }
 
-        // Simpan gambar baru
-        $gambarName = time() . '.' . $request->file('gambar_tugas')->extension();
-        $request->file('gambar_tugas')->move(public_path('gambar_tugas'), $gambarName);
-        $siswa->gambar_tugas = $gambarName;
-    }
-
-    $siswa->save();
-
-    return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil diubah!');
+        $tugas->save();
+        return redirect()->route('guru.tugas.tugas')->with('success', 'Data berhasil diubah!');
     }
 }

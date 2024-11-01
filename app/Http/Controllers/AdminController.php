@@ -169,7 +169,7 @@ class AdminController extends Controller
                                  $query->where('nis', 'like', "%{$cari}%"); // Sesuaikan nama kolom pada relasi mapel
                              });
             })
-            ->paginate(2);
+            ->paginate(4);
     
         // Mengembalikan ke view dan mengirimkan kata kunci pencarian
         return view('admin.tugas.index', ['siswa' => $siswa, 'cari' => $cari]);
@@ -185,8 +185,6 @@ class AdminController extends Controller
     {
         // Validasi input
         $validator = Validator::make($request->all(), [
-            'nis' => 'required|unique:tugas,nis',
-            'nama' => 'required|string|max:255',
             'kelas' => 'required|string|max:255',
             'id_mapel' => 'required|exists:mapel,id_mapel', // Validasi mapel
             'gambar_tugas' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:10048', // 2MB max
@@ -210,8 +208,6 @@ class AdminController extends Controller
         }
         // Simpan data ke database
         Tugas::create([
-            'nis' => $request->input('nis'),
-            'nama' => $request->input('nama'),
             'kelas' => $request->input('kelas'),
             'gambar_tugas' => isset($newName) ? $newName : null,
         ]);
@@ -249,23 +245,19 @@ class AdminController extends Controller
 
     //update siswa
     public function updateTugass(Request $request, $id) 
-    {
-        $request->validate([
-        'nis' => 'required|string|max:255',
-        'nama' => 'required|string|max:255',
+{
+    $request->validate([
         'kelas' => 'required|string|max:255',
         'id_mapel' => 'required|exists:mapel,id_mapel', // Validasi mapel
         'gambar_tugas' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10048',
     ]);
 
+    // Temukan tugas berdasarkan ID
     $siswa = Tugas::findOrFail($id);
 
     // Update field-field yang diinput
-    $siswa->nis = $request->nis;
-    $siswa->nama = $request->nama;
     $siswa->kelas = $request->kelas;
     $siswa->id_mapel = $request->id_mapel;
-
 
     // Jika ada gambar baru, hapus gambar lama dan upload yang baru
     if ($request->file('gambar_tugas')) {
@@ -280,8 +272,10 @@ class AdminController extends Controller
         $siswa->gambar_tugas = $gambarName;
     }
 
+    // Simpan perubahan
     $siswa->save();
 
     return redirect()->route('admin.tugas.index')->with('success', 'Data berhasil diubah!');
-    }
+}
+
 }

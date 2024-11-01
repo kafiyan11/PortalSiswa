@@ -26,7 +26,7 @@
                             <img src="{{ $child->photo ? asset('storage/' . $child->photo) : asset('images/default-profile.png') }}"  
                                  class="rounded mr-3" 
                                  width="60" 
-                                 height="60">
+                                 height="60">&nbsp;&nbsp;&nbsp;&nbsp;
                                 
                             <!-- Informasi Biodata -->
                             <div>

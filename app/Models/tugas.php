@@ -11,9 +11,7 @@ class Tugas extends Model
 
     protected $table = 'tugas';
 
-    protected $fillable = [
-        'nis', 
-        'nama', 
+    protected $fillable = [ 
         'kelas', 
         'jurusan', 
         'id_mapel',
@@ -28,5 +26,11 @@ class Tugas extends Model
     public function mapell()
     {
         return $this->belongsTo(NamaMateri::class, 'icon', 'icon');
+    }
+
+    // Relasi dengan model User
+    public function guru()
+    {
+        return $this->belongsTo(User::class, 'mengajar'); // Ganti 'id_guru' sesuai dengan kolom yang sesuai
     }
 }

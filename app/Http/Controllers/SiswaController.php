@@ -85,17 +85,8 @@ class SiswaController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function tugas()
-    {
-        // Ambil tugas berdasarkan NIS siswa yang login
-        $tugas = Tugas::where('nis', Auth::user()->nis)->get();
-        $tugas = Tugas::where('nis',Auth::user()->nis)->get(); 
-
-        return view('siswa.tugas', compact('tugas'));
-    }
 
     public function tugass(){
-        $tugas = Tugas::where('nis', Auth::user()->nis)->get();
         $tugas = NamaMateri::all(); // Mengambil semua data materi
         return view('siswa.boxTugas', compact('tugas')); // Mengembalikan view dengan data materi
         
