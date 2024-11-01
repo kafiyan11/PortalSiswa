@@ -108,6 +108,7 @@
 </head>
 
 <div class="container">
+    <!-- Alert session jika postingan sedang pending -->
     @if (session('pending'))
     <script>
         Swal.fire({
@@ -118,88 +119,86 @@
             confirmButtonText: 'OK'
         });
     </script>
-@endif
-   
+    @endif
+
     <div class="row justify-content-center">
+        <!-- Form untuk posting -->
         <div class="col-md-8 mb-4">
             <div class="card shadow-sm border-0">
                 <div class="card-body">
-                        <form action="{{ route('siswa.posts.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group mb-3">
-                                <textarea name="content" class="form-control" rows="3" placeholder="Apa yang Anda pikirkan?" required style="resize: none; background-color: #f7f9fc; padding: 15px;"></textarea>
+                    <form action="{{ route('siswa.posts.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group mb-3">
+                            <textarea name="content" class="form-control" rows="3" placeholder="Apa yang Anda pikirkan?" required style="resize: none; background-color: #f7f9fc; padding: 15px;"></textarea>
+                        </div>
+
+                        <!-- Pilihan Media -->
+                        <div class="form-group mb-3">
+                            <label for="media-select" class="form-label">Pilih jenis media:</label>
+                            <select id="media-select" class="form-control mb-2">
+                                <option value="none">Pilih media...</option>
+                                <option value="image">Foto</option>
+                                <option value="video">Video</option>
+                            </select>
+
+                            <!-- Kontainer Gambar -->
+                            <div id="image-container" style="display: none;">
+                                <label class="custom-file-upload">
+                                    <input type="file" name="image" id="image-upload" class="input-file" accept="image/*">
+                                    Pilih Gambar
+                                </label>
+                                <span id="image-name" class="text-muted"></span>
+                                <img id="image-preview" class="preview-media" style="display: none;">
                             </div>
-    
-                            <div class="form-group mb-3">
-                                <label for="media-select" class="form-label">Pilih jenis media:</label>
-                                <select id="media-select" class="form-control mb-2">
-                                    <option value="none">Pilih media...</option>
-                                    <option value="image">Foto</option>
-                                    <option value="video">Video</option>
-                                </select>
-    
-                                <div id="image-container" style="display: none;">
-                                    <label class="custom-file-upload">
-                                        <input type="file" name="image" id="image-upload" class="input-file" accept="image/*">
-                                        Pilih Gambar
-                                    </label>
-                                    <span id="image-name" class="text-muted"></span>
-                                    <img id="image-preview" class="preview-media" style="display: none;">
-                                </div>
-    
-                                <div id="video-container" style="display: none;">
-                                    <label class="custom-file-upload">
-                                        <input type="file" name="video" id="video-upload" class="input-file" accept="video/*">
-                                        Pilih Video
-                                    </label>
-                                    <span id="video-name" class="text-muted"></span>
-                                    <video id="video-preview" class="preview-media" controls style="display: none;"></video>
-                                </div>
+
+                            <!-- Kontainer Video -->
+                            <div id="video-container" style="display: none;">
+                                <label class="custom-file-upload">
+                                    <input type="file" name="video" id="video-upload" class="input-file" accept="video/*">
+                                    Pilih Video
+                                </label>
+                                <span id="video-name" class="text-muted"></span>
+                                <video id="video-preview" class="preview-media" controls style="display: none;"></video>
                             </div>
-    
-                            <button type="submit" class="btn btn-primary mt-3 w-100">Post</button>
-                        </form>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-3 w-100">Post</button>
+                    </form>
                 </div>
             </div>
         </div>
 
-        <!-- Menampilkan postingan -->
-        @foreach($posts as $post)
+        <!-- Tampilkan Postingan -->
+        @ @foreach($posts as $post)
         <div class="col-md-8 mb-4">
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <img src="{{ $post->user->photo ? asset('storage/' . $post->user->photo) : 'https://via.placeholder.com/50' }}" alt="profile" class="rounded-circle me-3" style="width: 50px; height: 50px;">
-        <div>
-            <strong class="user-name">{{ $post->user->name }}</strong>
-            <br>
-            @if(!$post->approved) <!-- Jika postingan belum disetujui -->
-                <span class="text-muted">Sedang dalam masa pending</span>
-            @else <!-- Jika postingan sudah disetujui -->
-                <span class="text-muted">{{ $post->created_at->diffForHumans() }}</span>
-            @endif
-        </div>
-    </div>
-    @if($post->user_id == Auth::id())
-    <form id="delete-form-{{ $post->id }}" action="{{ route('siswa.posts.destroy', $post->id) }}" method="POST" class="d-inline">
-        @csrf
-        @method('DELETE')
-        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $post->id }})">Hapus</button>
-    </form>
-    @endif
+                        <div>
+                            <strong class="user-name">{{ $post->user->name }}</strong>
+                            <br>
+                            <span class="text-muted">{{ $post->created_at->diffForHumans() }}</span>
+                        </div>
+                    </div>
+                    @if($post->user_id == Auth::id())
+                    <form id="delete-form-{{ $post->id }}" action="{{ route('siswa.posts.destroy', $post->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $post->id }})">Hapus</button>
+                    </form>
+                    @endif
                 </div>
                 <div class="card-body">
                     <p>{{ $post->content }}</p>
                     @if($post->image)
-                    <img src="{{ asset('storage/' . $post->image) }}" alt="image" class="img-fluid rounded mb-3 post-image">
-                @endif
-                
-
+                        <img src="{{ asset('storage/' . $post->image) }}" alt="image" class="img-fluid rounded mb-3 post-image">
+                    @endif
                     @if($post->video)
-                    <video width="100%" controls class="rounded mb-3">
-                        <source src="{{ asset('storage/' . $post->video) }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                        <video width="100%" controls class="rounded mb-3">
+                            <source src="{{ asset('storage/' . $post->video) }}" type="video/mp4">
+                            Browser Anda tidak mendukung video ini.
+                        </video>
                     @endif
                 </div>
                 <div class="card-footer bg-white border-0">
