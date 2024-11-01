@@ -99,6 +99,7 @@
         </div>
         
         <button type="submit" class="btn btn-primary">Simpan</button>
+        &nbsp;
         <a href="{{ route('tambah.admin') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>

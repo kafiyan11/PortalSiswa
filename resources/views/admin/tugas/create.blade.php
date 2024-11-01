@@ -22,32 +22,20 @@
             <h2 class="text-center">Tambah Tugas</h2>
         </div>
         <div class="card-body">
-            @if ($errors->any())
-                <div class="alert alert-custom">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Oops!</strong> Ada beberapa masalah dengan input Anda:
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif        
             <form action="{{ route('admin.create') }}" method="POST" enctype="multipart/form-data" novalidate>
                 @csrf
                 @method('post')
-                <div class="mb-4">
-                    <label for="nis" class="form-label">NIS</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-card-text"></i></span>
-                        <input type="text" class="form-control" id="nis" name="nis" placeholder="Masukkan NIS" required>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label for="nama" class="form-label">Nama</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama" required>
-                    </div>
-                </div>
                 <div class="mb-4">
                     <label for="kelas" class="form-label">Kelas</label>
                     <div class="input-group">

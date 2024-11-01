@@ -105,8 +105,8 @@
                     class="form-select @error('students') is-invalid @enderror" 
                     id="students" 
                     name="students[]" 
-                    multiple
-                >
+                    required >
+                    <option value="">Pilih Siswa</option>
                     @foreach($students as $student)
                         <option value="{{ $student->id }}" {{ in_array($student->id, old('students', $assignedStudents ?? [])) ? 'selected' : '' }}>
                             {{ $student->name }} ({{ $student->nis }})

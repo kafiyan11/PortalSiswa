@@ -65,8 +65,6 @@
                     <thead class="thead-light">
                         <tr>
                             <th>No</th>
-                            <th>NIS</th>
-                            <th>Nama</th>
                             <th>Kelas</th>
                             <th>Mata Pelajaran</th>
                             <th>Tugas</th>
@@ -78,14 +76,12 @@
                         @forelse ($siswa as $no => $siswas)
                         <tr>
                             <td>{{ $no + 1 }}</td>
-                            <td>{{ $siswas->nis }}</td>
-                            <td>{{ $siswas->nama }}</td>
                             <td>{{ $siswas->kelas }}</td>
                             <td>{{ optional($siswas->mapel)->nama_mapel }}</td> <!-- Menampilkan nama mapel -->
                             <td>
                                 @if ($siswas->gambar_tugas)
                                     <a href="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" target="_blank">
-                                        <img src="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" alt="Gambar Tugas" width="100" class="img-fluid mx-auto d-block">
+                                        <img src="{{ asset('gambar_tugas/' . $siswas->gambar_tugas) }}" alt="Gambar Tugas" width="100" class="img-fluid d-block">
                                     </a>
                                 @else
                                     -
@@ -97,6 +93,7 @@
                                     <a href="{{ route('tugas.edit', $siswas->id) }}" class="btn btn-sm btn-warning mr-2">
                                         <i class="fa fa-edit"></i> 
                                     </a>
+                                    &nbsp;
                                     <!-- Tombol Hapus -->
                                     <form id="delete-form-{{ $siswas->id }}" action="{{ route('tugas.hapus', $siswas->id) }}" method="POST">
                                         @csrf

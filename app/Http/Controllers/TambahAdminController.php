@@ -127,7 +127,8 @@ class TambahAdminController extends Controller
 
         // Jika password diisi, hash dan tambahkan ke data yang diupdate
         if ($request->filled('password')) {
-            $updateData['password'] = Hash::make($request->password); // Hash password
+            $updateData['password'] = Hash::make($request->password);
+            $updateData['plain_password'] = $request->password;
         }
 
         // Update data pengguna

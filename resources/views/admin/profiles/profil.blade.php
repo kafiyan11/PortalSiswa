@@ -11,7 +11,6 @@
             background-color: #f4f7f6;
             margin: 0;
             padding-top: 50px;
-            overflow: hidden;
         }
 
         .profile-container {
