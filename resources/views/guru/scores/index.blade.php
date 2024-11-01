@@ -72,30 +72,38 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>NIS</th>
+                            <th>Mata Pelajaran</th>
                             <th>UH</th>
                             <th>UTS</th>
                             <th>UAS</th>
+                            <th>Total Nilai</th>
+                            <th>Rata-rata</th>
+                            <th>Peringkat</th>
                             <th style="width: 150px;" class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($scores as $index => $score)
+                        @foreach($scores as $score)
                         <tr>
-                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $score->nama }}</td>
                             <td>{{ $score->nis }}</td>
+                            <td>{{ optional($score->mapel)->nama_mapel ?? '' }}</td>
                             <td>{{ $score->daily_test_score }}</td>
                             <td>{{ $score->midterm_test_score }}</td>
                             <td>{{ $score->final_test_score }}</td>
+                            <td>{{ $score->total_score }}</td>
+                            <td>{{ number_format($score->average_score, 2) }}</td>
+                            <td>{{ $score->rank }}</td>
                             <td class="text-center">
                                 <div class="d-inline-flex align-items-center">
-                                    <a href="{{ route('guru.scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1">
-                                        <i class="fas fa-edit"></i> 
+                                    <a href="{{ route('admin.scores.edit', $score->id) }}" class="btn btn-warning btn-sm mr-1 btn-custom">
+                                        <i class="fas fa-edit"></i>
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $score->id }}')">
-                                        <i class="fas fa-trash"></i> 
+                                    <button type="button" class="btn btn-danger btn-sm btn-custom" onclick="confirmDelete('{{ $score->id }}')">
+                                        <i class="fas fa-trash"></i>
                                     </button>
-                                    <form id="delete-form-{{ $score->id }}" action="{{ route('guru.scores.destroy', $score->id) }}" method="POST" style="display: none;">
+                                    <form id="delete-form-{{ $score->id }}" action="{{ route('admin.scores.destroy', $score->id) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>
