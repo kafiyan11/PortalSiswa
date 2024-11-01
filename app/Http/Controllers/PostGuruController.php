@@ -18,36 +18,36 @@ class PostGuruController extends Controller
         ->latest()
         ->get();        
         
+        $posts = Post::where('is_approved', true)->get();
 
         return view('guru.forumdiskusi', compact('posts'));
     }
 
     public function store(Request $request)
-    {
-        // Validasi data input
-        $request->validate([
-            'content' => 'required',
-            'image' => 'nullable|image|max:2048',
-            'video' => 'nullable|mimes:mp4,mov,ogg|max:20480'
-        ]);
-    
-        // Buat posting baru
-        $post = new Post;
-        $post->content = $request->input('content');
-        $post->user_id = auth()->id();
-    
-        // Simpan file gambar/video jika ada
-        if ($request->hasFile('image')) {
-            $post->image = $request->file('image')->store('images', 'public');
-        }
-        if ($request->hasFile('video')) {
-            $post->video = $request->file('video')->store('videos', 'public');
-        }
-    
-        $post->save();
-    
-        return redirect()->back()->with('success', 'Postingan berhasil ditambahkan!');
+{
+    $request->validate([
+        'content' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'video' => 'nullable|mimetypes:video/mp4|max:10240', // video max 10MB
+    ]);
+
+    $post = new Post();
+    $post->content = $request->input('content');
+    $post->user_id = auth()->id();
+
+    if ($request->hasFile('image')) {
+        $post->image = $request->file('image')->store('uploads', 'public');
     }
+    if ($request->hasFile('video')) {
+        $post->video = $request->file('video')->store('uploads', 'public');
+    }
+
+    $post->save();
+    session()->flash('pending', 'Postingan Anda sedang dalam masa pending untuk persetujuan.');
+
+    return redirect()->back()->with('success', 'Post berhasil ditambahkan!');
+}
+
     
 
     public function destroy(Post $post)

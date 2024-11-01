@@ -18,6 +18,7 @@ class PostsiswaController extends Controller
         ->latest()
         ->get();        
         
+        $posts = Post::where('is_approved', true)->get();
 
         return view('siswa.forumdiskusi', compact('posts'));
     }

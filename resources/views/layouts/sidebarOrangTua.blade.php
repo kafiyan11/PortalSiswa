@@ -10,7 +10,7 @@
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'orangtua.profiles.show' ? 'active' : '' }}" href="{{ route('orangtua.profiles.show') }}">                    <i class="fas fa-user me-2"></i>
                 Profil
-                <a class="nav-link {{ Route::currentRouteName() == 'ortu.nilai' ? 'active' : '' }}" href="{{ route('ortu.nilai') }}">
+                <a class="nav-link {{ Route::currentRouteName() == 'orangtua.BoxNilai' ? 'active' : '' }}" href="{{ route('orangtua.BoxNilai') }}">
                     <i class="fas fa-graduation-cap me-2"></i>
                     Nilai
                 </a>

@@ -1,5 +1,9 @@
 <head>
-    <title>Forum Diskusi | Portal Siswa</title>
+    <title>Forum Disukusi | Portal Siswa</title>
+</head>@extends('layouts.app')
+
+@section('content')
+<head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
@@ -66,7 +70,6 @@
             padding: 10px;
             margin-bottom: 10px;
             text-align: left; /* Ensure comments are left-aligned */
-            border-left: 4px solid #007bff; /* Optional: add a left border for visual distinction */
         }
 
         .replies-container {
@@ -102,11 +105,19 @@
     </style>
 </head>
 
-@extends('layouts.app')
-
-@section('content')
-
 <div class="container">
+    @if (session('pending'))
+    <script>
+        Swal.fire({
+            icon: 'info',
+            title: 'Postingan Pending',
+            text: '{{ session('pending') }}',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @endif
+
     <div class="row justify-content-center">
         <div class="col-md-8 mb-4">
             <div class="card shadow-sm border-0">
@@ -195,7 +206,7 @@
 
                         <!-- Bagian penghapusan komentar -->
                         @if($comment->user_id == Auth::id())
-                        <form id="delete-comment-form-{{ $comment->id }}" action="{{ route('guru.comment.destroy', $comment->id) }}" method="POST">
+                        <form id="delete-comment-form-{{ $comment->id }}" action="{{ route('comment.delete', $comment->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="button" class="btn btn-link text-danger" onclick="confirmCommentDelete({{ $comment->id }})">Hapus</button>
@@ -218,23 +229,23 @@
                         
                         <div class="replies-container" style="display: none;">
                             @foreach($comment->replies as $reply)
-                                    <div class="comment-box d-flex align-items-start mt-2">
-                                        <img src="{{ $reply->user->photo ? asset('storage/' . $reply->user->photo) : 'https://via.placeholder.com/40' }}" alt="profile" class="rounded-circle me-3" style="width: 30px; height: 30px;">
-                                        <div class="flex-grow-1">
-                                            <strong style="color: #000;">{{ $reply->user->name }}</strong>
-                                            <p class="mb-1">{{ $reply->comment }}</p>
-                                            <span class="text-muted" style="font-size: 12px;">{{ $reply->created_at->diffForHumans() }}</span>
+                            <div class="comment-box d-flex align-items-start mt-2">
+                                <img src="{{ $reply->user->photo ? asset('storage/' . $reply->user->photo) : 'https://via.placeholder.com/40' }}" alt="profile" class="rounded-circle me-3" style="width: 30px; height: 30px;">
+                                <div class="flex-grow-1">
+                                    <strong style="color: #000;">{{ $reply->user->name }}</strong>
+                                    <p class="mb-1">{{ $reply->comment }}</p>
+                                    <span class="text-muted" style="font-size: 12px;">{{ $reply->created_at->diffForHumans() }}</span>
 
-                                            @if($reply->user_id == Auth::id())
-                                                <form action="{{ route('guru.comment.destroy', $reply->id) }}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-link p-0 text-danger" onclick="return confirm('Yakin ingin menghapus balasan ini?')">Hapus</button>
-                                                </form>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endforeach
+                                    @if($reply->user_id == Auth::id())
+                                        <form action="{{ route('comment.delete', $reply->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-link p-0 text-danger" onclick="return confirm('Yakin ingin menghapus balasan ini?')">Hapus</button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
                         </div>
                     </div>
                     @endforeach
@@ -243,13 +254,11 @@
                         <form action="{{ route('guru.comment.store', $post->id) }}" method="POST">
                             @csrf
                             <div class="input-group mb-2">
-                                <!-- The name should match 'comment' as in your request validation -->
-                                <input type="text" name="comment" id="comment" class="form-control" placeholder="Tambahkan komentar..." required>
+                                <input type="text" name="comment" class="form-control" placeholder="Tambahkan komentar..." required>
                                 <button class="btn btn-primary" type="submit">Kirim</button>
                             </div>
                         </form>
                     </div>
-                    
                 </div>
             </div>
         </div>

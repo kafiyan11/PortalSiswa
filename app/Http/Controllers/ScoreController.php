@@ -173,6 +173,7 @@ public function update(Request $request, $id)
         return view('siswa.nilai', compact('scores', 'materi'));
     }
     public function lihatNilai(Request $request)
+
 {
     // Ambil pencarian dari request
     $search = $request->get('cari');
@@ -207,6 +208,20 @@ public function update(Request $request, $id)
     return view('siswa.lihatNilai', compact('scores', 'materi'));
 }
 
+
+    public function BoxNilai(Request $request)
+    {
+        $nis = Auth::user()->nis;
+    
+        // Mendapatkan skor berdasarkan NIS
+        $scores = Score::where('nis', $nis)->get();
+    
+        // Mendapatkan materi berdasarkan NIS (atau metode lain untuk mendapatkan materi)
+        $materi = NamaMateri::all();
+    
+        // Mengirim data skor dan materi ke view siswa.nilai
+        return view('orangtua.BoxNilai', compact('scores', 'materi'));
+    }
 
     
 }
