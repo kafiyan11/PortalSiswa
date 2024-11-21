@@ -169,23 +169,23 @@
           <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
             <h3>VISI</h3>
             <ul>
-              <p class="visi">Terwujudnya lulusan yang berakhlak mulia,unggul,profesional mandiri dan berdaya saling global pada tahun 2026.</p>
+              <p class="visi">Terwujudnya lulusan yang berakhlak mulia, unggul, profesional mandiri dan berdaya saing global pada tahun 2026.</p>
             </ul>
           </div>
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
             <h3>MISI</h3>
             <li>
-              Membentuk insan yang beriman dan bertaqwa kepada Tuhan Yang Maha Esa,berkarakter pancasila dan berbudaya industry
+              Membentuk insan yang beriman dan bertaqwa kepada Tuhan Yang Maha Esa, berkarakter pancasila dan berbudaya industri
             </li>
             <li>
-              Meningkatkan kualitas tata kelola kelembagaan sekolah,sumber daya manusia, dan akuntabilitas.
+              Meningkatkan kualitas tata kelola kelembagaan sekolah, sumber daya manusia, dan akuntabilitas.
             </li>
             <li>
-              Meningkatkan layanan pendidikan melalui pembelajaran berbasis industry dan teknologi informasi
+              Meningkatkan layanan pendidikan melalui pembelajaran berbasis industri dan teknologi informasi
             </li>
             <li>
-              Meningkatkan kerjasama kemitraan, penyerapan lulusan dengan IDUKA,Perguruan Tinggi,dan Lembaga Pemerintahan serta membangun jiwa wirausaha yang tangguh dan mandiri.
+              Meningkatkan kerjasama kemitraan, penyerapan lulusan dengan IDUKA, Perguruan Tinggi dan Lembaga Pemerintahan serta membangun jiwa wirausaha yang tangguh dan mandiri.
             </li>
             <li>
               Meningkatkan kualitas SDM, menyediakan sarana dan prasarana yang berkualitas,dan menyajikan proses pembelajaran bermutu, menuju link and match dengan IDUKA
@@ -210,7 +210,7 @@
           <!-- Anggota Tim 1 -->
           <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
             <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
-              <img src="assets/img/nayaka.jpeg" class="card-img-top rounded-top" alt="Nayaka Abi Akhlannaimi">
+              <img src="assets/img/nay.jpg" class="card-img-top rounded-top" alt="Nayaka Abi Akhlannaimi">
               <div class="card-body text-center d-flex flex-column">
                 <h6 class="card-title mb-1">Nayaka Abi Akhlannaimi</h6>
                 <p class="card-text text-muted small">Leader</p>
@@ -223,7 +223,7 @@
           <!-- Anggota Tim 2 -->
           <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
             <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
-              <img src="assets/img/alif.jpeg" class="card-img-top rounded-top" alt="Alif Miftah Fauzan">
+              <img src="assets/img/alif2.jpeg" class="card-img-top rounded-top" alt="Alif Miftah Fauzan">
               <div class="card-body text-center d-flex flex-column">
                 <h6 class="card-title mb-1">Alif Miftah Fauzan</h6>
                 <p class="card-text text-muted small">Project Manager</p>
@@ -236,7 +236,7 @@
           <!-- Anggota Tim 5 -->
           <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
             <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
-              <img src="assets/img/lukman.jpeg" class="card-img-top rounded-top" alt="Lukman Nulhakim">
+              <img src="assets/img/lukman2.jpg" class="card-img-top rounded-top" alt="Lukman Nulhakim">
               <div class="card-body text-center d-flex flex-column">
                 <h6 class="card-title mb-1">Lukman Nulhakim</h6>
                 <p class="card-text text-muted small">Anggota</p>
@@ -249,10 +249,10 @@
           <!-- Anggota Tim 3 -->
           <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
             <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
-              <img src="assets/img/kafiyan.jpeg" class="card-img-top rounded-top" alt="Kafiyan Nurhidayah">
+              <img src="assets/img/fiyan.jpg" class="card-img-top rounded-top" alt="Kafiyan Nurhidayah">
               <div class="card-body text-center d-flex flex-column">
                 <h6 class="card-title mb-1">Kafiyan Nurhidayah</h6>
-                <p class="card-text text-muted small">CEO</p>
+                <p class="card-text text-muted small">Anggota</p>
                 <div class="mt-auto">
                   <!-- Optional: Additional content or social links -->
                 </div>
@@ -262,10 +262,10 @@
           <!-- Anggota Tim 4 -->
           <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
             <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
-              <img src="assets/img/aan.jpeg" class="card-img-top rounded-top" alt="Aan Padilah">
+              <img src="assets/img/aan2.jpg" class="card-img-top rounded-top" alt="Aan Padilah">
               <div class="card-body text-center d-flex flex-column">
                 <h6 class="card-title mb-1">Aan Padilah</h6>
-                <p class="card-text text-muted small">Konsumen</p>
+                <p class="card-text text-muted small">Anggota</p>
                 <div class="mt-auto">
                   <!-- Optional: Additional content or social links -->
                 </div>

@@ -42,7 +42,7 @@
                 </li>
 
                 <li class="nav-item d-lg-none">
-                    <a class="nav-link" href="{{ route('ortu.nilai') }}">
+                    <a class="nav-link" href="{{ route('orantua.BoxNilai') }}">
                         <i class="fas fa-graduation-cap me-2"></i>
                         Nilai
                     </a>
