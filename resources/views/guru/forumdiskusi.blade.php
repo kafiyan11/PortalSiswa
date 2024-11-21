@@ -6,6 +6,8 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         body {
             background-color: #f0f2f5;
@@ -61,6 +63,20 @@
             margin-right: auto; /* Center the image */
             max-width: 90%; /* Adjust this value to make the image wider or narrower */
             height: auto; /* Maintain aspect ratio */
+        }
+        /* Styling untuk foto profil */
+        .profile-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+
+        /* Styling untuk ikon profil Font Awesome */
+        .profile-icon {
+            font-size: 50px;
+            color: #ccc;
         }
 
 
@@ -167,7 +183,14 @@
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
-                        <img src="{{ $post->user->photo ? asset('storage/' . $post->user->photo) : 'https://via.placeholder.com/50' }}" alt="profile" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                        {{-- <img src="{{ $post->user->photo ? asset('storage/' . $post->user->photo) : 'https://via.placeholder.com/50' }}" alt="profile" class="rounded-circle me-3" style="width: 50px; height: 50px;"> --}}
+                        @if($post->user->photo)
+                        <!-- Jika foto profil ada -->
+                        <img src="{{ asset('storage/' . $post->user->photo) }}" alt="profile" class="rounded-circle me-3 profile-image">
+                    @else
+                        <!-- Jika foto profil tidak ada, tampilkan ikon Font Awesome sebagai default -->
+                        <i class="fas fa-user-circle profile-icon"></i>
+                    @endif
                         <div>
                             <strong class="user-name">{{ $post->user->name }}</strong>
                             <br>
