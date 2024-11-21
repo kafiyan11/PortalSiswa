@@ -10,9 +10,11 @@
 @section('content')
 <div class="container">
     <h2 class="fw-bold mb-4">Daftar Mata Pelajaran</h2>
-    <div class="d-flex justify-content-between mb-4">
-        <a href="{{ route('namamapel.create') }}" class="btn btn-success">Tambah Mata Pelajaran</a>
-        <!-- Form Pencarian -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{{ route('namamapel.create') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Tambah
+        </a>
+    
         <form action="{{ route('namamapel.index') }}" method="GET" class="w-50">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Cari Mata Pelajaran..." value="{{ request('search') }}">
@@ -22,7 +24,8 @@
             </div>
         </form>
     </div>
-
+    
+    <br>
     <!-- Notifikasi SweetAlert2 -->
     @if(session('success'))
     <script>
@@ -44,26 +47,33 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($materi as $no => $item)
+            @if($materi->isEmpty())
             <tr>
-                <td>{{ $no + 1 }}</td>
-                <td>{{ $item->nama_mapel }}</td>
-                <td><img src="{{ asset('storage/' . $item->icon) }}" alt="Icon" width="50"></td>
-                <td>
-                    <a href="{{ route('namamapel.edit', $item->id_mapel) }}" class="btn btn-warning btn-sm">
-                        <i class="bi bi-pencil-fill"></i>
-                    </a>
-                    <form action="{{ route('namamapel.destroy', $item->id_mapel) }}" id="form-delete-{{$item->id_mapel}}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="{{$item->id_mapel}}">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </form>
-                </td>
+                <td colspan="4" class="text-center">Tidak ada mata pelajaran yang tersedia.</td>
             </tr>
-            @endforeach
+            @else
+                @foreach($materi as $no => $item)
+                <tr>
+                    <td>{{ $no + 1 }}</td>
+                    <td>{{ $item->nama_mapel }}</td>
+                    <td><img src="{{ asset('storage/' . $item->icon) }}" alt="Icon" width="50"></td>
+                    <td>
+                        <a href="{{ route('namamapel.edit', $item->id_mapel) }}" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+                        <form action="{{ route('namamapel.destroy', $item->id_mapel) }}" id="form-delete-{{$item->id_mapel}}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="{{$item->id_mapel}}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            @endif
         </tbody>
+        
     </table>
     <div class="d-flex justify-content-end">
         {{ $materi->links() }}

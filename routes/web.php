@@ -278,7 +278,7 @@ Route::middleware(['auth','role:Guru'])->group(function(){
 });
 Route::middleware(['auth','role:Orang Tua'])->group(function(){
     Route::get('/orangtua-dashboard', [OrangTuaController::class, 'index'])->name('orangtua.dashboard');
-    Route::get('/siswa-lihatNilai', [ScoreController::class, 'BoxNilai'])->name('orangtua.BoxNilai');
+    Route::get('/orangtua-lihatNilai', [ScoreController::class, 'BoxNilai'])->name('orangtua.BoxNilai');
 
     Route::get('/ortu-nilai', [ScoreController::class, 'ortu'])->name('ortu.nilai');
 

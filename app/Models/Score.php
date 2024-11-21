@@ -38,4 +38,5 @@ class Score extends Model
     {
         return $this->belongsTo(NamaMateri::class, 'id_mapel', 'id_mapel');
     }
+    
 }
