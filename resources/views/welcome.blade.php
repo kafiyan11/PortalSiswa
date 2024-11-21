@@ -210,7 +210,7 @@
           <!-- Anggota Tim 1 -->
           <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
             <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
-              <img src="assets/img/nayaka2.jpeg" class="card-img-top rounded-top" alt="Nayaka Abi Akhlannaimi">
+              <img src="assets/img/nay.jpg" class="card-img-top rounded-top" alt="Nayaka Abi Akhlannaimi">
               <div class="card-body text-center d-flex flex-column">
                 <h6 class="card-title mb-1">Nayaka Abi Akhlannaimi</h6>
                 <p class="card-text text-muted small">Leader</p>
@@ -236,7 +236,7 @@
           <!-- Anggota Tim 5 -->
           <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
             <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
-              <img src="assets/img/lukman2.jpeg" class="card-img-top rounded-top" alt="Lukman Nulhakim">
+              <img src="assets/img/lukman2.jpg" class="card-img-top rounded-top" alt="Lukman Nulhakim">
               <div class="card-body text-center d-flex flex-column">
                 <h6 class="card-title mb-1">Lukman Nulhakim</h6>
                 <p class="card-text text-muted small">Anggota</p>
@@ -249,7 +249,7 @@
           <!-- Anggota Tim 3 -->
           <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
             <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
-              <img src="assets/img/kafiyan2.jpeg" class="card-img-top rounded-top" alt="Kafiyan Nurhidayah">
+              <img src="assets/img/fiyan.jpg" class="card-img-top rounded-top" alt="Kafiyan Nurhidayah">
               <div class="card-body text-center d-flex flex-column">
                 <h6 class="card-title mb-1">Kafiyan Nurhidayah</h6>
                 <p class="card-text text-muted small">Anggota</p>
@@ -262,7 +262,7 @@
           <!-- Anggota Tim 4 -->
           <div class="col-lg-2 col-md-3 col-sm-4 d-flex align-items-stretch">
             <div class="card border-0 shadow-sm w-100" style="border-radius: 10px;">
-              <img src="{{ asset('assets/img/aan2.jpeg') }}" class="card-img-top rounded-top" alt="Aan Padilah">
+              <img src="assets/img/aan2.jpg" class="card-img-top rounded-top" alt="Aan Padilah">
               <div class="card-body text-center d-flex flex-column">
                 <h6 class="card-title mb-1">Aan Padilah</h6>
                 <p class="card-text text-muted small">Anggota</p>

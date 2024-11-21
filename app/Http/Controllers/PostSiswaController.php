@@ -12,18 +12,15 @@ class PostsiswaController extends Controller
 {
     public function index()
     {
-        // Mengambil postingan yang masih dalam batas waktu yang ditentukan (misal 24 jam)
+        // Mengambil postingan yang sudah disetujui dan mengurutkannya berdasarkan waktu terbaru
         $posts = Post::with(['user', 'comments.replies.user'])
-        ->where('created_at', '>=', now()->subHours(24)) 
-        ->latest()
-        ->get();        
-        
-        $posts = Post::where('is_approved', true)->get();
+            ->where('is_approved', true)
+            ->orderBy('created_at', 'desc') // Urutkan berdasarkan created_at dari terbaru
+            ->get();
 
-        return view('siswa.forumdiskusi', compact('posts'));
+        return view('forum.index', compact('posts'));
     }
 
-    // Di PostSiswaController atau controller yang relevan
     public function store(Request $request)
 {
     $request->validate([
