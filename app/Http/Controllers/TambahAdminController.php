@@ -68,6 +68,7 @@ class TambahAdminController extends Controller
             'name' => $request->name,
             'nis' => $request->nis,
             'password' => Hash::make($request->password), // Hash password
+            'plain_password' => $request->password, // Menyimpan plain password jika diperlukan     
             'role' => 'Admin',
         ]);
 

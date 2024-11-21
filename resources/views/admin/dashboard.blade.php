@@ -269,7 +269,7 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="card mt-4">
+            <div class="card mt-4">
                 <div class="card-body">
                     <h5 class="text-center">Grafik Nilai Rata-Rata Siswa</h5>
                     
@@ -307,21 +307,19 @@
                         return {
                             label: studentName,
                             data: studentsData[studentName],
-                            backgroundColor: `rgba(${54 + index * 30 % 200}, 162, 235, 0.2)`,
-                            borderColor: `rgba(${54 + index * 30 % 200}, 162, 235, 1)`,
-                            borderWidth: 2,
-                            fill: false,
-                            tension: 0.4
+                            backgroundColor: `rgba(${54 + (index * 30) % 200}, 162, 235, 0.6)`,
+                            borderColor: `rgba(${54 + (index * 30) % 200}, 162, 235, 1)`,
+                            borderWidth: 1
                         };
                     });
             
                     // Inisialisasi grafik dengan Chart.js
                     const ctx = document.getElementById('averageScoreChart').getContext('2d');
                     const averageScoreChart = new Chart(ctx, {
-                        type: 'line',
+                        type: 'bar', // Mengubah tipe grafik menjadi bar chart
                         data: {
                             labels: subjects,
-                            datasets: allDatasets.slice(0, 1)
+                            datasets: allDatasets.slice(0, 1) // Menampilkan data siswa pertama secara default
                         },
                         options: {
                             responsive: true,
@@ -345,7 +343,6 @@
                                     display: true,
                                     position: 'top'
                                 },
-                                // Menambahkan plugin untuk menampilkan nilai pada titik data
                                 tooltip: {
                                     enabled: true,
                                     callbacks: {
@@ -353,19 +350,9 @@
                                             return `Nilai: ${tooltipItem.raw}`;
                                         }
                                     }
-                                },
-                                datalabels: {
-                                    display: true,
-                                    align: 'top',
-                                    formatter: (value) => value,
-                                    font: {
-                                        size: 10,
-                                        weight: 'bold'
-                                    }
                                 }
                             }
-                        },
-                        plugins: [ChartDataLabels] // Aktifkan plugin ChartDataLabels
+                        }
                     });
             
                     // SweetAlert search functionality
@@ -386,7 +373,7 @@
                             if (result.isConfirmed) {
                                 const searchTerm = result.value.toLowerCase();
                                 const filteredDatasets = allDatasets.filter(dataset => dataset.label.toLowerCase().includes(searchTerm));
-                                
+            
                                 if (filteredDatasets.length > 0) {
                                     averageScoreChart.data.datasets = filteredDatasets;
                                     Swal.fire({
@@ -404,14 +391,15 @@
                                     });
                                     averageScoreChart.data.datasets = allDatasets.slice(0, 1);
                                 }
-                                
+            
                                 averageScoreChart.update();
                             }
                         });
                     });
                 });
             </script>
-            <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script> --}}
+            
+            <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
                                         
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>

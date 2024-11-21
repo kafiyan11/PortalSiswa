@@ -35,7 +35,8 @@ class NilaidiGuruController extends Controller
         $totalUts = Score::sum('midterm_test_score'); // Sesuaikan nama kolom jika diperlukan
         $totalUas = Score::sum('final_test_score'); // Sesuaikan nama kolom jika diperlukan
     
-        return view('guru.scores.index', compact('scores', 'totalUts', 'totalUas'));    }
+        return view('guru.scores.index', compact('scores', 'totalUts', 'totalUas'));    
+    }
 
 
     public function create()
