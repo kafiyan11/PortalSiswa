@@ -18,7 +18,7 @@ class PostGuruController extends Controller
             ->orderBy('created_at', 'desc') // Urutkan berdasarkan created_at dari terbaru
             ->get();
 
-        return view('forum.index', compact('posts'));
+        return view('guru.forumdiskusi', compact('posts'));
     }
 
     public function store(Request $request)

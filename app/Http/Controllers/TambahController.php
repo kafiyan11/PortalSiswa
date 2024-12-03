@@ -49,56 +49,34 @@ class TambahController extends Controller
         ]);
     }
 
-    /**
-     * Menyimpan data siswa baru ke dalam database.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
             'nis' => 'required|string|max:255|unique:users,nis',
             'password' => 'required|string|min:6|confirmed',
-            'kelas' => 'nullable|string|max:50', // Tambahkan validasi untuk 'kelas'
-            // Tambahkan validasi untuk 'alamat', 'nohp' jika diperlukan
+            'kelas' => 'nullable|string|max:50',
         ]);
     
-        // Buat pengguna baru menggunakan mass assignment
         User::create([
             'name' => $request->name,
             'nis' => $request->nis,
             'password' => Hash::make($request->password),
-            'plain_password' => $request->password, // Menyimpan plain password jika diperlukan
+            'plain_password' => $request->password,
             'role' => 'Siswa',
-            'kelas' => $request->kelas, // Tambahkan kelas jika ada
-            // Tambahkan field lain jika ada di form
+            'kelas' => $request->kelas,
         ]);
     
-        // Mengosongkan cache jumlah siswa karena data telah berubah
         Cache::forget('total_siswa_count');
     
         return redirect()->route('tambah')->with('success', 'Akun siswa berhasil ditambahkan');
     }
 
-    /**
-     * Menampilkan form untuk membuat siswa baru.
-     *
-     * @return \Illuminate\View\View
-     */
     public function create()
     {
         return view('admin.tambah.create');
     }
 
-    /**
-     * Menampilkan form untuk mengedit data siswa.
-     *
-     * @param int $id
-     * @return \Illuminate\View\View
-     */
     public function edit($id)
     {
         $data = User::findOrFail($id);

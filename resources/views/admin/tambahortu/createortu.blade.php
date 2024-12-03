@@ -48,7 +48,6 @@
                 @enderror
             </div>
 
-            <!-- NIS -->
             <div class="mb-3">
                 <label for="nis" class="form-label">NIS</label>
                 <input 
