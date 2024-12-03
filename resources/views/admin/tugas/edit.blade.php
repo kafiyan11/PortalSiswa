@@ -92,7 +92,7 @@
                 @enderror
             </div>
             <div class="text-end">
-                <button type="submit" class="btn btn-custom">Simpan</button>
+                <button type="submit" class="btn btn-custom">Update</button>
             </div>
         </form>
     </div>

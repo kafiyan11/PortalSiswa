@@ -48,41 +48,27 @@ class TambahAdminController extends Controller
         ]);
     }
 
-    /**
-     * Menyimpan data admin baru ke dalam database.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
             'nis' => 'required|string|max:255|unique:users,nis',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        // Buat pengguna baru menggunakan mass assignment
         User::create([
             'name' => $request->name,
             'nis' => $request->nis,
-            'password' => Hash::make($request->password), // Hash password
-            'plain_password' => $request->password, // Menyimpan plain password jika diperlukan     
+            'password' => Hash::make($request->password),
+            'plain_password' => $request->password,     
             'role' => 'Admin',
         ]);
 
-        // Mengosongkan cache jumlah admin karena data telah berubah
         Cache::forget('total_admin_count');
 
         return redirect()->route('tambah.admin')->with('success', 'Akun admin berhasil ditambahkan');
     }
 
-    /**
-     * Menampilkan form untuk membuat admin baru.
-     *
-     * @return \Illuminate\View\View
-     */
     public function create()
     {
         return view('admin.tambahadmin.create');

@@ -52,8 +52,8 @@ Auth::routes(); // Ini akan menambahkan semua rute autentikasi bawaan Laravel te
 // Rute untuk menyimpan dan menampilkan social links
 
 Route::middleware(['auth','role:Admin'])->group(function(){
-    //Bagian Admin
     Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
     Route::get('/admin-tugas',[AdminController::class, 'tugas'] )->name('admin.tugas');
     
     //jadwal
@@ -73,9 +73,9 @@ Route::middleware(['auth','role:Admin'])->group(function(){
     
 
     //profil
-Route::get('/admin/profiles', [ProfileAdminController::class, 'show'])->name('admin.profiles.show');
-Route::get('/admin/profiles/edit/{id}', [ProfileAdminController::class, 'edit'])->name('admin.profiles.edit');
-Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'update'])->name('admin.profiles.update');
+    Route::get('/admin/profiles', [ProfileAdminController::class, 'show'])->name('admin.profiles.show');
+    Route::get('/admin/profiles/edit/{id}', [ProfileAdminController::class, 'edit'])->name('admin.profiles.edit');
+    Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'update'])->name('admin.profiles.update');
 
 
     //jadwal guru
@@ -185,6 +185,7 @@ Route::put('/admin/profiles/update/{id}', [ProfileAdminController::class, 'updat
 /////////// untuk siswa
 Route::middleware(['auth','role:Siswa'])->group(function(){
     Route::get('/siswa-dashboard', [JadwalController::class, 'tampil'])->name('siswa.dashboard');
+
     Route::get('/siswa-profil', [SiswaController::class, 'profil'])->name('siswa.profiles.profil');
     Route::get('/siswa-materi', [SiswaController::class, 'materi'])->name('siswa.materi');
     Route::get('/siswa-jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
@@ -225,6 +226,7 @@ Route::middleware(['auth','role:Siswa'])->group(function(){
 ///////////// untuk guru
 Route::middleware(['auth','role:Guru'])->group(function(){
     Route::get('/guru-dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
+
     Route::get('/guru-profile', [GuruController::class, 'profil'])->name('guru.profil');
     Route::get('/guru-tugas', [TambahTugasController::class, 'tugas'])->name('guru.tugas.tugas');
     Route::get('/guru-jadwal', [GuruController::class, 'jadwal'])->name('guru.jadwal');
@@ -278,6 +280,7 @@ Route::middleware(['auth','role:Guru'])->group(function(){
 });
 Route::middleware(['auth','role:Orang Tua'])->group(function(){
     Route::get('/orangtua-dashboard', [OrangTuaController::class, 'index'])->name('orangtua.dashboard');
+
     Route::get('/orangtua-lihatNilai', [ScoreController::class, 'BoxNilai'])->name('orangtua.BoxNilai');
 
     Route::get('/ortu-nilai', [ScoreController::class, 'ortu'])->name('ortu.nilai');

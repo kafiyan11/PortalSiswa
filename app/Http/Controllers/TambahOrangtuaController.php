@@ -48,9 +48,6 @@ class TambahOrangtuaController extends Controller
         ]);
     }
 
-    /**
-     * Menyimpan data orang tua baru ke database.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -78,9 +75,6 @@ class TambahOrangtuaController extends Controller
         return redirect()->route('ortu')->with('success', 'Akun Orang Tua berhasil ditambahkan');
     }
 
-    /**
-     * Menampilkan form untuk membuat orang tua baru.
-     */
     public function create()
     {
         $students = User::where('role', 'Siswa')->get();

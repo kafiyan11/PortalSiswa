@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tugas;
+use App\Models\tugas;
 use App\Models\NamaMateri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

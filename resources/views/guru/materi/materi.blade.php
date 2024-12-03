@@ -148,10 +148,10 @@
                         </thead>
                         <tbody>
                             @if($materi->isEmpty())
-                            <!-- Pesan jika data materi kosong -->
-                            <tr>
-                                <td colspan="6" class="text-center">Materi belum ditambahkan</td>
-                            </tr>
+                                <!-- Pesan jika data materi kosong -->
+                                <tr>
+                                    <td colspan="6" class="text-center">Materi belum ditambahkan</td>
+                                </tr>
                             @else
                             @foreach($materi as $index => $item)
                                 <tr>

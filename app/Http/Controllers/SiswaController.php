@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Siswa;
-use App\Models\Tugas;
+use App\Models\tugas;
 use App\Models\Jadwal;
 use App\Models\Materi;
 use App\Models\NamaMateri;

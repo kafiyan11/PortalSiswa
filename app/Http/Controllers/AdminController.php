@@ -18,29 +18,20 @@ use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
-    /**
-     * Show the admin dashboard.
-     *
-     * @return \Illuminate\View\View
-     */
     public function index(Request $request)
     {
-        // Menghitung jumlah total siswa dengan cache untuk optimasi
         $totalSiswa = Cache::remember('total_siswa_count', 60, function () {
             return User::where('role', 'Siswa')->count();
         });
     
-        // Menghitung jumlah total guru dengan cache untuk optimasi
         $totalGuru = Cache::remember('total_guru_count', 60, function () {
             return User::where('role', 'Guru')->count();
         });
     
-        // Menghitung jumlah total orang tua dengan cache untuk optimasi
         $totalOrangTua = Cache::remember('total_orangtua_count', 60, function () {
             return User::where('role', 'Orang Tua')->count();
         });
     
-        // Menghitung jumlah total admin dengan cache untuk optimasi
         $totalAdmin = Cache::remember('total_admin_count', 60, function () {
             return User::where('role', 'Admin')->count();
         });

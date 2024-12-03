@@ -160,7 +160,7 @@
                         
                         <!-- Input NIS -->
                         <div class="mb-4">
-                            <label for="nis" class="form-label">NIS</label>
+                            <label for="nis" class="form-label">Username</label>
                             <input id="nis" type="text" class="form-control @error('nis') is-invalid @enderror" name="nis" value="{{ old('nis') }}" required autofocus>
                             @error('nis')
                                 <span class="invalid-feedback" role="alert">

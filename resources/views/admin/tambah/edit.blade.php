@@ -1,6 +1,7 @@
 <head>
     <title>Edit Data Siswa | Portal Siswa</title>
-</head>@extends('layouts.app')
+</head>
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
